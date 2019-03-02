@@ -179,6 +179,24 @@ $videos->initialize();
 $response = $videos->get($video); // $video is id or vkey
 ```
 - List : list videos matching several parameters
+```
+// most recent videos by limit
+$response = $videos->list($params);
+```
+```
+// most viewed videos
+$params = array('sort' => 'views');
+$response = $videos->list($params);
+```
+```
+// get videos longer shorter than 60 seconds by jon_snow with more than 100 views
+$params = array(
+  'uploader_name' => 'jon_snow',
+  'duration' => array('60', '<')
+  'views' => array('200', '>')
+);
+$response = $videos->list($params);
+```
 - Count : count total videos
 ```
 $total = $videos->count(); // integer 
