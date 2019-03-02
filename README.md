@@ -5,7 +5,7 @@ A video sharing software created with both webmasters and developers in mind
 
 - [Quick start](#getting-start)
 - [Requirments](#requirments)
-- [Recomendations)(#recomendations)
+- [Recomendations](#recomendations)
 - [Installation](#installation)
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
@@ -43,12 +43,15 @@ briskLimbs requires several tools to run smoothly. You are recomended to have th
 - PHP upload_max_filesize: 10 - 20% higher than your largest uploads
 
 #### Installation
+Once you have installed and configured all required tools you can begin installing briskLimbs.
 
 ```
 git clone https://github.com/briskLimbs/briskLimbs.git
-cd briskLimbs/trunk
-
+cd briskLimbs
+composer require "twig/twig:^2.0"
 ```
+That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow configuration instructions. 
+
 #### FAQ
 ### Contribute
 [Coding Conventions](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/coding_conventions.md)
