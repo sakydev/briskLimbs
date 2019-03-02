@@ -53,6 +53,18 @@ composer require "twig/twig:^2.0"
 That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow configuration instructions. 
 
 #### FAQ
+- Is briskLimbs free?
+Yes, briskLimbs is one hundered percent free to use for any of your personal or commercial projects. We may introduce premium addons in future but this software will always be free.
+
+- How do I request custom features?
+You can send an email at brisklimbs@gmail.com and our team will be in touch within 24 hours.
+
+- How do I install a new skin?
+Extract contents of downloaded zip and then login to your server via Filezilla or similar FTP program and upload extracted contents under */skins* directory. Once finish simply refresh your skins manager and now you should see your addon.
+
+- How do I install a new addon?
+Extract contents of downloaded zip and then login to your server via Filezilla or similar FTP program and upload extracted contents under */addons*directory. Once finish simply refresh your addons manager and now you should see your addon.
+
 ### Contribute
 [Coding Conventions](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/coding_conventions.md)
 
@@ -239,3 +251,5 @@ $total = $videos->count(); // integer
 ##### Errors
 ### License
 ### Credits
+- [PHP MySQLi Database Class](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class) [GNU License](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class/blob/master/LICENSE)
+- [Purple Admin](https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template) [MIT License] (https://opensource.org/licenses/MIT)
