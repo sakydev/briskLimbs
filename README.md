@@ -10,11 +10,11 @@ A video sharing software created with both webmasters and developers in mind
 #### Installation
 #### FAQ
 ### Contribute
-[Coding Conventions](url_here)
+[Coding Conventions](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/coding_conventions.md)
 
-[Addons: Development & usage](url_here)
+[Addons: Development & usage](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/addons_how.md)
 
-[Skins: Development & usage](url_here)
+[Skins: Development & usage](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/skins_how.md)
 
 #### Directory structure
 ```
@@ -155,9 +155,9 @@ A video sharing software created with both webmasters and developers in mind
 
 #### Common Methods
 #### Examples
-##### Videos
-##### Users
-##### Addons
+##### Videos [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/videos.md)
+##### Users [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/users.md)
+##### Addons [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/addons.md)
 ##### Thumbnails
 ##### Files
 ##### Errors
