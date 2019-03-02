@@ -5,6 +5,7 @@ A video sharing software created with both webmasters and developers in mind
 
 - [Quick start](#getting-start)
 - [Requirments](#requirments)
+- [Recomendations)(#recomendations)
 - [Installation](#installation)
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
@@ -22,7 +23,32 @@ A video sharing software created with both webmasters and developers in mind
 
 ### Getting Started
 #### Requirments
+briskLimbs requires several tools to run smoothly. You are recomended to have them all ready before installation.
+
+- [PHP 7](http://php.net/downloads.php) or higher
+- [MySQL 5.5](https://dev.mysql.com/downloads/mysql/5.7.html) or higher
+- [Twig 2](https://twig.symfony.com) or higher
+- [FFMPEG](https://www.ffmpeg.org/) with libfdk_aac and x264
+- [FFPROBE](https://ffmpeg.org/ffprobe.html)
+- [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+- [Git](https://git-scm.com/)
+- [Composer](https://getcomposer.org/)
+
+#### Recomendations
+- OS: [Ubuntu](https://www.ubuntu.com/) or [Centos](https://www.centos.org/)
+- Server: VPS or Dedicated
+- Memory: 8GB or higher
+- Space: Completely depends on your usage
+- PHP max_execution_time: 5400 or higher
+- PHP upload_max_filesize: 10 - 20% higher than your largest uploads
+
 #### Installation
+
+```
+git clone https://github.com/briskLimbs/briskLimbs.git
+cd briskLimbs/trunk
+
+```
 #### FAQ
 ### Contribute
 [Coding Conventions](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/coding_conventions.md)
