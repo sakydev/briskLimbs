@@ -1,1 +1,1 @@
-## Addons usage, development and examples
+## Skins usage, development and examples
