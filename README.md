@@ -15,6 +15,7 @@ A video sharing software created with both webmasters and developers in mind
 [Skins: Development & usage](url_here)
 
 #### Directory structure
+```
 ├── addons
 │   ├── developerTools
 │   │   ├── developerTools.php
@@ -148,6 +149,7 @@ A video sharing software created with both webmasters and developers in mind
 │       ├── videos.php
 │       └── watch.php
 └── utils
+```
 
 #### Common Methods
 #### Examples
