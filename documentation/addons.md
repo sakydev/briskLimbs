@@ -1,1 +1,1 @@
-## Addons usage, development and examples
+## Addons Class Documentation
