@@ -11,7 +11,9 @@ A video sharing software created with both webmasters and developers in mind
 #### FAQ
 ### Contribute
 [Coding Conventions](url_here)
+
 [Addons: Development & usage](url_here)
+
 [Skins: Development & usage](url_here)
 
 #### Directory structure
