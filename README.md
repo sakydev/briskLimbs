@@ -169,6 +169,22 @@ A video sharing software created with both webmasters and developers in mind
 #### Common Methods
 #### Examples
 ##### Videos [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/videos.md)
+- Intiliaze 
+```
+$videos = new Videos();
+$videos->initialize();
+```
+- Get : fetch a video by id or vkey
+```
+$response = $videos->get($video); // $video is id or vkey
+```
+- List : list videos matching several parameters
+- Count : count total videos
+```
+$total = $videos->count(); // integer 
+```
+- Update
+- Upload & insert video
 ##### Users [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/users.md)
 ##### Addons [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/addons.md)
 ##### Thumbnails
