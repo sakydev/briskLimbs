@@ -3,7 +3,22 @@ A video sharing software created with both webmasters and developers in mind
 
 ## Table of contents
 
-- [Quick start](#quick-start)
+- [Quick start](#getting-start)
+- [Requirments](#requirments)
+- [Installation](#installation)
+- [Frequently Asked Questions](#faq)
+- [Contribute](#contribute)
+- [Directory Structure](#directory-structure)
+- [Common Methods](#common-methods)
+- [Examples](#examples)
+- [Videos Examples](#videos)
+- [Users Examples](#users)
+- [Addons Examples](#addons)
+- [Thumbnails Exmaples](#thumbnails)
+- [Files Examples](#files)
+- [Errors Examples](#errors)
+- [License](#license)
+- [Credits](#credits)
 
 ### Getting Started
 #### Requirments
@@ -18,104 +33,102 @@ A video sharing software created with both webmasters and developers in mind
 
 #### Directory structure
 ```
-├── addons
-│   ├── developerTools
-│   │   ├── developerTools.php
-│   │   ├── install.php
-│   │   ├── pages
+├── addons                          # all addons are placed here
+│   ├── developerTools              # addon for making developer tools available for admins
+│   │   ├── developerTools.php      # main file for addon
+│   │   ├── install.php             
+│   │   ├── pages                   
 │   │   │   ├── configs.php
 │   │   │   ├── info.php
 │   │   │   └── requirements.php
-│   │   └── plugin.json
-│   └── geoLocation
+│   │   └── plugin.json             # file responsible for defining an addon
+│   └── geoLocation                 # addon for tracking user location
 │       ├── functions.php
-│       ├── install.php
-│       ├── location.php
-│       └── plugin.json
-├── admin
-│   └── skins
-│       └── default
-│           ├── addons.php
-│           ├── blank.php
-│           ├── index.php
-│           ├── page.php
-│           ├── settings.php
-│           ├── skeleton
+│       ├── install.php             
+│       ├── location.php            # main file addon
+│       └── plugin.json             # file responsible for defining an addon
+├── admin                           # admin dashboard files
+│   └── skins                       # admin skins are placed here
+│       └── default                 # holds backend and frontend files for skin
+│           ├── addons.php          # admin addons manager
+│           ├── blank.php           
+│           ├── index.php           # admin dashboard
+│           ├── page.php            # blank page used for embeding pages requested by addons
+│           ├── settings.php        # admin settings
+│           ├── skeleton            # holds frontend files for admin skin
 │           │   ├── addons.html
 │           │   ├── blank.html
-│           │   ├── blank_latest.html
 │           │   ├── dashboard.html
 │           │   ├── layout.html
 │           │   ├── settings.html
 │           │   ├── signin.html
 │           │   ├── users.html
 │           │   └── videos.html
-│           ├── users.php
-│           └── videos.php
-├── config.php
-├── configs
-│   ├── configs.php
-│   ├── constants.php
-│   ├── db.php
-│   └── db.sample.php
-├── daemons
-│   └── conversion.php
-├── documentation
+│           ├── users.php           # admin users manager             
+│           └── videos.php          # admin videos manager
+├── config.php                      # initializes core of briskLimbs
+├── configs                         # holds configuration files
+│   ├── configs.php                 # holds static overall configurations 
+│   ├── constants.php               # defines base constants  
+│   ├── db.php                      # holds database credentials, created on installation
+│   └── db.sample.php               
+├── daemons                         # these are files used for running background processes
+│   └── conversion.php              # handles entire conversion process of a video
+├── documentation                   # documentation files
 │   ├── addons.md
 │   ├── skins.md
-│   ├── st8
 │   ├── users.md
 │   └── videos.md
-├── helpers
-│   ├── devFunctions.php
-│   ├── functions.php
-│   └── videoFunctions.php
-├── index.php
-├── installer
-│   ├── assets
-│   │   ├── bootstrap.min.css
+├── helpers                         # helper functions that speed things up
+│   ├── devFunctions.php            # functions purely for easing up development process
+│   ├── functions.php               # general functions
+│   └── videoFunctions.php          # video related functions
+├── index.php                       # all requests land on this page and get routed
+├── installer                       # handles installation of briskLimbs
+│   ├── assets                      # files used for styling UI
+│   │   ├── bootstrap.min.css   
 │   │   └── signin.css
-│   ├── functions.php
-│   ├── imports
+│   ├── functions.php               # main functionality of installer 
+│   ├── imports                     # sql files to be imported at start
 │   │   ├── addons.sql
 │   │   ├── settings.sql
 │   │   ├── users.sql
 │   │   └── videos.sql
-│   ├── install.php
-│   ├── pages
-│   │   ├── checks.php
-│   │   ├── finish.php
+│   ├── install.php                 # main file for handling installation
+│   ├── pages                       # sub pages for handling installation sections
+│   │   ├── checks.php              # runs requirement checks 
+│   │   ├── finish.php              # runs final updates
 │   │   ├── footer.php
 │   │   ├── header.php
-│   │   ├── import.php
-│   │   └── release.php
-│   ├── release.json
-│   └── requirments.json
-├── media
-│   ├── avatars
+│   │   ├── import.php              # imports sql files
+│   │   └── release.php             # displays release information
+│   ├── release.json                # holds release information
+│   └── requirments.json            # holds requirements
+├── media                           # directory where all media is stored
+│   ├── avatars                     # stores user avatars
 │   │   ├── admin.jpg
 │   │   └── default.svg
-│   ├── logs
-│   ├── temporary
-│   ├── thumbnails
-│   └── videos
-├── model
-│   ├── Actions.php
-│   ├── Addons.php
-│   ├── Conversion.php
-│   ├── Database.php
-│   ├── Errors.php
-│   ├── Files.php
-│   ├── Limbs.php
-│   ├── Settings.php
-│   ├── Thumbnails.php
-│   ├── User.php
-│   ├── Users.php
-│   ├── Video.php
-│   └── Videos.php
+│   ├── logs                        # stores video logs
+│   ├── temporary                   # stores video while it is being processed
+│   ├── thumbnails                  # stores video thumbnails
+│   └── videos                      # stores videos after they have been processed
+├── model                           # holds core classes
+│   ├── Actions.php                 # handles tracking actions
+│   ├── Addons.php                  # all addon related actions
+│   ├── Conversion.php              # video conversion and thumbnails generation
+│   ├── Database.php                # mysql wrapper in PHP
+│   ├── Errors.php                  # handles errors globally
+│   ├── Files.php                   # handles scanning, moving and deletion of files
+│   ├── Limbs.php                   # handles Twig and performs as bridge between model and view
+│   ├── Settings.php                # handles fetching and updating of website settings
+│   ├── Thumbnails.php              # handles scanning, moving and deletion of thumbnails
+│   ├── User.php                    # wrapper functions for a single user
+│   ├── Users.php                   # users related actions
+│   ├── Video.php                   # wrapper functions for a single video
+│   └── Videos.php                  # videos related actions
 ├── README.md
-├── skins
-│   └── ivar
+├── skins                           # holds frontend skins
+│   └── ivar                        # default skin 
 │       ├── 404.php
 │       ├── assets
 │       │   ├── css
@@ -126,17 +139,17 @@ A video sharing software created with both webmasters and developers in mind
 │       │   ├── images
 │       │   └── js
 │       │       ├── plupload.full.min.js
-│       │       ├── upload.js
-│       │       ├── video-js
-│       │       └── watch.js
+│       │       ├── upload.js       # handles main video uploader
+│       │       ├── video-js        # handles main video player
+│       │       └── watch.js        # handles actions on watch page
 │       ├── index.php
 │       ├── search.php
 │       ├── signin.php
 │       ├── signout.php
 │       ├── signup.php
-│       ├── skeleton
+│       ├── skeleton                # frontend files for default skin
 │       │   ├── blank.html
-│       │   ├── bricks
+│       │   ├── bricks              # reusable blocks of code
 │       │   │   ├── player.html
 │       │   │   ├── trending.html
 │       │   │   └── video.html
@@ -150,7 +163,7 @@ A video sharing software created with both webmasters and developers in mind
 │       ├── upload.php
 │       ├── videos.php
 │       └── watch.php
-└── utils
+└── utils                           # holds additional utility files
 ```
 
 #### Common Methods
