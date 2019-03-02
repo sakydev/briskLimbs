@@ -66,6 +66,7 @@ You can send an email at brisklimbs@gmail.com and our team will be in touch with
 Extract contents of downloaded zip and then login to your server via Filezilla or similar FTP program and upload extracted contents under */skins* directory. Once finish simply refresh your skins manager and now you should see your addon.
 
 - How do I install a new addon?
+
 Extract contents of downloaded zip and then login to your server via Filezilla or similar FTP program and upload extracted contents under */addons*directory. Once finish simply refresh your addons manager and now you should see your addon.
 
 ### Contribute
@@ -255,4 +256,4 @@ $total = $videos->count(); // integer
 ### License
 ### Credits
 - [PHP MySQLi Database Class](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class) [GNU License](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class/blob/master/LICENSE)
-- [Purple Admin](https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template) [MIT License] (https://opensource.org/licenses/MIT)
+- [Purple Admin](https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template) [MIT License](https://opensource.org/licenses/MIT)
