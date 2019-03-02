@@ -1,0 +1,11 @@
+{
+  "name" : "geo_location",
+  "display_name": "Geo Location",
+  "file": "location.php",
+  "author": "Limbs",
+  "autor_website": "http://github.com",
+  "date": "2019, 03, 01",
+  "description": "Get user's location",
+  "version": "0.1",
+  "state": "Beta"
+}

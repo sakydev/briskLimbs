@@ -1,0 +1,177 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style type="text/css">
+  .dropdown-menu li a {
+    padding: 8px 15px;
+    color: #5f5f5f;
+    font-size: 14px;
+    display: block;
+  }
+</style>
+
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+
+    <!-- content here -->
+    {% set paginationBase = "?list=" ~ subSection|lower %}
+    {% set urlBase = paginationBase ~ "&page=" ~ pagination.current %}
+    <div class="col-12 grid-margin">
+      <div class="card" id="advanced-search-section" style="display: none">
+        <div class="card-body">
+          <h4 class="card-title">Advanced Addon Search</h4>
+          <form class="form-sample" action="{{urlBase}}">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Addon Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="name" class="form-control" value="{% if srch_name %}{{srch_name}}{% endif %}" placeholder="form_builder">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Author Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="author_name" class="form-control" value="{% if srch_author_name %}{{srch_author_name}}{% endif %}" placeholder="arthur_shelby">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="float-right">
+            <button type="submit" name="advanced-search" type="button" class="btn btn-gradient-primary btn-icon-text">
+              <i class="mdi mdi-file-check btn-icon-prepend"></i>
+              Submit
+            </button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <button id="advanced-search" class="btn btn-primary btn-gradient-primary float-right">Advanced Search</button>
+        <h4 class="card-title">Used Addons ({{subSection}})</h4>
+        <p class="card-description mb-2">Listing: {{start}} - {{end}} / {{total}}</p>
+          {% if results %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Author</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for addon in results %}
+              <tr>
+                <td>{{addon.id}}</td>
+                <td>
+                  {{addon.display_name}}
+                  <span class="clearfix"></span>
+                  <label class="mt-2 badge badge-{% if addon.status == 'active' %}success{% else %}danger{% endif %}">{{addon.status}}</label>
+                </td>
+                <td>{{addon.author}}</td>
+                <td>{{addon.description}}a</td>
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      Actions
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% if addon.status == 'active' %}
+                        <li><a href="{{urlBase}}&deactivate={{addon.name}}">Deactivate</a></li>
+                      {% else %}
+                        <li><a href="{{urlBase}}&activate={{addon.name}}">Activate</a></li>
+                      {% endif %}
+                      <li class="divider"></li>
+                      <li><a href="{{urlBase}}&uninstall={{addon.name}}">Uninstall</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr><div class="alert alert-warning">No results found</div></tr>
+          {% endif %}
+          </tbody>
+        </table>
+
+        <div class="text-center mt-5">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="{{paginationBase}}&page={{pagination.first}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+            {% for page in pagination.pages %}
+              <a href="{{paginationBase}}&page={{page}}"><button type="button" class="btn btn{% if page != pagination.current %}-outline{% endif %}-primary">{{page}}</button></a>
+            {% endfor %}
+            <a href="{{paginationBase}}&page={{pagination.last}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+        <h4 class="card-title">Idle Addons</h4>
+          {% if available %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Author</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for addon in available %}
+	            <tr>
+	              <td>
+                  {{addon.display_name}}
+                  <span class="clearfix"></span>
+                  <label class="mt-2 badge badge-{% if addon.status == 'active' %}success{% else %}danger{% endif %}">{{addon.status}}</label>
+                </td>
+	              <td>{{addon.author}}</td>
+	              <td>{{addon.description}}a</td>
+	              <td>
+	              	<a href="{{urlBase}}&install={{addon.name}}"><button class="btn btn-primary btn-gradient-primary">Install</button></a>
+	              </td>
+	            </tr>
+            {% endfor %}
+          {% else %}
+            <tr><div class="alert alert-warning">No results found</div></tr>
+          {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- content-wrapper ends -->
+<script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#advanced-search').on('click', function() {
+			$('#advanced-search-section').slideToggle();
+		});
+	});
+</script>
+
+{% endblock %}

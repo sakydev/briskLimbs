@@ -1,0 +1,22 @@
+<?php
+
+global $limbs, $users;
+$settings = $limbs->settings;
+
+if (!$users->isAdmin()) {
+	jumpTo('home');
+}
+
+if (isset($_POST['settings'])) {
+	unset($_POST['settings']);
+	if ($settings->bulkSet($_POST)) {
+		$parameters['message'] = 'Settings updated successfully';
+	} else {
+		$parameters['_errors'] = array('Something went wrong trying to update settings');
+	}
+}
+
+$parameters['_title'] = 'Settings - Dashboard';
+$parameters['mainSection'] = 'settings';
+$parameters['settings'] = $settings->reFetch();
+$limbs->display('settings.html', $parameters);

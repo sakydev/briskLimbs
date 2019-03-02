@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main role="main">
+
+  <div class="album py-5 bg-light container">
+    <div class="col-lg-10 col-xs-12 col-sm-12"> 
+      <div class="mb-4 box-shadow">
+        {% if results %}
+          {% for video in results%}
+            <div class="single-video row">
+              <div class="col-lg-3 col-sm-6">
+                <div class="image-section">
+                  <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{_imagesUrl}}/blog{{random(5)}}.jpg" width="100%" alt=""></a>
+                  <div class="time">{{video.duration}}</div>
+                </div>
+              </div>
+              <div class="col-lg-8 col-sm-8 video-info">
+                <a href="single-video-tabs.html">{{video.title}}</a>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">by {{video.uploader_name}}</small>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">{{video.views}} views</small>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">3 years ago</small>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">{{video.description}}</small>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            {% if next %}
+              <div class="text-center">
+                <a href="?keyword={{keyword}}&page={{next}}"><button class="btn btn-primary btn-gradient-primary">Show More</button></a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-warning">No results found</div>
+        {% endif %}
+      </div>
+      
+    </div>
+
+    <style type="text/css">
+      .time {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(55, 57, 51, 0.8);
+        border-bottom-right-radius: 2px;
+        border-top-left-radius: 2px;
+        color: #ffffff;
+        font-size: 14px;
+        padding: 6px 9px 1px 9px;
+        line-height: 14px;
+        font-weight: 500;
+      }
+
+      .image-section {
+        border-radius: 2px;
+        position: relative;
+      }
+
+      .thumbnail {
+        border-radius: 4px;
+      }
+
+      .video-info {
+        padding-left: 0;
+      }
+
+      .single-video {
+        margin-bottom: 25px;
+      }
+    </style>
+  </div>
+
+</main>
+{% endblock %}

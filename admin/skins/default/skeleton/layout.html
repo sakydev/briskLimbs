@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{_title}}</title>
+  <link rel="stylesheet" href="{{_cssUrl}}/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="{{_cssUrl}}/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="{{_cssUrl}}/style.css">
+  <link rel="stylesheet" href="{{_cssUrl}}/custom.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{{_imagesUrl}}/favicon.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo" href="{{_coreUrl}}/admin/dashboard"><img src="{{_imagesUrl}}/logo.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="{{_coreUrl}}/admin/dashboard"><img src="{{_imagesUrl}}/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-stretch">
+        <div class="search-field d-none d-md-block">
+          <form class="d-flex align-items-center h-100" action="{{_coreUrl}}/search/">
+            <div class="input-group">
+              <div class="input-group-prepend bg-transparent">
+                  <i class="input-group-text border-0 mdi mdi-magnify"></i>                
+              </div>
+              <input type="text" name="keyword" class="form-control bg-transparent border-0" placeholder="Search videos">
+            </div>
+          </form>
+        </div>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item"><a href="{{_coreUrl}}" target="_blank"><button class="btn btn-gradient-primary btn-primary">Frontend</button></a></li>
+            <li class="nav-item nav-profile dropdown">
+              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                <div class="nav-profile-img">
+                  <img src="{{_imagesUrl}}/faces/face1.jpg" alt="image">
+                  <span class="availability-status online"></span>             
+                </div>
+                <div class="nav-profile-text">
+                  <p class="mb-1 text-black">{{_auth.username}}</p>
+                </div>
+              </a>
+              <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="mdi mdi-cached mr-2 text-success"></i>
+                  Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{_coreUrl}}/signout">
+                  <i class="mdi mdi-logout mr-2 text-primary"></i>
+                  Signout
+                </a>
+              </div>
+            </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" id="videos-section" data-toggle="collapse" href="#videos" aria-expanded="{% if mainSection =='videos' %}true{% else %}false{% endif %}" aria-controls="videos">
+              <span class="menu-title">Videos</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='videos' %}show{% endif %}" id="videos">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=all">List</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=trending">Trending</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=active">Active</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=inactive">Inactive</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=successful">Successful</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=pending">Pending</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=failed">Failed</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="users-section" data-toggle="collapse" href="#users" aria-expanded="{% if mainSection =='users' %}true{% else %}false{% endif %}" aria-controls="users">
+              <span class="menu-title">Users</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='users' %}show{% endif %}" id="users">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/users/?list=all">List</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/users/?list=active">Active</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/users/?list=inactive">Inactive</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/users/?list=banned">Banned</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="settings-section" data-toggle="collapse" href="#settings" aria-expanded="{% if mainSection =='settings' %}true{% else %}false{% endif %}" aria-controls="settings">
+              <span class="menu-title">Settings</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='settings' %}show{% endif %}" id="settings">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/settings">General</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="addons-section" data-toggle="collapse" href="#addons" aria-expanded="{% if mainSection =='addons' %}true{% else %}false{% endif %}" aria-controls="addons">
+              <span class="menu-title">Addons</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='addons' %}show{% endif %}" id="addons">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/addons/?list=all">List</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/addons/?list=active">Active</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/addons/?list=inactive">Inactive</a></li>
+              </ul>
+            </div>
+          </li>
+
+          {% for menu,contents in _addons.admin_menu %}
+            <li class="nav-item">
+              <a class="nav-link" id="{{menu}}-section" data-toggle="collapse" href="#{{menu}}" aria-expanded="{% if mainSection =='addons' %}true{% else %}false{% endif %}" aria-controls="addons">
+                <span class="menu-title">
+                  {% if contents.display_name %}
+                    {{contents.display_name}}
+                  {% else %}
+                    {{menu}}
+                  {% endif %}
+                </span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+              </a>
+              {% if contents.sub %}
+                <div class="collapse {% if mainSection =='{{menu}}' %}show{% endif %}" id="{{menu}}">
+                  <ul class="nav flex-column sub-menu">
+                    {% for name,link in contents.sub %}
+                      {% if '://' in link %}
+                        <!-- skip changing direct link e.g google.com -->
+                      {% else %}
+                        <!-- This section is not actual link but filepath. Convert -->
+                        {% set link = _adminUrl ~ '/page/?path=' ~ link %}
+                      {% endif %}
+                      <li class="nav-item"> <a class="nav-link" href="{{link}}">{{name}}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        {% block content %}
+
+        {% endblock %}
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2017 <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap Dash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+          <script src="{{_jsUrl}}/vendor.bundle.base.js"></script>
+          <script src="{{_jsUrl}}/vendor.bundle.addons.js"></script>
+
+          {% if _section == 'upload' %}
+            <script type="text/javascript" src="{{_jsUrl}}/plupload.full.min.js"></script>
+            <script type="text/javascript" src="{{_jsUrl}}/upload.js"></script>
+          {% endif %}
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

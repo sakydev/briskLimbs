@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main role="main">
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-xs-12 col-sm-12">
+          <div class="card mb-4 box-shadow">
+            {% include 'bricks/player.html' %}
+          </div>
+
+          <h5 class="card-title">{{video.title}}</h5>
+          <div class="card mb-4 box-shadow">
+            <div class="card-body">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#home">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#menu1">Share</a>
+                </li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div id="home" class="container tab-pane active"><br>
+                  <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted"><strong>Uploaded by</strong> {{video.uploader_name}}</span>
+                <span class="text-muted"><strong>Views</strong> {{video.views}}</span>
+              </div>
+              
+                <strong class="text-muted">Description</strong>
+                <p class="text-muted">{{video.description}}</p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-muted"><strong>Published</strong> {{video.date}}</span>
+                  <span class="text-muted"><strong>Duration</strong> {{video.duration}}</span>
+                </div>
+                </div>
+                <div id="menu1" class="container tab-pane fade"><br>
+                  <h3>Sharing data here</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-side col-lg-4 col-xs-12 col-sm-12">
+          
+          <div class="mb-4 box-shadow">
+            {% for video in related %}
+              <div class="single-video row">
+                <div class="col-lg-6 col-sm-6">
+                  <div class="image-section">
+                    <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{video.thumbnail}}" width="100%" alt=""></a>
+                    <div class="time">{{formatDuration(video.duration)}}</div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 video-info">
+                  <a href="{{_coreUrl}}/watch/{{video.vkey}}">{{video.title}}</a>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">by {{video.uploader_name}}</small>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{vide.views}} views</small>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

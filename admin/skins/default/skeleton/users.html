@@ -1,0 +1,238 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <!-- content here -->
+    <style type="text/css">
+    	.dropdown-menu li a {
+		    padding: 8px 15px;
+		    color: #5f5f5f;
+		    font-size: 14px;
+		    display: block;
+			}
+
+			.table th img, .table td img {
+				width: 100px !important;
+				height: auto !important;
+				border-radius: 2px !important;
+			}
+    </style>
+    {% set paginationBase = "?list=" ~ subSection|lower %}
+    {% set urlBase = paginationBase ~ "&page=" ~ pagination.current %}
+    <div class="col-12 grid-margin">
+      <div class="card" id="advanced-search-section" style="display: none">
+        <div class="card-body">
+          <h4 class="card-title">Advanced User Search</h4>
+          <form class="form-sample" action="{{urlBase}}">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Username</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="username" class="form-control" value="{% if srch_username %}{{srch_username}}{% endif %}" placeholder="arthur_shelby">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Email</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="email" class="form-control" value="{% if srch_email %}{{srch_email}}{% endif %}" placeholder="jon@wall.com">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Level</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="level" class="form-control" value="{% if srch_level %}{{srch_level}}{% endif %}" placeholder="={level} or >{level} or <{level}">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Date</label>
+                  <div class="col-sm-9">
+                    <input type="text" name="date" class="form-control" value="{% if srch_date %}{{srch_date}}{% endif %}" placeholder="={yyyy-mm-dd} or >{yyyy-mm-dd} or <{yyyy-mm-dd}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="float-right">
+            <button type="submit" name="advanced-search" type="button" class="btn btn-gradient-primary btn-icon-text">
+              <i class="mdi mdi-file-check btn-icon-prepend"></i>
+              Submit
+            </button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+      	<button id="advanced-search" class="btn btn-primary btn-gradient-primary float-right">Advanced Search</button>
+        <div class="dropdown float-right mr-2">
+	        <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	          Bulk Actions
+	          <span class="caret"></span>
+	        </button>
+	        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+	          <li class="bulk-actions" action="deactivate"><a href="#">Deactivate</a></li>
+		        <li class="bulk-actions" action="activate"><a href="#">Activate</a></li>
+	          <li class="divider"></li>
+	          <li class="bulk-actions" action="delete"><a href="#">Delete</a></li>
+	        </ul>
+	      </div>
+
+        <h4 class="card-title">Users Manager ({{subSection}})</h4>
+        <p class="card-description mb-2">Listing: {{start}} - {{end}} / {{total}}</p>
+          {% if results %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="bulk-check-main">
+                    <div class="form-check form-check-flat form-check-primary">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="bulk[]" class="form-check-input">
+                        <i class="input-helper"></i>
+                      </label>
+                    </div>
+                  </th>
+                  <th>#</th>
+                  <th>Avatar</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for user in results %}
+	            <tr>
+	            	<td>
+	            		<div class="form-check form-check-flat form-check-primary">
+	                  <label class="form-check-label">
+	                    <input class="bulk-check-sub" type="checkbox" videokey="{{user.username}}" >
+	                  	<i class="input-helper"></i>
+	                  </label>
+	                </div>
+	            	</td>
+	              <td>{{user.id}}</td>
+	              <td><a href="{{_coreUrl}}/watch/{{user.username}}" target="_blank"><img src="{{_imagesUrl}}/blog{{random(5)}}.jpg"></a></td>
+	              <td>
+	              	{{user.username}}
+	              	<span class="clearfix"></span>
+	              	<label class="badge badge-gradient-dark mt-2">{{user.level}}</label>
+	              	<label class="badge badge-{% if user.status == 'ok' %}success{% elseif user.status == 'pending' %}warning{% else %}danger{% endif %}">{{user.status|title}}</label>
+	              </td>
+	              <td>{{user.email}}</td>
+	              <td><label class="badge badge-default">{{user.date}}</label></td>
+	              <td>
+	              	<div class="dropdown">
+						        <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						          Actions
+						          <span class="caret"></span>
+						        </button>
+						        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						        	{% if user.status == 'ok' %}
+						          	<li><a href="{{urlBase}}&deactivate={{user.username}}">Deactivate</a></li>
+						          {% else %}
+							          <li><a href="{{urlBase}}&activate={{user.username}}">Activate</a></li>
+						        	{% endif %}
+						          <li><a href="edit">Edit</a></li>
+						          <li class="divider"></li>
+						          <li><a href="{{urlBase}}&delete={{user.username}}">Delete</a></li>
+						        </ul>
+						      </div>
+	              </td>
+	            </tr>
+            {% endfor %}
+          {% else %}
+            <tr><div class="alert alert-warning">No results found</div></tr>
+          {% endif %}
+          </tbody>
+        </table>
+
+        <form name="bulk-actions" id="bulk-actions" method="post" action="">
+					<input type="hidden" id="bulk-action" name="bulk-action">
+					<input type="hidden" id="bulk-keys" name="bulk-keys">
+				</form>
+
+        <div class="text-center mt-5">
+        	<div class="btn-group" role="group" aria-label="Basic example">
+        		<a href="{{paginationBase}}&page={{pagination.first}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+            {% for page in pagination.pages %}
+            	<a href="{{paginationBase}}&page={{page}}"><button type="button" class="btn btn{% if page != pagination.current %}-outline{% endif %}-primary">{{page}}</button></a>
+            {% endfor %}
+            <a href="{{paginationBase}}&page={{pagination.last}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+<script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#advanced-search').on('click', function() {
+			$('#advanced-search-section').slideToggle();
+		});
+
+    $('.bulk-check-main').on('click', function() {
+			if ($(this).attr('check') == 'selected') {
+				var mode = 'unselected';
+				$('.bulk-check-sub').removeClass('selected').addClass('unselected').attr('check', 'unselected');
+				$(this).removeClass('selected').addClass('unselected').attr('check', 'unselected');
+			} else {
+				var mode = 'selected';
+				$('.bulk-check-sub').removeClass('unselected').addClass('selected').attr('check', 'selected');
+				$(this).removeClass('unselected').addClass('selected').attr('check', 'selected');
+			}
+	    
+	    $('.bulk-check-sub').each(function(i, obj) {
+	    	if (mode == 'selected') {
+	    		if ($(obj).hasClass('selected')) {
+	    			$(obj).trigger('click');
+	    		}
+	    	} else {
+	    		if ($(obj).hasClass('unselected')) {
+	    			$(obj).trigger('click');
+	    		}
+	    	}
+      });
+	  });
+
+	  $('.bulk-actions').on('click', function(e) {
+	  	e.preventDefault();
+	  	var action = $(this).attr('action');
+	  	$('#bulk-action').val(action);
+
+	  	var allkeys = '';
+			$('.selected').each(function(i, obj) {
+				// bulk-keys
+        var currentKey = $(obj).attr('videokey');
+        if (currentKey != null) {
+        	allkeys += currentKey + ',';
+        }
+      });
+
+      $('#bulk-keys').val(allkeys);
+      $('#bulk-actions').submit();
+	  });
+	});
+</script>
+
+
+
+        
+{% endblock %}

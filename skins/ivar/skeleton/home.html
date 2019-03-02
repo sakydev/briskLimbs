@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    
+<div class="content-wrapper bg-light">
+  <h4>Trending</h4>
+  <div class="row">
+    {% for video in trending %}
+      {{ include('bricks/trending.html') }}
+    {% endfor %}
+  </div>
+
+  <h4>Fresh</h4>
+  <div class="row">
+    {% for video in fresh %}
+      {{ include('bricks/video.html') }}
+    {% endfor %}
+  </div>
+</div>
+<!-- content-wrapper ends -->
+        
+        
+{% endblock %}

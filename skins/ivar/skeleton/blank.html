@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    
+<div class="content-wrapper bg-light">
+  {% for message in messages %}
+    <div class="alert text-center alert-warning">{{message}}</div>
+  {% endfor %}
+</div>
+<!-- content-wrapper ends -->
+        
+        
+{% endblock %}

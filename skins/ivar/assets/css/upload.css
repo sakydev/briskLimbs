@@ -1,0 +1,9 @@
+.upload-page {
+  margin-top: 20px;
+  border: 1px dashed;
+  height: 300px;
+}
+
+#upload-file {
+  margin-top: 150px;
+}
