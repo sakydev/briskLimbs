@@ -27,6 +27,7 @@ class Limbs {
 		$this->errors = new Errors();
 
 		define('CORE_URL', $this->coreUrl);
+		define('ADDONS_URL', CORE_URL . '/addons');
 
 		$this->initializeCustomFunctions();
 	}

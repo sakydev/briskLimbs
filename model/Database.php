@@ -2514,6 +2514,7 @@ public function unlock()
 			}
 	}
 
+	/* custom functions start */
 	public function getColumnsList($table) {
 		$response = array();
 		foreach ($this->rawQuery("SHOW COLUMNS FROM $table") as $key => $value) {
@@ -2521,7 +2522,30 @@ public function unlock()
 		}
 
 		return $response;
+	}	
+
+	public function createTable($table, $clmns) {
+		$query = "CREATE TABLE IF NOT EXISTS $table ( ";
+		foreach ($clmns as $fld => $dets) {
+			if (empty($dets['type'])) { return fasle; }
+			$query .= $fld . ' ' . $dets['type'] . ',';
+			if (!empty($dets['special'])) {
+				if (strstr($dets['special'], 'primary')) {
+					$query = trim($query, ',') . " AUTO_INCREMENT PRIMARY KEY,";
+				} else {
+					$query = trim($query, ',') . ' ' . $dets['special'] . ',';
+				}
+			}
+		}
+
+		$query = trim($query, ',') . ') ENGINE=InnoDB;';
+		return $this->rawQuery($query);
 	}
+
+	public function dropTable($table) {
+		return $this->rawQuery("DROP TABLE IF EXISTS $table");
+	}
+	/* customf functions end */
 }
 
 // END class

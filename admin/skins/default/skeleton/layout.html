@@ -67,12 +67,12 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" id="videos-section" data-toggle="collapse" href="#videos" aria-expanded="{% if mainSection =='videos' %}true{% else %}false{% endif %}" aria-controls="videos">
+            <a class="nav-link" id="videos-section" data-toggle="collapse" href="#videos" aria-expanded="{% if (mainSection == 'videos') or (mainSection == 'edit') %}true{% else %}false{% endif %}" aria-controls="videos">
               <span class="menu-title">Videos</span>
               <i class="menu-arrow"></i>
               <i class="mdi mdi-crosshairs-gps menu-icon"></i>
             </a>
-            <div class="collapse {% if mainSection =='videos' %}show{% endif %}" id="videos">
+            <div class="collapse {% if (mainSection == 'videos') or (mainSection == 'edit') %}show{% endif %}" id="videos">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=all">List</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/videos/?list=trending">Trending</a></li>

@@ -120,7 +120,7 @@
         <h4 class="card-title">Videos Manager ({{subSection}})</h4>
         <p class="card-description mb-2">Listing: {{start}} - {{end}} / {{total}}</p>
           {% if results %}
-            <table class="table table-bordered">
+            <table class="table ">
               <thead>
                 <tr>
                   <th class="bulk-check-main">
@@ -135,7 +135,6 @@
                   <th>Thumbnail</th>
                   <th>Title</th>
                   <th>Uploader</th>
-                  <th>Views</th>
                   <th>Published</th>
                   <th>Actions</th>
                 </tr>
@@ -152,17 +151,21 @@
 	                </div>
 	            	</td>
 	              <td>{{video.id}}</td>
-	              <td><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img src="{{video.thumbnail}}"></a></td>
+	              <td>
+                  <div class="image-section">
+                    <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}"></a>
+                    <div class="time">{{formatDuration(video.duration)}}</div>
+                  </div>
+                </td>
 	              <td>
 	              	{{video.title}}
 	              	<span class="clearfix"></span>
-	              	<label class="badge badge-gradient-dark mt-2">{{video.duration}}</label>
-	              	<label class="badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}">{{video.status|title}}</label>
+                  <label class="mt-2 badge badge-dark">{{video.views|number_format}}</label>
+	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}">{{video.status|title}}</label>
 	              	<label class="badge badge-{% if video.state == 'active' %}success{% elseif video.state == 'inactive' %}warning{% else %}danger{% endif %}">{{video.state|title}}</label>
 	              </td>
 	              <td>{{video.uploader_name}}</td>
-	              <td>{{video.views|number_format}}</td>
-	              <td><label class="badge badge-default">{{video.date}}</label></td>
+	              <td><label class="badge badge-default">{{formatDate(video.date)}}</label></td>
 	              <td>
 	              	<div class="dropdown">
 						        <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

@@ -103,6 +103,8 @@ class Addons {
           return $this->errors->add("Skipping $name because install file doesn't exist at $install");
         }
 
+        require $install;
+
         $parameter = array();
         $parameters['name'] = $addon['name'];
         $parameters['display_name'] = $addon['display_name'];
@@ -115,6 +117,47 @@ class Addons {
         return $this->database->insert($this->table, $parameters);
       }
     }
+  }
+
+  public function get($name) {
+    $this->database->where('name', $name);
+    return $this->database->getOne($this->table);
+  }
+
+  public function getField($name, $field) {
+    $this->database->where('name', $name);
+    $results = $this->database->get($this->table, null, array($field));
+    return isset($results['0'][$field]) ? $results['0'][$field] : false;
+  }
+
+  public function getFields($name, $fields) {
+    $this->database->where('name', $name);
+    $results = $this->database->get($this->table, null, is_array($fields) ? $fields : array($fields));
+    return isset($results['0']) ? $results['0'] : false;
+  }
+
+  public function displayName($name) {
+    return $this->getField($name, 'display_name');
+  }
+  
+  public function version($name) {
+    return $this->getField($name, 'version');
+  }
+
+  public function description($name) {
+    return $this->getField($name, 'description');
+  }
+
+  public function author($name) {
+    return $this->getField($name, 'author');
+  }
+
+  public function status($name) {
+    return $this->getField($name, 'status');
+  }
+
+  public function directory($name) {
+    return $this->getField($name, 'directory');
   }
 
   // set('status', 'successful', 'sad2314', 'vkey');
@@ -146,6 +189,12 @@ class Addons {
   }
   
   public function uninstall($name) {
+    $directory = ADDONS_DIRECTORY . '/' . $this->directory($name);
+    $file = $directory . '/uninstall.php';
+    if (file_exists($file)) {
+      require $file;
+    }
+
     $this->database->where('name', $name);
     return $this->database->delete($this->table);
   }
@@ -199,5 +248,9 @@ class Addons {
 
     $this->limbs->addDirectory($directory, $addonCoreDirectoryName);
     $this->limbs->display("@$addonCoreDirectoryName/" . basename($file), $parameters); // @
+  }
+
+  public function url($name) {
+    return ADDONS_URL . '/' . $name;
   }
 }

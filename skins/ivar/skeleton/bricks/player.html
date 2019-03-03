@@ -1,11 +1,17 @@
 <link href="{{_jsUrl}}/video-js/video-js.min.css" rel="stylesheet" type="text/css">
 <link href="{{_jsUrl}}/video-js/videojs-resolution-switcher.css" rel="stylesheet">
 
-<center>
-  <video id="video-player" class="video-js vjs-big-play-centered vjs-16-9" controls autoplay="true" preload="auto" poster="{{video.thumbnail}}" data-setup='{"fluid": true}' style="object-fit: contain" mode="reg">
+<div style="max-width: {{width}}; max-height: {{height}}">
+  <center>
+  <video id="video-player" class="video-js vjs-big-play-centered vjs-16-9" controls autoplay="true" preload="auto" poster="{{video.thumbnail}}" data-setup='{"fluid": true}' style="object-fit: contain" mode="reg" width="{{width}}" height="{{height}}">
     {% for quality, file in video.files %}
       <source src="{{file}}" type="video/mp4" res="{{quality}}" label="{{quality}}">
     {% endfor %}
     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
   </video>
 </center>
+</div>
+
+<script src="{{_jsUrl}}/video-js/video.min.js"></script>
+<script src="{{_jsUrl}}/video-js/videojs-resolution-switcher.js"></script>
+<script src="{{_jsUrl}}/watch.js"></script>

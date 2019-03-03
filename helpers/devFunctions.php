@@ -44,3 +44,15 @@ function jumpTo($path) {
 	header("Location: $url");
 	exit;
 }
+
+function hrefTag($url, $text) {
+	return "<a href='{$url}'>{$text}</a>";
+}
+
+function linkTag($url) {
+	return "<link rel='stylesheet' type='text/css' href='{$url}'>";
+}
+
+function scriptTag($url) {
+	return "<script type='text/javascript'>{$url}</script>";
+}
