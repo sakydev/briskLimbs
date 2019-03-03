@@ -116,6 +116,7 @@ $parameters['results'] = $results;
 $parameters['mainSection'] = 'videos';
 $parameters['subSection'] = $subSection;
 $parameters['pagination'] = buildPagination($page, $size, $total);
+$parameters['_errors'] = $limbs->errors->collect();
 $parameters['_title'] = 'Videos Manager - Dashboard';
 
 $limbs->display('videos.html', $parameters);

@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-5">Edit {{video.title}}</h4>
+        <form class="form-sample" name="edit-video" method="post">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Title</label>
+                <div class="col-sm-12">
+                  <input type="text" name="title" class="form-control" placeholder="Website title" value="{{video.title}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">State</label>
+                <div class="col-sm-12">
+                  <select name="state" class="form-control">
+                    <option value="active" {% if video.state == 'active' %}selected="selected"{% endif %}>Active</option>
+                    <option value="inactive" {% if video.state == 'inactive' %}selected="selected"{% endif %}>Inactive</option>
+                    <option value="disabled" {% if video.state == 'disabled' %}selected="selected"{% endif %}>Disabled</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-8 col-form-label">Processing Status</label>
+                <div class="col-sm-12">
+                  <select name="status" class="form-control">
+                    <option value="ok" {% if video.status == 'ok' %}selected="selected"{% endif %}>Successful</option>
+                    <option value="pending" {% if video.status == 'pending' %}selected="selected"{% endif %}>Pending</option>
+                    <option value="failed" {% if video.status == 'failed' %}selected="selected"{% endif %}>Failed</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Description</label>
+                <div class="col-sm-12">
+                  <textarea name="description" class="form-control" rows="6" placeholder="Website description here"/>{{video.description}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Published</label>
+                <div class="col-sm-12">
+                  <input type="text" name="date" class="form-control" placeholder="Publish date" value="{{video.date}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Views</label>
+                <div class="col-sm-12">
+                  <input type="text" name="views" class="form-control" placeholder="Views" value="{{video.views}}" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-right">
+            <button type="submit" type="button" class="btn btn-gradient-primary btn-icon-text">
+              <i class="mdi mdi-file-check btn-icon-prepend"></i>
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+        
+        
+{% endblock %}

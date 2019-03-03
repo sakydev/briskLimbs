@@ -104,6 +104,7 @@ $parameters['results'] = $results;
 $parameters['mainSection'] = 'users';
 $parameters['subSection'] = $subSection;
 $parameters['pagination'] = buildPagination($page, $size, $total);
+$parameters['_errors'] = $limbs->errors->collect();
 $parameters['_title'] = 'Users Manager - Dashboard';
 
 $limbs->display('users.html', $parameters);

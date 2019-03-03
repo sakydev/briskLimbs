@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    
+<div class="content-wrapper bg-light">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="signin-errors">
+          {% for error in _errors %}
+            <div class="alert alert-danger">{{error}}</div>
+          {% endfor %}
+        </div>
+      <div class="card card-outline-secondary">
+        <div class="card-body">
+          <h3 class="mb-5">A work in progress</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+        
+        
+{% endblock %}

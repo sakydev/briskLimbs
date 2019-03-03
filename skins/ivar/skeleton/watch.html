@@ -28,15 +28,15 @@
                 <div id="home" class="container tab-pane active"><br>
                   <div class="d-flex justify-content-between align-items-center">
                 <span class="text-muted"><strong>Uploaded by</strong> {{video.uploader_name}}</span>
-                <span class="text-muted"><strong>Views</strong> {{video.views}}</span>
+                <span class="text-muted"><strong>Views</strong> {{video.views|number_format}}</span>
               </div>
               
                 <strong class="text-muted">Description</strong>
                 <p class="text-muted">{{video.description}}</p>
 
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="text-muted"><strong>Published</strong> {{video.date}}</span>
-                  <span class="text-muted"><strong>Duration</strong> {{video.duration}}</span>
+                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}}</span>
+                  <span class="text-muted"><strong>Duration</strong> {{formatDuration(video.duration)}}</span>
                 </div>
                 </div>
                 <div id="menu1" class="container tab-pane fade"><br>
@@ -63,7 +63,7 @@
                     <small class="text-muted">by {{video.uploader_name}}</small>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">{{vide.views}} views</small>
+                    <small class="text-muted">{{video.views|number_format}} views</small>
                   </div>
                 </div>
                 <div class="clearfix"></div>

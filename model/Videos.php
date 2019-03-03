@@ -25,7 +25,14 @@ class Videos {
 			$this->database->where($fields, $value);
 		}
 
-		return $fetch ? $this->database->getValue($this->table, $fetch) : $this->database->getValue($this->table, 'count(*)');
+		return $fetch ? $this->database->get($this->table, null, $fetch) : $this->database->getValue($this->table, 'count(*)');
+	}
+
+	public function owns($username, $video) {
+		$creds = array($this->detectIdentifier($video) => $video, 'uploader_name' => $username);
+	  if ($details = $this->exists($creds, false, array('id', 'uploader_name'))) {
+	  	return $details;
+	  }
 	}
 
 	public function keyExists($key) {
@@ -77,8 +84,8 @@ class Videos {
 	}
 
 	/* get video by id or key */
-	public function get($identifier, $type) {
-		$this->database->where($type, $identifier, '=');
+	public function get($identifier, $type = false) {
+		$this->database->where($type ? $type : $this->detectIdentifier($identifier), $identifier);
 		return $this->database->getOne($this->table);
 	}
 
@@ -133,12 +140,14 @@ class Videos {
 
 	public function getTrending($limit, $parameters = array()) {
 		$parameters['sort'] = 'views';
+		$parameters['state'] = 'active';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
 	public function getFresh($limit, $parameters = array()) {
 		$parameters['sort'] = 'date';
+		$parameters['state'] = 'active';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
@@ -158,9 +167,6 @@ class Videos {
 
 	private function validateUpdate($fields) {
 		$required = array('title', 'description');
-		if (!$this->users->authenticated()) {
-			return $this->limbs->errors->add('You must be logged in before updating');
-		}
 
 		foreach ($fields as $key => $value) {
 			if (!in_array($key, $this->KEYS)) {
@@ -213,21 +219,36 @@ class Videos {
     return $this->database->update($this->table, $fields);
   }
 	
+	public function validatePermissions($video) {
+		if ($this->users->isAdmin() || $this->owns($video)) {
+			return true;
+		}
+	}
+
 	public function activate($video) {
-		return $this->set('state', 'active', $video, is_numeric($video) ? 'id' : 'vKey');
+		if (!$this->validatePermissions($video)) {
+			return $this->limbs->errors->add("You don't have permissions to activate $video");
+		}
+
+		return $this->set('state', 'active', $video, $this->detectIdentifier($video));
 	}
 
 	public function bulkActivate($videosArray, $identifier = 'vkey') {
 		return $this->bulkSet('state', 'active', $videosArray, $identifier);
 	}
 
+	public function deactivate($video) {
+		if (!$this->validatePermissions($video)) {
+			return $this->limbs->errors->add("You don't have permissions to deactivate $video");
+		}
+
+		return $this->set('state', 'inactive', $video, $this->detectIdentifier($video));
+	}
+
 	public function bulkDeactivate($videosArray, $identifier = 'vkey') {
 		return $this->bulkSet('state', 'inactive', $videosArray, $identifier);
 	}
 
-	public function deactivate($video) {
-		return $this->set('state', 'inactive', $video, is_numeric($video) ? 'id' : 'vKey');
-	}
 
 	public function bulkDelete($videosArray) {
 		foreach ($videosArray as $key => $video) {
@@ -240,6 +261,10 @@ class Videos {
 	}
 
 	public function delete($video) {
+		if (!$this->validatePermissions($video)) {
+			return $this->limbs->errors->add("You don't have permissions to delete $video");
+		}
+
 		$results = $this->getFields($video, array('filename','date'));
 		$filename = $results['filename'];
 		$directory = directory($results['date']);
@@ -253,7 +278,7 @@ class Videos {
 			return $this->limbs->errors->add('Unable to delete files');
 		}
 
-		$this->database->where(is_numeric($video) ? 'id' : 'vKey', $video);
+		$this->database->where($this->detectIdentifier($video), $video);
 		return $this->database->delete($this->table);
 	}
 
@@ -308,6 +333,10 @@ class Videos {
 	}
 
 	public function update($identifier, $details) {
+		if (!$this->validatePermissions($identifier)) {
+			return $this->limbs->errors->add("You don't have permissions to update");
+		}
+
 		if ($this->validateUpdate($details)) {
 			return $this->multipleSet($details, $this->detectIdentifier($identifier), $identifier);
 		}

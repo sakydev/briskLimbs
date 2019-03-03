@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="card">
+
+      <div class="card-body">
+       
+        <h4 class="card-title mb-5">General Settings</h4>
+        <form class="form-sample" name="general-settings" method="post">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                  <input type="text" name="email" class="form-control" placeholder="Your email" value="{{user.email}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">DOB</label>
+                <div class="col-sm-9">
+                  <input type="text" name="dob" class="form-control" placeholder="Your date of birth" value="{{user.dob}}" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Bio</label>
+                <div class="col-sm-12">
+                  <textarea name="bio" class="form-control" rows="6" placeholder="Your bio here"/>{{user.bio}}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Current Password</label>
+                <div class="col-sm-9">
+                  <input type="password" name="password" class="form-control" placeholder="****" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">New Password</label>
+                <div class="col-sm-9">
+                  <input type="password" name="new_password" class="form-control" placeholder="****" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Confirm Password</label>
+                <div class="col-sm-9">
+                  <input type="password" name="confirm_password" class="form-control" placeholder="****" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-right">
+            <button type="submit" type="button" class="btn btn-gradient-primary btn-icon-text">
+              <i class="mdi mdi-file-check btn-icon-prepend"></i>
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+        
+        
+{% endblock %}

@@ -19,4 +19,5 @@ if (isset($_POST['settings'])) {
 $parameters['_title'] = 'Settings - Dashboard';
 $parameters['mainSection'] = 'settings';
 $parameters['settings'] = $settings->reFetch();
+$parameters['_errors'] = $limbs->errors->collect();
 $limbs->display('settings.html', $parameters);

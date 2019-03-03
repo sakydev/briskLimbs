@@ -95,7 +95,7 @@ class Thumbnails {
   public function delete() {
     if ($results = $this->get()) {
       foreach ($results as $key => $path) {
-        unlink($path);
+        @unlink($path);
       }
     }
 
