@@ -2,6 +2,7 @@
 
 require_once '/var/www/html/limbs/config.php';
 require MODEL_DIRECTORY . '/Conversion.php';
+require MODEL_DIRECTORY . '/Logs.php';
 
 if (count($argv) >=2 ) {
 	foreach ($argv as $key => $argument) {
@@ -16,8 +17,12 @@ if (count($argv) >=2 ) {
   }
 
   $ffmpegPath = '/usr/bin/ffmpeg';
-  $path = TEMPORARY_DIRECTORY . '/' . $directory . '/' . $filename . '.' . $extension;
-  $conversion = new Conversion($ffmpegPath, $filename, $directory, $path, $log);
+  $base = $directory . '/' . $filename;
+  $path = TEMPORARY_DIRECTORY . '/' . $base . '.' . $extension;
+  $log = LOGS_DIRECTORY . '/' . $base . '.log';
+  $logs = new Logs($log);
+  $logs->initialize();
+  $conversion = new Conversion($ffmpegPath, $filename, $directory, $path, $logs);
   $results = $conversion->process();
 
   $status = 'successful';
@@ -36,9 +41,6 @@ if (count($argv) >=2 ) {
   }
 
   $fields = array('duration' => $duration, 'status' => $status, 'qualities' => $qualities);
-
-  file_put_contents('ff.txt', print_r($status, true));
-  file_put_contents('fields.txt', print_r($fields, true));
   
   global $database;
   $videos = new Videos();

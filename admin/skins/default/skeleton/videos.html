@@ -173,6 +173,7 @@
 						          <span class="caret"></span>
 						        </button>
 						        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      <li><a href="{{_adminUrl}}/log/?key={{video.vkey}}">Log</a></li>
 						        	{% if video.state == 'active' %}
 						          	<li><a href="{{urlBase}}&deactivate={{video.vkey}}">Deactivate</a></li>
 						          {% else %}
