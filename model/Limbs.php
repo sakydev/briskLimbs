@@ -22,6 +22,7 @@ class Limbs {
 		$loader = new Twig_Loader_Filesystem(IS_ADMIN ? $this->themeSettings->_adminSkeletonDirectory : $this->themeSettings->_skeletonDirectory);
 		$twig = new Twig_Environment($loader);
 
+		$this->loader = $loader;
 		$this->twig = $twig;
 		$this->errors = new Errors();
 
@@ -149,5 +150,9 @@ class Limbs {
 	  $this->twig->addFunction($printHookExit);
 
 		return true;
+	}
+
+	public function addDirectory($path, $name) {
+		return $this->loader->addPath($path, $name);
 	}
 }

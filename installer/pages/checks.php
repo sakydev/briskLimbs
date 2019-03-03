@@ -1,6 +1,6 @@
 <?php
 
-$requirments = json_decode(file_get_contents(INSTALLER_CORE . '/requirments.json'), true);
+$requirments = json_decode(file_get_contents(CORE_DIRECTORY . '/configs/requirments.json'), true);
 $response = array();
 
 $phpVersion = getPhpVersion();

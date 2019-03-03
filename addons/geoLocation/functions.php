@@ -1,7 +1,7 @@
 <?php
 
 function detectLocation() {
-  $ipAddress = getenv('103.255.4.79');
+  $ipAddress = getenv($_SERVER['REMOTE_ADDR']);
   return unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$ipAddress"));
 }
 

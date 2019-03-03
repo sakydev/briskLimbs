@@ -128,7 +128,7 @@
 
           {% for menu,contents in _addons.admin_menu %}
             <li class="nav-item">
-              <a class="nav-link" id="{{menu}}-section" data-toggle="collapse" href="#{{menu}}" aria-expanded="{% if mainSection =='addons' %}true{% else %}false{% endif %}" aria-controls="addons">
+              <a class="nav-link" id="{{menu}}-section" data-toggle="collapse" href="#{{menu}}" aria-expanded="{% if mainSection == menu %}true{% else %}false{% endif %}" aria-controls="addons">
                 <span class="menu-title">
                   {% if contents.display_name %}
                     {{contents.display_name}}
@@ -140,7 +140,7 @@
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
               </a>
               {% if contents.sub %}
-                <div class="collapse {% if mainSection =='{{menu}}' %}show{% endif %}" id="{{menu}}">
+                <div class="collapse {% if mainSection == menu %}show{% endif %}" id="{{menu}}">
                   <ul class="nav flex-column sub-menu">
                     {% for name,link in contents.sub %}
                       {% if '://' in link %}

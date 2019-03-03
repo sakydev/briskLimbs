@@ -190,4 +190,14 @@ class Addons {
     $menu = is_array($existing) ? array_merge($existing, $menu) : $menu;
     $this->limbs->addAddonParameter('admin_menu', $menu);
   }
+
+  public function display($addonCoreDirectoryName, $file, $parameters) {
+    $directory = ADDONS_DIRECTORY . '/' . $addonCoreDirectoryName;
+    if (($fileDirectory = dirname($file)) != '.') {
+      $directory .= '/' . $fileDirectory;
+    }
+
+    $this->limbs->addDirectory($directory, $addonCoreDirectoryName);
+    $this->limbs->display("@$addonCoreDirectoryName/" . basename($file), $parameters); // @
+  }
 }
