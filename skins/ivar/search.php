@@ -29,6 +29,8 @@ foreach ($results as $key => $video) {
 if ($totalResults = count($results) >= $size) {
 	$listParameters['next'] = $page + 1;
 }
+
+$parameters['keyword'] = $keyword;
 $parameters['results'] = $results;
 $parameters['total'] = count($results);
 $parameters['_title'] = 'Search results for ' . $keyword;
