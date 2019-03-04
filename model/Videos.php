@@ -108,6 +108,7 @@ class Videos {
 
 	public function list($parameters = false) {
 		if (is_array($parameters)) {
+			$parameters['status'] = isset($parameters['status']) ? $parameters['status'] : 'successful';
 			foreach ($parameters as $column => $condition) {
 				if (in_array($column, $this->KEYS)) {
 					if (is_array($condition)) {

@@ -21,6 +21,11 @@ $listParameters['limit'] = $limit;
 $listParameters['keyword'] = $keyword;
 
 $results = $videos->list($listParameters);
+foreach ($results as $key => $video) {
+  $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
+  $results[$key]['thumbnail'] = $thumbnails->medium();
+}
+
 if ($totalResults = count($results) >= $size) {
 	$listParameters['next'] = $page + 1;
 }

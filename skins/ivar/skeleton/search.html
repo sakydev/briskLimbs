@@ -11,8 +11,8 @@
             <div class="single-video row">
               <div class="col-lg-3 col-sm-6">
                 <div class="image-section">
-                  <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{_imagesUrl}}/blog{{random(5)}}.jpg" width="100%" alt=""></a>
-                  <div class="time">{{video.duration}}</div>
+                  <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{video.thumbnail}}" width="100%" alt=""></a>
+                  <div class="time">{{formatDuration(video.duration)}}</div>
                 </div>
               </div>
               <div class="col-lg-8 col-sm-8 video-info">
