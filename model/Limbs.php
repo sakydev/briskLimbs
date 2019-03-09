@@ -145,6 +145,11 @@ class Limbs {
 		  pex($array);
 	  });
 
+	  $printHookExit = new \Twig\TwigFunction('addonInstalled', function ($name) {
+		  $addons = new Addons();
+		  return $addons->active(array('name' => $name));
+	  });
+	  
 	  $hook = new \Twig\TwigFunction('hook', function ($function, $parameters = false) {
 		  hook($function, $parameters);
 	  });

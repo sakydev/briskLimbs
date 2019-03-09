@@ -10,6 +10,7 @@ class Addons {
     $this->directory = ADDONS_DIRECTORY;
     $this->KEYS = $limbs->database->getColumnsList($this->table);
     $this->errors = new Errors();
+    $this->defaultLimit = 10;
   }
 
   public function idle($skip = array()) {

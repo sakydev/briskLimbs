@@ -43,6 +43,8 @@ class Comments {
         $this->videos->setComments($video);
         return true;
       }
+
+      return $this->limbs->errors->add('Error adding comment');
     }
   }
 

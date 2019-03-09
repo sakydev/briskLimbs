@@ -15,7 +15,7 @@
 <body>
   <div class="container-scroller">
     {{hook('adminHound')}}
-    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 d-flex flex-row">
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo" href="{{_coreUrl}}"><img src="{{_imagesUrl}}/logo.svg" alt="logo"/></a>
         <a class="navbar-brand brand-logo-mini" href="{{_coreUrl}}"><img src="{{_imagesUrl}}/logo-mini.svg" alt="logo"/></a>
@@ -144,7 +144,7 @@
 
       {% endblock %}
 
-      <footer class="footer fixed-bottom">
+      <footer class="footer fixed-bottom" style="padding: 10px !important;">
         <div class="d-sm-flex justify-content-center justify-content-sm-between">
           <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a href="https://github.com/briskLimbs" target="_blank">BriskLimbs</a>. All rights reserved.</span>
           <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">UI by BootstrapDash</span>

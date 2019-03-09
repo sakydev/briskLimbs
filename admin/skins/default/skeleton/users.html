@@ -135,7 +135,7 @@
 	              	<label class="badge badge-{% if user.status == 'ok' %}success{% elseif user.status == 'pending' %}warning{% else %}danger{% endif %}">{{user.status|title}}</label>
 	              </td>
 	              <td>{{user.email}}</td>
-	              <td><label class="badge badge-default">{{user.date}}</label></td>
+	              <td><label class="badge badge-default">{{formatDate(user.date)}}</label></td>
 	              <td>
 	              	<div class="dropdown">
 						        <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

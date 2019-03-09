@@ -55,12 +55,13 @@ $('#comment').on('click', function(e) {
     var response = $.parseJSON(response);
     if (response.status == 'success') {
       var msgClass = 'alert-success';
+      $('.totalComments').text(parseInt($('.totalComments').text()) + 1);
+      $('.all-comments').append('<tr><td><strong>' + username + '</strong></td><td>' + comment + '</td></tr>');
+      $('#comment-messages').removeClass('alert-danger').addClass('alert-success');
     } else {
-      var msgClass = 'alert-danger';
+      $('#comment-messages').removeClass('alert-success').addClass('alert-danger');
     }
 
-    $('.totalComments').text(parseInt($('.totalComments').text()) + 1);
-    $('#comment-messages').addClass(msgClass).text(response.message).fadeIn();
-    $('.all-comments').append('<tr><td><strong>' + username + '</strong></td><td>' + comment + '</td></tr>');
+    $('#comment-messages').text(response.message).fadeIn();
   });
 });
