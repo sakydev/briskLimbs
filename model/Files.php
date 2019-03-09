@@ -12,8 +12,12 @@ class Files {
     $this->directory = VIDEOS_DIRECTORY . '/' . $directory . '/' . $filename;
   }
 
-  public function get() {
-    $results = glob($this->directory . "*");
+  public function getDefault() {
+    return $this->get(MEDIA_DIRECTORY . '/defaults/videos/*');
+  }
+
+  public function get($path = false) {
+    $results = $path ? glob($path) : glob($this->directory . "*");
     $qualities = array();
     foreach ($results as $key => $path) {
       $qualities[stringBetween($path, '-', '.')] = $this->url ? str_replace(CORE_DIRECTORY, CORE_URL, $path) : $path;
@@ -21,6 +25,7 @@ class Files {
 
     return $qualities;
   }
+
 
   public function count() {
     return count($this->get());

@@ -28,8 +28,18 @@ $data = $video->fetch();
 $thumbnails = new Thumbnails($video->filename(), $video->directory(), true);
 $files = new Files($video->filename(), $video->directory(), true);
 
-$data['thumbnail'] = $thumbnails->highest();
-$data['files'] = $files->get();
+if ($highestThumbnail = $thumbnails->highest()) {
+  $data['thumbnail'] = $highestThumbnail;
+} else {
+  $data['thumbnail'] = $thumbnails->getDefault();
+}
+
+if ($files = $files->get()) {
+  $data['files'] = $files;
+} else {
+  $data['files'] = $files->getDefault();
+  $parameters['defaultFiles'] = true;
+}
 
 if ($sidebar = $videos->list(array('keyword' => $video->title()))) {
 	$sidebarTitle = 'Similar Videos';

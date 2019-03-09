@@ -12,8 +12,12 @@ class Thumbnails {
     $this->directory = THUMBNAILS_DIRECTORY . '/' . $directory . '/' . $filename;
   }
 
-  public function get() {
-    $results = glob($this->directory . "*");
+  public function getDefault() {
+    return MEDIA_URL . '/defaults/thumbnail.png';
+  }
+  
+    public function get($path = false) {
+    $results = $path ? glob($this->directory . "*") : glob($this->directory . "*");
     if ($this->url) {
       foreach ($results as $key => $path) {
         $results[$key] = str_replace(CORE_DIRECTORY, CORE_URL, $path);
