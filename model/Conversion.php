@@ -64,12 +64,13 @@ class Conversion {
   }
 
   private function possibleQualities($videoWidth, $videoHeight) {
-    $basicQualities = array('240', '360', '480', '720');
+    $basicQualities = array('240', '360', '480', '720', '1080');
     $dimensions = array(
       '240' => array('width' => '424', 'video_bitrate' => '576', 'audio_bitrate' => '64'), 
       '360' => array('width' => '640', 'video_bitrate' => '896', 'audio_bitrate' => '64'), 
       '480' => array('width' => '848', 'video_bitrate' => '1536', 'audio_bitrate' => '96'), 
-      '720' => array('width' => '1280', 'video_bitrate' => '3072', 'audio_bitrate' => '96')
+      '720' => array('width' => '1280', 'video_bitrate' => '3072', 'audio_bitrate' => '128'),
+      '1080' => array('width' => '1920', 'video_bitrate' => '4992', 'audio_bitrate' => '128')
     );
     $possibleQualities = array();
     foreach ($basicQualities as $quality) {
