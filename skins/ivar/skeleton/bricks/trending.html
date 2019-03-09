@@ -1,7 +1,7 @@
 <div class="col-md-3">
   <div class="card card-custom mb-4 box-shadow">
     <div class="image-section">
-      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}"></a>
+      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}"  onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
       <div class="time">{{formatDuration(video.duration)}}</div>
       <div class="views">{{video.views|number_format}}</div>
     </div>
