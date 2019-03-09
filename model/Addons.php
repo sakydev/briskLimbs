@@ -240,7 +240,7 @@ class Addons {
     $this->limbs->addAddonParameter('admin_menu', $menu);
   }
 
-  public function display($addonCoreDirectoryName, $file, $parameters) {
+  public function display($addonCoreDirectoryName, $file, $parameters = array()) {
     $directory = ADDONS_DIRECTORY . '/' . $addonCoreDirectoryName;
     if (($fileDirectory = dirname($file)) != '.') {
       $directory .= '/' . $fileDirectory;

@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">AdminHound</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{{_adminUrl}}/settings" target="_blank">Settings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{_adminUrl}}/videos/?list=all" target="_blank">Videos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{_adminUrl}}/users/?list=all" target="_blank">Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{_adminUrl}}/addons/?list=all" target="_blank">Addons</a>
+      </li>
+      {% if watchActions %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{_adminUrl}}/log/?key={{watchkey}}" target="_blank">Log</a>
+            <a class="dropdown-item" href="{{_adminUrl}}/edit/?key={{watchkey}}" target="_blank">Edit</a>
+            <a class="dropdown-item" href="{{_adminUrl}}/videos/?list=all&activate={{watchkey}}" target="_blank">Activate</a>
+            <a class="dropdown-item" href="{{_adminUrl}}/videos/?list=all&deactivate={{watchkey}}" target="_blank">Deactivate</a>
+            <a class="dropdown-item" href="{{_adminUrl}}/videos/?list=all&delete={{watchkey}}" target="_blank">Delete</a>
+          </div>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

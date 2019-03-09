@@ -1,0 +1,11 @@
+{
+  "name" : "admin_hound",
+  "display_name": "Admin Hound",
+  "file": "adminHound.php",
+  "author": "Saqib Razzaq",
+  "autor_website": "https://github.com/saqirzzq",
+  "date": "2019, 03, 09",
+  "description": "Display frontend admin bar with useful actions",
+  "version": "0.1",
+  "state": "Beta"
+}
