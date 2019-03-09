@@ -1,5 +1,5 @@
-# briskLimbs
-A video sharing software created with both webmasters and developers in mind
+# briskLimbs (Stable Release: 15th March)
+A video sharing software created with both webmasters and developers in mind.
 
 ## Table of contents
 
