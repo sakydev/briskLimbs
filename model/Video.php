@@ -37,4 +37,8 @@ class Video extends Videos {
 	public function directory() {
 		return directory($this->date()); 
 	}
+
+	public function comments() {
+		return $this->data['comments'];
+	}
 }

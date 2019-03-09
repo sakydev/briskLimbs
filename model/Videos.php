@@ -354,4 +354,13 @@ class Videos {
 			return $this->set('views', $views, $video, $identifier);
 		}
 	}
+
+	public function setComments($video, $comments = '+1') {
+		$identifier = $this->detectIdentifier($video);
+		if ($comments == '+1') {
+			return $this->set('comments', $this->database->inc(1), $video, $identifier);
+		} else {
+			return $this->set('comments', $comments, $video, $identifier);
+		}
+	}
 }

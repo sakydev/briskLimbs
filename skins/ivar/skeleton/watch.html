@@ -26,21 +26,23 @@
               <!-- Tab panes -->
               <div class="tab-content">
                 <div id="home" class="container tab-pane active"><br>
-                  <div class="d-flex justify-content-between align-items-center">
-                <span class="text-muted"><strong>Uploaded by</strong> {{video.uploader_name}}</span>
+                  <div class="d-flex float-right">
                 <span class="text-muted"><strong>Views</strong> {{video.views|number_format}}</span>
               </div>
               
                 <strong class="text-muted">Description</strong>
-                <p class="text-muted">{{video.description}}</p>
+                <div class="clearfix mt-2 mb-2">
+                  {{video.description|nl2br|raw }}
+                </div>
 
                 <div class="d-flex justify-content-between align-items-center">
-                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}}</span>
+                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}} by {{video.uploader_name}}</span>
                   <span class="text-muted"><strong>Duration</strong> {{formatDuration(video.duration)}}</span>
                 </div>
                 </div>
                 <div id="menu1" class="container tab-pane fade"><br>
-                  <h3>Sharing data here</h3>
+                  <label>Embed Code</label>
+                  <textarea class="form-control" contenteditable="true"><iframe src="{{_coreUrl}}/embed/?key={{video.vkey}}" width="640" height="360" frameborder="0" allowfullscreen controls></iframe></textarea>
                 </div>
               </div>
             </div>

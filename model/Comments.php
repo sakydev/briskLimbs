@@ -7,9 +7,10 @@ class Comments {
   }
 
   function initialize() {
-    global $limbs, $users;
+    global $limbs, $users, $videos;
     $this->limbs = $limbs;
     $this->users = $users;
+    $this->videos = $videos;
     $this->database = $this->limbs->database;
     $this->table = 'comments';
     $this->KEYS = $this->database->getColumnsList($this->table);
@@ -38,8 +39,10 @@ class Comments {
       $params['userid'] = $this->users->userId();
       $params['username'] = $this->users->username();
       $params['comment'] = $comment;
-
-      return $this->database->insert($this->table, $params);
+      if ($this->database->insert($this->table, $params)) {
+        $this->videos->setComments($video);
+        return true;
+      }
     }
   }
 

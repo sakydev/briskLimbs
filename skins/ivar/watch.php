@@ -39,11 +39,10 @@ if ($related = $videos->list(array('keyword' => $video->title()))) {
 $actions->watched($vKey);
 
 $addedComments = $comments->list(array('vkey' => $vKey));
-$totalComments = count($addedComments);
 $parameters['video'] = $data;
 $parameters['related'] = $related;
 $parameters['comments'] = $addedComments;
-$parameters['totalComments'] = $totalComments;
+$parameters['totalComments'] = $video->comments();
 $parameters['_title'] = 'Watch ' . $video->title();
 $parameters['_section'] = 'watch';
 $limbs->display('watch.html', $parameters);
