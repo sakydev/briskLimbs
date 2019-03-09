@@ -7,6 +7,11 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-xs-12 col-sm-12">
+          {% if video.status != 'successful' %}
+            <div class="alert alert-warning">Video is either still processing or something went wrong</div>
+          {% elseif video.files is empty %}
+            <div class="alert alert-danger">No video files found, playing default video below</div>
+          {% endif %}
           <div class="card mb-4 box-shadow">
             {% include 'bricks/player.html' %}
           </div>
