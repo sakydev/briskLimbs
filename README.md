@@ -2,7 +2,7 @@
 A video sharing software created with both webmasters and developers in mind.
 
 ## Upcoming Release
-v1.0 Stable
+v1.0 Stable (March 15th, 2019)
 
 ## Table of contents
 
