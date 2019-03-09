@@ -56,3 +56,9 @@ function linkTag($url) {
 function scriptTag($url) {
 	return "<script type='text/javascript'>{$url}</script>";
 }
+
+function hook($function, $parameters = false) {
+	if (function_exists($function)) {
+		$function($parameters);
+	}
+}

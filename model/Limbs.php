@@ -144,11 +144,16 @@ class Limbs {
 	  $printHookExit = new \Twig\TwigFunction('pex', function ($array) {
 		  pex($array);
 	  });
+
+	  $hook = new \Twig\TwigFunction('hook', function ($function, $parameters = false) {
+		  hook($function, $parameters);
+	  });
 		
 		$this->twig->addFunction($durationHook);
 		$this->twig->addFunction($dateHook);
 	  $this->twig->addFunction($printHook);
 	  $this->twig->addFunction($printHookExit);
+	  $this->twig->addFunction($hook);
 
 		return true;
 	}
