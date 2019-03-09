@@ -11,6 +11,8 @@ $actions->initialize();
 $comments = new Comments();
 $comments->initialize();
 
+$ads = new Ads();
+
 if (isset($_POST['comment'])) {
   if ($comments->add($_POST['comment'], $_POST['video'])) {
     sendJsonResponse(array('status' => 'success', 'message' => 'Comment has been added'));
@@ -29,10 +31,18 @@ $files = new Files($video->filename(), $video->directory(), true);
 $data['thumbnail'] = $thumbnails->highest();
 $data['files'] = $files->get();
 
-if ($related = $videos->list(array('keyword' => $video->title()))) {
-  foreach ($related as $key => $vid) {
+if ($sidebar = $videos->list(array('keyword' => $video->title()))) {
+	$sidebarTitle = 'Similar Videos';
+  foreach ($sidebar as $key => $vid) {
     $thumbnails = new Thumbnails($vid['filename'], directory($vid['date']), true);
-    $related[$key]['thumbnail'] = $thumbnails->medium();
+    $sidebar[$key]['thumbnail'] = $thumbnails->medium();
+  }
+} else {
+	$sidebarTitle = 'Fresh Videos';
+	$sidebar = $videos->getFresh(8);
+  foreach ($sidebar as $key => $vid) {
+    $thumbnails = new Thumbnails($vid['filename'], directory($vid['date']), true);
+    $sidebar[$key]['thumbnail'] = $thumbnails->medium();
   }
 }
 
@@ -40,9 +50,13 @@ $actions->watched($vKey);
 
 $addedComments = $comments->list(array('vkey' => $vKey));
 $parameters['video'] = $data;
-$parameters['related'] = $related;
+$parameters['sidebarTitle'] = $sidebarTitle;
+$parameters['sidebar'] = $sidebar;
 $parameters['comments'] = $addedComments;
 $parameters['totalComments'] = $video->comments();
+
+$parameters['bannerAd'] = $ads->getByLocation('watch_banner');
+$parameters['sidebarAd'] = $ads->getByLocation('watch_sidebar');
 $parameters['_title'] = 'Watch ' . $video->title();
 $parameters['_section'] = 'watch';
 $limbs->display('watch.html', $parameters);

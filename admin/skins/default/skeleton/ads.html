@@ -1,0 +1,124 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style type="text/css">
+  .dropdown-menu li a {
+    padding: 8px 15px;
+    color: #5f5f5f;
+    font-size: 14px;
+    display: block;
+  }
+</style>
+
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+
+    <!-- content here -->
+    <div class="card">
+      <div class="card-body">
+        {% if action == 'list' %}
+          <h4 class="card-title">Ads Manager - List</h4>
+          <p class="card-description mb-2">Total: {{total}}</p>
+          {% if results %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for ad in results %}
+              <tr>
+                <td>{{ad.id}}</td>
+                <td>{{ad.name}}</td>
+                <td>{{ad.location}}</td>
+                <td><label class="mt-2 badge badge-{% if ad.status == 'active' %}success{% else %}danger{% endif %}">{{ad.status}}</label></td>
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      Actions
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% if ad.status == 'active' %}
+                        <li><a href="{{_adminUrl}}/ads/?action=list&deactivate={{ad.name}}">Deactivate</a></li>
+                      {% else %}
+                        <li><a href="{{_adminUrl}}/ads/?action=list&activate={{ad.name}}">Activate</a></li>
+                      {% endif %}
+                      <li class="divider"></li>
+                      <li><a href="{{_adminUrl}}/ads/?action=list&delete={{ad.name}}">Delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <div class="alert alert-warning">No results found</div>
+          {% endif %}
+        {% elseif action == 'create' %}
+          <h4 class="card-title mb-4">Ads Manager - Create</h4>
+          <form class="form-sample" name="create-ad" method="post">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Name</label>
+                <div class="col-sm-9">
+                  <input type="text" name="name" class="form-control" placeholder="Ad name" value="{{ad.name}}">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Location</label>
+                <div class="col-sm-9">
+                  <select name="location" class="form-control">
+                    <option value="home_banner">Home Banner 768x90</option>
+                    <option value="watch_banner">Watch Banner 768x90</option>
+                    <option value="watch_sidebar">Watch Sidebar 336x280</option>
+                    <option value="search_sidebar">Search Sidebar 300x600</option>
+                    <!-- <option value="custom">Custom</option> -->
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Content</label>
+                <div class="col-sm-10">
+                  <textarea name="content" class="form-control" rows="10" placeholder="Ad code goes here">{{ad.content}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-right">
+            <button type="submit" class="btn btn-gradient-primary btn-icon-text">
+              <i class="mdi mdi-file-check btn-icon-prepend"></i>
+              Submit
+            </button>
+          </div>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+{% endblock %}

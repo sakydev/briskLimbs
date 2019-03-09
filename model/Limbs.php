@@ -57,7 +57,8 @@ class Limbs {
 			'_cssDirectory' => $assetsDirectory . '/css',
 			'_cssUrl' => $assetsUrl . '/css',
 			'_imagesDirectory' => $assetsDirectory . '/images',
-			'_imagesUrl' => $assetsUrl . '/images'
+			'_imagesUrl' => $assetsUrl . '/images',
+			'_mediaUrl' => $this->coreUrl . '/media'
 		);
 	}
 

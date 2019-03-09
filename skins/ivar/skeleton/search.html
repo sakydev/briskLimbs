@@ -4,14 +4,24 @@
 <main role="main">
 
   <div class="album py-5 bg-light container">
-    <div class="col-lg-10 col-xs-12 col-sm-12"> 
+    {% if ad %}
+      <div class="col-lg-4 col-md-4 d-none d-sm-block float-right">
+        {% if ad.content == 'default' %}
+          <img class="" src="{{_coreUrl}}/media/defaults/ads/300x600.png" title="ad">
+        {% else %}
+          {{ad.content|raw}}
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12"> 
       <div class="mb-4 box-shadow">
         {% if results %}
           {% for video in results%}
-            <div class="single-video row">
-              <div class="col-lg-3 col-sm-6">
+            <div class="sidebar-video row">
+              <div class="col-lg-4 col-sm-8">
                 <div class="image-section">
-                  <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{video.thumbnail}}" width="100%" alt="" onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
+                  <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{video.thumbnail}}" width="100%" alt="" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';"></a>
                   <div class="time">{{formatDuration(video.duration)}}</div>
                 </div>
               </div>

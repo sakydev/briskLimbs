@@ -112,6 +112,19 @@
             </div>
           </li>
           <li class="nav-item">
+            <a class="nav-link" id="ads-section" data-toggle="collapse" href="#ads" aria-expanded="{% if mainSection =='ads' %}true{% else %}false{% endif %}" aria-controls="ads">
+              <span class="menu-title">Ads</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='ads' %}show{% endif %}" id="ads">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/ads/?action=create">Create</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/ads/?action=list">List</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" id="addons-section" data-toggle="collapse" href="#addons" aria-expanded="{% if mainSection =='addons' %}true{% else %}false{% endif %}" aria-controls="addons">
               <span class="menu-title">Addons</span>
               <i class="menu-arrow"></i>

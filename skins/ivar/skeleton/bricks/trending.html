@@ -1,12 +1,12 @@
-<div class="col-md-3">
+<div class="col-lg-3 col-md-4 col-sm-6">
   <div class="card card-custom mb-4 box-shadow">
     <div class="image-section">
-      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}"  onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
+      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}"  onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';" title="{{video.title}}"></a>
       <div class="time">{{formatDuration(video.duration)}}</div>
       <div class="views">{{video.views|number_format}}</div>
     </div>
     <div class="card-body card-body-custom">
-      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><h6 class="card-title">{{video.title}}</h6></a>
+      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><h6 class="video-title" title="{{video.title}}">{{video.trunc_title}}</h6></a>
       <div class="d-flex justify-content-between align-items-center">
         <small class="text-muted">by {{video.uploader_name}}</small>
         <small class="text-muted">{{formatDate(video.date)}}</small>

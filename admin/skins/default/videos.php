@@ -57,7 +57,7 @@ if (isset($_GET['delete'])) {
 		$parameters['message'] = sprintf("Video %s deleted successfully", $_GET['delete']);	
 	}
 }
-$size = 10;
+$size = 25;
 $list = isset($_GET['list']) ? $_GET['list'] : 'all';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $size;

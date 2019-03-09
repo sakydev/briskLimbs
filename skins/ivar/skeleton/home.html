@@ -3,19 +3,37 @@
 {% block content %}
     
 <div class="content-wrapper bg-light">
+  {% if ad %}
+    <div class="text-center">
+      {% if ad.content == 'default' %}
+        <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
+      {% else %}
+        {{ad.content|raw}}
+      {% endif %}
+    </div>
+  {% endif %}
   <h4>Trending</h4>
-  <div class="row">
-    {% for video in trending %}
-      {{ include('bricks/trending.html') }}
-    {% endfor %}
-  </div>
+  {% if trending %}
+    <div class="row">
+      {% for video in trending %}
+        {{ include('bricks/trending.html') }}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center"><div class="col-md-6 alert alert-warning">No videos found</div></div>
+  {% endif %}
 
   <h4>Fresh</h4>
-  <div class="row">
-    {% for video in fresh %}
-      {{ include('bricks/video.html') }}
-    {% endfor %}
-  </div>
+  {% if fresh %}
+    <div class="row">
+      {% for video in fresh %}
+        {{ include('bricks/video.html') }}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center"><div class="col-md-6 alert alert-warning">No videos found</div></div>
+  {% endif %}
+
 </div>
 <!-- content-wrapper ends -->
         

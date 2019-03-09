@@ -50,3 +50,13 @@
 .single-video {
   margin-bottom: 25px;
 }
+
+.sidebar-video {
+  margin-bottom: 15px;
+}
+
+.video-title {
+  color: #000;
+  font-family: "ubuntu-medium", sans-serif;
+
+}

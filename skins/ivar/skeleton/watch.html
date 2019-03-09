@@ -7,6 +7,14 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-xs-12 col-sm-12">
+          {% if bannerAd %}
+            {% if bannerAd.content == 'default' %}
+              <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
+            {% else %}
+              {{bannerAd.content|raw}}
+            {% endif %}
+          {% endif %}
+          
           {% if video.status != 'successful' %}
             <div class="alert alert-warning">Video is either still processing or something went wrong</div>
           {% elseif video.files is empty %}
@@ -91,18 +99,27 @@
         </div>
 
         <div class="right-side col-lg-4 col-xs-12 col-sm-12">
-          
-          <div class="mb-4 box-shadow">
-            {% for video in related %}
-              <div class="single-video row">
+          <div class="mb-2 video-title">{{sidebarTitle}}</div>
+          <div class="box-shadow">
+            {% for video in sidebar %}
+              {% if loop.index == 3 %}
+                {% if sidebarAd %}
+                  {% if sidebarAd.content == 'default' %}
+                    <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/336x280.png" title="ad">
+                  {% else %}
+                    {{sidebarAd.content|raw}}
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+              <div class="sidebar-video row">
                 <div class="col-lg-6 col-sm-6">
                   <div class="image-section">
-                    <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{video.thumbnail}}" width="100%" alt="" onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
+                    <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="thumbnail" src="{{video.thumbnail}}" width="100%" alt="" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';"></a>
                     <div class="time">{{formatDuration(video.duration)}}</div>
                   </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 video-info">
-                  <a href="{{_coreUrl}}/watch/{{video.vkey}}">{{video.title}}</a>
+                  <a href="{{_coreUrl}}/watch/{{video.vkey}}">{{video.title}}{{loop.index}}</a>
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted">by {{video.uploader_name}}</small>
                   </div>
@@ -112,6 +129,17 @@
                 </div>
                 <div class="clearfix"></div>
               </div>
+              {% if loop.length < 3 %}
+                {% if loop.last %}
+                  {% if sidebarAd %}
+                    {% if sidebarAd.content == 'default' %}
+                      <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/336x280.png" title="ad">
+                    {% else %}
+                      {{sidebarAd.content|raw}}
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              {% endif %}
             {% endfor %}
           </div>
         </div>
