@@ -155,7 +155,9 @@
           <script type="text/javascript" src="{{_jsUrl}}/plupload.full.min.js"></script>
           <script type="text/javascript" src="{{_jsUrl}}/upload.js"></script>
         {% elseif (_section == 'watch') or (_section == 'embed') %}
-          
+          <script src="{{_jsUrl}}/video-js/video.min.js"></script>
+          <script src="{{_jsUrl}}/video-js/videojs-resolution-switcher.js"></script>
+          <script src="{{_jsUrl}}/watch.js"></script>
         {% endif %}
       </footer>
     </div>

@@ -8,6 +8,17 @@ $videos->initialize();
 $actions = new Actions();
 $actions->initialize();
 
+$comments = new Comments();
+$comments->initialize();
+
+if (isset($_POST['comment'])) {
+  if ($comments->add($_POST['comment'], $_POST['video'])) {
+    sendJsonResponse(array('status' => 'success', 'message' => 'Comment has been added'));
+  } else {
+    sendJsonResponse(array('status' => 'error', 'message' => $limbs->errors->collect()));
+  }
+}
+
 $vKey = basename($_GET['request']);
 $video = new Video($vKey);
 $data = $video->fetch();
@@ -26,8 +37,13 @@ if ($related = $videos->list(array('keyword' => $video->title()))) {
 }
 
 $actions->watched($vKey);
+
+$addedComments = $comments->list(array('vkey' => $vKey));
+$totalComments = count($addedComments);
 $parameters['video'] = $data;
 $parameters['related'] = $related;
+$parameters['comments'] = $addedComments;
+$parameters['totalComments'] = $totalComments;
 $parameters['_title'] = 'Watch ' . $video->title();
 $parameters['_section'] = 'watch';
 $limbs->display('watch.html', $parameters);

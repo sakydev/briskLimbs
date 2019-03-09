@@ -43,3 +43,24 @@ var startsAt = "{if isset($smarty.get.starts)}{$smarty.get.starts|timeSeconds}{/
   currentQuality = false;
   videojs('video-player').videoJsResolutionSwitcher()
 })();
+
+$('#comment').on('click', function(e) {
+  e.preventDefault();
+  var vkey = $(this).attr('video'),
+  comment = $('#comment-box').val(),
+  username = $(this).attr('username');
+  var paramters = {'video': vkey, comment: comment};
+
+  $.post('watch', paramters, function (response) {
+    var response = $.parseJSON(response);
+    if (response.status == 'success') {
+      var msgClass = 'alert-success';
+    } else {
+      var msgClass = 'alert-danger';
+    }
+
+    $('.totalComments').text(parseInt($('.totalComments').text()) + 1);
+    $('#comment-messages').addClass(msgClass).text(response.message).fadeIn();
+    $('.all-comments').append('<tr><td><strong>' + username + '</strong></td><td>' + comment + '</td></tr>');
+  });
+});
