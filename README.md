@@ -1,5 +1,8 @@
-# briskLimbs (Stable Release: 15th March)
+# briskLimbs
 A video sharing software created with both webmasters and developers in mind.
+
+## Upcoming Release
+v1.0 Stable
 
 ## Table of contents
 
