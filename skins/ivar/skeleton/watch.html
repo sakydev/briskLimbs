@@ -47,7 +47,7 @@
           </div>
           <div class="comments-section">
               <h6 class="card-title">Comments (<span class="totalComments">{{totalComments}}</span>)</h6>
-              <div class="alert" id="comment-messages"></div>
+              <div class="alert" id="comment-messages" style="display: none"></div>
               {% if _auth.username %}
                 <form name="comments-section">
                   <textarea id="comment-box" class="form-control" resize placeholder="Say something inspiring" rows="5"></textarea>
