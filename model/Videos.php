@@ -311,7 +311,7 @@ class Videos {
 				$directory = $directories['combination'];
 				$extension = getExtension($temporaryPath);
 
-				$command = '/usr/bin/php ' . DAEMONS_DIRECTORY . "/conversion.php  filename=$filename directory=$directory extension=$extension > /dev/null 2>&1 &";
+				$command = $this->limbs->settings->get('php') . ' ' . DAEMONS_DIRECTORY . "/conversion.php  filename=$filename directory=$directory extension=$extension > /dev/null 2>&1 &";
 				# exit($commmand);
 	      shell_exec($command);
 

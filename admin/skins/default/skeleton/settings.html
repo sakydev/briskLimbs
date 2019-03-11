@@ -18,54 +18,26 @@
         <h4 class="card-title mb-5">General Settings</h4>
         <form class="form-sample" name="general-settings" method="post">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Title</label>
-                <div class="col-sm-9">
+                <label class="col-sm-12 col-form-label">Title</label>
+                <div class="col-sm-12">
                   <input type="text" name="title" class="form-control" placeholder="Website title" value="{{settings.title}}" />
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Title Separator</label>
-                <div class="col-sm-9">
+                <label class="col-sm-12 col-form-label">Title Separator</label>
+                <div class="col-sm-12">
                   <input type="text" name="title_separator" class="form-control" placeholder="Character to separate website and page title" value="{{settings.title_separator}}" />
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Description</label>
-                <div class="col-sm-9">
-                  <textarea name="description" class="form-control" rows="6" placeholder="Website description here"/>{{settings.description}}</textarea>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Public Message</label>
-                <div class="col-sm-9">
-                  <textarea name="public_message" class="form-control" rows="6" placeholder="Anything you want to display on each page" />{{settings.public_message}}</textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Upload Message</label>
-                <div class="col-sm-9">
-                  <textarea name="upload_message" class="form-control" rows="6" placeholder="Message to display on upload page" />{{settings.upload_message}}</textarea>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Allow Uploads</label>
-                <div class="col-sm-9">
+                <label class="col-sm-12 col-form-label">Allow Uploads</label>
+                <div class="col-sm-12">
                   <select name="uploads" class="form-control">
                     <option value="no" {% if settings.uploads == 'no' %}selected="selected"{% endif %}>No</option>
                     <option value="yes" {% if settings.uploads == 'yes' %}selected="selected"{% endif %}>Yes</option>
@@ -73,10 +45,10 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Allow Signups</label>
-                <div class="col-sm-9">
+                <label class="col-sm-12 col-form-label">Allow Signups</label>
+                <div class="col-sm-12">
                   <select name="signups" class="form-control">
                     <option value="no" {% if settings.signups == 'no' %}selected="selected"{% endif %}>No</option>
                     <option value="yes" {% if settings.signups == 'yes' %}selected="selected"{% endif %}>Yes</option>
@@ -85,7 +57,110 @@
               </div>
             </div>
           </div>
-
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Description</label>
+                <div class="col-sm-12">
+                  <textarea name="description" class="form-control" rows="6" placeholder="Website description here"/>{{settings.description}}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Allow Comments</label>
+                <div class="col-sm-12">
+                  <select name="comments" class="form-control">
+                    <option value="no" {% if settings.comments == 'no' %}selected="selected"{% endif %}>No</option>
+                    <option value="yes" {% if settings.comments == 'yes' %}selected="selected"{% endif %}>Yes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Allow Embeds</label>
+                <div class="col-sm-12">
+                  <select name="embeds" class="form-control">
+                    <option value="no" {% if settings.embeds == 'no' %}selected="selected"{% endif %}>No</option>
+                    <option value="yes" {% if settings.embeds == 'yes' %}selected="selected"{% endif %}>Yes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Public Message</label>
+                <div class="col-sm-12">
+                  <textarea name="public_message" class="form-control" rows="6" placeholder="Anything you want to display on each page" />{{settings.public_message}}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Upload Message</label>
+                <div class="col-sm-12">
+                  <textarea name="upload_message" class="form-control" rows="6" placeholder="Message to display on upload page" />{{settings.upload_message}}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">PHP Path</label>
+                <div class="col-sm-12">
+                  <input type="text" name="php" class="form-control" placeholder="/usr/bin/php" value="{{settings.php}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">FFMPEG Path</label>
+                <div class="col-sm-12">
+                  <input type="text" name="ffmpeg" class="form-control" placeholder="/usr/bin/ffmpeg" value="{{settings.ffmpeg}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">FFPROBE Path</label>
+                <div class="col-sm-12">
+                  <input type="text" name="ffprobe" class="form-control" placeholder="/usr/bin/ffprobe" value="{{settings.ffprobe}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Fresh</label>
+                <div class="col-sm-12">
+                  <input type="text" name="fresh" class="form-control" placeholder="Number of home fresh" value="{{settings.fresh}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Trending</label>
+                <div class="col-sm-12">
+                  <input type="text" name="trending" class="form-control" placeholder="Number of home trending" value="{{settings.trending}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Search</label>
+                <div class="col-sm-12">
+                  <input type="text" name="search" class="form-control" placeholder="Number of search results" value="{{settings.search}}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Related</label>
+                <div class="col-sm-12">
+                  <input type="text" name="related" class="form-control" placeholder="Number of watch related" value="{{settings.related}}" />
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="float-right">
             <button type="submit" name="settings" type="button" class="btn btn-gradient-primary btn-icon-text">
               <i class="mdi mdi-file-check btn-icon-prepend"></i>

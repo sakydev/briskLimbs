@@ -5,8 +5,11 @@
 */
 class Conversion {
   
-  function __construct($ffmpeg, $filename, $directory, $path, $logs) {
-    $this->ffmpeg = $ffmpeg;
+  function __construct($filename, $directory, $path, $logs) {
+    global $settings;
+    $this->settings = $settings; 
+    $this->ffmpeg = $this->settings->get('ffmpeg');
+    $this->ffprobe = $this->settings->get('ffprobe');
     $this->filename = $filename;
     $this->directory = $directory; // e.g 2017/04/28
     $this->path = $path;
@@ -22,7 +25,7 @@ class Conversion {
   }
 
   private function details($path, $jsonDecode = true) {
-    $command = "/usr/bin/ffprobe -v quiet -print_format json -show_format -show_streams $path";
+    $command = "$this->ffprobe -v quiet -print_format json -show_format -show_streams $path";
     $details = shell_exec($command);
     if ($jsonDecode) {
       return json_decode($details, true)['streams'];
@@ -32,7 +35,7 @@ class Conversion {
   }
 
   private function duration($path) {
-    $command = "/usr/bin/ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path";
+    $command = "$this->ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path";
     $duration = shell_exec($command);
     if (is_numeric(trim($duration))) {
       return $duration;

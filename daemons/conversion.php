@@ -1,11 +1,18 @@
 <?php
 
+ini_set('display_errors', 'On');
+error_reporting(-1);
 require_once '/var/www/html/limbs/config.php';
 require MODEL_DIRECTORY . '/Conversion.php';
 require MODEL_DIRECTORY . '/Logs.php';
 
+global $database;
+
+$settings = new Settings($database);
+$settings->initialize();
+
 if (count($argv) >=2 ) {
-	foreach ($argv as $key => $argument) {
+  foreach ($argv as $key => $argument) {
     if (strstr($argument, '=')) {
       $crumbs = array_filter(explode('=', $argument));
       if (isset($crumbs[0]) && isset($crumbs[1])) {
@@ -16,13 +23,12 @@ if (count($argv) >=2 ) {
     }
   }
 
-  $ffmpegPath = '/usr/bin/ffmpeg';
   $base = $directory . '/' . $filename;
   $path = TEMPORARY_DIRECTORY . '/' . $base . '.' . $extension;
   $log = LOGS_DIRECTORY . '/' . $base . '.log';
   $logs = new Logs($log);
   $logs->initialize();
-  $conversion = new Conversion($ffmpegPath, $filename, $directory, $path, $logs);
+  $conversion = new Conversion($filename, $directory, $path, $logs);
   $results = $conversion->process();
 
   $status = 'successful';
@@ -42,7 +48,6 @@ if (count($argv) >=2 ) {
 
   $fields = array('duration' => $duration, 'status' => $status, 'qualities' => $qualities);
   
-  global $database;
   $videos = new Videos();
   $videos->initialize($database);
   $videos->multipleSet($fields, 'filename', $filename);

@@ -3,11 +3,10 @@
 ini_set('display_errors', 'On');
 error_reporting(-1);
 
-if (!file_exists('configs/db.php')) {
+if (!file_exists(__DIR__ . '/configs/db.php')) {
   header("Location: installer/install.php");
   exit;
 }
-
 require 'configs/constants.php';
 require 'configs/db.php';
 require 'helpers/devFunctions.php';

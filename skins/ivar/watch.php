@@ -41,7 +41,8 @@ if ($files = $files->get()) {
   $parameters['defaultFiles'] = true;
 }
 
-if ($sidebar = $videos->list(array('keyword' => $video->title()))) {
+$sidebarLimit = $limbs->settings->get('related');
+if ($sidebar = $videos->list(array('keyword' => $video->title(), 'limit' => $sidebarLimit))) {
 	$sidebarTitle = 'Similar Videos';
   foreach ($sidebar as $key => $vid) {
     $thumbnails = new Thumbnails($vid['filename'], directory($vid['date']), true);
@@ -49,7 +50,7 @@ if ($sidebar = $videos->list(array('keyword' => $video->title()))) {
   }
 } else {
 	$sidebarTitle = 'Fresh Videos';
-	$sidebar = $videos->getFresh(8);
+	$sidebar = $videos->getFresh($sidebarLimit);
   foreach ($sidebar as $key => $vid) {
     $thumbnails = new Thumbnails($vid['filename'], directory($vid['date']), true);
     $sidebar[$key]['thumbnail'] = $thumbnails->medium();

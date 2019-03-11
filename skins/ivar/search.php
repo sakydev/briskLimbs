@@ -11,7 +11,7 @@ if (isset($_GET['keyword'])) {
 	$keyword = $_GET['keyword'];
 }
 
-$size = 10;
+$size = $limbs->settings->get('search');
 $list = isset($_GET['list']) ? $_GET['list'] : 'all';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $size;

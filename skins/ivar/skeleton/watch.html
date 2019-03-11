@@ -68,13 +68,16 @@
                     <a href="https://plus.google.com/share?url={{videoUrl}}"><button type="button" class="btn btn-social-icon-text btn-google"><i class="mdi mdi-google"></i>Google</button></a>
                     <a href="http://reddit.com/submit?url={{videoUrl|url_encode}}&title={$videoDetails.title}"><button type="button" class="btn btn-social-icon-text btn-reddit"><i class="mdi mdi-reddit"></i>Reddit</button></a>
                   </div>
-                  <label>Embed Code</label>
-                  <textarea class="form-control" contenteditable="true"><iframe src="{{_coreUrl}}/embed/?key={{video.vkey}}" width="640" height="360" frameborder="0" allowfullscreen controls></iframe></textarea>
+                  {% if settings.embeds == 'yes' %}
+                    <label>Embed Code</label>
+                    <textarea class="form-control" contenteditable="true"><iframe src="{{_coreUrl}}/embed/?key={{video.vkey}}" width="640" height="360" frameborder="0" allowfullscreen controls></iframe></textarea>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
           <div class="comments-section">
+            {% if settings.comments == 'yes' %}
               <h6 class="card-title">Comments (<span class="totalComments">{{totalComments}}</span>)</h6>
               <div class="alert" id="comment-messages" style="display: none"></div>
               {% if _auth.username %}
@@ -97,6 +100,9 @@
                   {% endfor %}
                 </tbody>
               </table>
+            {% else %}
+              <div class="alert alert-danger">Comments at this website are disabled.</div>
+            {% endif %}
           </div>
         </div>
 
