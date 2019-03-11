@@ -9,6 +9,12 @@ if (!$users->isAdmin()) {
 
 if (isset($_POST['settings'])) {
 	unset($_POST['settings']);
+  $qualities = array('240', '360', '480', '720', '1080');
+  foreach ($qualities as $key => $value) {
+    $checkKey = "quality_{$value}";
+    $_POST[$checkKey] = isset($_POST[$checkKey]) ? 'yes' : 'no';
+  }
+
 	if ($settings->bulkSet($_POST)) {
 		$parameters['message'] = 'Settings updated successfully';
 	} else {

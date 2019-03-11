@@ -77,6 +77,7 @@ class Conversion {
     );
     $possibleQualities = array();
     foreach ($basicQualities as $quality) {
+      if ($this->settings->get("quality_{$quality}") != 'yes') { continue; }
       if ($quality <= $videoHeight) {
         $finalDimensions = $dimensions[$quality];
         if ($finalDimensions['width'] > $videoWidth) {
