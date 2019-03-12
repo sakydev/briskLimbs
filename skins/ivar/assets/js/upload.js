@@ -3,7 +3,7 @@ editUploadForm = $('#edit-upload-details');
 
 var uploader = new plupload.Uploader({
   browse_button: 'upload-file', // this can be an id of a DOM element or the DOM element itself
-  url: 'http://localhost/limbs/upload',
+  url: $('#upload-section').attr('uploadUrl'),
   file_data_name : "uploadMedia",
   filters: {
     mime_types : [
