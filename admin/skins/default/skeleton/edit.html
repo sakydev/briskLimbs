@@ -89,6 +89,17 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Comments</label>
+                <div class="col-sm-12">
+                  <select name="allow_comments" class="form-control">
+                    <option value="1" {% if video.allow_comments == '1' %}selected="selected"{% endif %}>Yes</option>
+                    <option value="0" {% if video.allow_comments == '0' %}selected="selected"{% endif %}>No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="float-right">

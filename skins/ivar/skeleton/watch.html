@@ -78,28 +78,32 @@
           </div>
           <div class="comments-section">
             {% if settings.comments == 'yes' %}
-              <h6 class="card-title">Comments (<span class="totalComments">{{totalComments}}</span>)</h6>
-              <div class="alert" id="comment-messages" style="display: none"></div>
-              {% if _auth.username %}
-                <form name="comments-section">
-                  <textarea id="comment-box" class="form-control" resize placeholder="Say something inspiring {{_auth.username|title}}" rows="5"></textarea>
-                  <button id="comment" video="{{video.vkey}}" username="{{_auth.username}}" class="btn btn-primary btn-gradient-primary float-right mt-1">Comment</button>
-                </form>
-              {% else %}
-                <div class="alert alert-danger">Signin to comment</div>
-              {% endif %}
+              {% if video.allow_comments %}
+                <h6 class="card-title">Comments (<span class="totalComments">{{totalComments}}</span>)</h6>
+                <div class="alert" id="comment-messages" style="display: none"></div>
+                {% if _auth.username %}
+                  <form name="comments-section">
+                    <textarea id="comment-box" class="form-control" resize placeholder="Say something inspiring {{_auth.username|title}}" rows="5"></textarea>
+                    <button id="comment" video="{{video.vkey}}" username="{{_auth.username}}" class="btn btn-primary btn-gradient-primary float-right mt-1">Comment</button>
+                  </form>
+                {% else %}
+                  <div class="alert alert-danger">Signin to comment</div>
+                {% endif %}
 
-              <div class="clearfix"></div>
-              <table class="table table-bordered mt-3">
-                <tbody class="all-comments">
-                  {% for comment in comments %}
-                    <tr>
-                      <td><strong>{{comment.username|title}}</strong></td>
-                      <td>{{comment.comment}}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+                <div class="clearfix"></div>
+                <table class="table table-bordered mt-3">
+                  <tbody class="all-comments">
+                    {% for comment in comments %}
+                      <tr>
+                        <td><strong>{{comment.username|title}}</strong></td>
+                        <td>{{comment.comment}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="alert alert-danger">Comments are disabled for this video.</div>
+              {% endif %}
             {% else %}
               <div class="alert alert-danger">Comments at this website are disabled.</div>
             {% endif %}

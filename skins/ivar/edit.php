@@ -27,7 +27,7 @@ $parameters['dashSection'] = 'videos';
 $parameters['video'] = empty($data) ? $videos->get($key) : $data;
 $parameters['_errors'] = $limbs->errors->collect();
 
-if (!$videos->owns($users->username(), $key)) {
+if (!$videos->validatePermissions($key)) {
   $limbs->displayErrorPage($parameters, "You don't have permissions to edit this video");
 } else {
   $limbs->display('edit.html', $parameters);
