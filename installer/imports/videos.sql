@@ -1,27 +1,31 @@
--- MySQL dump 10.16  Distrib 10.1.37-MariaDB, for Win32 (AMD64)
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1deb2ubuntu2.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost    Database: limbs
--- ------------------------------------------------------
--- Server version	10.1.37-MariaDB
+-- Host: localhost
+-- Generation Time: Mar 12, 2019 at 06:52 PM
+-- Server version: 5.7.25-0ubuntu0.16.04.2
+-- PHP Version: 7.0.33-0ubuntu0.16.04.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `limbs`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `videos`
 --
 
-DROP TABLE IF EXISTS `videos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `videos` (
   `id` int(11) NOT NULL,
   `vkey` varchar(10) NOT NULL,
@@ -31,29 +35,38 @@ CREATE TABLE `videos` (
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
+  `scope` enum('public','private','unlist') NOT NULL,
   `status` enum('pending','failed','successful') DEFAULT 'pending',
   `qualities` varchar(20) NOT NULL,
   `duration` int(11) NOT NULL,
   `thumbnails_count` int(11) NOT NULL,
   `views` int(11) NOT NULL,
   `comments` int(5) NOT NULL,
-  `state` enum('active','inactive','disabled') DEFAULT 'active',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `video_key` (`vkey`),
-  FULLTEXT KEY `title` (`title`,`description`)
+  `allow_comments` int(1) NOT NULL DEFAULT '1',
+  `state` enum('active','inactive','disabled') DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `videos`
+-- Indexes for dumped tables
 --
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Indexes for table `videos`
+--
+ALTER TABLE `videos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `video_key` (`vkey`);
+ALTER TABLE `videos` ADD FULLTEXT KEY `title` (`title`,`description`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `videos`
+--
+ALTER TABLE `videos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2019-03-10  0:11:06
