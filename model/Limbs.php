@@ -86,7 +86,8 @@ class Limbs {
 
 	public function displayErrorPage($parameters, $message) {
 		$parameters['messages'] = array($message);
-		return $this->display('blank.html', $parameters);
+		$this->display('blank.html', $parameters);
+		exit;
 	}
 
 	public function stretch($page) {

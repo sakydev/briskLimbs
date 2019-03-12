@@ -1,6 +1,6 @@
 <?php
 
-global $limbs;
+global $limbs, $users;
 
 $videos = new Videos();
 $videos->initialize();
@@ -24,6 +24,10 @@ if (isset($_POST['comment'])) {
 $vKey = basename($_GET['request']);
 $video = new Video($vKey);
 $data = $video->fetch();
+
+if (!$users->isAdmin() && $video->isPrivate() && $video->uploaderName() != $users->username()) {
+  $limbs->displayErrorPage(array(), 'This video is private');
+}
 
 $thumbnails = new Thumbnails($video->filename(), $video->directory(), true);
 $files = new Files($video->filename(), $video->directory(), true);

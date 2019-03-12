@@ -70,7 +70,7 @@ if (isset($_GET['advanced-search'])) {
 
 # pr($listParameters);
 $listParameters['limit'] = $limit;
-$listParameters['username'] = $users->username();
+$listParameters['uploader_name'] = $users->username();
 $results = $videos->list($listParameters);
 foreach ($results as $key => $video) {
   $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);

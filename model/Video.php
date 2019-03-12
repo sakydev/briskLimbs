@@ -18,6 +18,10 @@ class Video extends Videos {
 		return $this->data['title'];
 	}
 
+	public function uploaderName() {
+		return $this->data['uploader_name'];
+	}
+
 	public function duration() {
 		return $this->data['duration'];
 	}
@@ -40,5 +44,17 @@ class Video extends Videos {
 
 	public function comments() {
 		return $this->data['comments'];
+	}
+
+	public function scope() {
+		return $this->data['scope'];
+	}
+
+	public function isPublic() {
+		return $this->scope() == 'public' ? true : false;
+	}
+
+	public function isPrivate() {
+		return $this->scope() == 'private' ? true : false;
 	}
 }

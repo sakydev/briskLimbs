@@ -108,6 +108,14 @@ class Videos {
 
 	public function list($parameters = false) {
 		if (is_array($parameters)) {
+			if (!$this->users->isAdmin()) {
+				$parameters['state'] = isset($parameters['state']) ? $parameters['state'] : 'active';
+				$parameters['status'] = isset($parameters['status']) ? $parameters['status'] : 'successful';
+
+				if (!isset($parameters['uploader_name']) && !isset($parameters['uploader_id'])) {
+					$parameters['scope'] = 'public';
+				}
+			}
 			foreach ($parameters as $column => $condition) {
 				if (in_array($column, $this->KEYS)) {
 					if (is_array($condition)) {
@@ -140,16 +148,12 @@ class Videos {
 
 	public function getTrending($limit, $parameters = array()) {
 		$parameters['sort'] = 'views';
-		$parameters['state'] = 'active';
-		$parameters['status'] = 'successful';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
 	public function getFresh($limit, $parameters = array()) {
 		$parameters['sort'] = 'date';
-		$parameters['state'] = 'active';
-		$parameters['status'] = 'successful';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
@@ -222,7 +226,7 @@ class Videos {
   }
 	
 	public function validatePermissions($video) {
-		if ($this->users->isAdmin() || $this->owns($video)) {
+		if ($this->users->isAdmin() || $this->owns($this->users->username(), $video)) {
 			return true;
 		}
 	}

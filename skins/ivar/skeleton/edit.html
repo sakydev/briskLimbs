@@ -24,7 +24,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="form-group row">
                 <label class="col-sm-6 col-form-label">State</label>
                 <div class="col-sm-12">
@@ -32,6 +32,18 @@
                     <option value="active" {% if video.state == 'active' %}selected="selected"{% endif %}>Active</option>
                     <option value="inactive" {% if video.state == 'inactive' %}selected="selected"{% endif %}>Inactive</option>
                     <option value="disabled" {% if video.state == 'disabled' %}selected="selected"{% endif %}>Disabled</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Scope</label>
+                <div class="col-sm-12">
+                  <select name="scope" class="form-control">
+                    <option value="public" {% if video.scope == 'public' %}selected="selected"{% endif %}>Public</option>
+                    <option value="private" {% if video.scope == 'private' %}selected="selected"{% endif %}>Private</option>
+                    <option value="unlist" {% if video.scope == 'unlist' %}selected="selected"{% endif %}>Unlisted</option>
                   </select>
                 </div>
               </div>
