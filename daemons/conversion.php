@@ -2,7 +2,8 @@
 
 ini_set('display_errors', 'On');
 error_reporting(-1);
-require_once '/var/www/html/limbs/config.php';
+
+require_once dirname(__DIR__) . '/config.php';
 require MODEL_DIRECTORY . '/Conversion.php';
 require MODEL_DIRECTORY . '/Logs.php';
 
