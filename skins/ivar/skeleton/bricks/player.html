@@ -11,3 +11,10 @@
   </video>
 </center>
 </div>
+
+{% if _section == 'embed' %}
+  <script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
+  <script src="{{_jsUrl}}/video-js/video.min.js"></script>
+  <script src="{{_jsUrl}}/video-js/videojs-resolution-switcher.js"></script>
+  <script src="{{_jsUrl}}/watch.js"></script>
+{% endif %}
