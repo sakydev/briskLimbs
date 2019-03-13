@@ -142,6 +142,7 @@ class Users {
 	public function create($fields) {
 		if ($this->validate($fields)) {
 			$fields['password'] = $this->securePassword($fields['password']);
+			$fields['status'] = 'ok';
 			return $this->database->insert($this->table, $fields);
 		}
 	}
