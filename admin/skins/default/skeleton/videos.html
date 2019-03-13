@@ -157,8 +157,8 @@
                     <div class="time">{{formatDuration(video.duration)}}</div>
                   </div>
                 </td>
-	              <td>
-	              	{{video.title}}
+	              <td title="{{video.title}}">
+	              	{{video.truc_title}}
 	              	<span class="clearfix"></span>
                   <label class="mt-2 badge badge-dark">{{video.views|number_format}}</label>
 	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}">{{video.status|title}}</label>
