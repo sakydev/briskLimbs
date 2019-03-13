@@ -77,7 +77,7 @@ $('#finish-upload').on('click', function(e) {
 
   paramters = {update: videoId, title: title, description: description};
 
-  $('#finish-upload').text('Updating..');
+  $('#finish-upload').attr('disabled', true).text('Updating..');
   $.post('upload', paramters, function (response) {
     var response = $.parseJSON(response);
     if (response.status == 'success') {
@@ -86,7 +86,7 @@ $('#finish-upload').on('click', function(e) {
       var msgClass = 'danger';
     }
 
-    $('#finish-upload').text('Update');
+    $('#finish-upload').attr('disabled', false).text('Update');
     $('#upload-messages').addClass(msgClass).text(response.message).fadeIn();
   });
 });
