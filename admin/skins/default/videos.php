@@ -120,7 +120,7 @@ $results = $videos->list($listParameters);
 foreach ($results as $key => $video) {
 	$thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
 	$results[$key]['thumbnail'] = $thumbnails->medium();
-	$results[$key]['truc_title'] = substr($results[$key]['title'], 0, 38) . ' ..';
+	$results[$key]['truc_title'] = substr($results[$key]['title'], 0, 38);
 }
 
 $totalFound = count($results);
