@@ -161,14 +161,14 @@
 	              	{{video.truc_title}}
 	              	<span class="clearfix"></span>
                   <label class="mt-2 badge badge-dark">{{video.views|number_format}}</label>
-	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}">{{video.status|title}}</label>
+	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}" title="{% if video.status == 'successful'%}{{video.qualities}}{% endif %}">{{video.status|title}}</label>
 	              	<label class="badge badge-{% if video.state == 'active' %}success{% elseif video.state == 'inactive' %}warning{% else %}danger{% endif %}">{{video.state|title}}</label>
                   {% if video.featured  == 'yes' %}
                     <label class="badge badge-primary">Featured</label>
                   {% endif %}
 	              </td>
 	              <td>{{video.uploader_name}}</td>
-	              <td><label class="badge badge-default">{{formatDate(video.date)}}</label></td>
+	              <td><label class="badge badge-default" title="{{video.date}}">{{formatDate(video.date)}}</label></td>
 	              <td>
 	              	<div class="dropdown">
 						        <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
