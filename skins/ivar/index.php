@@ -6,6 +6,13 @@ $videos->initialize();
 
 $ads = new Ads();
 
+$featured = $videos->list(array('featured' => 'yes'));
+foreach ($featured as $key => $video) {
+  $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
+  $featured[$key]['thumbnail'] = $thumbnails->medium();
+  $featured[$key]['trunc_title'] = substr($featured[$key]['title'], 0, 38) . ' ..';
+}
+
 $trending = $videos->getTrending($limbs->settings->get('trending'));
 foreach ($trending as $key => $video) {
   $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
@@ -22,6 +29,7 @@ foreach ($fresh as $key => $video) {
 
 $parameters['ad'] = $ads->getByLocation('home_banner');
 $parameters['_title'] = 'Home';
+$parameters['featured'] = $featured;
 $parameters['trending'] = $trending;
 $parameters['fresh'] = $fresh;
 $limbs->display('home.html', $parameters);

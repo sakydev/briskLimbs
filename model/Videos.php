@@ -255,6 +255,22 @@ class Videos {
 		return $this->bulkSet('state', 'inactive', $videosArray, $identifier);
 	}
 
+	public function feature($video) {
+		if (!$this->validatePermissions($video)) {
+			return $this->limbs->errors->add("You don't have permissions to feature $video");
+		}
+
+		return $this->set('featured', 'yes', $video, $this->detectIdentifier($video));
+	}
+
+
+	public function unfeature($video) {
+		if (!$this->validatePermissions($video)) {
+			return $this->limbs->errors->add("You don't have permissions to unfeature $video");
+		}
+
+		return $this->set('featured', 'no', $video, $this->detectIdentifier($video));
+	}
 
 	public function bulkDelete($videosArray) {
 		foreach ($videosArray as $key => $video) {

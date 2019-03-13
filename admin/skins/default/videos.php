@@ -40,6 +40,20 @@ if (isset($_POST['bulk-action'])) {
 	}
 }
 
+
+
+if (isset($_GET['unfeature'])) {
+	if ($videos->unfeature($_GET['unfeature'])) {
+		$parameters['message'] = sprintf("Video %s unfeatured successfully", $_GET['unfeature']);
+	}
+}
+
+if (isset($_GET['feature'])) {
+	if ($videos->feature($_GET['feature'])) {
+		$parameters['message'] = sprintf("Video %s featured successfully", $_GET['feature']);
+	}
+}
+
 if (isset($_GET['deactivate'])) {
 	if ($videos->deactivate($_GET['deactivate'])) {
 		$parameters['message'] = sprintf("Video %s deactivated successfully", $_GET['deactivate']);
@@ -73,6 +87,9 @@ switch ($list) {
 	case 'active':
 	case 'inactive':
 		$listParameters['state'] = $list;
+		break;
+	case 'featured':
+		$listParameters['featured'] = 'yes';
 		break;
 	case 'successful':
 	case 'pending':

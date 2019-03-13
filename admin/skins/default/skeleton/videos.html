@@ -153,7 +153,7 @@
 	              <td>{{video.id}}</td>
 	              <td>
                   <div class="image-section">
-                    <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
+                    <a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
                     <div class="time">{{formatDuration(video.duration)}}</div>
                   </div>
                 </td>
@@ -163,6 +163,9 @@
                   <label class="mt-2 badge badge-dark">{{video.views|number_format}}</label>
 	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}">{{video.status|title}}</label>
 	              	<label class="badge badge-{% if video.state == 'active' %}success{% elseif video.state == 'inactive' %}warning{% else %}danger{% endif %}">{{video.state|title}}</label>
+                  {% if video.featured  == 'yes' %}
+                    <label class="badge badge-primary">Featured</label>
+                  {% endif %}
 	              </td>
 	              <td>{{video.uploader_name}}</td>
 	              <td><label class="badge badge-default">{{formatDate(video.date)}}</label></td>
@@ -174,6 +177,12 @@
 						        </button>
 						        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                       <li><a href="{{_adminUrl}}/log/?key={{video.vkey}}">Log</a></li>
+                      {% if video.featured == 'yes' %}
+                        <li><a href="{{urlBase}}&unfeature={{video.vkey}}">Unfeatured</a></li>
+                      {% else %}
+                        <li><a href="{{urlBase}}&feature={{video.vkey}}">Featured</a></li>
+                      {% endif %}
+
 						        	{% if video.state == 'active' %}
 						          	<li><a href="{{urlBase}}&deactivate={{video.vkey}}">Deactivate</a></li>
 						          {% else %}
