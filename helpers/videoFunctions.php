@@ -21,11 +21,11 @@ function formatDuration($seconds) {
 }
 
 function formatDate($date, $postfix = 'ago') {
-	$descriptions = array('y' => 'year', 'm' => 'month', 'd' => 'day', 'h' => 'hour', 'm' => 'minute', 's' => 'second');
+	$descriptions = array('y' => 'year', 'm' => 'month', 'd' => 'day', 'h' => 'hour', 'i' => 'minute', 's' => 'second');
 	$published = new DateTime($date);
 	$dateNow = new DateTime(date("Y-m-d H:i:s"));
 	$interval = $published->diff($dateNow);
-	
+
 	foreach ($descriptions as $key => $value) {
 		if (!empty($interval->$key)) {
 			$span = $interval->$key;
