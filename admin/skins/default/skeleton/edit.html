@@ -54,7 +54,7 @@
                 <label class="col-sm-8 col-form-label">Status</label>
                 <div class="col-sm-12">
                   <select name="status" class="form-control">
-                    <option value="successul" {% if video.status == 'successful' %}selected="selected"{% endif %}>Successful</option>
+                    <option value="successful" {% if video.status == 'successful' %}selected="selected"{% endif %}>Successful</option>
                     <option value="pending" {% if video.status == 'pending' %}selected="selected"{% endif %}>Pending</option>
                     <option value="failed" {% if video.status == 'failed' %}selected="selected"{% endif %}>Failed</option>
                   </select>
