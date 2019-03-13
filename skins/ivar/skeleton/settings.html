@@ -4,19 +4,19 @@
 
 <div class="content-wrapper bg-light">
   <div class="col-12 grid-margin">
-    {% if message %}
-      <div class="alert alert-success">{{message}}</div>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{message}}</div>
+      {% endfor %}
     {% endif %}
 
     {% for error in _errors %}
       <div class="alert alert-danger">{{error}}</div>
     {% endfor %}
     <div class="card">
-
       <div class="card-body">
-       
         <h4 class="card-title mb-5">General Settings</h4>
-        <form class="form-sample" name="general-settings" method="post">
+        <form class="form-sample" name="general-settings" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
@@ -65,6 +65,27 @@
                 <label class="col-sm-6 col-form-label">Confirm Password</label>
                 <div class="col-sm-9">
                   <input type="password" name="confirm_password" class="form-control" placeholder="****" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Profile Picture</label>
+                <div class="col-sm-6">
+                  <img src="{{_auth.avatar}}" width="100" height="100">
+                  <input type="file" name="avatar" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Channel Cover</label>
+                <div class="col-sm-6">
+                  <img src="{{_auth.cover}}" width="400">
+                  <input type="file" name="cover" class="form-control" />
                 </div>
               </div>
             </div>

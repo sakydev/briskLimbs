@@ -22,7 +22,10 @@ class Users {
 		$this->defaultLimit = 10;
 
 		if ($this->username()) {
-			$limbs->addTemplateParameter('_auth', $this->getByUsername($this->username(), $this->basicKeys));
+			$details = $this->getByUsername($this->username(), $this->basicKeys);
+			$details['avatar'] = $this->getAvatar($this->username());
+			$details['cover'] = $this->getCover($this->username());
+			$limbs->addTemplateParameter('_auth', $details);
 		}
 	}
 
@@ -127,6 +130,12 @@ class Users {
 		$this->database->where('username', $user);
 		$this->database->orWhere('id', $user);
 		return $this->database->get($this->table, 1, $fields ? $fields : $this->KEYS);
+	}
+
+	public function getField($identifier, $field) {
+		$this->database->where($this->detectIdentifier($identifier), $identifier);
+		$results = $this->database->get($this->table, null, array($field));
+		return isset($results['0'][$field]) ? $results['0'][$field] : false;
 	}
 
 	public function getByUsername($username, $fields = false) {
@@ -298,4 +307,43 @@ class Users {
 			return $this->multipleSet($details, $this->detectIdentifier($identifier), $identifier);
 		}
 	}
+
+	public function uploadAvatar($formData) {
+		$file = AVATARS_DIRECTORY . '/' . $this->username() . '.jpg';
+		if (file_exists($file)) { @unlink($file); }
+		if (move_uploaded_file($formData['tmp_name'], $file)) {
+			return $file;
+		} else {
+			return $this->limbs->errors->add('Failed to upload avatar');
+		}
+	}
+
+	public function uploadCover($formData) {
+		$file = COVERS_DIRECTORY . '/' . $this->username() . '.jpg';
+		if (file_exists($file)) { @unlink($file); }
+		if (move_uploaded_file($formData['tmp_name'], $file)) {
+			return $file;
+		} else {
+			return $this->limbs->errors->add('Failed to upload cover');
+		}
+	}
+
+	public function getAvatar($username) {
+		$path = AVATARS_DIRECTORY . '/' . $username . '.jpg';
+		if (file_exists($path)) {
+			return CORE_URL . '/media/avatars/' . $username . '.jpg';
+		} else {
+			return CORE_URL . '/media/avatars/default.jpg';
+		}
+	}
+
+	public function getCover($username) {
+		$path = COVERS_DIRECTORY . '/' . $username . '.jpg';
+		if (file_exists($path)) {
+			return CORE_URL . '/media/covers/' . $username . '.jpg';
+		} else {
+			return CORE_URL . '/media/covers/default.jpg';
+		}
+	}
+
 }

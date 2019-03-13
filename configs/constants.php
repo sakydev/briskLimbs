@@ -13,3 +13,5 @@ define('THUMBNAILS_DIRECTORY', MEDIA_DIRECTORY . '/thumbnails');
 define('VIDEOS_DIRECTORY', MEDIA_DIRECTORY . '/videos');
 define('DAEMONS_DIRECTORY', CORE_DIRECTORY . '/daemons');
 define('ADDONS_DIRECTORY', CORE_DIRECTORY . '/addons');
+define('AVATARS_DIRECTORY', MEDIA_DIRECTORY . '/avatars');
+define('COVERS_DIRECTORY', MEDIA_DIRECTORY . '/covers');

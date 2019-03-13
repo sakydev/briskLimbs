@@ -19,10 +19,27 @@ if (isset($_POST['email'])) {
   }
 
   if (empty($form) || $users->update($users->username(), $form)) {
-    $parameters['message'] = 'Settings updated successully';
+    $parameters['messages'][] = 'Settings updated successully';
     $data = $users->get($users->username)['0'];
   } else {
     $data = $_POST;
+  }
+}
+
+if (isset($_FILES['avatar']['name']) || isset($_FILES['cover']['name'])) {
+  $avatar = $_FILES['avatar'];
+  $cover = $_FILES['cover'];
+
+  if (!empty($avatar['name'])) {
+    if ($users->uploadAvatar($avatar)) {
+      $parameters['messages'][] = 'Profile picture uploaded successully';
+    }
+  }
+
+  if (!empty($cover['name'])) {
+    if ($users->uploadCover($cover)) {
+      $parameters['messages'][] = 'Channel cover uploaded successully';
+    }
   }
 }
 

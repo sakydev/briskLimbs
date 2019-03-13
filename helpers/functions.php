@@ -1,11 +1,14 @@
 <?php
 
-function createDirectories() {
-	$directories = array(
-		LOGS_DIRECTORY, 
-		TEMPORARY_DIRECTORY, 
-		THUMBNAILS_DIRECTORY, 
-		VIDEOS_DIRECTORY);
+function createDirectories($directories = false) {
+	if (!$directories) {
+		$directories = array(
+			LOGS_DIRECTORY, 
+			TEMPORARY_DIRECTORY, 
+			THUMBNAILS_DIRECTORY, 
+			VIDEOS_DIRECTORY
+		);
+	}
 
 	foreach ($directories as $key => $directory) {
 		$yearDirectory = $directory . '/' . date('Y');
@@ -26,6 +29,25 @@ function createDirectories() {
 	$response['thumbnails'] = THUMBNAILS_DIRECTORY . '/' . $combination;
 	$response['videos'] = VIDEOS_DIRECTORY . '/' . $combination;
 	return $response;
+}
+
+function createDirectory($parent, $sub) {
+	if (file_exists($parent)) {
+		if (strstr($sub, '/')) {
+			$crumbs = explode('/', $sub);
+			foreach ($crumbs as $key => $value) {
+				$path = isset($path) ? $path . '/' . $value : $parent . '/' . $value;
+				if (!file_exists($path)) {
+					@mkdir($path);
+				}
+			}
+
+			return $path;
+		} else {
+			@mkdir($parent . '/' . $sub);
+			return $parent . '/' . $sub;
+		}
+	}
 }
 
 function getExtension($filename) {

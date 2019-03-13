@@ -12,6 +12,7 @@ $videos->initialize();
 
 if (isset($_POST['bulk-action'])) {
 	$vKeys = explode(',', trim($_POST['bulk-keys'], ','));
+	pex($_POST);
 	switch ($_POST['bulk-action']) {
 		case 'deactivate':
 			if ($videos->bulkDeactivate($vKeys)) {
