@@ -10,6 +10,11 @@
   <link rel="stylesheet" href="{{_cssUrl}}/custom.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{_imagesUrl}}/favicon.png" />
+  <meta name="description" content="{% if video.description %}{{video.description}}{% else %}{{settings.description}}{% endif %}">
+  <meta property="og:title" content="{% if video.title %}{{video.title}}{% else %}{{_title}}{% endif %}"/>
+  <meta property="og:image" content="{{video.thumbnail}}"/>
+  <meta property="og:site_name" content="{{settings.title}}" />
+  <meta property="og:description" content="{% if video.description %}{{video.description}}{% else %}{{settings.description}}{% endif %}}" />
 </head>
 
 <body>
