@@ -29,13 +29,12 @@ foreach ($results as $key => $video) {
   $results[$key]['description'] = substr($results[$key]['description'], 0, 150);
 }
 
-if ($totalResults = count($results) >= $size) {
-	$listParameters['next'] = $page + 1;
+if ($totalResults = $videos->count($listParameters) >= $size) {
+	$parameters['next'] = $page + 1;
 }
 
 $parameters['keyword'] = $keyword;
 $parameters['results'] = $results;
-$parameters['total'] = count($results);
 $parameters['ad'] = $ads->getByLocation('search_sidebar');
 $parameters['_title'] = 'Search results for ' . $keyword;
 

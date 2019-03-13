@@ -34,7 +34,7 @@
                   <small class="text-muted">{{video.views}} views</small>
                 </div>
                 <div class="d-flex justify-content-between mb-1 align-items-center">
-                  <small class="text-muted">3 years ago</small>
+                  <small class="text-muted">{{formatDate(video.date)}}</small>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">
@@ -43,12 +43,12 @@
               </div>
               <div class="clearfix"></div>
             </div>
-            {% if next %}
+          {% endfor %}
+          {% if next %}
               <div class="text-center">
                 <a href="?keyword={{keyword}}&page={{next}}"><button class="btn btn-primary btn-gradient-primary">Show More</button></a>
               </div>
             {% endif %}
-          {% endfor %}
         {% else %}
           <div class="alert alert-warning">No results found</div>
         {% endif %}
