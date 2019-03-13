@@ -90,7 +90,7 @@ class Users {
   }
 
 	public function validate($fields) {
-		if (!$this->settings->allowSignups()) {
+		if (!$this->limbs->settings->allowSignups()) {
 			return $this->limbs->errors->add('Singups are not allowed at the moment');
 		}
 		if (empty($fields['password'])) {
