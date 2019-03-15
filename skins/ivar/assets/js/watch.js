@@ -1,5 +1,3 @@
-var startsAt = "{if isset($smarty.get.starts)}{$smarty.get.starts|timeSeconds}{/if}";
-
 (function() {
   function fancyTimeFormat(time) {   
     // Hours, minutes and seconds
@@ -29,16 +27,6 @@ var startsAt = "{if isset($smarty.get.starts)}{$smarty.get.starts|timeSeconds}{/
 
   // setting static height
   player.height(430);
-
-  if (startsAt) {
-    player.currentTime(parseInt(startsAt));
-  }
-
-  player.on('timeupdate', function() {
-    var finalTime = fancyTimeFormat(Math.round(player.currentTime()));
-    $('.start-time').val(finalTime);
-  });
-
   var qualitiesObject = [],
   currentQuality = false;
   videojs('video-player').videoJsResolutionSwitcher()
