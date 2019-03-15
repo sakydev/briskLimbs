@@ -64,6 +64,9 @@ if ($sidebar = $videos->list(array('keyword' => $video->title(), 'limit' => $sid
 $actions->watched($vKey);
 
 $addedComments = $comments->list(array('vkey' => $vKey));
+foreach ($addedComments as $key => $value) {
+  $addedComments[$key]['thumbnail'] = $users->getAvatar($value['username']);
+}
 $parameters['video'] = $data;
 $parameters['sidebarTitle'] = $sidebarTitle;
 $parameters['sidebar'] = $sidebar;

@@ -95,7 +95,13 @@
                   <tbody class="all-comments">
                     {% for comment in comments %}
                       <tr>
-                        <td><strong>{{comment.username|title}}</strong></td>
+                        <td>
+                          <div class="nav-profile-img mb-2">
+                            <img src="{{comment.thumbnail}}" alt="image">
+                            <span class="availability-status online"></span>             
+                          </div>
+                          <strong>{{comment.username|title}}</strong>
+                        </td>
                         <td>{{comment.comment}}</td>
                       </tr>
                     {% endfor %}
