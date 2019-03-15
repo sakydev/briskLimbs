@@ -60,6 +60,37 @@
   font-family: "ubuntu-medium", sans-serif;
 }
 
+.time {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(55, 57, 51, 0.8);
+  border-bottom-right-radius: 2px;
+  border-top-left-radius: 2px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 6px 9px 1px 9px;
+  line-height: 14px;
+  font-weight: 500;
+}
+
+.image-section {
+  border-radius: 2px;
+  position: relative;
+}
+
+.thumbnail {
+  border-radius: 4px;
+}
+
+.video-info {
+  padding-left: 0;
+}
+
+.single-video {
+  margin-bottom: 25px;
+}
+
 @media only screen and (min-width: 990px) {
   .navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
     height: auto !important;
@@ -72,6 +103,11 @@
     height: auto !important;
     width: 25px !important;
   }
+
+  .video-info {
+    margin-top: 5px;
+    margin-left: 20px;
+  }
 }
 
 @media only screen and (max-width: 592px) {
@@ -80,7 +116,8 @@
   }
 }
 
-@media only screen and (min-width: 575px) {
+@media only screen and (min-width: 575px) { 
+  /* do this when screen is smaller than 575 */
   .search-phone {
     display: none;
   }
@@ -89,3 +126,5 @@
     display: none;
   }
 }
+
+
