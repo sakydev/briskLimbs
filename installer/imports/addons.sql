@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 02, 2019 at 06:05 PM
+-- Generation Time: Mar 15, 2019 at 11:07 PM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-0ubuntu0.16.04.1
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_test`
+-- Database: `limbs`
 --
 
 -- --------------------------------------------------------
@@ -39,6 +39,13 @@ CREATE TABLE `addons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `addons`
+--
+
+INSERT INTO `addons` (`id`, `name`, `display_name`, `version`, `description`, `author`, `status`, `directory`, `file`) VALUES
+(8, 'developer_tools', 'Developer Tools', '0.1', 'This addon allows you to use dev tools', 'Saqib Razzaq', 'active', 'developerTools', 'developerTools.php');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -56,7 +63,7 @@ ALTER TABLE `addons`
 -- AUTO_INCREMENT for table `addons`
 --
 ALTER TABLE `addons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

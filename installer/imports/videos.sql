@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 12, 2019 at 06:52 PM
+-- Generation Time: Mar 15, 2019 at 11:08 PM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-0ubuntu0.16.04.1
 
@@ -36,6 +36,7 @@ CREATE TABLE `videos` (
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `scope` enum('public','private','unlist') NOT NULL,
+  `featured` enum('no','yes') NOT NULL DEFAULT 'no',
   `status` enum('pending','failed','successful') DEFAULT 'pending',
   `qualities` varchar(20) NOT NULL,
   `duration` int(11) NOT NULL,
@@ -66,7 +67,7 @@ ALTER TABLE `videos` ADD FULLTEXT KEY `title` (`title`,`description`);
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

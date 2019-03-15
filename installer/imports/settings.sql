@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 12, 2019 at 01:04 AM
+-- Generation Time: Mar 15, 2019 at 11:07 PM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-0ubuntu0.16.04.1
 
@@ -43,7 +43,7 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (4, 'admin_theme', 'default'),
 (5, 'title', 'Limbs'),
 (6, 'title_separator', '-'),
-(7, 'description', 'Most advanced video sharing script built with both developers and managers in mind'),
+(7, 'description', 'A video sharing script built with both developers and managers in mind'),
 (9, 'uploads', 'yes'),
 (10, 'signups', 'yes'),
 (11, 'public_message', ''),
@@ -55,11 +55,11 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (17, 'ffprobe', '/usr/bin/ffprobe'),
 (18, 'fresh', '12'),
 (19, 'trending', '4'),
-(20, 'search', '10'),
+(20, 'search', '5'),
 (21, 'related', '8'),
-(22, 'quality_240', 'yes'),
+(22, 'quality_240', 'no'),
 (23, 'quality_360', 'yes'),
-(24, 'quality_480', 'yes'),
+(24, 'quality_480', 'no'),
 (25, 'quality_720', 'yes'),
 (26, 'quality_1080', 'no');
 

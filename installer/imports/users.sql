@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 02, 2019 at 06:05 PM
+-- Generation Time: Mar 15, 2019 at 11:08 PM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-0ubuntu0.16.04.1
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_test`
+-- Database: `limbs`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,9 @@ CREATE TABLE `users` (
   `email` varchar(45) NOT NULL,
   `level` enum('1','2','3','4','5') DEFAULT '5',
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('pending','banned','inactive','ok') DEFAULT 'pending'
+  `status` enum('pending','banned','inactive','ok') DEFAULT 'pending',
+  `dob` datetime NOT NULL,
+  `bio` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -54,7 +56,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
