@@ -30,7 +30,7 @@ if (!$users->isAdmin() && $video->isPrivate() && $video->uploaderName() != $user
 }
 
 $thumbnails = new Thumbnails($video->filename(), $video->directory(), true);
-$files = new Files($video->filename(), $video->directory(), true);
+$filesObject = new Files($video->filename(), $video->directory(), true);
 
 if ($highestThumbnail = $thumbnails->highest()) {
   $data['thumbnail'] = $highestThumbnail;
@@ -38,10 +38,10 @@ if ($highestThumbnail = $thumbnails->highest()) {
   $data['thumbnail'] = $thumbnails->getDefault();
 }
 
-if ($files = $files->get()) {
+if ($files = $filesObject->get()) {
   $data['files'] = $files;
 } else {
-  $data['files'] = $files->getDefault();
+  $data['files'] = $filesObject->getDefault();
   $parameters['defaultFiles'] = true;
 }
 

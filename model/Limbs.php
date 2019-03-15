@@ -28,6 +28,7 @@ class Limbs {
 
 		define('CORE_URL', $this->coreUrl);
 		define('ADDONS_URL', CORE_URL . '/addons');
+		define('MEDIA_URL', CORE_URL . '/media');
 
 		$this->initializeCustomFunctions();
 	}
