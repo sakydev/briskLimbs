@@ -58,5 +58,8 @@
 .video-title {
   color: #000;
   font-family: "ubuntu-medium", sans-serif;
+}
 
+.navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
+  height: auto !important; 
 }
