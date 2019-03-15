@@ -61,5 +61,6 @@
 }
 
 .navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
-  height: auto !important; 
+  height: auto !important;
+  width: 188px !important; 
 }
