@@ -6,7 +6,7 @@
   {% if ad %}
     <div class="text-center">
       {% if ad.content == 'default' %}
-        <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
+        <img class="img-fluid mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
       {% else %}
         {{ad.content|raw}}
       {% endif %}

@@ -9,7 +9,7 @@
         <div class="col-lg-8 col-xs-12 col-sm-12">
           {% if bannerAd %}
             {% if bannerAd.content == 'default' %}
-              <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
+              <img class="img-fluid mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
             {% else %}
               {{bannerAd.content|raw}}
             {% endif %}

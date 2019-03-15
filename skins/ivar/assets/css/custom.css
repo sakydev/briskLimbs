@@ -60,7 +60,16 @@
   font-family: "ubuntu-medium", sans-serif;
 }
 
-.navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
-  height: auto !important;
-  width: 188px !important; 
+@media only screen and (min-width: 990px) {
+  .navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
+    height: auto !important;
+    width: 160px !important; 
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
+    height: auto !important;
+    width: 25px !important;
+  }
 }

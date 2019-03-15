@@ -36,7 +36,7 @@
           </form>
         </div>
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item"><a href="{{_coreUrl}}/upload"><button class="btn btn-gradient-primary btn-primary btn-icon-text"><i class="mdi mdi-upload btn-icon-prepend"></i>  Upload</button></a></li>
+          <li class="nav-item d-none d-sm-block"><a href="{{_coreUrl}}/upload"><button class="btn btn-gradient-primary btn-primary btn-icon-text"><i class="mdi mdi-upload btn-icon-prepend"></i>  Upload</button></a></li>
           {% if _auth.username %}
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
@@ -103,9 +103,6 @@
             </li>
           {% endif %}
         </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="mdi mdi-menu"></span>
-        </button>
       </div>
     </nav>
     <div class="container-fluid page-body-wrapper bg-light">
