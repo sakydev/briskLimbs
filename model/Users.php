@@ -72,7 +72,7 @@ class Users {
 	}
 
 	public function ownsEmail($username, $email) {
-		$creds = array('username' => $username, 'email' => $fields['email']);
+		$creds = array('username' => $username, 'email' => $email);
 	  if ($details = $this->exists($creds, false, array('id', 'username'))) {
 	  	return $details;
 	  }
@@ -287,7 +287,7 @@ class Users {
 
 	  if (isset($fields['email'])) {
 	  	if ($this->emailExists($fields['email'])) {
-	  		if (!$this->ownsEmail($this->username(), $fields['email'])) {
+	  		if (!$this->ownsEmail($this->username(), $fields['email']) && !$this->isAdmin()) {
 	  			return $this->limbs->errors->add('Email already exists');
 	  		}
 	  	}

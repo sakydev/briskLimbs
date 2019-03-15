@@ -148,7 +148,7 @@
 						          {% else %}
 							          <li><a href="{{urlBase}}&activate={{user.username}}">Activate</a></li>
 						        	{% endif %}
-						          <li><a href="edit">Edit</a></li>
+						          <li><a href="{{_adminUrl}}/edituser/?username={{user.username}}">Edit</a></li>
 						          <li class="divider"></li>
 						          <li><a href="{{urlBase}}&delete={{user.username}}">Delete</a></li>
 						        </ul>
