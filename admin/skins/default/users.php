@@ -95,8 +95,11 @@ if (isset($_GET['advanced-search'])) {
 # pr($listParameters);
 $listParameters['limit'] = $limit;
 $results = $users->list($listParameters);
-$totalFound = count($results);
+foreach ($results as $key => $value) {
+	$results[$key]['thumbnail'] = $users->getAvatar($value['username']);
+}
 
+$totalFound = count($results);
 $parameters['total'] = $total = $users->count($listParameters);
 $parameters['start'] = $start;
 $parameters['end'] = $start + ($totalFound < $size ? $totalFound : $size);
