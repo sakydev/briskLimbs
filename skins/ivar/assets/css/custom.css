@@ -73,3 +73,19 @@
     width: 25px !important;
   }
 }
+
+@media only screen and (max-width: 592px) {
+  .search-field {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 575px) {
+  .search-phone {
+    display: none;
+  }
+
+  .upload-phone {
+    display: none;
+  }
+}

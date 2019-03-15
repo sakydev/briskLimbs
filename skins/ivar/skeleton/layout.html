@@ -25,7 +25,7 @@
         <a class="navbar-brand brand-logo-mini" href="{{_coreUrl}}"><img src="{{_imagesUrl}}/logo-mini.svg" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
-        <div class="search-field d-none d-md-block">
+        <div class="search-field">
           <form class="d-flex align-items-center h-100" action="{{_coreUrl}}/search/">
             <div class="input-group">
               <div class="input-group-prepend bg-transparent">
@@ -51,27 +51,30 @@
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                 {% if _auth.level == '1' %}
                   <a class="dropdown-item" href="{{_coreUrl}}/admin/settings">
-                    <i class="mdi mdi-settings mr-2 text-success"></i>
+                    <i class="mdi mdi-settings mr-2 text-primary"></i>
                     Website Settings
                   </a>
                   <a class="dropdown-item" href="{{_coreUrl}}/admin/videos">
-                    <i class="mdi mdi-video mr-2 text-success"></i>
+                    <i class="mdi mdi-video mr-2 text-primary"></i>
                     Videos Manager
                   </a>
                   <a class="dropdown-item" href="{{_coreUrl}}/admin/users">
-                    <i class="mdi mdi-account-multiple mr-2 text-success"></i>
+                    <i class="mdi mdi-account-multiple mr-2 text-primary"></i>
                     Users Manager
                   </a>
                   <a class="dropdown-item" href="{{_coreUrl}}/admin/addons">
-                    <i class="mdi mdi-wrench mr-2 text-success"></i>
+                    <i class="mdi mdi-wrench mr-2 text-primary"></i>
                     Addons Manager
                   </a>
                 {% endif %}
+                <a class="dropdown-item" href="{{_coreUrl}}/upload">
+                  <i class="mdi mdi-upload mr-2 text-primary"></i>
+                  Upload
+                </a>
                 <a class="dropdown-item" href="{{_coreUrl}}/settings">
-                  <i class="mdi mdi-settings mr-2 text-success"></i>
+                  <i class="mdi mdi-settings mr-2 text-primary"></i>
                   Settings
                 </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{_coreUrl}}/signout">
                   <i class="mdi mdi-logout mr-2 text-primary"></i>
                   Signout
@@ -91,7 +94,7 @@
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                 <a class="dropdown-item" href="{{_coreUrl}}/signup">
-                  <i class="mdi mdi-account-plus mr-2 text-success"></i>
+                  <i class="mdi mdi-account-plus mr-2 text-primary"></i>
                   Signup
                 </a>
                 <div class="dropdown-divider"></div>
@@ -150,6 +153,16 @@
       {% endif %}
       <!-- partial -->
       <div class="main-panel" style="width: 100%">
+        <div class=" search-phone">
+          <form class="d-flex align-items-center h-100" action="{{_coreUrl}}/search/">
+            <div class="input-group">
+              <div class="input-group-prepend bg-transparent">
+                  <i class="input-group-text border-0 mdi mdi-magnify"></i>                
+              </div>
+              <input type="text" name="keyword" class="form-control bg-transparent border-0" placeholder="Search videos" value="{{keyword}}">
+            </div>
+          </form>
+        </div>
       {% if settings.public_message %}
         <div class="container mt-2 alert alert-info">{{settings.public_message}}</div>
       {% endif %}

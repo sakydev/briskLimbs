@@ -40,6 +40,9 @@
         {{ include('bricks/video.html') }}
       {% endfor %}
     </div>
+    <div class="text-center">
+      <a href="{{_coreUrl}}/browse"><div class="mb-3 btn btn-primary">Browse</div></a>
+    </div>
   {% else %}
     <div class="text-center"><div class="col-md-6 alert alert-warning">No videos found</div></div>
   {% endif %}
