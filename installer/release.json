@@ -1,9 +1,9 @@
 {
-  "version": "0.1",
-  "state": "beta",
+  "version": "1.0",
+  "state": "stable",
   "release": {
-    "name": "Limbs Beta",
-    "date": "28th February, 2019",
-    "author": "Limbs"
+    "name": "Dawn",
+    "date": "15th March, 2019",
+    "author": "BriskLimbs"
   }
 }
