@@ -51,7 +51,7 @@ if (count($argv) >=2 ) {
   
   $videos = new Videos();
   $videos->initialize($database);
-  $videos->multipleSet($fields, 'filename', $filename);
+  $videos->setFields($details, $filename, 'filename');
 
   @unlink($path);
 }
