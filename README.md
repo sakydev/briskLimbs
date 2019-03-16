@@ -45,11 +45,21 @@ briskLimbs requires several tools to run smoothly. You are recomended to have th
 #### Installation
 Once you have installed and configured all required tools you can begin installing briskLimbs.
 
+###### Latest Stable Version
+```
+wget https://github.com/briskLimbs/briskLimbs/archive/v1.0.zip
+unzip briskLimbs-1.0.zip
+cd briskLimbs-1.0
+composer require "twig/twig:^2.0"
+```
+
+###### Latest Development Version
 ```
 git clone https://github.com/briskLimbs/briskLimbs.git
 cd briskLimbs
 composer require "twig/twig:^2.0"
 ```
+
 That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow configuration instructions. 
 
 #### FAQ
