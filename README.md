@@ -10,14 +10,12 @@ A video sharing software created with both webmasters and developers in mind.
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
 - [Directory Structure](#directory-structure)
-- [Common Methods](#common-methods)
-- [Examples](#examples)
-- [Videos Examples](#videos)
-- [Users Examples](#users)
-- [Addons Examples](#addons)
-- [Thumbnails Exmaples](#thumbnails)
-- [Files Examples](#files)
-- [Errors Examples](#errors)
+- [Videos Examples](https://github.com/briskLimbs/briskLimbs/wiki/Videos)
+- [Users Examples](https://github.com/briskLimbs/briskLimbs/wiki/Users)
+- [Addons Examples](https://github.com/briskLimbs/briskLimbs/wiki/Addons)
+- [Thumbnails Exmaples](https://github.com/briskLimbs/briskLimbs/wiki/Thumbnails)
+- [Files Examples](https://github.com/briskLimbs/briskLimbs/wiki/Files)
+- [Errors Examples](https://github.com/briskLimbs/briskLimbs/wiki/Errors)
 - [License](#license)
 - [Credits](#credits)
 
@@ -80,11 +78,11 @@ Extract contents of downloaded zip and then login to your server via Filezilla o
 Extract contents of downloaded zip and then login to your server via Filezilla or similar FTP program and upload extracted contents under */addons*directory. Once finish simply refresh your addons manager and now you should see your addon.
 
 ### Contribute
-[Coding Conventions](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/coding_conventions.md)
+[Coding Conventions](https://github.com/briskLimbs/briskLimbs/wiki/Coding-Style-Guide)
 
-[Addons: Development & usage](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/addons_how.md)
+[Addons: Development & usage](https://github.com/briskLimbs/briskLimbs/wiki/Hello-World-Addon)
 
-[Skins: Development & usage](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/skins_how.md)
+[Skins: Development & usage](https://github.com/briskLimbs/briskLimbs/wiki/Hello-World-Skin)
 
 #### Directory structure
 ```
@@ -221,48 +219,6 @@ Extract contents of downloaded zip and then login to your server via Filezilla o
 └── utils                           # holds additional utility files
 ```
 
-#### Common Methods
-#### Examples
-##### Videos [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/videos.md)
-- Intiliaze 
-```
-$videos = new Videos();
-$videos->initialize();
-```
-- Get : fetch a video by id or vkey
-```
-$response = $videos->get($video); // $video is id or vkey
-```
-- List : list videos matching several parameters
-```
-// most recent videos by limit
-$response = $videos->list($params);
-```
-```
-// most viewed videos
-$params = array('sort' => 'views');
-$response = $videos->list($params);
-```
-```
-// get videos longer shorter than 60 seconds by jon_snow with more than 100 views
-$params = array(
-  'uploader_name' => 'jon_snow',
-  'duration' => array('60', '<')
-  'views' => array('200', '>')
-);
-$response = $videos->list($params);
-```
-- Count : count total videos
-```
-$total = $videos->count(); // integer 
-```
-- Update
-- Upload & insert video
-##### Users [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/users.md)
-##### Addons [More](https://github.com/briskLimbs/briskLimbs/blob/master/documentation/addons.md)
-##### Thumbnails
-##### Files
-##### Errors
 ### License
 ### Credits
 - [PHP MySQLi Database Class](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class) [GNU License](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class/blob/master/LICENSE)
