@@ -13,14 +13,14 @@ foreach ($featured as $key => $video) {
   $featured[$key]['trunc_title'] = substr($featured[$key]['title'], 0, 38);
 }
 
-$trending = $videos->getTrending($limbs->settings->get('trending'));
+$trending = $videos->listTrending($limbs->settings->get('trending'));
 foreach ($trending as $key => $video) {
   $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
   $trending[$key]['thumbnail'] = $thumbnails->medium();
   $trending[$key]['trunc_title'] = substr($trending[$key]['title'], 0, 38);
 }
 
-$fresh = $videos->getFresh($limbs->settings->get('fresh'));
+$fresh = $videos->listFresh($limbs->settings->get('fresh'));
 foreach ($fresh as $key => $video) {
   $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
   $fresh[$key]['thumbnail'] = $thumbnails->medium();

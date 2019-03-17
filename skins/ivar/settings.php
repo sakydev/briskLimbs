@@ -7,8 +7,6 @@ if (!$users->authenticated()) {
 }
 
 $user = $users->get($users->username());
-$user = !empty($user) ? $user['0'] : false;
-
 if (isset($_POST['email'])) {
   $form = array();
   foreach ($_POST as $field => $value) {

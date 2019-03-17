@@ -9,6 +9,35 @@
 */
 
 class Videos {
+	/*
+	* Holds global Limbs object
+	*/
+	protected $limbs;
+
+	/*
+	* Holds global Users object
+	*/
+	protected $users;
+
+	/*
+	* Holds global Database object
+	*/
+	protected $database;
+
+	/*
+	* Holds active table for Videos class
+	*/
+	protected $table;
+
+	/*
+	* Holds list of columns for active table
+	*/
+	private $KEYS;
+
+	/*
+	* Holds default listing limit for class
+	*/
+	private $defaultLimit;
 
 	/**
 	* Initializes basic variables and prepares class to be used

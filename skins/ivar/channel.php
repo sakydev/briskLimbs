@@ -34,7 +34,7 @@ if ($videos->count($listParameters) >= $size) {
   $parameters['next'] = $page + 1;
 }
 
-$trending = $videos->getTrending($limbs->settings->get('trending'));
+$trending = $videos->listTrending($limbs->settings->get('trending'));
 foreach ($trending as $key => $video) {
   $thumbnails = new Thumbnails($video['filename'], directory($video['date']), true);
   $trending[$key]['thumbnail'] = $thumbnails->medium();
