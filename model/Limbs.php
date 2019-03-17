@@ -1,10 +1,58 @@
 <?php
 
+/**
+* Name: Limbs
+* Description: Core class that works as a bridge between PHP and HTML and handles Twig etc
+* @author: Saqib Razzaq
+* @since: v1, Feburary, 2019
+* @link: https://github.com/briskLimbs/briskLimbs/blob/master/model/Limbs.php
+*/
+
 class Limbs {
+	/*
+	* Holds global database object
+	*/
+	public $database;
+	
+	/*
+	* Holds Twig object
+	*/
 	public $twig;
+
+	/*
+	* Holds settings object
+	*/
 	public $settings;
+
+	/*
+	* Holds template parameters for Twig
+	*/
 	public $templateParameters;
+
+	/*
+	* Holds addon parameters for Twig
+	*/
 	public $addonParameters;
+
+	/*
+	* Holds Errors object
+	*/
+	public $errors;
+
+	/*
+	* Holds Twig loader
+	*/
+	public $loader;
+
+	/*
+	* Holds coreUrl of website
+	*/
+	public $coreUrl;
+
+	/*
+	* Holds theme settings
+	*/
+	public $themeSettings;
 
 	function __construct($database) {
 		$this->database = $database;
@@ -12,6 +60,9 @@ class Limbs {
 		$this->addonParameters = array();
 	}
 
+	/*
+	* Intializes required variables and makes ready for other methods
+	*/
 	public function initialize() {
 		$this->settings = new Settings($this->database);
 		$this->settings->initialize();
@@ -33,6 +84,10 @@ class Limbs {
 		$this->initializeCustomFunctions();
 	}
 
+	/**
+	* Fetch all theme related settings
+	* @return: { array }
+	*/
 	public function getThemeSettings() {
 		$name = $this->settings->get('active_theme');
 		$adminName = $this->settings->get('admin_theme');
@@ -63,11 +118,21 @@ class Limbs {
 		);
 	}
 
+	/**
+	* Builds title to be used on each page
+	* @param: { $params } { array } { list of parameters to be sent to HTML }
+	* @return: { string }
+	*/
 	public function buildTitle($params) {
 		$title = empty($params['_title']) ? 'Untitled' : $params['_title'];
 		return $title . ' ' . $this->settings->get('title_separator') . ' ' . $this->settings->get('title');
 	}
 
+	/**
+	* Builds parameters by merging from all different arrays
+	* @param: { $parameters } { array } { basic list of params }
+	* @return: { array }
+	*/
 	public function buildParameters($parameters) {
 		$params = array_merge(
 			(array)$this->themeSettings, 
@@ -81,16 +146,30 @@ class Limbs {
 		return $params;
 	}
 
+	/**
+	* Displays a page
+	* @param: { $page } { string } { name of page to display }
+	* @param: { $parameters } { array } { parameters for this page }
+	*/
 	public function display($page, $parameters) {
 		$this->twig->display($page, $this->buildParameters($parameters));
 	}
 
+	/**
+	* Displays an error page
+	* @param: { $parameters } { array } { parameters for this page }
+	* @param: { $message } { string } { error message for this page }
+	*/
 	public function displayErrorPage($parameters, $message) {
 		$parameters['messages'] = array($message);
 		$this->display('blank.html', $parameters);
 		exit;
 	}
 
+	/**
+	* Load required php file for page
+	* @param: { $page } { string } { name of page to load } 
+	*/
 	public function stretch($page) {
 		$addons = new Addons();
 		$addons->load();
@@ -107,30 +186,64 @@ class Limbs {
 		}
 	}
 
+	/**
+	* Add a new template parameter
+	* @param: { $parameter } { string } { name of parameter }
+	* @param: { $value } { string } { value of parameter }
+	* @return: { boolean }
+	*/
 	public function addTemplateParameter($parameter, $value) {
 		return $this->templateParameters[$parameter] = $value;
 	}
 
+	/**
+	* Get value of a template parameter
+	* @param: { $parameter } { string } { name of parameter }
+	* @return: { mixed }
+	*/
 	public function getTemplateParameter($parameter) {
 		return isset($this->templateParameters[$parameter]) ? $this->templateParameters[$parameter] : false;
 	}
 
+	/**
+	* Get all template parameters
+	* @return: { array }
+	*/
 	public function collectTemplateParamters() {
 		return $this->templateParameters;
 	}
 
+	/**
+	* Adds an addon parameter
+	* @param: { $parameter } { string } { name of parameter }
+	* @param: { $valie } { string } { value of parameter }
+	* @return: { boolean }
+	*/
 	public function addAddonParameter($parameter, $value) {
 		return $this->addonParameters[$parameter] = $value;
 	}
 
+	/**
+	* Get an addon parameter
+	* @param: { $parameter } { string } { name of parameter }
+	* @return: { mixed }
+	*/
 	public function getAddonParameter($parameter) {
 		return isset($this->addonParameters[$parameter]) ? $this->addonParameters[$parameter] : false;
 	}
 
+	/**
+	* Fetch all addon parameters
+	* @return: { array }
+	*/
 	public function collectAddonParamters() {
 		return $this->addonParameters;
 	}
 
+	/**
+	* Intializes custom functions to be access in Twig templates
+	* @return: { true }
+	*/
 	private function initializeCustomFunctions() {
 		$durationHook = new \Twig\TwigFunction('formatDuration', function ($seconds) {
 		  echo formatDuration($seconds);
@@ -166,6 +279,12 @@ class Limbs {
 		return true;
 	}
 
+	/**
+	* Adds a custom directory to search template files in
+	* @param: { $path } { string } { path of directory }
+	* @param: { $name } { string } { name of directory }
+	* @return: { boolean }
+	*/
 	public function addDirectory($path, $name) {
 		return $this->loader->addPath($path, $name);
 	}
