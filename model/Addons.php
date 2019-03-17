@@ -1,7 +1,49 @@
 <?php
 
+/**
+* Name: Addons
+* Description: Core class for handling Addon related actions
+* @author: Saqib Razzaq
+* @since: v1, Feburary, 2019
+* @link: https://github.com/briskLimbs/briskLimbs/blob/master/model/Addons.php
+*/
+
 class Addons {
-  
+  /*
+  * Holds global Limbs object
+  */
+  public $limbs;
+
+  /*
+  * Holds global Database object
+  */
+  public $database;
+
+  /*
+  * Holds table name for addons
+  */
+  public $table;
+
+  /*
+  * Holds directoy path for addons
+  */
+  public $directory;
+
+  /*
+  * Holds columns list from $table
+  */
+  public $KEYS;
+
+  /*
+  * Holds global Errors object
+  */
+  public $errors;
+
+  /*
+  * Holds default listing limit
+  */
+  public $defaultLimit;
+
   function __construct() {
     global $limbs;
     $this->limbs = $limbs;
@@ -13,7 +55,11 @@ class Addons {
     $this->defaultLimit = 10;
   }
 
-  public function idle($skip = array()) {
+  /**
+  * Scans Addons directory and returns list of addons available to be installed
+  * @return: { array }
+  */
+  public function idle() {
     $response = array();
     $folders = glob($this->directory . '/*');
     if ($folders) {
@@ -40,6 +86,11 @@ class Addons {
     return $response;
   }
 
+  /**
+  * Count total installed addons
+  * @param: { $parameters } { array } { any additional parameters }
+  * @return: { integer }
+  */
   public function count($parameters = false) {
     if ($parameters) {
       $parameters['count'] = true;
@@ -162,31 +213,31 @@ class Addons {
   }
 
   // set('status', 'successful', 'sad2314', 'vkey');
-  public function set($field, $value, $identifierValue, $identifier = 'name') {
+  public function setField($field, $value, $identifierValue, $identifier = 'name') {
     $this->database->where($identifier, $identifierValue);
     return $this->database->update($this->table, array($field => $value));
   }
 
   // update a single column of multiple videos
-  public function bulkSet($field, $value, $identifierValueArray, $identifier = 'name') {
+  public function setFields($field, $value, $identifierValueArray, $identifier = 'name') {
     $this->database->where($identifier, $identifierValueArray, 'IN');
     return $this->database->update($this->table, array($field => $value));
   }
   
   public function activate($video) {
-    return $this->set('status', 'active', $video, is_numeric($video) ? 'id' : 'name');
+    return $this->setField('status', 'active', $video, is_numeric($video) ? 'id' : 'name');
   }
 
   public function bulkActivate($videosArray, $identifier = 'username') {
-    return $this->bulkSet('status', 'active', $videosArray, $identifier);
+    return $this->setFields('status', 'active', $videosArray, $identifier);
   }
 
   public function deactivate($video) {
-    return $this->set('status', 'inactive', $video, is_numeric($video) ? 'id' : 'name');
+    return $this->setField('status', 'inactive', $video, is_numeric($video) ? 'id' : 'name');
   }
 
   public function bulkDeactivate($videosArray, $identifier = 'name') {
-    return $this->bulkSet('status', 'inactive', $videosArray, $identifier);
+    return $this->setFields('status', 'inactive', $videosArray, $identifier);
   }
   
   public function uninstall($name) {
