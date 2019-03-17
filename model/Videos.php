@@ -355,6 +355,15 @@ class Videos {
 		return $this->getField($identifier, 'state');
 	}
 
+	/**
+	* List videos matching several dynamic parameters
+	* @param: { $parameters } { array } { array of parameters }
+	* This array can include any column from $this->table table which
+	* is videos by default. You can specify fields and values in
+	* $field => $value format which is then turned in MySQL conditions
+	* Please refer to our Github page for usage examples
+	* @return: { array }
+	*/
 	public function list($parameters = false) {
 		if (is_array($parameters)) {
 			if (!$this->users->isAdmin()) {
@@ -396,74 +405,169 @@ class Videos {
 		return isset($parameters['count']) ? $this->database->getValue($this->table, 'count(*)') : $this->database->get($this->table, $limit);
 	}
 
+	/**
+	* List most viewed videos since start
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listTrending($limit, $parameters = false) {
 		$parameters['sort'] = 'views';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* List most recent videos
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listFresh($limit, $parameters = false) {
 		$parameters['sort'] = 'date';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* List most videos by specific state
+	* @param: { $state } { string } { state to search }
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listByState($state, $limit, $parameters = false) {
 		$parameters['state'] = $state;
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* List most videos by active state
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listActive($limit, $parameters = false) {
 		return $this->listByState('active', $limit, $parameters);
 	}
 
+	/**
+	* List most videos by inactive state
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listInactive($limit, $parameters = false) {
 		return $this->listByState('inactive', $limit, $parameters);
 	}
 
+
+	/**
+	* List most videos by processing status
+	* @param: { $status } { string } { processing status to search by }
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
   public function listByStatus($status, $limit, $parameters = false) {
 		$parameters['status'] = $status;
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+
+	/**
+	* List successfully processed videos
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select with specific duration }
+	* @return: { array }
+	*/
 	public function listSuccessful($limit, $parameters = false) {
 		return $this->listByStatus('successful', $limit, $parameters);
 	}
 
+	/**
+	* List videos that are pending processing
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listPending($limit, $parameters = false) {
 		return $this->listByStatus('pending', $limit, $parameters);
 	}
 
+	/**
+	* List most videos that failed during processing
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listFailed($limit, $parameters = false) {
 		return $this->listByStatus('failed', $limit, $parameters);
 	}
 
+	/**
+	* List most by a specific scope
+	* @param: { $scope } { string } { scope to search by e.g public }
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listByScope($scope, $limit, $parameters = false) {
 		$parameters['scope'] = $scope;
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* List public videos
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters }
+	* @return: { array }
+	*/
 	public function listPublic($limit, $parameters = false) {
 		return $this->listByScope('public', $limit, $parameters);
 	}
 
+	/**
+	* List private videos
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters }
+	* @return: { array }
+	*/
 	public function listPrivate($limit, $parameters = false) {
 		return $this->listByScope('private', $limit, $parameters);
 	}
 
-	public function listPublic($limit, $parameters = false) {
+	/**
+	* List unlisted videos
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters }
+	* @return: { array }
+	*/
+	public function listUnlist($limit, $parameters = false) {
 		return $this->listByScope('unlist', $limit, $parameters);
 	}
 
+	/**
+	* List videos by specific uploader
+	* @param: { $uploader } { string } { uploader name or id }
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters }
+	* @return: { array }
+	*/
 	public function listByUploader($uploader, $limit, $parameters = false) {
 		$parameters[is_numeric($uploader) ? 'uploader_id' : 'uploader_name'] = $uploader;
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* Count total videos matching parameters
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of videos found }
+	*/
 	public function count($parameters = false) {
 		if ($parameters) {
 			$parameters['count'] = true;
@@ -473,32 +577,61 @@ class Videos {
 		}
 	}
 
+	/**
+	* Count total active videos
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of videos found }
+	*/
 	public function countActive($parameters = false) {
 		$parameters['state'] = 'active';
 		return $this->count($parameters);
 	}
 
+	/**
+	* Count total inactive videos
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of videos found }
+	*/
 	public function countInactive($parameters = false) {
 		$parameters['state'] = 'inactive';
 		return $this->count($parameters);
 	}
 
+	/**
+	* Count total successful videos
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of videos found }
+	*/
 	public function countSuccessful($parameters = false) {
 		$parameters['status'] = 'successful';
 		return $this->count($parameters);
 	}
 
+	/**
+	* Count total pending videos
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of videos found }
+	*/
 	public function countPending($parameters = false) {
 		$parameters['status'] = 'pending';
 		return $this->count($parameters);
 	}
 	
+	/**
+	* Count total failed videos
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of videos found }
+	*/
 	public function countFailed($parameters = false) {
 		$parameters['status'] = 'failed';
 		return $this->count($parameters);
 	}
 
-	/* Upload section starts */
+	/**
+	* Validate video upload data before moving into processing queue
+	* @param: { $fileData } { array } { $_FILES object by uploader }
+	* @return: { boolean }
+	*/
 	private function validateUpload($fileData) {
 		if (!$this->users->authenticated()) {
 			return $this->limbs->errors->add('You must be logged in before uploading');
@@ -511,6 +644,11 @@ class Videos {
 		return true;
 	}
 
+	/**
+	* Validate fields before updating video
+	* @param: { $fields } { array } { fields and values to be updated }
+	* @return: { boolean }
+	*/
 	private function validateUpdate($fields) {
 		$required = array('title', 'description');
 
@@ -527,6 +665,11 @@ class Videos {
 		return true;
 	}
 
+	/**
+	* Validate form before inserting video
+	* @param: { $fields } { array } { fields and values to insert }
+	* @return: { boolean }
+	*/
 	public function validateInsert($fields) {
 		$required = array('title', 'description', 'filename', 'uploader_id', 'uploader_name');
 
@@ -547,12 +690,22 @@ class Videos {
 		return true;
 	}
 	
+	/**
+	* Validate permissions of user requesting changes to video
+	* @param: { $video } { string / integer } { video id or vkey }
+	* @return: { boolean }
+	*/
 	public function validatePermissions($video) {
 		if ($this->users->isAdmin() || $this->owns($this->users->username(), $video)) {
 			return true;
 		}
 	}
 
+	/**
+	* Set video state to activve
+	* @param: { $video } { string / integer } { video id or vkey }
+	* @return: { boolean }
+	*/
 	public function activate($video) {
 		if (!$this->validatePermissions($video)) {
 			return $this->limbs->errors->add("You don't have permissions to activate $video");
@@ -561,10 +714,21 @@ class Videos {
 		return $this->setField('state', 'active', $video, $this->column($video));
 	}
 
+	/**
+	* Set video state to active for multiple videos
+	* @param: { $videosArray } { mixed array } { list of video ids or vkeys }
+	* @param: { $identifer } { string } { specify if list contains ids or vkeys }
+	* @return: { boolean }
+	*/
 	public function bulkActivate($videosArray, $identifier = 'vkey') {
 		return $this->setFieldBulk('state', 'active', $videosArray, $identifier);
 	}
 
+	/**
+	* Set video state to inactive
+	* @param: { $video } { string / integer } { video id or vkey }
+	* @return: { boolean }
+	*/
 	public function deactivate($video) {
 		if (!$this->validatePermissions($video)) {
 			return $this->limbs->errors->add("You don't have permissions to deactivate $video");
@@ -573,10 +737,21 @@ class Videos {
 		return $this->setField('state', 'inactive', $video, $this->column($video));
 	}
 
+	/**
+	* Set video state to inactive for multiple videos
+	* @param: { $videosArray } { mixed array } { list of video ids or vkeys }
+	* @param: { $identifer } { string } { specify if list contains ids or vkeys }
+	* @return: { boolean }
+	*/
 	public function bulkDeactivate($videosArray, $identifier = 'vkey') {
 		return $this->setFieldBulk('state', 'inactive', $videosArray, $identifier);
 	}
 
+	/**
+	* Set video to featured
+	* @param: { $video } { string / integer } { video id or vkey }
+	* @return: { boolean }
+	*/
 	public function feature($video) {
 		if (!$this->validatePermissions($video)) {
 			return $this->limbs->errors->add("You don't have permissions to feature $video");
@@ -585,7 +760,11 @@ class Videos {
 		return $this->setField('featured', 'yes', $video, $this->column($video));
 	}
 
-
+	/**
+	* Remove video from featured
+	* @param: { $video } { string / integer } { video id or vkey }
+	* @return: { boolean }
+	*/
 	public function unfeature($video) {
 		if (!$this->validatePermissions($video)) {
 			return $this->limbs->errors->add("You don't have permissions to unfeature $video");
@@ -594,7 +773,12 @@ class Videos {
 		return $this->setField('featured', 'no', $video, $this->column($video));
 	}
 
-			public function delete($video) {
+	/**
+	* Delete a video and all media files belonging to it
+	* @param: { $video } { string / integer } { video id or vkey }
+	* @return: { boolean }
+	*/
+	public function delete($video) {
 		if (!$this->validatePermissions($video)) {
 			return $this->limbs->errors->add("You don't have permissions to delete $video");
 		}
@@ -616,6 +800,11 @@ class Videos {
 		return $this->database->delete($this->table);
 	}
 
+	/**
+	* Delete multiple videos and their media files
+	* @param: { $videosArray } { mixed array } { list of video ids or vkeys }
+	* @return: { boolean }
+	*/
 	public function bulkDelete($videosArray) {
 		foreach ($videosArray as $key => $video) {
 			if (!$this->delete($video)) {
@@ -626,6 +815,10 @@ class Videos {
 		return true;
 	}
 
+	/**
+	* Create unique public key to be used for new video
+	* @return: { string } { unique video key that doesn't exist in database }
+	*/
 	public function createKey() {
 		while (true) {
 			$key = randomString(5) . '_' . randomString(4);
@@ -635,6 +828,10 @@ class Videos {
 		}
 	}
 
+	/**
+	* Create unique filename to be used for new video
+	* @return: { string } { unique video filename that doesn't exist in database }
+	*/
 	public function createFilename() {
 		while (true) {
 			$filename = randomString(9) . 'x' . randomString(5);
@@ -644,6 +841,11 @@ class Videos {
 		}
 	}
 
+	/**
+	* Upload a new video file
+	* @param: { $fileData } { array } { Raw $_FILES object }
+	* @return: { array } { filename, path and directory of uploaded video }
+	*/
 	public function upload($fileData) {
 		if ($this->validateUpload($fileData)) {
 			$directories = createDirectories();
@@ -657,11 +859,16 @@ class Videos {
 				# exit($commmand);
 	      shell_exec($command);
 
-        return array('filename' => $filename, 'path' => $temporaryPath, 'directory' => $directories['videos'], 'command' => $command);
+        return array('filename' => $filename, 'path' => $temporaryPath, 'directory' => $directories['videos']);
       }
 		}
 	}
 
+	/**
+	* Insert a video into database
+	* @param: { $form } { array } { raw form fields }
+	* @return: { integer } { video id if inserted }
+	*/
 	public function insert($form) {
 		if ($this->validateInsert($form)) {
 			$prepare = array();
@@ -676,6 +883,12 @@ class Videos {
 		}
 	}
 
+	/**
+	* Update a video's fields
+	* @param: { $identifier } { string / integer } { video id or public key }
+	* @param: { $details } { array } { an assoc array of fields and values to update }
+	* @return: { boolean }
+	*/
 	public function update($identifier, $details) {
 		if (!$this->validatePermissions($identifier)) {
 			return $this->limbs->errors->add("You don't have permissions to update");
@@ -686,12 +899,22 @@ class Videos {
 		}
 	}
 
-	/* Upload section ends */
-
+	/**
+	* Increment video views
+	* @param: { $video } { string / integer } { video id of public key }
+	* @param: { $views } { integer } { increment views by }
+	* @return: { boolean }
+	*/
 	public function setViews($video, $views = '1') {
 		return $this->setField('views', $this->database->inc($views), $video, $this->column($video));
 	}
 
+	/**
+	* Increment video comments
+	* @param: { $video } { string / integer } { video id of public key }
+	* @param: { $views } { integer } { increment comments by }
+	* @return: { boolean }
+	*/
 	public function setComments($video, $comments = '1') {
 		return $this->setField('comments',  $this->database->inc($comments), $video, $this->column($video));
 	}
