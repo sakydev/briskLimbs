@@ -30,7 +30,7 @@ class Users {
 	protected $database;
 
 	/*
-	* Holds active table for Videos class
+	* Holds active table for users class
 	*/
 	protected $table;
 
@@ -74,22 +74,45 @@ class Users {
 		}
 	}
 
+	/**
+	* Detect if a given value is user id or username
+	* @param: { $identifier } { user id or username }
+	* @return: { string / integer } { id or username }
+	*/
 	private function column($identifier) {
 		return is_numeric($identifier) ? 'id' : 'username';
 	}
 
+	/**
+	* Get logged in user's ID
+	* @return { integer }
+	*/
 	public function userId() {
 		return $this->userId;
 	}
 
+	/**
+	* Get logged in user's username
+	* @return { string }
+	*/
 	public function username() {
 		return $this->username;
 	}
 
+	/**
+	* Get logged in user's level
+	* @return { integer }
+	*/
 	public function level() {
 		return $this->level;
 	}
 
+	/**
+	* Check if a given user owns a given email
+	* @param: { $username } { string } { username to check }
+	* @param: { $email } { string / integer } { email to run check against }
+	* @return: { boolean }
+	*/
 	public function ownsEmail($username, $email) {
 		$creds = array('username' => $username, 'email' => $email);
 	  if ($details = $this->exists($creds, false, array('id', 'username'))) {
@@ -97,6 +120,13 @@ class Users {
 	  }
 	}
 
+	/**
+	* Check if a value exists against given columns
+	* @param: { $fields } { string / array } { single field or set of field => value to match }
+	* @param: { $value } { mixed } { false by default, value to match against when $fields is string }
+	* @param: { $fetch } { string } { false by default, fields to return if match is found }
+	* @return: { boolean / $fetch }
+	*/
 	public function exists($fields, $value = false, $fetch = false) {
 		if (is_array($fields)) {
 			foreach ($fields as $key => $value) {
@@ -109,19 +139,38 @@ class Users {
 		return $fetch ? $this->database->get($this->table, 1, $fetch) : $this->database->getValue($this->table, 'count(*)');
 	}
 
+	/**
+	* Check if given id exists
+	* @param: { $id } { integer } { id to check }
+	* @return: { boolean }
+	*/
 	public function useridExists($id) {
 		return $this->exists('id', $id);
 	}
 
+	/**
+	* Check if given username exists
+	* @param: { $username } { integer } { username to check }
+	* @return: { boolean }
+	*/
 	public function usernameExists($username) {
 		return $this->exists('username', $username);
 	}
 
+	/**
+	* Check if given email exists
+	* @param: { $email } { integer } { email to check }
+	* @return: { boolean }
+	*/
 	public function emailExists($email) {
 		return $this->exists('email', $email);
 	}
 
-
+	/**
+	* Check if given string matches against id, email or username of existing user
+	* @param: { $user } { mixed } { value to check }
+	* @return: { boolean }
+	*/
 	public function userExists($user) {
 		$column = $this->column($user);
 		if ($column == 'id') {
@@ -205,9 +254,9 @@ class Users {
 	}
 
 	/**
-	* update multiple columns of multiple videos
+	* update multiple columns of multiple users
 	* @param: { $fieldValueArray } { array } { field => value array to update }
-	* @param: { $identifierValueArray } { array } { values array to search videos by }
+	* @param: { $identifierValueArray } { array } { values array to search users by }
 	* @param: { $identifier } { string } { username by default, column to search against }
 	* @return: { boolean }
 	*/
@@ -216,50 +265,110 @@ class Users {
 		return $this->database->update($this->table, $fieldValueArray);
 	}
 
+	/**
+	* Get all fields of user by id
+	* @param: { $id } { integer } { id of user }
+	* @return: { array }
+	*/
 	public function getById($id, $fields) {
 		return $this->get($id, 'id');
 	}
 
+	/**
+	* Get all fields of user by username
+	* @param: { $username } { string } { username of user }
+	* @return: { array }
+	*/
 	public function getByUsername($username) {
 		return $this->get($username, 'username');
 	}
 
+	/**
+	* Get all fields of user by email
+	* @param: { $email } { string } { email of user }
+	* @return: { array }
+	*/
 	public function getByEmail($email) {
 		return $this->get($email, 'email');	
 	}
 
-	public function getId() {
+	/**
+	* Get ID of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getId($identifier) {
 		return $this->getField($identifier, 'id');
 	}
 
-	public function getUsername() {
+	/**
+	* Get username of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getUsername($identifier) {
 		return $this->getField($identifier, 'username');
 	}
 
-	public function getEmail() {
+	/**
+	* Get email of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getEmail($identifier) {
 		return $this->getField($identifier, 'email');
 	}
 
-	public function getLevel() {
+	/**
+	* Get level of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getLevel($identifier) {
 		return $this->getField($identifier, 'level');
 	}
 
-	public function getDate() {
+	/**
+	* Get signup date of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getDate($identifier) {
 		return $this->getField($identifier, 'date');
 	}
 
-	public function getStatus() {
+	/**
+	* Get status of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getStatus($identifier) {
 		return $this->getField($identifier, 'status');
 	}
 
-	public function getDob() {
+	/**
+	* Get date of birth of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getDob($identifier) {
 		return $this->getField($identifier, 'dob');
 	}
 
-	public function getBio() {
+	/**
+	* Get bio of user
+	* @param: { $identifier } { value to search by }
+	* @return: { array }
+	*/
+	public function getBio($identifier) {
 		return $this->getField($identifier, 'bio');
 	}
 
+	/**
+	* Get Avatar of user
+	* @param: { $username } { username to search by }
+	* @return: { string }
+	*/
 	public function getAvatar($username) {
 		$path = AVATARS_DIRECTORY . '/' . $username . '.jpg';
 		if (file_exists($path)) {
@@ -269,6 +378,11 @@ class Users {
 		}
 	}
 
+	/**
+	* Get Cover of user
+	* @param: { $username } { username to search by }
+	* @return: { string }
+	*/
 	public function getCover($username) {
 		$path = COVERS_DIRECTORY . '/' . $username . '.jpg';
 		if (file_exists($path)) {
@@ -278,6 +392,15 @@ class Users {
 		}
 	}
 
+	/**
+	* List users matching several dynamic parameters
+	* @param: { $parameters } { array } { array of parameters }
+	* This array can include any column from $this->table table which
+	* is users by default. You can specify fields and values in
+	* $field => $value format which is then turned in MySQL conditions
+	* Please refer to our Github page for usage examples
+	* @return: { array }
+	*/
 	public function list($parameters = false) {
 		if (is_array($parameters)) {
 			foreach ($parameters as $column => $condition) {
@@ -304,26 +427,56 @@ class Users {
 		return isset($parameters['count']) ? $this->database->getValue($this->table, 'count(*)') : $this->database->get($this->table, $limit);
 	}
 
+	/**
+	* List most recent users
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listFresh($limit, $parameters = false) {
 		$parameters['sort'] = 'date';
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* List most users by specific state
+	* @param: { $state } { string } { state to search }
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listByState($state, $limit, $parameters = false) {
 		$parameters['state'] = $state;
 		$parameters['limit'] = $limit;
 		return $this->list($parameters);
 	}
 
+	/**
+	* List users by active state
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listActive($limit, $parameters = false) {
-		return $this->listByState('active', $limit, $parameters);
+		return $this->listByState('ok', $limit, $parameters);
 	}
 
+	/**
+	* List users by inactive state
+	* @param: { $limit } { integer } { number or mysql style limit }
+	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+	* @return: { array }
+	*/
 	public function listInactive($limit, $parameters = false) {
 		return $this->listByState('inactive', $limit, $parameters);
 	}
 
+	/**
+	* Count total users matching parameters
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of users found }
+	*/
 	public function count($parameters = false) {
 		if ($parameters) {
 			$parameters['count'] = true;
@@ -333,16 +486,31 @@ class Users {
 		}
 	}
 
+	/**
+	* Count total active users
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of users found }
+	*/
 	public function countActive($parameters = false) {
 		$parameters['status'] = 'ok';
 		return $this->list($parameters);
 	}
 
+	/**
+	* Count total inactive users
+	* @param: { $parameters } { array } { false by default, any paramters to apply }
+	* @return: { integer } { number of users found }
+	*/
 	public function countInactive($parameters = false) {
 		$parameters['status'] = 'inactive';
 		return $this->list($parameters);
 	}
 
+	/**
+	* Validate fields before creating user
+	* @param: { $fields } { array } { fields and values to be inserted }
+	* @return: { boolean }
+	*/
 	public function validate($fields) {
 		if (!$this->limbs->settings->allowSignups()) {
 			return $this->limbs->errors->add('Singups are not allowed at the moment');
@@ -372,6 +540,11 @@ class Users {
 		return true;
 	}
 	
+	/**
+	* Validate fields before updating user
+	* @param: { $fields } { array } { fields and values to be updated }
+	* @return: { boolean }
+	*/
 	private function validateUpdate($fields) {
 		$required = array('email', 'password', 'new_password', 'confirm_password');
 		if (!$this->authenticated()) {
@@ -407,27 +580,59 @@ class Users {
 		return true;
 	}
 
-	public function activate($video) {
-		return $this->setField('status', 'ok', $video, is_numeric($video) ? 'id' : 'username');
+	/**
+	* Set user state to activve
+	* @param: { $user } { string / integer } { user id or username }
+	* @return: { boolean }
+	*/
+	public function activate($user) {
+		return $this->setField('status', 'ok', $user, is_numeric($user) ? 'id' : 'username');
 	}
 
-	public function bulkActivate($videosArray, $identifier = 'username') {
-		return $this->setFieldBulk('status', 'ok', $videosArray, $identifier);
+	/**
+	* Set user state to active for multiple users
+	* @param: { $usersArray } { mixed array } { list of user ids or usernames }
+	* @param: { $identifer } { string } { specify if list contains ids or usernames }
+	* @return: { boolean }
+	*/
+	public function bulkActivate($usersArray, $identifier = 'username') {
+		return $this->setFieldBulk('status', 'ok', $usersArray, $identifier);
 	}
 
-	public function deactivate($video) {
-		return $this->setField('status', 'inactive', $video, is_numeric($video) ? 'id' : 'username');
+	/**
+	* Set user state to inactive
+	* @param: { $user } { string / integer } { user id or username }
+	* @return: { boolean }
+	*/
+	public function deactivate($user) {
+		return $this->setField('status', 'inactive', $user, is_numeric($user) ? 'id' : 'username');
 	}
 
-	public function bulkDeactivate($videosArray, $identifier = 'username') {
-		return $this->setFieldBulk('status', 'inactive', $videosArray, $identifier);
+	/**
+	* Set user state to inactive for multiple users
+	* @param: { $usersArray } { mixed array } { list of user ids or usernames }
+	* @param: { $identifer } { string } { specify if list contains ids or usernames }
+	* @return: { boolean }
+	*/
+	public function bulkDeactivate($usersArray, $identifier = 'username') {
+		return $this->setFieldBulk('status', 'inactive', $usersArray, $identifier);
 	}
 
-	public function delete($video) {
-		$this->database->where(is_numeric($video) ? 'id' : 'username', $video);
+	/**
+	* Delete a user
+	* @param: { $user } { string / integer } { user id or username }
+	* @return: { boolean }
+	*/
+	public function delete($user) {
+		$this->database->where(is_numeric($user) ? 'id' : 'username', $user);
 		return $this->database->delete($this->table);
 	}
 
+	/**
+	* Insert a user into database
+	* @param: { $fields } { array } { raw form fields }
+	* @return: { integer } { user id if inserted }
+	*/
 	public function create($fields) {
 		if ($this->validate($fields)) {
 			$fields['password'] = $this->securePassword($fields['password']);
@@ -436,6 +641,12 @@ class Users {
 		}
 	}
 
+	/**
+	* Update a user's fields
+	* @param: { $identifier } { string / integer } { user id or username }
+	* @param: { $details } { array } { an assoc array of fields and values to update }
+	* @return: { boolean }
+	*/
 	public function update($identifier, $details) {
 		if ($this->validateUpdate($details)) {
 			if (isset($details['password'])) {
@@ -448,6 +659,12 @@ class Users {
 		}
 	}
 
+	/**
+	* Authenticate user credentials
+	* @param: { $username } { string } { username to check }
+	* @param: { $password } { string } { password to check }
+	* @return: { array } { id, status and level of existing user }
+	*/
 	public function authenticate($username, $password) {
 		$credentials = array('username' => $username, 'password' => $this->securePassword($password));
 		if ($results = $this->exists($credentials, false, array('id', 'status', 'level'))) {
@@ -469,10 +686,21 @@ class Users {
 		return $results;
 	}
 
+	/**
+	* Create hashed password for database
+	* @param: { string } { $password } { string password to hash }
+	* @return: { string }
+	*/
 	public function securePassword($password) {
     return md5(md5(md5($password)));
   }
 
+  /**
+	* Login a user
+	* @param: { $username } { string } { username to login }
+	* @param: { $password } { string } { password of user }
+	* @return: { integer }
+  */
 	public function login($username, $password) {
 		if ($details = $this->authenticate($username, $password)) {
 			$_SESSION['username'] = $username;
@@ -483,20 +711,39 @@ class Users {
 		}
 	}
 
+	/**
+	* Check if a user is logged in
+	* @return: { boolean }
+	*/
 	public function authenticated() {
 		return !empty($this->userId) ? $this->userId : false;
 	}
 
+	/**
+	* Check if a user is admin
+	* @param: { $username } { string } { logged in user by default, username to check }
+	* @return: { boolean }
+	*/
 	public function isAdmin($username = false) {
 		return $this->authenticated() && $this->level() == 1 ? true : false;
 	}
 
+	/**
+	* Upload user avatar
+	* @param: { $formData } { array } { raw $_FILES object }
+	* @return: { boolean }
+	*/
 	public function uploadAvatar($formData) {
 		$file = AVATARS_DIRECTORY . '/' . $this->username() . '.jpg';
 		if (file_exists($file)) { @unlink($file); }
 		return move_uploaded_file($formData['tmp_name'], $file) ? $file : $this->limbs->errors->add('Failed to upload avatar');
 	}
 
+	/**
+	* Upload user channel cover
+	* @param: { $formData } { array } { raw $_FILES object }
+	* @return: { boolean }
+	*/
 	public function uploadCover($formData) {
 		$file = COVERS_DIRECTORY . '/' . $this->username() . '.jpg';
 		if (file_exists($file)) { @unlink($file); }

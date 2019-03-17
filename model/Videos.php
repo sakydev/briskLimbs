@@ -472,7 +472,7 @@ class Videos {
 	}
 
 	/**
-	* List most videos by active state
+	* List videos by active state
 	* @param: { $limit } { integer } { number or mysql style limit }
 	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
 	* @return: { array }
@@ -482,7 +482,7 @@ class Videos {
 	}
 
 	/**
-	* List most videos by inactive state
+	* List videos by inactive state
 	* @param: { $limit } { integer } { number or mysql style limit }
 	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
 	* @return: { array }
@@ -493,7 +493,7 @@ class Videos {
 
 
 	/**
-	* List most videos by processing status
+	* List videos by processing status
 	* @param: { $status } { string } { processing status to search by }
 	* @param: { $limit } { integer } { number or mysql style limit }
 	* @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
