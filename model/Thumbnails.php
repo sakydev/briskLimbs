@@ -2,7 +2,7 @@
 
 /**
 * Name: Thumbnails
-* Description: Core class for handling related actions
+* Description: Core class for handling thumbnails related actions
 * @author: Saqib Razzaq
 * @since: v1, Feburary, 2019
 * @link: https://github.com/briskLimbs/briskLimbs/blob/master/model/Thumbnails.php
