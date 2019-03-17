@@ -1,10 +1,60 @@
 <?php
 
 /**
-* 
+* Name: Conversion
+* Description: This class handles video conversion and thumbnails generation
+* @author: Saqib Razzaq
+* @since: v1, Feburary, 2019
+* @link: https://github.com/briskLimbs/briskLimbs/blob/master/model/Conversion.php
 */
+
 class Conversion {
-  
+
+  /*
+  * Holds global settings object
+  */
+  private $settings;
+
+  /*
+  * Holds ffmpeg path
+  */
+  private $ffmpeg;
+
+  /* 
+  * Holds ffprobe path
+  */
+  private $ffprobe;
+
+  /*
+  * Holds filename to be processed
+  */
+  private $filename;
+
+  /*
+  * Holds directory to store output files into
+  */
+  private $directory;
+
+  /*
+  * Holds complete path of file to be processed
+  */
+  private $path;
+
+  /*
+  * Holds Logs object
+  */
+  private $logs;
+
+  /*
+  * Holds width of video
+  */
+  private $width;
+
+  /*
+  * Holds height of video
+  */
+  private $height;
+
   function __construct($filename, $directory, $path, $logs) {
     global $settings;
     $this->settings = $settings; 
@@ -18,30 +68,44 @@ class Conversion {
     $this->height = false;
   }
 
+  /**
+  * Remove a file 
+  * @param: { $path } { string } { path to be removed }
+  */
   private function remove($path) {
     if (file_exists($path)) {
       unlink($path);
     }
   }
 
+  /**
+  * Extract video details
+  * @param: { $path } { string } { path of video file }
+  * @param: { $jsonDecode } { boolean } { converts json if true }
+  * @return: { array / json } 
+  */
   private function details($path, $jsonDecode = true) {
     $command = "$this->ffprobe -v quiet -print_format json -show_format -show_streams $path";
     $details = shell_exec($command);
-    if ($jsonDecode) {
-      return json_decode($details, true)['streams'];
-    } else {
-      return $details;
-    }
+    return $jsonDecode ? json_decode($details, true)['streams'] : $details;
   }
 
+  /**
+  * Extract video duration
+  * @param: { $path } { string } { path of video file }
+  * @return: { integer }
+  */
   private function duration($path) {
     $command = "$this->ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path";
     $duration = shell_exec($command);
-    if (is_numeric(trim($duration))) {
-      return $duration;
-    }
+    return is_numeric(trim($duration)) ? $duration : false;
   }
 
+  /**
+  * Creates video thumbnails
+  * @param: { $path } { string } { path of video file }
+  * @return: { array }
+  */
   public function createThumbnails($path) {
     $generatedThumbs = array();
     $thumbOptions = array(
@@ -66,7 +130,13 @@ class Conversion {
     return $generatedThumbs;
   }
 
-  private function possibleQualities($videoWidth, $videoHeight) {
+  /**
+  * Determines video qualities that can be generated for given video
+  * @param: { $width } { integer } { width of video }
+  * @param: { $height } { integer } { height of video } 
+  * @return: { array }
+  */
+  public function possibleQualities($width, $height) {
     $basicQualities = array('240', '360', '480', '720', '1080');
     $dimensions = array(
       '240' => array('width' => '424', 'video_bitrate' => '576', 'audio_bitrate' => '64'), 
@@ -78,10 +148,10 @@ class Conversion {
     $possibleQualities = array();
     foreach ($basicQualities as $quality) {
       if ($this->settings->get("quality_{$quality}") != 'yes') { continue; }
-      if ($quality <= $videoHeight) {
+      if ($quality <= $height) {
         $finalDimensions = $dimensions[$quality];
-        if ($finalDimensions['width'] > $videoWidth) {
-          $finalDimensions['width'] = $videoWidth;
+        if ($finalDimensions['width'] > $width) {
+          $finalDimensions['width'] = $width;
         }
 
         $possibleQualities[$quality] = $finalDimensions;
@@ -95,6 +165,12 @@ class Conversion {
     return $possibleQualities;
   }
 
+  /**
+  * Handles main process of video conversion
+  * This function extracts video details, determines output qualities, generates thumbnails
+  * and generates video
+  * @return: { array }
+  */
   public function process() {      
     $this->logs->write("Log file for video : $this->filename");
     $this->logs->write("Fetching video details...");
@@ -137,16 +213,12 @@ class Conversion {
       $currentOutputFile = VIDEOS_DIRECTORY . '/' . $this->directory . '/' . $this->filename . '-' . $height . '.mp4';
       $outputFiles['files'][] = $currentOutputFile;
       $this->remove($currentOutputFile);
-      # $currentCommand = "$this->ffmpeg -i $this->path -s $resoloution -c:a copy $currentOutputFile 2>&1";
+
       $width = $resoloution['width'];
       $videoBitrate = $resoloution['video_bitrate'];
       $audioBitrate = $resoloution['audio_bitrate'];
 
       $currentCommand = "$this->ffmpeg -i $this->path -vcodec libx264 -vprofile baseline -preset medium -b:v {$videoBitrate}k -maxrate {$videoBitrate}k -vf scale=$width:$height -threads 0 -acodec libfdk_aac -ab {$audioBitrate}k $currentOutputFile 2>&1";
-
-      # exit($currentCommand);
-      # command becomes
-      # /usr/bin/ffmpeg -i /var/www/html/clipfox/trunk/media/temporary/2018/02/06/LS1lCcHrKxsWEAb.mp4 -vcodec libx264 -vprofile baseline -preset medium -b:v 576k -maxrate 576k -vf scale=424:240 -threads 0 -acodec libfdk_aac -ab 64k /var/www/html/clipfox/trunk/media/videos/2018/02/06/LS1lCcHrKxsWEAb-240.mp4
 
       $this->logs->write("Command for resoloution {$height}p is : $currentCommand");
       $resoloutionCommands[] = $currentCommand;
