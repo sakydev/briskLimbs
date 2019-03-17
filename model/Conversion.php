@@ -84,7 +84,7 @@ class Conversion {
   * @param: { $jsonDecode } { boolean } { converts json if true }
   * @return: { array / json } 
   */
-  private function details($path, $jsonDecode = true) {
+  public function details($path, $jsonDecode = true) {
     $command = "$this->ffprobe -v quiet -print_format json -show_format -show_streams $path";
     $details = shell_exec($command);
     return $jsonDecode ? json_decode($details, true)['streams'] : $details;
@@ -95,7 +95,7 @@ class Conversion {
   * @param: { $path } { string } { path of video file }
   * @return: { integer }
   */
-  private function duration($path) {
+  public function duration($path) {
     $command = "$this->ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $path";
     $duration = shell_exec($command);
     return is_numeric(trim($duration)) ? $duration : false;
