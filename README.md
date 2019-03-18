@@ -229,6 +229,8 @@ Extract contents of downloaded zip and then login to your server via Filezilla o
 ```
 
 ### License
+BriskLimbs is available under MIT License. You can [read more here](https://github.com/briskLimbs/briskLimbs/blob/master/LICENSE)
+
 ### Credits
 - [PHP MySQLi Database Class](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class) [GNU License](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class/blob/master/LICENSE)
 - [Purple Admin](https://github.com/BootstrapDash/PurpleAdmin-Free-Admin-Template) [MIT License](https://opensource.org/licenses/MIT)
