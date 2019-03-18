@@ -3,10 +3,12 @@ A video sharing software created with both webmasters and developers in mind.
 
 ## Table of contents
 
-- [Quick start](#getting-start)
+- [Why BriskLimbs](#why-brisklimbs)
+- [Quick start](#getting-started)
 - [Requirments](#requirments)
 - [Recomendations](#recomendations)
 - [Installation](#installation)
+- [Documentation](https://github.com/briskLimbs/briskLimbs/wiki)
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
 - [Directory Structure](#directory-structure)
@@ -19,6 +21,7 @@ A video sharing software created with both webmasters and developers in mind.
 - [License](#license)
 - [Credits](#credits)
 
+### Why BriskLimbs
 ### Getting Started
 #### Requirments
 briskLimbs requires several tools to run smoothly. You are recomended to have them all ready before installation.
