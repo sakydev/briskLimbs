@@ -69,16 +69,6 @@ class Conversion {
   }
 
   /**
-  * Remove a file 
-  * @param: { $path } { string } { path to be removed }
-  */
-  private function remove($path) {
-    if (file_exists($path)) {
-      unlink($path);
-    }
-  }
-
-  /**
   * Extract video details
   * @param: { $path } { string } { path of video file }
   * @param: { $jsonDecode } { boolean } { converts json if true }
@@ -240,5 +230,15 @@ class Conversion {
 
     $this->logs->write("File conversion is done and returing output to other function");    
     return $outputFiles;
+  }
+
+  /**
+  * Remove a file 
+  * @param: { $path } { string } { path to be removed }
+  */
+  private function remove($path) {
+    if (file_exists($path)) {
+      unlink($path);
+    }
   }
 }

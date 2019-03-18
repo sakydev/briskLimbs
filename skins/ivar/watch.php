@@ -46,6 +46,7 @@ if ($files = $filesObject->get()) {
 }
 
 $sidebarLimit = $limbs->settings->get('related');
+
 if ($sidebar = $videos->list(array('keyword' => $video->title(), 'limit' => $sidebarLimit))) {
 	$sidebarTitle = 'Similar Videos';
   foreach ($sidebar as $key => $vid) {
