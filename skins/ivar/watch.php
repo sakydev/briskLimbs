@@ -55,7 +55,7 @@ if ($sidebar = $videos->list(array('keyword' => $video->title(), 'limit' => $sid
   }
 } else {
 	$sidebarTitle = 'Fresh Videos';
-	$sidebar = $videos->getFresh($sidebarLimit);
+	$sidebar = $videos->listFresh($sidebarLimit);
   foreach ($sidebar as $key => $vid) {
     $thumbnails = new Thumbnails($vid['filename'], directory($vid['date']), true);
     $sidebar[$key]['thumbnail'] = $thumbnails->medium();
