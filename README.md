@@ -4,7 +4,7 @@ A video sharing software created with both webmasters and developers in mind.
 ## Table of contents
 
 - [Why BriskLimbs](#why-brisklimbs)
-- [Quick start](#getting-started)
+- [Getting Started](#getting-started)
 - [Requirments](#requirments)
 - [Recomendations](#recomendations)
 - [Installation](#installation)
@@ -12,17 +12,23 @@ A video sharing software created with both webmasters and developers in mind.
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
 - [Directory Structure](#directory-structure)
-- [Videos Examples](https://github.com/briskLimbs/briskLimbs/wiki/Videos)
-- [Users Examples](https://github.com/briskLimbs/briskLimbs/wiki/Users)
-- [Addons Examples](https://github.com/briskLimbs/briskLimbs/wiki/Addons)
-- [Thumbnails Exmaples](https://github.com/briskLimbs/briskLimbs/wiki/Thumbnails)
-- [Files Examples](https://github.com/briskLimbs/briskLimbs/wiki/Files)
-- [Errors Examples](https://github.com/briskLimbs/briskLimbs/wiki/Errors)
+- [Videos Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Videos)
+- [Users Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Users)
+- [Addons Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Addons)
+- [Thumbnails Exmaples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Thumbnails)
+- [Files Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Files)
+- [Errors Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Errors)
 - [License](#license)
 - [Credits](#credits)
 
 ### Why BriskLimbs
+There aren't many open source video solutions out there. The ones that exist are mostly painful to deal with. The frustration of having to go back and forth with customer support, lack of documentation and having to figure things out yourself, claiming features that aren't even half built and lots of similiar issues is the reason why we created BriskLimbs.
+
+We have the detremination to always put the community first and build things people actually want. We aren't hiding behind open source curtain looking at your wallets and instead want to share solutions with the world in purest sense of open source. 
+
 ### Getting Started
+It is easy to get started with BriskLimbs no matter if you are a developer or a webmaster with no technical knowledge. 
+
 #### Requirments
 briskLimbs requires several tools to run smoothly. You are recomended to have them all ready before installation.
 
