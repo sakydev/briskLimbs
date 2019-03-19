@@ -54,7 +54,7 @@ Once you have installed and configured all required tools you can begin installi
 
 ###### Latest Stable Version
 ```
-wget https://github.com/briskLimbs/briskLimbs/archive/v1.0.zip
+wget https://github.com/briskLimbs/briskLimbs/archive/v1.0.1.zip
 unzip briskLimbs-1.0.zip
 cd briskLimbs-1.0
 composer require "twig/twig:^2.0"
