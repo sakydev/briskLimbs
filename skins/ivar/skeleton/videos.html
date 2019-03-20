@@ -124,6 +124,13 @@
 						          <span class="caret"></span>
 						        </button>
 						        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% for action in _triggers.user_videos_actions_top %}
+                        {% if action is iterable %}
+                          {{hook(action|keys|first, video[action|first])}}
+                        {% else %}
+                          {{hook(action, video.vkey)}}
+                        {% endif %}
+                      {% endfor %}
 						        	{% if video.state == 'active' %}
 						          	<li><a href="{{urlBase}}&deactivate={{video.vkey}}">Deactivate</a></li>
 						          {% else %}
@@ -133,6 +140,13 @@
 						          <li><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank">Watch</a></li>
 						          <li class="divider"></li>
 						          <li><a href="{{urlBase}}&delete={{video.vkey}}">Delete</a></li>
+                      {% for action in _triggers.user_videos_actions_top %}
+                        {% if action is iterable %}
+                          {{hook(action|keys|first, video[action|first])}}
+                        {% else %}
+                          {{hook(action, video.vkey)}}
+                        {% endif %}
+                      {% endfor %}
 						        </ul>
 						      </div>
 	              </td>

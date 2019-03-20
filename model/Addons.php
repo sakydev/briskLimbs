@@ -313,7 +313,17 @@ class Addons {
       'admin_users_actions_bottom',
       'admin_users_actions_top',
       'user_videos_actions_top',
-      'user_videos_actions_bottom'
+      'user_videos_actions_bottom',
+      'head_start',
+      'head_end',
+      'navbar_before',
+      'navbar_after',
+      'body_before',
+      'body_after',
+      'footer_before',
+      'footer_after',
+      'footer_start',
+      'footer_end'
     );
 
     if (!in_array($location, $locationsList)) {
