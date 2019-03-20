@@ -9,6 +9,7 @@ A video sharing software created with both webmasters and developers in mind.
 - [Recomendations](#recomendations)
 - [Installation](#installation)
 - [Documentation](https://github.com/briskLimbs/briskLimbs/wiki)
+- [Official Addons](#official-addons)
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
 - [Directory Structure](#directory-structure)
@@ -68,6 +69,12 @@ composer require "twig/twig:^2.0"
 ```
 
 That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow configuration instructions. 
+
+#### Official Addons
+Addons allow you to extend basic functionality of BriskLimbs by adding new features, enhancing existing ones or simply making something easier. 
+
+- [TagsDip](#https://github.com/briskLimbs/tagsDip)
+Write custom CSS, JavaScript or any other tags in Header or Footer of website without actually editing those files.
 
 #### FAQ
 - Is briskLimbs free?
