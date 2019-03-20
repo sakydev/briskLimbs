@@ -33,6 +33,7 @@ class Limbs {
 	* Holds addon parameters for Twig
 	*/
 	public $addonParameters;
+	public $addonTriggers;
 
 	/*
 	* Holds Errors object
@@ -142,6 +143,7 @@ class Limbs {
 		);
 
 		$params['_addons'] = $this->collectAddonParamters();
+		$params['_triggers'] = $this->collectAddonTriggers();
 		$params['_title'] = $this->buildTitle($parameters);
 		return $params;
 	}
@@ -238,6 +240,33 @@ class Limbs {
 	*/
 	public function collectAddonParamters() {
 		return $this->addonParameters;
+	}
+
+		/**
+	* Adds an addon trigger
+	* @param: { $parameter } { string } { name of parameter }
+	* @param: { $valie } { string } { value of parameter }
+	* @return: { boolean }
+	*/
+	public function addAddonTrigger($parameter, $value, $return = false) {
+		return $this->addonTriggers[$value][] = $return ? array($parameter => $return) : $parameter;
+	}
+
+	/**
+	* Get an addon trigger
+	* @param: { $parameter } { string } { name of parameter }
+	* @return: { mixed }
+	*/
+	public function getAddonTrigger($parameter) {
+		return isset($this->addonTriggers[$parameter]) ? $this->addonTriggers[$parameter] : false;
+	}
+
+	/**
+	* Fetch all addon triggers
+	* @return: { array }
+	*/
+	public function collectAddonTriggers() {
+		return $this->addonTriggers;
 	}
 
 	/**

@@ -143,6 +143,13 @@
 						          <span class="caret"></span>
 						        </button>
 						        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% for action in _triggers.admin_users_actions_top %}
+                        {% if action is iterable %}
+                          {{hook(action|keys|first, user[action|first])}}
+                        {% else %}
+                          {{hook(action, user.vkey)}}
+                        {% endif %}
+                      {% endfor %}
 						        	{% if user.status == 'ok' %}
 						          	<li><a href="{{urlBase}}&deactivate={{user.username}}">Deactivate</a></li>
 						          {% else %}
@@ -151,6 +158,13 @@
 						          <li><a href="{{_adminUrl}}/edituser/?username={{user.username}}">Edit</a></li>
 						          <li class="divider"></li>
 						          <li><a href="{{urlBase}}&delete={{user.username}}">Delete</a></li>
+                      {% for action in _triggers.admin_users_actions_bottom %}
+                        {% if action is iterable %}
+                          {{hook(action|keys|first, user[action|first])}}
+                        {% else %}
+                          {{hook(action, user.vkey)}}
+                        {% endif %}
+                      {% endfor %}
 						        </ul>
 						      </div>
 	              </td>

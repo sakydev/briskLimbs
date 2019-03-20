@@ -92,6 +92,6 @@ $parameters['mainSection'] = 'addons';
 $parameters['subSection'] = $subSection;
 
 $parameters['pagination'] = buildPagination($page, $size, $total);
-$parameters['_errors'] = $addons->errors->collect();
+$parameters['_errors'] = array_merge($addons->errors->collect(), $limbs->errors->collect());
 $parameters['_title'] = 'Addons Manager - Dashboard';
 $limbs->display('addons.html', $parameters);

@@ -176,6 +176,13 @@
 						          <span class="caret"></span>
 						        </button>
 						        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% for action in _triggers.admin_videos_actions_top %}
+                        {% if action is iterable %}
+                          {{hook(action|keys|first, video[action|first])}}
+                        {% else %}
+                          {{hook(action, video.vkey)}}
+                        {% endif %}
+                      {% endfor %}
                       <li><a href="{{_adminUrl}}/log/?key={{video.vkey}}">Log</a></li>
                       {% if video.featured == 'yes' %}
                         <li><a href="{{urlBase}}&unfeature={{video.vkey}}">Unfeatured</a></li>
@@ -192,6 +199,13 @@
 						          <li><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank">Watch</a></li>
 						          <li class="divider"></li>
 						          <li><a href="{{urlBase}}&delete={{video.vkey}}">Delete</a></li>
+                      {% for action in _triggers.admin_videos_actions_bottom %}
+                        {% if action is iterable %}
+                          {{hook(action|keys|first, video[action|first])}}
+                        {% else %}
+                          {{hook(action, video.vkey)}}
+                        {% endif %}
+                      {% endfor %}
 						        </ul>
 						      </div>
 	              </td>

@@ -305,4 +305,25 @@ class Addons {
   public function url($name) {
     return ADDONS_URL . '/' . $name;
   }
+
+  public function addTrigger($function, $location, $return = false) {
+    $locationsList = array(
+      'admin_videos_actions_top',
+      'admin_videos_actions_bottom',
+      'admin_users_actions_bottom',
+      'admin_users_actions_top',
+      'user_videos_actions_top',
+      'user_videos_actions_bottom'
+    );
+
+    if (!in_array($location, $locationsList)) {
+      return $this->limbs->errors->add('Invalid addon trigger location');
+    }
+
+    if (!function_exists($function)) {
+        return $this->limbs->errors->add("Function $function for $location doesn't exist");
+    }
+
+    return $this->limbs->addAddonTrigger($function, $location, $return);
+  }
 }
