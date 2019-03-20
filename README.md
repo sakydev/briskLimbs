@@ -73,6 +73,7 @@ That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow c
 #### Official Addons
 Addons allow you to extend basic functionality of BriskLimbs by adding new features, enhancing existing ones or simply making something easier. 
 
+- [Videos Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Videos)
 - [TagsDip](#https://github.com/briskLimbs/tagsDip)
 Write custom CSS, JavaScript or any other tags in Header or Footer of website without actually editing those files.
 
