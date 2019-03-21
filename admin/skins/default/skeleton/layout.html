@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% for action in _triggers.head_start %}
+    {{hook(action)}}
+  {% endfor %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>{{_title}}</title>
@@ -9,11 +12,20 @@
   <link rel="stylesheet" href="{{_cssUrl}}/custom.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{_imagesUrl}}/favicon.png" />
+  {% for action in _triggers.head_end %}
+    {{hook(action)}}
+  {% endfor %}
 </head>
 
+{% for action in _triggers.body_before %}
+  {{hook(action)}}
+{% endfor %}
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
+    {% for action in _triggers.navbar_before %}
+      {{hook(action)}}
+    {% endfor %}
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo" href="{{_coreUrl}}/admin/dashboard"><img src="{{_imagesUrl}}/logo.svg" alt="logo"/></a>
@@ -61,6 +73,9 @@
         </button>
       </div>
     </nav>
+    {% for action in _triggers.navbar_after %}
+      {{hook(action)}}
+    {% endfor %}
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
@@ -178,7 +193,13 @@
 
         {% endblock %}
 
+        {% for action in _triggers.footer_before %}
+          {{hook(action)}}
+        {% endfor %}
         <footer class="footer">
+          {% for action in _triggers.footer_start %}
+            {{hook(action)}}
+          {% endfor %}
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a href="https://github.com/briskLimbs" target="_blank">BriskLimbs</a>. All rights reserved.</span>
           <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">UI by BootstrapDash</span>
@@ -186,10 +207,19 @@
           <script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
           <script type="text/javascript" src="{{_jsUrl}}/popper.min.js"></script>
           <script type="text/javascript" src="{{_jsUrl}}/bootstrap.min.js"></script>
+          {% for action in _triggers.footer_end %}
+            {{hook(action)}}
+          {% endfor %}
         </footer>
+         {% for action in _triggers.footer_after %}
+          {{hook(action)}}
+        {% endfor %}
       </div>
     </div>
   </div>
 </body>
+{% for action in _triggers.body_after %}
+  {{hook(action)}}
+{% endfor %}
 
 </html>

@@ -321,11 +321,19 @@ class Addons {
       'footer_before',
       'footer_after',
       'footer_start',
-      'footer_end'
+      'footer_end',
+      'all_sidebars_top',
+      'all_sidebars_bottom',
+      'watch_sidebar_top',
+      'watch_sidebar_bottom',
+      'browse_sidebar_top',
+      'browse_sidebar_bottom',
+      'channel_sidebar_top',
+      'channel_sidebar_bottom'
     );
 
     if (!in_array($location, $locationsList)) {
-      return $this->limbs->errors->add('Invalid addon trigger location');
+      return $this->limbs->errors->add("Invalid addon trigger ($function) location ($location)");
     }
 
     if (!function_exists($function)) {

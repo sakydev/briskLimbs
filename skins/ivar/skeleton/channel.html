@@ -73,6 +73,16 @@
     <div class="right-side col-lg-3 col-xs-12 col-sm-12">
       <div class="mb-2 video-title">Trending</div>
       <div class="box-shadow">
+        {% if _triggers.channel_sidebar_top is defined %}
+          {% for action in _triggers.channel_sidebar_top %}
+            {{hook(action)}}
+          {% endfor %}
+        {% endif %}
+        {% if _triggers.all_sidebars_top is defined %}
+          {% for action in _triggers.all_sidebars_top %}
+            {{hook(action)}}
+          {% endfor %}
+        {% endif %}
         {% for video in trending %}
           {% if loop.index == 3 %}
             {% if sidebarAd %}
@@ -113,6 +123,16 @@
             {% endif %}
           {% endif %}
         {% endfor %}
+        {% if _triggers.channel_sidebar_bottom is defined %}
+          {% for action in _triggers.channel_sidebar_bottom %}
+            {{hook(action)}}
+          {% endfor %}
+        {% endif %}
+        {% if _triggers.all_sidebars_bottom is defined %}
+          {% for action in _triggers.all_sidebars_bottom %}
+            {{hook(action)}}
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>

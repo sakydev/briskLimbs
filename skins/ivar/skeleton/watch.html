@@ -119,6 +119,16 @@
         <div class="right-side col-lg-4 col-xs-12 col-sm-12">
           <div class="mb-2 video-title">{{sidebarTitle}}</div>
           <div class="box-shadow">
+            {% if _triggers.all_sidebars_top is defined %}
+              {% for action in _triggers.all_sidebars_top %}
+                {{hook(action)}}
+              {% endfor %}
+            {% endif %}
+            {% if _triggers.watch_sidebar_top is defined %}
+              {% for action in _triggers.watch_sidebar_top %}
+                {{hook(action)}}
+              {% endfor %}
+            {% endif %}
             {% for video in sidebar %}
               {% if loop.index == 3 %}
                 {% if sidebarAd %}
@@ -159,6 +169,16 @@
                 {% endif %}
               {% endif %}
             {% endfor %}
+            {% if _triggers.watch_sidebar_bottom is defined %}
+              {% for action in _triggers.watch_sidebar_bottom %}
+                {{hook(action)}}
+              {% endfor %}
+            {% endif %}
+            {% if _triggers.all_sidebars_bottom is defined %}
+              {% for action in _triggers.all_sidebars_bottom %}
+                {{hook(action)}}
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </div>

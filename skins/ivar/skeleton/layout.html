@@ -208,6 +208,7 @@
           <script src="{{_jsUrl}}/video-js/videojs-resolution-switcher.js"></script>
           <script src="{{_jsUrl}}/watch.js"></script>
         {% endif %}
+        
         {% for action in _triggers.footer_end %}
           {{hook(action)}}
         {% endfor %}
