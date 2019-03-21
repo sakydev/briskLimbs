@@ -62,3 +62,7 @@ function hook($function, $parameters = false) {
 		$function($parameters);
 	}
 }
+
+function hookExists($function) {
+	return function_exists($function) ? 'yes' : false;
+}
