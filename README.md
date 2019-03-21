@@ -74,6 +74,9 @@ That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow c
 Addons allow you to extend basic functionality of BriskLimbs by adding new features, enhancing existing ones or simply making something easier. 
 
 - [TagsDip](https://github.com/briskLimbs/tagsDip): Add custom CSS, JavaScript or any other tags in Header or Footer of website
+- [TwitFeed](https://github.com/briskLimbs/twitFeed): Show Twitter timeline anywhere
+- [ViewsRandomizer)(https://github.com/briskLimbs/viewsRandomizer): Randmoize video views easily
+- [Facebook Comments](https://github.com/briskLimbs/facebookComments): Add Facebook comments widget
 
 #### FAQ
 - Is briskLimbs free?
