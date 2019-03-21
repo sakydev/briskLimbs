@@ -151,11 +151,9 @@ class Addons {
           return $this->errors->add("Skipping $name because main file $file doesn't exist");
         }
 
-        if (!file_exists($install)) {
-          return $this->errors->add("Skipping $name because install file doesn't exist at $install");
+        if (file_exists($install)) {
+          require $install;
         }
-
-        require $install;
 
         $parameter = array();
         $parameters['name'] = $addon['name'];
