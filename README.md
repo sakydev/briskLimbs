@@ -73,6 +73,7 @@ That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow c
 #### Official Addons
 Addons allow you to extend basic functionality of BriskLimbs by adding new features, enhancing existing ones or simply making something easier. 
 
+- [Pages](https://github.com/briskLimbs/pages): Add, manage and display custom pages
 - [TagsDip](https://github.com/briskLimbs/tagsDip): Add custom CSS, JavaScript or any other tags in Header or Footer of website
 - [TwitFeed](https://github.com/briskLimbs/twitFeed): Show Twitter timeline anywhere
 - [ViewsRandomizer](https://github.com/briskLimbs/viewsRandomizer): Randmoize video views easily
