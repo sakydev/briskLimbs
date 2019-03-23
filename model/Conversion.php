@@ -270,29 +270,29 @@ class Conversion {
     if (file_exists($watermark)) {
       switch ($placement) {
         case 'right:bottom':
-          $placement = ' -filter_complex "overlay=main_w-overlay_w-5:main_h-overlay_h-50" ';
+          $placement = ' "overlay=main_w-overlay_w-5:main_h-overlay_h-50" ';
           break;
         case 'left:top':
-          $placement = ' -filter_complex "overlay=5:5" '; 
+          $placement = ' "overlay=5:5" '; 
           break;
         case 'right:top':
-          $placement = ' -filter_complex "overlay=main_w-overlay_w-5:5" ';
+          $placement = ' "overlay=main_w-overlay_w-5:5" ';
           break;
         case 'center:top':
-          $placement = ' -filter_complex "overlay=main_w/2-overlay_w/2" ';
+          $placement = ' "overlay=main_w/2-overlay_w/2" ';
           break;
         case 'left:bottom':
-          $placement = ' -filter_complex "overlay=5:main_h-overlay_h" ';
+          $placement = ' "overlay=5:main_h-overlay_h" ';
           break;
         case 'center:center':
-          $placement = ' -filter_complex "overlay=(W-w)/2:(H-h)/2" ';
+          $placement = ' "overlay=(W-w)/2:(H-h)/2" ';
           break;
         default:
           # code...
           break;
       }
 
-      $command = "$this->ffmpeg -i $input -i $this->watermark $placement $output"
+      $command = "$this->ffmpeg -i $input -i $this->watermark -filter_complex $placement $output"
 
       $this->logs->write("Watermark command: $command");
       $commandOutput = $this->exec($command);
