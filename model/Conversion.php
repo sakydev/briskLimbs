@@ -217,12 +217,21 @@ class Conversion {
     $this->logs->write("Getting ready to generate thumbs");
     $generatedThumbs = $this->createThumbnails($this->path);
     $this->logs->write("Generated thumbs are : \n" . implode("\n", $generatedThumbs));
+
+    if ($this->enablePreClip) {
+      // code for joining first clip
+    }
+
+    if ($this->enablePostClip) {
+      // code for joing post clip
+    }
+    
     if ($this->enableWatermark) {
       $this->logs->write("Getting ready to add watermark");
-      $this->logs->write("WM: " . str_replace($this->filename, $this->filename . '_wm', $this->path));
       $this->watermark($this->path, str_replace($this->filename, $this->filename . '_wm', $this->path));
       $this->logs->write("Watermark has been added");
     }
+
     $this->logs->write("Listing possible video qualities to be converted");
     $pendingResouloutions = $this->possibleQualities($this->width, $this->height);
 
