@@ -76,8 +76,10 @@ Addons allow you to extend basic functionality of BriskLimbs by adding new featu
 - [Pages](https://github.com/briskLimbs/pages): Add, manage and display custom pages
 - [TagsDip](https://github.com/briskLimbs/tagsDip): Add custom CSS, JavaScript or any other tags in Header or Footer of website
 - [TwitFeed](https://github.com/briskLimbs/twitFeed): Show Twitter timeline anywhere
+- [SocialCrow](https://github.com/briskLimbs/socialCrow): Show social page buttons
+- [Disqus](https://github.com/briskLimbs/Disqus): Add Disqus comments widget
+- [FacebookComments](https://github.com/briskLimbs/facebookComments): Add Facebook comments widget
 - [ViewsRandomizer](https://github.com/briskLimbs/viewsRandomizer): Randmoize video views easily
-- [Facebook Comments](https://github.com/briskLimbs/facebookComments): Add Facebook comments widget
 
 #### FAQ
 - Is briskLimbs free?
