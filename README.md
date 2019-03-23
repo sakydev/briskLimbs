@@ -71,6 +71,8 @@ composer require "twig/twig:^2.0"
 
 That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow configuration instructions. 
 
+Are you having problems installing? Shoot an email at brisklimbs@gmail.com and we'll be happy to do it for you. FREE :)
+
 #### Official Addons
 Addons allow you to extend basic functionality of BriskLimbs by adding new features, enhancing existing ones or simply making something easier. 
 
