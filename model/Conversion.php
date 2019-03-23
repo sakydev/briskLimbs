@@ -264,4 +264,46 @@ class Conversion {
       unlink($path);
     }
   }
+
+  function watermark($input, $output) {
+    $placement = $this->settings->get('watermark_placement');
+    if (file_exists($watermark)) {
+      switch ($placement) {
+        case 'right:bottom':
+          $placement = ' -filter_complex "overlay=main_w-overlay_w-5:main_h-overlay_h-50" ';
+          break;
+        case 'left:top':
+          $placement = ' -filter_complex "overlay=5:5" '; 
+          break;
+        case 'right:top':
+          $placement = ' -filter_complex "overlay=main_w-overlay_w-5:5" ';
+          break;
+        case 'center:top':
+          $placement = ' -filter_complex "overlay=main_w/2-overlay_w/2" ';
+          break;
+        case 'left:bottom':
+          $placement = ' -filter_complex "overlay=5:main_h-overlay_h" ';
+          break;
+        case 'center:center':
+          $placement = ' -filter_complex "overlay=(W-w)/2:(H-h)/2" ';
+          break;
+        default:
+          # code...
+          break;
+      }
+
+      $command = "$this->ffmpeg -i $input -i $this->watermark $placement $output"
+
+      $this->logs->write("Watermark command: $command");
+      $commandOutput = $this->exec($command);
+      $this->logs->write("Watermark command output \n $commandOutput");
+
+      // if watermarked successfully then replace original with watermarked version
+      if (file_exists($output)) {
+        unlink($input);
+        rename($output, $input);
+        return $input;
+      }
+    }
+  }
 }
