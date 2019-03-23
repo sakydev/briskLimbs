@@ -20,7 +20,7 @@ if (isset($_POST['settings'])) {
 	}
 }
 
-if (isset($_FILES['watermark'])) {
+if (!empty($_FILES['watermark']['tmp_name'])) {
 	$watermarkPath = MEDIA_DIRECTORY . '/watermark.png';
 	echo $watermarkPath;
 	if (file_exists($watermarkPath)) {

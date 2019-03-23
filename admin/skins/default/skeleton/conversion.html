@@ -197,8 +197,8 @@
             <label class="col-sm-12 col-form-label">Enable Watermark</label>
             <div class="col-sm-12">
               <select name="enable_watermark" class="form-control">
-                <option value="right:top" {% if settings.enable_watermark == 'no' %}selected="selected"{% endif %}>No</option>
-                <option value="left:top" {% if settings.enable_watermark == 'yes' %}selected="selected"{% endif %}>Yes</option>
+                <option value="no" {% if settings.enable_watermark == 'no' %}selected="selected"{% endif %}>No</option>
+                <option value="yes" {% if settings.enable_watermark == 'yes' %}selected="selected"{% endif %}>Yes</option>
               </select>
             </div>
           </div>
