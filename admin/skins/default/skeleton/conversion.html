@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-body">
     <h4 class="card-title mb-5">Conversion Settings</h4>
-    <form class="form-sample" name="general-settings" method="post">
+    <form class="form-sample" name="general-settings" method="post" enctype="multipart/form-data">
       <h4 class="text-muted">General</h4>
       <div class="row">
         <div class="col-md-6">
@@ -187,6 +187,52 @@
             <label class="col-sm-12 col-form-label">1080 Audio</label>
             <div class="col-sm-12">
               <input type="text" name="fullhd_abitrate" class="form-control" placeholder="Bitrate for extracting 1080 audio" value="{{settings.fullhd_abitrate}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Enable Watermark</label>
+            <div class="col-sm-12">
+              <select name="enable_watermark" class="form-control">
+                <option value="right:top" {% if settings.enable_watermark == 'no' %}selected="selected"{% endif %}>No</option>
+                <option value="left:top" {% if settings.enable_watermark == 'yes' %}selected="selected"{% endif %}>Yes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Watermark Placement</label>
+            <div class="col-sm-12">
+              <select name="watermark_placement" class="form-control">
+                <option value="left:top" {% if settings.watermark_placement == 'left:top' %}selected="selected"{% endif %}>Top Left</option>
+                <option value="right:top" {% if settings.watermark_placement == 'right:top' %}selected="selected"{% endif %}>Top Right</option>
+                <option value="center:top" {% if settings.watermark_placement == 'center:top' %}selected="selected"{% endif %}>Top Center</option>
+                <option value="left:bottom" {% if settings.watermark_placement == 'left:bottom' %}selected="selected"{% endif %}>Bottom Left</option>
+                <option value="right:bottom" {% if settings.watermark_placement == 'right:bottom' %}selected="selected"{% endif %}>Bottom Right</option>
+                <option value="center:center" {% if settings.watermark_placement == 'center:center' %}selected="selected"{% endif %}>Center</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Watermark</label>
+            <div class="col-sm-12">
+              <input type="file" name="watermark" class="form-control" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Watermark Preview</label>
+            <div class="col-sm-12">
+              <img src="{{_coreUrl}}/media/watermark.png">
             </div>
           </div>
         </div>

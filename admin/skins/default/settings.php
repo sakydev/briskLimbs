@@ -17,8 +17,20 @@ if (isset($_POST['settings'])) {
 
 	if ($settings->bulkSet($_POST)) {
 		$parameters['message'] = 'Settings updated successfully';
+	}
+}
+
+if (isset($_FILES['watermark'])) {
+	$watermarkPath = MEDIA_DIRECTORY . '/watermark.png';
+	echo $watermarkPath;
+	if (file_exists($watermarkPath)) {
+		unlink($watermarkPath);
+	}
+
+	if (move_uploaded_file($_FILES['watermark']['tmp_name'], $watermarkPath)) {
+		$parameters['message'] = 'Watermark uploaded successfully';
 	} else {
-		$parameters['_errors'] = array('Something went wrong trying to update settings');
+		$limbs->errors->add('Unable to upload watermark @ ' . $watermarkPath);
 	}
 }
 
