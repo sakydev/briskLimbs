@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-5">Edit {{section}}</h4>
+        <div class="col-md-3 float-right">
+          <button type="submit" type="button" id="load-btn" class="btn btn-gradient-default btn-icon-text" style="margin-top: 48px"><i class="mdi mdi-file-check btn-icon-prepend"></i>Load</button>
+        </div>
+        <form class="form-sample col-md-9" name="edit-video" method="post">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Section</label>
+                <div class="col-sm-12">
+                  <select name="section" class="form-control">
+                    <option value="addons" {% if section == 'addons' %}selected="selected"{% endif %}>Addons</option>
+                    <option value="skins" {% if section == 'skins' %}selected="selected"{% endif %}>Skins</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Item</label>
+                <div class="col-sm-12">
+                  <select name="section" class="form-control">
+                    {% for item,path in items %}
+                      <option value="{{item}}">{{item}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <textarea class="form-control" rows="25">{% if code %}{{code}}{% else %}Nothing to do here{% endif %}</textarea>
+              <div class="mt-2 float-right">
+                <button type="submit" type="button" class="btn btn-gradient-primary btn-icon-text"><i class="mdi mdi-file-check btn-icon-prepend"></i>Save</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#load-btn').on('click', function(e) {
+      e.preventDefault();
+      alert('woa');
+    });
+  });
+</script>
+{% endblock %}

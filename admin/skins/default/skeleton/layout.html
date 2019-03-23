@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{{_cssUrl}}/custom.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{_imagesUrl}}/favicon.png" />
+  <script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
   {% for action in _triggers.head_end %}
     {{hook(action)}}
   {% endfor %}
@@ -152,6 +153,7 @@
                 <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/addons/?list=all">List</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/addons/?list=active">Active</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/addons/?list=inactive">Inactive</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/editor/?main=addons">Editor</a></li>
               </ul>
             </div>
           </li>
@@ -205,7 +207,6 @@
             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a href="https://github.com/briskLimbs" target="_blank">BriskLimbs</a>. All rights reserved.</span>
           <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">UI by BootstrapDash</span>
           </div>
-          <script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
           <script type="text/javascript" src="{{_jsUrl}}/popper.min.js"></script>
           <script type="text/javascript" src="{{_jsUrl}}/bootstrap.min.js"></script>
           {% for action in _triggers.footer_end %}
