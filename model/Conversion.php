@@ -69,7 +69,9 @@ class Conversion {
     $this->preset = $this->settings->get('ffmpeg_preset');
     $this->videoCodec = $this->settings->get('video_codec');
     $this->audioCodec = $this->settings->get('audio_codec');
-    $this->enableWatermark = $this->settings->get('enable_watermark') == 'yes' ? true : false;
+    $this->enableWatermark = $this->settings->enabled('enable_watermark');
+    $this->enablePreClip = $this->settings->enabled('enable_pre_clip');
+    $this->enablePostClip = $this->settings->enabled('enable_post_clip');
   }
 
   /**

@@ -118,4 +118,8 @@ class Settings {
 	public function allowUploads() {
 		return $this->get('uploads') == 'yes' ? true : false;	
 	}
+
+	public function enabled($setting) {
+		return isset($this->settings[$setting]) && $this->settings[$setting] == 'yes' ? true : false;
+	}
 }
