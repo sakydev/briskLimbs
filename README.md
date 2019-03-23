@@ -8,6 +8,7 @@ A video sharing software created with both webmasters and developers in mind.
 - [Requirments](#requirments)
 - [Recomendations](#recomendations)
 - [Installation](#installation)
+- [Upcoming Release](https://github.com/briskLimbs/briskLimbs/projects/1)
 - [Documentation](https://github.com/briskLimbs/briskLimbs/wiki)
 - [Official Addons](#official-addons)
 - [Frequently Asked Questions](#faq)
