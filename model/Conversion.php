@@ -66,6 +66,9 @@ class Conversion {
     $this->logs = $logs;
     $this->width = false;
     $this->height = false;
+    $this->preset = $this->settings->get('ffmpeg_preset');
+    $this->videoCodec = $this->settings->get('video_codec');
+    $this->audioCodec = $this->settings->get('audio_codec');
   }
 
   /**
@@ -129,11 +132,31 @@ class Conversion {
   public function possibleQualities($width, $height) {
     $basicQualities = array('240', '360', '480', '720', '1080');
     $dimensions = array(
-      '240' => array('width' => '424', 'video_bitrate' => '576', 'audio_bitrate' => '64'), 
-      '360' => array('width' => '640', 'video_bitrate' => '896', 'audio_bitrate' => '64'), 
-      '480' => array('width' => '848', 'video_bitrate' => '1536', 'audio_bitrate' => '96'), 
-      '720' => array('width' => '1280', 'video_bitrate' => '3072', 'audio_bitrate' => '128'),
-      '1080' => array('width' => '1920', 'video_bitrate' => '4992', 'audio_bitrate' => '128')
+      '240' => array(
+        'width' => '424', 
+        'video_bitrate' => $this->settings->get('basic_vbitrate'), 
+        'audio_bitrate' => $this->settings->get('basic_abitrate')
+      ), 
+      '360' => array(
+        'width' => '640', 
+        'video_bitrate' => $this->settings->get('normal_vbitrate'), 
+        'audio_bitrate' => $this->settings->get('normal_abitrate')
+      ), 
+      '480' => array(
+        'width' => '848', 
+        'video_bitrate' => $this->settings->get('sd_vbitrate'), 
+        'audio_bitrate' => $this->settings->get('sd_abitrate')
+      ), 
+      '720' => array(
+        'width' => '1280', 
+        'video_bitrate' => $this->settings->get('hd_vbitrate'), 
+        'audio_bitrate' => $this->settings->get('hd_abitrate')
+      ),
+      '1080' => array(
+        'width' => '1920', 
+        'video_bitrate' => $this->settings->get('fullhd_vbitrate'), 
+        'audio_bitrate' => $this->settings->get('fullhd_abitrate')
+      )
     );
     $possibleQualities = array();
     foreach ($basicQualities as $quality) {
@@ -208,7 +231,7 @@ class Conversion {
       $videoBitrate = $resoloution['video_bitrate'];
       $audioBitrate = $resoloution['audio_bitrate'];
 
-      $currentCommand = "$this->ffmpeg -i $this->path -vcodec libx264 -vprofile baseline -preset medium -b:v {$videoBitrate}k -maxrate {$videoBitrate}k -vf scale=$width:$height -threads 0 -acodec libfdk_aac -ab {$audioBitrate}k $currentOutputFile 2>&1";
+      $currentCommand = "$this->ffmpeg -i $this->path -vcodec {$this->videoCodec} -vprofile baseline -preset {$this->preset} -b:v {$videoBitrate}k -maxrate {$videoBitrate}k -vf scale=$width:$height -threads 0 -acodec {$this->audioCodec} -ab {$audioBitrate}k $currentOutputFile 2>&1";
 
       $this->logs->write("Command for resoloution {$height}p is : $currentCommand");
       $resoloutionCommands[] = $currentCommand;
