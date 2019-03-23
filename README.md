@@ -17,9 +17,6 @@ A video sharing software created with both webmasters and developers in mind.
 - [Videos Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Videos)
 - [Users Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Users)
 - [Addons Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Addons)
-- [Thumbnails Exmaples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Thumbnails)
-- [Files Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Files)
-- [Errors Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Errors)
 - [License](#license)
 - [Credits](#credits)
 
