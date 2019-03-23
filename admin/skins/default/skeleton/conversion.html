@@ -191,6 +191,7 @@
           </div>
         </div>
       </div>
+      <h4 class="text-muted">Watermarking</h4>
       <div class="row">
         <div class="col-md-4">
           <div class="form-group row">
@@ -233,6 +234,67 @@
             <label class="col-sm-12 col-form-label">Watermark Preview</label>
             <div class="col-sm-12">
               <img src="{{_coreUrl}}/media/watermark.png">
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="text-muted">Pre, Post Clip</h4>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Enable Pre Clip</label>
+            <div class="col-sm-12">
+              <select name="enable_pre_clip" class="form-control">
+                <option value="no" {% if settings.enable_pre_clip == 'no' %}selected="selected"{% endif %}>No</option>
+                <option value="yes" {% if settings.enable_pre_clip == 'yes' %}selected="selected"{% endif %}>Yes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Enable Post Clip</label>
+            <div class="col-sm-12">
+              <select name="enable_post_clip" class="form-control">
+                <option value="no" {% if settings.enable_post_clip == 'no' %}selected="selected"{% endif %}>No</option>
+                <option value="yes" {% if settings.enable_post_clip == 'yes' %}selected="selected"{% endif %}>Yes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Pre Clip</label>
+            <div class="col-sm-12">
+              <input type="file" name="pre_clip" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Existing Pre Clip</label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" disabled="disabled" value="{{preClip}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Post Clip</label>
+            <div class="col-sm-12">
+              <input type="file" name="post_clip" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Existing Post Clip</label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" disabled="disabled" value="{{postClip}}" />
             </div>
           </div>
         </div>

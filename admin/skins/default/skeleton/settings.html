@@ -4,9 +4,9 @@
     
 <div class="content-wrapper bg-light">
   <div class="col-12 grid-margin">
-    {% if message %}
+    {% for message in messages %}
       <div class="alert alert-success">{{message}}</div>
-    {% endif %}
+    {% endfor %}
 
     {% for error in _errors %}
       <div class="alert alert-danger">{{error}}</div>
