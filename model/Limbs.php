@@ -295,8 +295,8 @@ class Limbs {
 		  return $addons->active(array('name' => $name));
 	  });
 	  
-	  $hookExists = new \Twig\TwigFunction('hookExists', function ($function) {
-		  return hookExists($function);
+	  $hookable = new \Twig\TwigFunction('hookable', function ($function) {
+		  return hookable($function);
 	  });
 
 	  $hook = new \Twig\TwigFunction('hook', function ($function, $parameters = false) {
@@ -307,7 +307,7 @@ class Limbs {
 		$this->twig->addFunction($dateHook);
 	  $this->twig->addFunction($printHook);
 	  $this->twig->addFunction($printHookExit);
-	  $this->twig->addFunction($hookExists);
+	  $this->twig->addFunction($hookable);
 	  $this->twig->addFunction($hook);
 
 		return true;

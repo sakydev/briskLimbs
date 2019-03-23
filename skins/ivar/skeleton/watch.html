@@ -78,11 +78,14 @@
           </div>
           <div class="comments-section">
             {% if settings.comments == 'yes' %}
-              {% if hookExists('facebookComments') == 'yes' %}
+              {% if hookable('disqus') %}
+                <h6 class="card-title">Disqus Comments</h6>
+                {{hook('disqus')}}
+              {% endif %}
+
+              {% if hookable('facebookComments') %}
                 <h6 class="card-title">Facebook Comments</h6>
                 {{hook('facebookComments')}}
-              {% else %}
-                {{hookExists('facebookComments')}}
               {% endif %}
               {% if video.allow_comments %}
                 <h6 class="card-title">Comments (<span class="totalComments">{{totalComments}}</span>)</h6>

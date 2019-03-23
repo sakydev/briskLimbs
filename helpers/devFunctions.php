@@ -63,6 +63,6 @@ function hook($function, $parameters = false) {
 	}
 }
 
-function hookExists($function) {
-	return function_exists($function) ? 'yes' : false;
+function hookable($function) {
+	return function_exists($function) ? true : false;
 }
