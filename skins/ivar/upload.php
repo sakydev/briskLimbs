@@ -8,7 +8,7 @@ $authenticated = $users->authenticated();
 if ($authenticated) {
 	if (!empty($_FILES['uploadMedia'])) {
 		if ($status = $videos->upload($_FILES['uploadMedia'])) {
-			sendJsonResponse(array('status' => 'success', 'filename' => $status['filename'], 'command' => $status['command']));
+			sendJsonResponse(array('status' => 'success', 'filename' => $status['filename']));
 		} else {
 			sendJsonResponse(array('status' => 'error', 'message' => $limbs->errors->collect()));
 		}

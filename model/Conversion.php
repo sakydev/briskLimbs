@@ -69,6 +69,7 @@ class Conversion {
     $this->preset = $this->settings->get('ffmpeg_preset');
     $this->videoCodec = $this->settings->get('video_codec');
     $this->audioCodec = $this->settings->get('audio_codec');
+    $this->enableWatermark = $this->settings->get('enable_watermark') == 'yes' ? true : false;
   }
 
   /**
@@ -214,6 +215,12 @@ class Conversion {
     $this->logs->write("Getting ready to generate thumbs");
     $generatedThumbs = $this->createThumbnails($this->path);
     $this->logs->write("Generated thumbs are : \n" . implode("\n", $generatedThumbs));
+    if ($this->enableWatermark) {
+      $this->logs->write("Getting ready to add watermark");
+      $this->logs->write("WM: " . str_replace($this->filename, $this->filename . '_wm', $this->path));
+      $this->watermark($this->path, str_replace($this->filename, $this->filename . '_wm', $this->path));
+      $this->logs->write("Watermark has been added");
+    }
     $this->logs->write("Listing possible video qualities to be converted");
     $pendingResouloutions = $this->possibleQualities($this->width, $this->height);
 
@@ -267,6 +274,7 @@ class Conversion {
 
   function watermark($input, $output) {
     $placement = $this->settings->get('watermark_placement');
+    $watermark = MEDIA_DIRECTORY . '/watermark.png';
     if (file_exists($watermark)) {
       switch ($placement) {
         case 'right:bottom':
@@ -292,10 +300,10 @@ class Conversion {
           break;
       }
 
-      $command = "$this->ffmpeg -i $input -i $this->watermark -filter_complex $placement $output"
+      $command = "$this->ffmpeg -i $input -i $watermark -filter_complex $placement $output";
 
       $this->logs->write("Watermark command: $command");
-      $commandOutput = $this->exec($command);
+      $commandOutput = shell_exec($command);
       $this->logs->write("Watermark command output \n $commandOutput");
 
       // if watermarked successfully then replace original with watermarked version

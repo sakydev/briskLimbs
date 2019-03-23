@@ -2,6 +2,8 @@
 
 ini_set('display_errors', 'On');
 error_reporting(-1);
+ini_set('log_errors', 'On');
+ini_set('error_log', __DIR__ . '/conversion.errors');
 
 require_once dirname(__DIR__) . '/config.php';
 require MODEL_DIRECTORY . '/Conversion.php';
@@ -51,7 +53,7 @@ if (count($argv) >=2 ) {
   
   $videos = new Videos();
   $videos->initialize($database);
-  $videos->setFields($details, $filename, 'filename');
+  $videos->setFields($fields, $filename, 'filename');
 
   @unlink($path);
 }
