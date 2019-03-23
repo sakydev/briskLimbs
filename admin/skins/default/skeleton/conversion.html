@@ -2,31 +2,8 @@
   <div class="card-body">
     <h4 class="card-title mb-5">Conversion Settings</h4>
     <form class="form-sample" name="general-settings" method="post">
+      <h4 class="text-muted">General</h4>
       <div class="row">
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">PHP Path</label>
-            <div class="col-sm-12">
-              <input type="text" name="php" class="form-control" placeholder="/usr/bin/php" value="{{settings.php}}" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">FFMPEG Path</label>
-            <div class="col-sm-12">
-              <input type="text" name="ffmpeg" class="form-control" placeholder="/usr/bin/ffmpeg" value="{{settings.ffmpeg}}" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">FFPROBE Path</label>
-            <div class="col-sm-12">
-              <input type="text" name="ffprobe" class="form-control" placeholder="/usr/bin/ffprobe" value="{{settings.ffprobe}}" />
-            </div>
-          </div>
-        </div>
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-sm-12 col-form-label">Video Qualities</label>
@@ -57,6 +34,159 @@
               <input type="checkbox" name="quality_1080" class="custom-control-input" {% if settings.quality_1080 == 'yes' %}checked="checked"{% endif %} id="quality_1080">
               <label for="quality_1080" class="custom-control-label">1080</label>
             </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Conversion Speed</label>
+            <div class="col-sm-12">
+              <select name="ffmpeg_preset" class="form-control">
+                <option value="ultrafast" {% if settings.ffmpeg_preset == 'ultrafast' %}selected="selected"{% endif %}>ultrafast (Worst quality)</option>
+                <option value="superfast" {% if settings.ffmpeg_preset == 'superfast' %}selected="selected"{% endif %}>superfast</option>
+                <option value="veryfast" {% if settings.ffmpeg_preset == 'veryfast' %}selected="selected"{% endif %}>veryfast</option>
+                <option value="faster" {% if settings.ffmpeg_preset == 'faster' %}selected="selected"{% endif %}>faster</option>
+                <option value="fast" {% if settings.ffmpeg_preset == 'fast' %}selected="selected"{% endif %}>fast</option>
+                <option value="medium" {% if settings.ffmpeg_preset == 'medium' %}selected="selected"{% endif %}>medium (Recomended)</option>
+                <option value="slow" {% if settings.ffmpeg_preset == 'slow' %}selected="selected"{% endif %}>slow</option>
+                <option value="veryslow" {% if settings.ffmpeg_preset == 'veryslow' %}selected="selected"{% endif %}>veryslow (Best Quality)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">PHP Path</label>
+            <div class="col-sm-12">
+              <input type="text" name="php" class="form-control" placeholder="/usr/bin/php" value="{{settings.php}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">FFMPEG Path</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffmpeg" class="form-control" placeholder="/usr/bin/ffmpeg" value="{{settings.ffmpeg}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">FFPROBE Path</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="/usr/bin/ffprobe" value="{{settings.ffprobe}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="text-muted">Codecs</h4>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Video</label>
+            <div class="col-sm-12">
+              <input type="text" name="video_codec" class="form-control" placeholder="Codec used for video" value="{{settings.video_codec}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Audio</label>
+            <div class="col-sm-12">
+              <input type="text" name="audio_codec" class="form-control" placeholder="Codec used for audio" value="{{settings.audio_codec}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 class="text-muted">Bitrates</h4>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">240 Video</label>
+            <div class="col-sm-12">
+              <input type="text" name="basic_vbitrate" class="form-control" placeholder="Bitrate for extracting 240p video" value="{{settings.basic_vbitrate}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">240 Audio</label>
+            <div class="col-sm-12">
+              <input type="text" name="basic_abitrate" class="form-control" placeholder="Bitrate for extracting 240p audio" value="{{settings.basic_abitrate}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">360 Video</label>
+            <div class="col-sm-12">
+              <input type="text" name="normal_vbitrate" class="form-control" placeholder="Bitrate for extracting 360p video" value="{{settings.normal_vbitrate}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">360 Audio</label>
+            <div class="col-sm-12">
+              <input type="text" name="normal_abitrate" class="form-control" placeholder="Bitrate for extracting 360p audio" value="{{settings.normal_abitrate}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">480 Video</label>
+            <div class="col-sm-12">
+              <input type="text" name="sd_vbitrate" class="form-control" placeholder="Bitrate for extracting 480p video" value="{{settings.sd_vbitrate}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">480 Audio</label>
+            <div class="col-sm-12">
+              <input type="text" name="sd_abitrate" class="form-control" placeholder="Bitrate for extracting 480p audio" value="{{settings.sd_abitrate}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">720 Video</label>
+            <div class="col-sm-12">
+              <input type="text" name="hd_vbitrate" class="form-control" placeholder="Bitrate for extracting 720 video" value="{{settings.hd_vbitrate}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">720 Audio</label>
+            <div class="col-sm-12">
+              <input type="text" name="hd_abitrate" class="form-control" placeholder="Bitrate for extracting 720 audio" value="{{settings.hd_abitrate}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">1080 Video</label>
+            <div class="col-sm-12">
+              <input type="text" name="fullhd_vbitrate" class="form-control" placeholder="Bitrate for extracting 1080 video" value="{{settings.fullhd_vbitrate}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">1080 Audio</label>
+            <div class="col-sm-12">
+              <input type="text" name="fullhd_abitrate" class="form-control" placeholder="Bitrate for extracting 1080 audio" value="{{settings.fullhd_abitrate}}" />
             </div>
           </div>
         </div>
