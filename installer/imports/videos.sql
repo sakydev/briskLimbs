@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2019 at 12:39 AM
+-- Generation Time: Mar 25, 2019 at 12:42 AM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-0ubuntu0.16.04.2
 
@@ -35,6 +35,8 @@ CREATE TABLE `videos` (
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `category` varchar(45) NOT NULL DEFAULT '1',
   `scope` enum('public','private','unlist') NOT NULL,
   `featured` enum('no','yes') NOT NULL DEFAULT 'no',
   `status` enum('pending','failed','successful') DEFAULT 'pending',
