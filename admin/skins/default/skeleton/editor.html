@@ -13,14 +13,14 @@
     {% endfor %}
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title mb-5">Edit {{section}}</h4>
+        <h4 class="card-title mb-5">Edit {{section}} <span id="sub-section"></span></h4>
         <div class="col-md-3 float-right">
           <button id="load-btn" class="btn btn-gradient-default btn-icon-text" style="margin-top: 48px" main={{section}} item={% if selectedItem %}{{selectedItem}}{% else %}{{items|first}}{% endif %}>
             <i class="mdi mdi-file-check btn-icon-prepend"></i>Load
           </button>
-          <ul id="sidebar-links" class="list-group mt-3">
+          <ul id="files-list" class="list-group mt-3" style="cursor: pointer">
             {% for name,path in subItems %}
-              <li class="list-group-item" path="{{path}}">{{name}}</li>
+              <li class="list-group-item load-file" path="{{path}}">{{name}}</li>
             {% endfor %}
           </ul>
         </div>
@@ -30,7 +30,7 @@
               <div class="form-group row">
                 <label class="col-sm-12 col-form-label">Section</label>
                 <div class="col-sm-12">
-                  <select id="section" name="section" class="form-control">
+                  <select id="section" name="section" class="form-control" disabled="disabled">
                     <option value="addons" {% if section == 'addons' %}selected="selected"{% endif %}>Addons</option>
                     <option value="skins" {% if section == 'skins' %}selected="selected"{% endif %}>Skins</option>
                   </select>
@@ -43,13 +43,16 @@
                 <div class="col-sm-12">
                   <select id="selected-item" name="section" class="form-control">
                     {% for item,path in items %}
-                      <option value="{{path}}">{{item}}</option>
+                      <option value="{{path}}" name="{{item}}">{{item}}</option>
                     {% endfor %}
                   </select>
                 </div>
               </div>
             </div>
             <div class="col-md-12">
+              <div class="mb-2">
+                <span class="editing-file-div" style="display: none; margin-bottom: 4px;">Editing: <span id="editing-file"></span></span>
+              </div>
               <pre id="code-section">Nothing to do here</pre>
               <div class="mt-2 float-right">
                 <button id="save-btn" type="submit" type="button" class="btn btn-gradient-primary btn-icon-text"><i class="mdi mdi-file-check btn-icon-prepend"></i>Save</button>
@@ -77,26 +80,61 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    function startEditorRequest() {
+      $('#files-list, #section, #selected-item, #code-section, #save-btn, #load-btn').attr('disabled', true);
+      $('#load-btn').text('Loading...');
+    }
+
+    function endEditorRequest() {
+      $('#files-list, #section, #selected-item, #code-section, #save-btn, #load-btn').attr('disabled', false);
+      $('#load-btn').text('Load');
+      $('#sub-section').text(': ' + $('#selected-item option:selected').attr('name'));
+    }
+
     $('#load-btn').on('click', function(e) {
       e.preventDefault();
-      $('#sidebar-links, #section, #selected-item, #code-section, #save-btn, #load-btn').attr('disabled', true);
-      $('#load-btn').text('Loading...');
+      startEditorRequest();
+
       var main = $(this).attr('main'),
       path = $('#selected-item').val(),
       paramters = {main: main, list: path};
+
       $.post('admin/editor/', paramters, function (response) {
-        $('#load-btn').text('Load');
-        $('#sidebar-links, #section, #selected-item, #code-section, #save-btn, #load-btn').attr('disabled', false);
         var response = $.parseJSON(response);
         if (response.status == 'success') {
           editor.session.setValue(response.code);
-          $('#sidebar-links').html('');
+          $('#files-list').html('');
           $.each(response.contents, function(name, path) {
-            $('#sidebar-links').append('<li class="list-group-item" path="' + path + '">' + name + '</li>');
+            $('#files-list').append('<li class="list-group-item load-file" path="' + path + '">' + name + '</li>');
           });
         } else {
           $('#error-messages').text(response.message);
         }
+
+        endEditorRequest();
+        $('.editing-file-div').hide();
+      });
+    });
+
+    $(document).on('click', '.load-file', function(e) {
+      e.preventDefault();
+      startEditorRequest();
+
+      var main = $('#selected-item').val(),
+      path = $(this).attr('path'),
+      paramters = {main: main, file: path};
+      
+      $.post('admin/editor/', paramters, function (response) {
+        var response = $.parseJSON(response);
+        if (response.status == 'success') {
+          $('#editing-file').text(path);
+          $('.editing-file-div').fadeIn('slow');
+          editor.session.setValue(response.code);
+        } else {
+          $('#error-messages').text(response.message);
+        }
+
+        endEditorRequest();
       });
     });
   });

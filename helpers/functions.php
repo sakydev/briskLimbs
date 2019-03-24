@@ -135,10 +135,8 @@ function listFiles($path, $parentNames = false, $depth = false, $deep = false) {
 	$files = array();
 	$listed = glob("$path/*");
 	foreach ($listed as $key => $path) {
-		if (is_dir($path)) {
-			if ($depth && $depth > $deep) {
-				$files = array_merge($files, listFiles($path, $depth, $deep + 1));
-			}
+		if (is_dir($path) && $depth && $depth > $deep) {
+			$files = array_merge($files, listFiles($path, $depth, $deep + 1));
 		} else {
 			$filename = $parentNames ? basename(dirname($path)) . '/' . basename($path) : basename($path);
 			$files[$filename] = $path;

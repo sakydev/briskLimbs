@@ -7,15 +7,22 @@ if (!$users->isAdmin()) {
 	jumpTo('home');
 }
 
+if (isset($_POST['file'])) {
+	$path = $_POST['file'];
+	if (file_exists($path)) {
+		$response = array('status' => 'success', 'code' => file_get_contents($path));
+	} else {
+		$response = array('status' => 'error', 'message' => 'Path not found');
+	}
+
+	sendJsonResponse($response);
+}
+
 if (isset($_POST['list'])) {
 	$path = $_POST['list'];
 	if (file_exists($path)) {
 		if (is_dir($path)) {
-			$raw = glob("$path/*");
-			$list = array();
-			foreach ($raw as $key => $file) {
-				$list[basename($file)] = $file;
-			}
+			$list = listFiles($path, false, 2);
 			$response = array('status' => 'success', 'contents' => $list, 'code' => file_get_contents(current($list)));
 		} else {
 			$response = array('status' => 'error', 'contents' => false, 'message' => 'Invalid directory path');
@@ -29,19 +36,9 @@ if (isset($_POST['list'])) {
 
 $section = isset($_GET['main']) ? $_GET['main'] : false;
 if ($section == 'addons' || $section == 'skins') {
-	$raw = glob(CORE_DIRECTORY . "/{$section}/*");
-	$items = array();
-	foreach ($raw as $key => $path) {
-		$items[basename($path)] = $path;
-	}
-
+	$items = listFiles(CORE_DIRECTORY . '/' . $section);
 	if (is_dir(current($items))) {
-		$path = current($items);
-		$subItems = array();
-		foreach (glob("$path/*") as $key => $path) {
-			$subItems[basename($path)] = $path;
-		}
-		$parameters['subItems'] = $subItems;
+		$parameters['subItems'] = listFiles(current($items), false, 2);
 	}
 }
 
