@@ -130,3 +130,20 @@ function buildPagination($currentPage, $limit, $total) {
 function directory($directory) {
 	return str_replace('-', '/', substr($directory, 0, 10));
 }
+
+function listFiles($path, $parentNames = false, $depth = false, $deep = false) {
+	$files = array();
+	$listed = glob("$path/*");
+	foreach ($listed as $key => $path) {
+		if (is_dir($path)) {
+			if ($depth && $depth > $deep) {
+				$files = array_merge($files, listFiles($path, $depth, $deep + 1));
+			}
+		} else {
+			$filename = $parentNames ? basename(dirname($path)) . '/' . basename($path) : basename($path);
+			$files[$filename] = $path;
+		}
+	}
+
+	return $files;
+}
