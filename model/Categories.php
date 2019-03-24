@@ -39,12 +39,8 @@ class Categories {
   */
   private $defaultLimit;
 
-  /**
-  * Initializes basic variables and prepares class to be used
-  * @param: { $database } { false, database object if avaible }
-  */
-  public function initialize($database = false) {
-    global $limbs, $users;
+  function __construct() {
+    global $database, $limbs, $users;
     $this->limbs = $limbs;
     $this->users = $users;
     $this->database = $database ? $database : $this->limbs->database;
