@@ -118,18 +118,18 @@
               </div>
             </div> -->
             <div class="col-md-12">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Categories</label>
-            <div class="col-sm-12">
-              {% for category in categories %}
-                <div class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" name="category[]" value="{{category.id}}" class="custom-control-input" {% if category.name in video.categoryNames %}checked="checked"{% endif %} id="cat_{{category.name}}">
-                  <label for="cat_{{category.name}}" class="custom-control-label">{{category.name}}</label>
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label">Categories</label>
+                <div class="col-sm-12">
+                  {% for category in categories %}
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                      <input type="checkbox" name="category[]" value="{{category.id}}" class="custom-control-input" {% if category.name in video.categoryNames %}checked="checked"{% endif %} id="cat_{{category.name}}">
+                      <label for="cat_{{category.name}}" class="custom-control-label">{{category.name}}</label>
+                    </div>
+                  {% endfor %}
                 </div>
-              {% endfor %}
+              </div>
             </div>
-          </div>
-        </div>
           </div>
 
           <div class="float-right">
