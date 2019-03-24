@@ -9,13 +9,20 @@
     {% endif %}
 
     {% for error in _errors %}
-      <div class="alert alert-danger">{{error}}</div>
+      <div id="error-messages" class="alert alert-danger">{{error}}</div>
     {% endfor %}
     <div class="card">
       <div class="card-body">
         <h4 class="card-title mb-5">Edit {{section}}</h4>
         <div class="col-md-3 float-right">
-          <button type="submit" type="button" id="load-btn" class="btn btn-gradient-default btn-icon-text" style="margin-top: 48px"><i class="mdi mdi-file-check btn-icon-prepend"></i>Load</button>
+          <button id="load-btn" class="btn btn-gradient-default btn-icon-text" style="margin-top: 48px" main={{section}} item={% if selectedItem %}{{selectedItem}}{% else %}{{items|first}}{% endif %}>
+            <i class="mdi mdi-file-check btn-icon-prepend"></i>Load
+          </button>
+          <ul id="sidebar-links" class="list-group mt-3">
+            {% for name,path in subItems %}
+              <li class="list-group-item" path="{{path}}">{{name}}</li>
+            {% endfor %}
+          </ul>
         </div>
         <form class="form-sample col-md-9" name="edit-video" method="post">
           <div class="row">
@@ -23,7 +30,7 @@
               <div class="form-group row">
                 <label class="col-sm-12 col-form-label">Section</label>
                 <div class="col-sm-12">
-                  <select name="section" class="form-control">
+                  <select id="section" name="section" class="form-control">
                     <option value="addons" {% if section == 'addons' %}selected="selected"{% endif %}>Addons</option>
                     <option value="skins" {% if section == 'skins' %}selected="selected"{% endif %}>Skins</option>
                   </select>
@@ -34,18 +41,18 @@
               <div class="form-group row">
                 <label class="col-sm-12 col-form-label">Item</label>
                 <div class="col-sm-12">
-                  <select name="section" class="form-control">
+                  <select id="selected-item" name="section" class="form-control">
                     {% for item,path in items %}
-                      <option value="{{item}}">{{item}}</option>
+                      <option value="{{path}}">{{item}}</option>
                     {% endfor %}
                   </select>
                 </div>
               </div>
             </div>
             <div class="col-md-12">
-              <textarea class="form-control" rows="25">{% if code %}{{code}}{% else %}Nothing to do here{% endif %}</textarea>
+              <pre id="code-section">Nothing to do here</pre>
               <div class="mt-2 float-right">
-                <button type="submit" type="button" class="btn btn-gradient-primary btn-icon-text"><i class="mdi mdi-file-check btn-icon-prepend"></i>Save</button>
+                <button id="save-btn" type="submit" type="button" class="btn btn-gradient-primary btn-icon-text"><i class="mdi mdi-file-check btn-icon-prepend"></i>Save</button>
               </div>
             </div>
           </div>
@@ -55,13 +62,45 @@
   </div>
 </div>
 <!-- content-wrapper ends -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  var editor = ace.edit("code-section", {
+    theme: "ace/theme/monokai",
+    mode: "ace/mode/php",
+    maxLines: 30,
+    minLines: 10,
+    wrap: true,
+    autoScrollEditorIntoView: true
+  });
+
+</script>
 
 <script type="text/javascript">
   $(document).ready(function() {
     $('#load-btn').on('click', function(e) {
       e.preventDefault();
-      alert('woa');
+      $('#sidebar-links, #section, #selected-item, #code-section, #save-btn, #load-btn').attr('disabled', true);
+      $('#load-btn').text('Loading...');
+      var main = $(this).attr('main'),
+      path = $('#selected-item').val(),
+      paramters = {main: main, list: path};
+      $.post('admin/editor/', paramters, function (response) {
+        $('#load-btn').text('Load');
+        $('#sidebar-links, #section, #selected-item, #code-section, #save-btn, #load-btn').attr('disabled', false);
+        var response = $.parseJSON(response);
+        if (response.status == 'success') {
+          editor.session.setValue(response.code);
+          $('#sidebar-links').html('');
+          $.each(response.contents, function(name, path) {
+            $('#sidebar-links').append('<li class="list-group-item" path="' + path + '">' + name + '</li>');
+          });
+        } else {
+          $('#error-messages').text(response.message);
+        }
+      });
     });
   });
 </script>
+
+
 {% endblock %}
