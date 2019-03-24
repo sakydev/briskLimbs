@@ -63,11 +63,19 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-7">
               <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Description</label>
                 <div class="col-sm-12">
                   <textarea name="description" class="form-control" rows="6" placeholder="Website description here"/>{{video.description}}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Tags</label>
+                <div class="col-sm-12">
+                  <input type="text" name="tags" class="form-control" placeholder="Video tags" value="{{video.tags}}" />
                 </div>
               </div>
             </div>
