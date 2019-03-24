@@ -216,6 +216,11 @@ class Categories {
     return $this->getField($identifier, 'name');
   }
 
+  public function getNames($identifierArray) {
+    $this->database->where('id', $identifierArray, 'IN');
+    return $this->database->get($this->table);
+  }
+
   /**
   * Get description of category
   * @param: { $identifier } { value to search by }

@@ -21,10 +21,12 @@ if (isset($_POST['comment'])) {
   }
 }
 
+$categories = new Categories();
+
 $vKey = basename($_GET['request']);
 $video = new Video($vKey);
 $data = $video->fetch();
-
+$data['category'] = $categories->getNames(explode(',', $data['category']));
 if (!$users->isAdmin() && $video->isPrivate() && $video->uploaderName() != $users->username()) {
   $limbs->displayErrorPage(array(), 'This video is private');
 }
@@ -63,11 +65,11 @@ if ($sidebar = $videos->list(array('keyword' => $video->title(), 'limit' => $sid
 }
 
 $actions->watched($vKey);
-
 $addedComments = $comments->list(array('vkey' => $vKey));
 foreach ($addedComments as $key => $value) {
   $addedComments[$key]['thumbnail'] = $users->getAvatar($value['username']);
 }
+
 $parameters['video'] = $data;
 $parameters['sidebarTitle'] = $sidebarTitle;
 $parameters['sidebar'] = $sidebar;
