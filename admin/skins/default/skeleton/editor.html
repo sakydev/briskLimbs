@@ -4,12 +4,14 @@
     
 <div class="content-wrapper bg-light">
   <div class="col-12 grid-margin">
+    <div id="success-messages" class="alert alert-success" style="display: none"></div>
+    <div id="error-messages" class="alert alert-danger" style="display: none"></div>
     {% if message %}
       <div class="alert alert-success">{{message}}</div>
     {% endif %}
 
     {% for error in _errors %}
-      <div id="error-messages" class="alert alert-danger">{{error}}</div>
+      <div class="alert alert-danger">{{error}}</div>
     {% endfor %}
     <div class="card">
       <div class="card-body">
@@ -53,7 +55,7 @@
               <div class="mb-2">
                 <span class="editing-file-div" style="display: none; margin-bottom: 4px;">Editing: <span id="editing-file"></span></span>
               </div>
-              <pre id="code-section">Nothing to do here</pre>
+              <textarea name="code" class="form-control" id="code-section">Nothing to do here</textarea>
               <div class="mt-2 float-right">
                 <button id="save-btn" type="submit" type="button" class="btn btn-gradient-primary btn-icon-text"><i class="mdi mdi-file-check btn-icon-prepend"></i>Save</button>
               </div>
@@ -66,18 +68,6 @@
 </div>
 <!-- content-wrapper ends -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-  var editor = ace.edit("code-section", {
-    theme: "ace/theme/monokai",
-    mode: "ace/mode/php",
-    maxLines: 30,
-    minLines: 10,
-    wrap: true,
-    autoScrollEditorIntoView: true
-  });
-
-</script>
-
 <script type="text/javascript">
   $(document).ready(function() {
     function startEditorRequest() {
@@ -91,13 +81,22 @@
       $('#sub-section').text(': ' + $('#selected-item option:selected').attr('name'));
     }
 
+    var path = '{{subItems|first}}';
+    var editor = ace.edit("code-section", {
+      theme: "ace/theme/monokai",
+      mode: "ace/mode/php",
+      maxLines: 30,
+      minLines: 10,
+      wrap: true,
+      autoScrollEditorIntoView: true
+    });
+
     $('#load-btn').on('click', function(e) {
       e.preventDefault();
       startEditorRequest();
 
-      var main = $(this).attr('main'),
-      path = $('#selected-item').val(),
-      paramters = {main: main, list: path};
+      var path = $('#selected-item').val(),
+      paramters = {list: path};
 
       $.post('admin/editor/', paramters, function (response) {
         var response = $.parseJSON(response);
@@ -120,9 +119,8 @@
       e.preventDefault();
       startEditorRequest();
 
-      var main = $('#selected-item').val(),
-      path = $(this).attr('path'),
-      paramters = {main: main, file: path};
+      var path = $(this).attr('path'),
+      paramters = {file: path};
       
       $.post('admin/editor/', paramters, function (response) {
         var response = $.parseJSON(response);
@@ -130,6 +128,7 @@
           $('#editing-file').text(path);
           $('.editing-file-div').fadeIn('slow');
           editor.session.setValue(response.code);
+          editor.session.setMode("ace/mode/" + path.substr((path.lastIndexOf('.') +1)));
         } else {
           $('#error-messages').text(response.message);
         }
@@ -137,6 +136,25 @@
         endEditorRequest();
       });
     });
+
+    $('#save-btn').on('click', function(e) {
+      e.preventDefault();
+      startEditorRequest();
+
+      var code = editor.getSession().getValue();
+      paramters = {file: $('#editing-file').text(), code: code};
+
+      $.post('admin/editor/', paramters, function (response) {
+        var response = $.parseJSON(response);
+        if (response.status == 'success') {
+          $('#success-messages').text(response.message).fadeIn('slow');
+        } else {
+          $('#error-messages').text(response.message);
+        }
+
+        endEditorRequest();
+      });
+    })
   });
 </script>
 

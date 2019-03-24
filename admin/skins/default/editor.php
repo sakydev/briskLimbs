@@ -7,6 +7,23 @@ if (!$users->isAdmin()) {
 	jumpTo('home');
 }
 
+if (isset($_POST['code'])) {
+	$path = $_POST['file'];
+	$code = $_POST['code'];
+
+	if (file_exists($path)) {
+		if (file_put_contents($path, $code)) {
+			$response = array('status' => 'success', 'message' => 'File updated successfully');
+		} else {
+			$response = array('status' => 'success', 'message' => 'Unable to update file');
+		}
+	} else {
+		$response = array('status' => 'error', 'message' => 'Path not found');
+	}
+
+	sendJsonResponse($response);
+}
+
 if (isset($_POST['file'])) {
 	$path = $_POST['file'];
 	if (file_exists($path)) {
