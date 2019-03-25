@@ -178,7 +178,7 @@ class Limbs {
 
 		$themeDirectory = IS_ADMIN ? $this->themeSettings->_adminDirectory : $this->themeSettings->_directory;
 		$fullPath = $themeDirectory . '/' . $page . '.php';
-		$notFound = $themeDirectory . '/404.php';
+		$notFound = $themeDirectory . '/error_404.php';
 		if (file_exists($fullPath)) {
 			require($fullPath);
 		} elseif (empty($page)) {
