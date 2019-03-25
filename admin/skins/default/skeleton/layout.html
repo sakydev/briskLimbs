@@ -82,7 +82,13 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item">
+          <li class="nav-item {% if mainSection == 'dashboard' %}active{% endif %}">
+              <a class="nav-link" href="{{_adminUrl}}/index.php">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-home menu-icon"></i>
+              </a>
+            </li>
+          <li class="nav-item {% if mainSection == 'videos' %}active{% endif %}">
             <a class="nav-link" id="videos-section" data-toggle="collapse" href="#videos" aria-expanded="{% if (mainSection == 'videos') or (mainSection == 'edit') %}true{% else %}false{% endif %}" aria-controls="videos">
               <span class="menu-title">Videos</span>
               <i class="menu-arrow"></i>
@@ -101,7 +107,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {% if mainSection == 'users' %}active{% endif %}">
             <a class="nav-link" id="users-section" data-toggle="collapse" href="#users" aria-expanded="{% if mainSection =='users' %}true{% else %}false{% endif %}" aria-controls="users">
               <span class="menu-title">Users</span>
               <i class="menu-arrow"></i>
@@ -116,7 +122,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {% if mainSection == 'settings' %}active{% endif %}">
             <a class="nav-link" id="settings-section" data-toggle="collapse" href="#settings" aria-expanded="{% if mainSection =='settings' %}true{% else %}false{% endif %}" aria-controls="settings">
               <span class="menu-title">Settings</span>
               <i class="menu-arrow"></i>
@@ -129,7 +135,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {% if mainSection == 'ads' %}active{% endif %}">
             <a class="nav-link" id="ads-section" data-toggle="collapse" href="#ads" aria-expanded="{% if mainSection =='ads' %}true{% else %}false{% endif %}" aria-controls="ads">
               <span class="menu-title">Ads</span>
               <i class="menu-arrow"></i>
@@ -142,7 +148,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {% if mainSection == 'addons' %}active{% endif %}">
             <a class="nav-link" id="addons-section" data-toggle="collapse" href="#addons" aria-expanded="{% if mainSection =='addons' %}true{% else %}false{% endif %}" aria-controls="addons">
               <span class="menu-title">Addons</span>
               <i class="menu-arrow"></i>
@@ -159,7 +165,7 @@
           </li>
 
           {% for menu,contents in _addons.admin_menu %}
-            <li class="nav-item">
+            <li class="nav-item {% if mainSection == menu %}active{% endif %}">
               <a class="nav-link" id="{{menu}}-section" data-toggle="collapse" href="#{{menu}}" aria-expanded="{% if mainSection == menu %}true{% else %}false{% endif %}" aria-controls="addons">
                 <span class="menu-title">
                   {% if contents.display_name %}
