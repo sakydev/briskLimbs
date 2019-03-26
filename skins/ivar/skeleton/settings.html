@@ -30,7 +30,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label">DOB</label>
                 <div class="col-sm-9">
-                  <input type="text" name="dob" class="form-control" placeholder="Your date of birth" value="{{user.dob}}" />
+                  <input type="date" name="dob" class="form-control" placeholder="Your date of birth" value="{{user.dob|slice(0,10)}}" />
                 </div>
               </div>
             </div>
