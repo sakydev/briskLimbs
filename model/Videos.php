@@ -407,7 +407,11 @@ class Videos {
 			foreach ($parameters as $column => $condition) {
 				if (in_array($column, $this->KEYS)) {
 					if (is_array($condition)) {
-						$this->database->where($column, $condition['0'], $condition['1']);
+						if (isset($condition['2'])) { // support for between, in etc
+							$this->database->where($column, array($condition['0'], $condition['1']), $condition['2']);
+						} else {
+							$this->database->where($column, $condition['0'], $condition['1']);
+						}
 					} else {
 						$this->database->where($column, $condition);
 					}
