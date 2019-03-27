@@ -135,6 +135,19 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item {% if mainSection == 'categories' %}active{% endif %}">
+            <a class="nav-link" id="categories-section" data-toggle="collapse" href="#categories" aria-expanded="{% if mainSection =='categories' %}true{% else %}false{% endif %}" aria-controls="categories">
+              <span class="menu-title">Categories</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi mdi-briefcase menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='categories' %}show{% endif %}" id="categories">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/categories/?action=create">Create</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/categories/?action=list">List</a></li>
+              </ul>
+            </div>
+          </li>
           <li class="nav-item {% if mainSection == 'ads' %}active{% endif %}">
             <a class="nav-link" id="ads-section" data-toggle="collapse" href="#ads" aria-expanded="{% if mainSection =='ads' %}true{% else %}false{% endif %}" aria-controls="ads">
               <span class="menu-title">Ads</span>
