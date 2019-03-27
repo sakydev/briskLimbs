@@ -478,4 +478,8 @@ class Categories {
       return $this->setFields($details, $identifier, $this->column($identifier));
     }
   }
+
+  public function create($parameters) {
+    return $this->database->insert($this->table, $parameters);
+  }
 }
