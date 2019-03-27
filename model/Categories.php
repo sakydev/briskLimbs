@@ -399,10 +399,6 @@ class Categories {
   * @return: { boolean }
   */
   public function activate($category) {
-    if (!$this->validatePermissions($category)) {
-      return $this->limbs->errors->add("You don't have permissions to activate $category");
-    }
-
     return $this->setField('status', 'active', $category, $this->column($category));
   }
 
@@ -422,10 +418,6 @@ class Categories {
   * @return: { boolean }
   */
   public function deactivate($category) {
-    if (!$this->validatePermissions($category)) {
-      return $this->limbs->errors->add("You don't have permissions to deactivate $category");
-    }
-
     return $this->setField('status', 'inactive', $category, $this->column($category));
   }
 
@@ -445,10 +437,6 @@ class Categories {
   * @return: { boolean }
   */
   public function delete($category) {
-    if (!$this->validatePermissions($category)) {
-      return $this->limbs->errors->add("You don't have permissions to delete $category");
-    }
-
     $this->database->where($this->column($category), $category);
     return $this->database->delete($this->table);
   }
@@ -486,10 +474,6 @@ class Categories {
   * @return: { boolean }
   */
   public function update($identifier, $details) {
-    if (!$this->validatePermissions($identifier)) {
-      return $this->limbs->errors->add("You don't have permissions to update");
-    }
-
     if ($this->validateUpdate($details)) {
       return $this->setFields($details, $identifier, $this->column($identifier));
     }
