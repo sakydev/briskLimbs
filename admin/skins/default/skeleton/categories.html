@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style type="text/css">
+  .dropdown-menu li a {
+    padding: 8px 15px;
+    color: #5f5f5f;
+    font-size: 14px;
+    display: block;
+  }
+</style>
+
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+
+    <!-- content here -->
+    <div class="card">
+      <div class="card-body">
+        {% if action == 'list' %}
+          <h4 class="card-title">Categories Manager - List</h4>
+          <p class="card-description mb-2">Total: {{total}}</p>
+          {% if results %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for category in results %}
+              <tr>
+                <td>{{category.id}}</td>
+                <td>{{category.name}}</td>
+                <td>{{category.description}}</td>
+                <td><label class="mt-2 badge badge-{% if category.status == 'active' %}success{% else %}danger{% endif %}">{{category.status}}</label></td>
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      Actions
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      {% if category.status == 'active' %}
+                        <li><a href="{{_adminUrl}}/categories/?action=list&deactivate={{category.name}}">Deactivate</a></li>
+                      {% else %}
+                        <li><a href="{{_adminUrl}}/categories/?action=list&activate={{category.name}}">Activate</a></li>
+                      {% endif %}
+                      <li class="divider"></li>
+                      <li><a href="{{_adminUrl}}/categories/?action=list&delete={{category.name}}">Delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <div class="alert alert-warning">No results found</div>
+          {% endif %}
+        {% elseif action == 'create' %}
+          <h4 class="card-title mb-4">Categories Manager - Create</h4>
+          
+
+          <div class="float-right">
+            <button type="submit" class="btn btn-gradient-primary btn-icon-text">
+              <i class="mdi mdi-file-check btn-icon-prepend"></i>
+              Submit
+            </button>
+          </div>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+{% endblock %}
