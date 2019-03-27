@@ -8,11 +8,18 @@ if (!$users->isAdmin()) {
 
 $categories = new Categories();
 
-if (isset($_POST['name'])) {
+if (isset($_POST['name']) && !isset($_POST['edit'])) {
 	if ($categories->create($_POST)) {
 		$parameters['message'] = 'Category created successfully';
 	} else {
 		$parameters['category'] = $_POST;
+	}
+}
+
+if (isset($_POST['edit'])) {
+	unset($_POST['edit']);
+	if ($categories->update($_GET['id'], $_POST)) {
+		$parameters['message'] = 'Category updated successfully';
 	}
 }
 
@@ -42,7 +49,7 @@ $results = $categories->list($listParameters);
 
 $totalFound = count($results);
 $parameters['total'] = $total = $categories->count($listParameters);
-$parameters['results'] = $results;
+$parameters['results'] = !isset($_GET['id']) ? $results : $categories->get($_GET['id']);
 $parameters['mainSection'] = 'categories';
 $parameters['action'] = $_GET['action'];
 
