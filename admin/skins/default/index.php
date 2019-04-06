@@ -36,17 +36,6 @@ $monthEnd = $monthStart; // end where last week starts
 $monthStart = date('Y-m-d', strtotime('-60 days'));
 $uploads['before_last_month'] = json_encode($limbs->database->rawQuery("SELECT DATE(date) AS label,COUNT(*) AS y FROM videos WHERE date BETWEEN '$monthStart' AND '$monthEnd' GROUP BY DATE(date)"));
 
-$categories = new Categories();
-$catResults = json_encode($limbs->database->rawQuery("SELECT category,COUNT(*) AS total FROM videos GROUP BY category"));
-$uploads['categories'] = array();
-foreach ($catResults as $key => $cat) {
-	foreach (explode(',', $cat['category']) as $key => $category) {
-		$name = $categories->getName($category);
-		if (empty($name)) { continue; }
-		$uploads['categories'][$name] = isset($uploads['categories'][$name]) ? $uploads['categories'][$name] + $cat['total'] : $cat['total'];
-	}
-}
-
 $stats['uploads'] = $uploads;
 $parameters['mainSection'] = 'dashboard';
 $parameters['_errors'] = $limbs->errors->collect();

@@ -32,6 +32,8 @@
 				  	<div id="total-uploads" style="height: 300px; width: 100%;"></div>
 				  	<div id="total-uploads-week" style="height: 300px; width: 100%;"></div>
 				  	<div id="total-uploads-week-before" style="height: 300px; width: 100%;"></div>
+				  	<div id="total-uploads-month" style="height: 300px; width: 100%;"></div>
+				  	<div id="total-uploads-month-before" style="height: 300px; width: 100%;"></div>
 				  </div>
 				  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="conversion-tab">b</div>
 				  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="registrations-tab">c</div>
@@ -100,6 +102,44 @@
 				legendMarkerColor: "grey",
 				legendText: "Total Uploads",
 				dataPoints: {{stats.uploads.before_last_week|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("total-uploads-month", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Uploads Last Month"
+			},
+			axisY: {
+				title: "Uploads"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Uploads",
+				dataPoints: {{stats.uploads.last_month|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("total-uploads-month-before", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Uploads Before Last Month"
+			},
+			axisY: {
+				title: "Uploads"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Uploads",
+				dataPoints: {{stats.uploads.before_last_month|raw}}
 			}]
 		});
 		chart.render();
