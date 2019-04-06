@@ -28,7 +28,11 @@
 				  </li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
-				  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="uploads-tab">a</div>
+				  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="uploads-tab">
+				  	<div id="total-uploads" style="height: 300px; width: 100%;"></div>
+				  	<div id="total-uploads-week" style="height: 300px; width: 100%;"></div>
+				  	<div id="total-uploads-week-before" style="height: 300px; width: 100%;"></div>
+				  </div>
 				  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="conversion-tab">b</div>
 				  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="registrations-tab">c</div>
 				</div>
@@ -37,7 +41,70 @@
 
   </div>
 </div>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+	window.onload = function () {
+		var chart = new CanvasJS.Chart("total-uploads", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Uploads Comparison"
+			},
+			axisY: {
+				title: "Uploads"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Uploads",
+				dataPoints: [      
+					{ y: {{stats.uploads.yesterday}}, label: "Yesterday" },
+					{ y: {{stats.uploads.today}}, label: "Today" },
+				]
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("total-uploads-week", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Uploads Last Week"
+			},
+			axisY: {
+				title: "Uploads"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Uploads",
+				dataPoints: {{stats.uploads.last_week|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("total-uploads-week-before", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Uploads Before Last Week"
+			},
+			axisY: {
+				title: "Uploads"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Uploads",
+				dataPoints: {{stats.uploads.before_last_week|raw}}
+			}]
+		});
+		chart.render();
+	}
+</script>
 <!-- content-wrapper ends -->
         
         
