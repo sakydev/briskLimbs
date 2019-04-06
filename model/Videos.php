@@ -422,7 +422,7 @@ class Videos {
 		if (isset($parameters['keyword'])) {
 			$keyword = str_replace(array('?'), '', $parameters['keyword']);
       $keyword = mysqli_real_escape_string($this->database->mysqli(), $keyword);
-			$this->database->where("MATCH (title, description) AGAINST ('$keyword' in boolean mode)");
+			$this->database->where("MATCH (title, description, tags) AGAINST ('$keyword' in boolean mode)");
 		}
 
 		$limit = isset($parameters['limit']) ? $parameters['limit'] : $this->defaultLimit;
