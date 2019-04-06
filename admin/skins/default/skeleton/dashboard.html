@@ -23,9 +23,6 @@
 				  <li class="nav-item">
 				    <a class="nav-link" id="conversion-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Conversion</a>
 				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" id="registrations-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Registrations</a>
-				  </li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
 				  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="uploads-tab">
@@ -35,8 +32,14 @@
 				  	<div id="total-uploads-month" style="height: 300px; width: 100%;"></div>
 				  	<div id="total-uploads-month-before" style="height: 300px; width: 100%;"></div>
 				  </div>
-				  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="conversion-tab">b</div>
-				  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="registrations-tab">c</div>
+				  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="conversion-tab">
+				  	<div id="conversion-today" style="height: 300px; width: 100%;"></div>
+				  	<div id="conversion-yesterday" style="height: 300px; width: 100%;"></div>
+				  	<div id="conversion-last-week" style="height: 300px; width: 100%;"></div>
+				  	<div id="conversion-before-last-week" style="height: 300px; width: 100%;"></div>
+				  	<div id="conversion-last-month" style="height: 300px; width: 100%;"></div>
+				  	<div id="conversion-before-last-month" style="height: 300px; width: 100%;"></div>
+				  </div>
 				</div>
     	</div>
   	</div>
@@ -143,6 +146,121 @@
 			}]
 		});
 		chart.render();
+
+		var chart = new CanvasJS.Chart("conversion-today", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Conversions Today"
+			},
+			axisY: {
+				title: "Total"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Conversions",
+				dataPoints: {{stats.conversions.today|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("conversion-yesterday", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Conversions Yesterday"
+			},
+			axisY: {
+				title: "Total"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Conversions",
+				dataPoints: {{stats.conversions.yesterday|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("conversion-last-week", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Conversions Last Week"
+			},
+			axisY: {
+				title: "Total"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Conversions",
+				dataPoints: {{stats.conversions.last_week|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("conversion-before-last-week", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Conversions Before Last Week"
+			},
+			axisY: {
+				title: "Total"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Conversions",
+				dataPoints: {{stats.conversions.before_last_week|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("conversion-last-month", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Conversions Last Month"
+			},
+			axisY: {
+				title: "Total"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Conversions",
+				dataPoints: {{stats.conversions.last_month|raw}}
+			}]
+		});
+		chart.render();
+
+		var chart = new CanvasJS.Chart("conversion-before-last-month", {
+			animationEnabled: true,
+			theme: "light2", // "light1", "light2", "dark1", "dark2"
+			title:{
+				text: "Conversions Before Last Month"
+			},
+			axisY: {
+				title: "Total"
+			},
+			data: [{        
+				type: "column",  
+				showInLegend: true, 
+				legendMarkerColor: "grey",
+				legendText: "Total Conversions",
+				dataPoints: {{stats.conversions.before_last_month|raw}}
+			}]
+		});
+		chart.render();
+
 	}
 </script>
 <!-- content-wrapper ends -->
