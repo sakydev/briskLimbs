@@ -4,8 +4,10 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 $request = array_filter(explode('/', trim($_SERVER['REQUEST_URI'])));
 $base = basename(CORE_DIRECTORY);
-$page = array_filter($request, function($c) use (&$base) {
-	if ($base != $c && !strstr($c, '?') && !strstr($c, '&')) {
+$page = array_filter($request, function($c) use (&$base)
+{
+	if ($base != $c && !strstr($c, '?') && !strstr($c, '&'))
+    {
 		return $c;
 	}
 });
