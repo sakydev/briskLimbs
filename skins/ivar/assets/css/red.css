@@ -1,0 +1,157 @@
+/* Reddish theme starts */
+.btn-primary {
+  background-color: #c4302b;
+  border-color: #c4302b;
+}
+
+.btn-primary:hover {
+  background-color: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  background-color: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.btn-outline-primary {
+  border-color: #d71e18 !important !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+  color: #d71e18 !important;
+  background-color: transparent;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #d71e18 !important;
+}
+
+.btn-gradient-primary {
+  background: linear-gradient(to right,#c4302b,red);
+}
+
+.text-primary {
+  color: #c4302b !important;
+}
+
+.bg-primary {
+  background-color: #d71e18 !important;
+}
+
+.border-primary {
+  border-color: #d71e18 !important;
+}
+
+.sidebar .nav .nav-item.active > .nav-link .menu-title {
+  color: #d71e18 !important;
+}
+
+.sidebar .nav .nav-item.active > .nav-link i {
+  color: #d71e18 !important;
+}
+
+.sidebar .nav.sub-menu .nav-item .nav-link.active {
+  color: #d71e18 !important;
+}
+
+.navbar .navbar-menu-wrapper .dropdown .dropdown-toggle:after {
+  font-size: 1rem;
+}
+
+.navbar.horizontal-full-width-layout-navbar .navbar-top .navbar-menu-wrapper .navbar-nav .nav-item .nav-link.active {
+  border-bottom: 2px solid #d71e18 !important;
+}
+
+.navbar.horizontal-full-width-layout-navbar .navbar-bottom .navbar-nav.navbar-nav-left .nav-item .nav-link i {
+  color: #d71e18 !important;
+}
+
+.blockquote-primary {
+  border-color: #d71e18 !important;
+}
+
+.blockquote-primary .blockquote-footer {
+  color: #d71e18 !important;
+}
+
+.badge-primary {
+  border: 1px solid #d71e18 !important;
+}
+
+.badge-outline-primary {
+  color: #d71e18 !important;
+  border: 1px solid #d71e18 !important;
+}
+
+.btn-inverse-primary:not(.btn-inverse-light) {
+  color: #d71e18 !important;
+}
+
+.btn-inverse-primary:hover {
+  background-color: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.btn-inverse-primary.focus, .btn-inverse-primary:focus {
+  box-shadow: 0 0 0 3px rgba(182, 109, 255, 0.5);
+}
+
+.btn-inverse-primary.disabled, .btn-inverse-primary:disabled {
+  color: #d71e18 !important;
+}
+
+.btn-inverse-primary.active, .btn-inverse-primary:active,
+.show > .btn-inverse-primary.dropdown-toggle {
+  background-color: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.btn-primary:not(.btn-light):focus, .btn-primary:not(.btn-light):active {
+  background: #d71e18 !important;
+  border-color: #d71e18 !important;
+}
+
+.card.card-outline-primary {
+  border: 1px solid #d71e18 !important;
+}
+
+.form-check .form-check-label input[type="checkbox"] + .input-helper:before {
+  border: solid #d71e18 !important;
+}
+
+
+.form-check .form-check-label input[type="radio"] + .input-helper:before {
+  border: solid #d71e18 !important;
+}
+
+.form-check-primary.form-check label input[type="checkbox"] + .input-helper:before,
+.form-check-primary.form-check label input[type="radio"] + .input-helper:before {
+  border-color: #d71e18 !important;
+}
+
+select.form-control.border-primary {
+  outline: 1px solid #d71e18 !important;
+}
+
+select.form-control.border-primary:focus {
+  outline: 1px solid #d71e18 !important;
+}
+
+.icons-list > div i {
+  color: #d71e18 !important;
+}
+/* Reddish theme ends */
