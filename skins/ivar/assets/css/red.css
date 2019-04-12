@@ -15,7 +15,7 @@
 }
 
 .btn-outline-primary {
-  border-color: #d71e18 !important !important;
+  border-color: #d71e18 !important;
 }
 
 .btn-outline-primary:hover {
@@ -153,5 +153,13 @@ select.form-control.border-primary:focus {
 
 .icons-list > div i {
   color: #d71e18 !important;
+}
+
+.btn-gradient-primary:not([disabled]):not(.disabled).active, .btn-gradient-primary:not([disabled]):not(.disabled):active, .show>.btn-gradient-primary.dropdown-toggle {
+  background: linear-gradient(to right,#c4302b,red);
+}
+
+.btn-outline-primary:active, .btn-outline-primary:focus, .btn-outline-primary:hover {
+  background: linear-gradient(to right,#c4302b,red);
 }
 /* Reddish theme ends */
