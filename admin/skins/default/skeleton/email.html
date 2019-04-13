@@ -1,0 +1,131 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title mb-5">Email Settings</h4>
+    <form class="form-sample" name="general-settings" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Host</label>
+            <div class="col-sm-12">
+              <input type="text" name="php" class="form-control" placeholder="smtp.gmail.com" value="{{settings.mailer_host}}" disabled="true" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Type</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Auth type" value="{{settings.mailer_authtype}}" disabled="true" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Port</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffmpeg" class="form-control" placeholder="587" value="{{settings.mailer_port}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Method</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="tls" value="{{settings.mailer_smtp_secure}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Client ID</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Auth type" value="{{settings.mailer_clientid}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Client Secret</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Auth type" value="{{settings.mailer_clientsecret}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Token</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Auth type" value="{{settings.mailer_refreshtoken}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">User Email</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Gmail email to use" value="{{settings.mailer_email}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Sender Email</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Email to display" value="{{settings.mailer_sender_email}}" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Sender Name</label>
+            <div class="col-sm-12">
+              <input type="text" name="ffprobe" class="form-control" placeholder="Send email as" value="{{settings.mailer_sender_name}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-right">
+        <button type="submit" name="settings" type="button" class="btn btn-gradient-primary btn-icon-text">
+          <i class="mdi mdi-file-check btn-icon-prepend"></i>
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title mb-5">Test Email</h4>
+    <form class="form-sample" name="test-email" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Recipient</label>
+            <div class="col-sm-12">
+              <input type="text" name="test_recipient" class="form-control" placeholder="test@gmail.com" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Message</label>
+            <div class="col-sm-12">
+              <textarea name="test_message" class="form-control" rows="6" placeholder="My watch begins" /></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-right">
+        <button type="submit" name="settings" type="button" class="btn btn-gradient-primary btn-icon-text">
+          <i class="mdi mdi-file-check btn-icon-prepend"></i>
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
