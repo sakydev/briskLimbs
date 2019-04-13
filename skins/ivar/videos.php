@@ -7,8 +7,6 @@ if (!$users->authenticated()) {
 }
 
 $videos = new Videos();
-$videos->initialize();
-
 if (isset($_GET['deactivate'])) {
   if ($videos->deactivate($_GET['deactivate'])) {
     $parameters['message'] = sprintf("Video %s deactivated successfully", $_GET['deactivate']);

@@ -9,8 +9,6 @@ if (!$users->isAdmin()) {
 
 $vkey = $_GET['key'];
 $videos = new Videos();
-$videos->initialize();
-
 $categories = new Categories();
 $activeCategories = array();
 foreach ($categories->listActive(20) as $key => $value) {

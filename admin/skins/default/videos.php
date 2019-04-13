@@ -8,8 +8,6 @@ if (!$users->isAdmin()) {
 }
 
 $videos = new Videos();
-$videos->initialize();
-
 if (isset($_POST['bulk-action'])) {
 	$vKeys = explode(',', trim($_POST['bulk-keys'], ','));
 	pex($_POST);

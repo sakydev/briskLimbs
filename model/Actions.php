@@ -15,7 +15,6 @@ class Actions {
     global $videos;
     if (!$videos) {
       $videos = new Videos();
-      $videos->initialize();
     }
 
     $this->videos = $videos;

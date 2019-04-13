@@ -2,8 +2,6 @@
 
 global $limbs;
 $videos = new Videos();
-$videos->initialize();
-
 $ads = new Ads();
 
 $size = 12;

@@ -3,7 +3,6 @@
 global $limbs, $users;
 
 $videos = new Videos();
-$videos->initialize();
 $authenticated = $users->authenticated();
 if ($authenticated) {
 	if (!empty($_FILES['uploadMedia'])) {

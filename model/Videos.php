@@ -39,6 +39,9 @@ class Videos {
 	*/
 	private $defaultLimit;
 
+	function __construct($database = false) {
+		$this->initialize($database);
+	}
 	/**
 	* Initializes basic variables and prepares class to be used
 	* @param: { $database } { false, database object if avaible }

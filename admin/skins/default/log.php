@@ -9,8 +9,6 @@ if (!$users->isAdmin()) {
 $key = $_GET['key'];
 
 $videos = new Videos();
-$videos->initialize();
-
 $fields = $videos->getFields($key, array('filename', 'date'));
 $path = LOGS_DIRECTORY . '/' . directory($fields['date']) . '/' . $fields['filename'] . '.log';
 $logs = new Logs($path);

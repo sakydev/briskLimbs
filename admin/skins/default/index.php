@@ -7,8 +7,6 @@ if (!$users->isAdmin()) {
 }
 
 $videos = new Videos();
-$videos->initialize();
-
 $conversions = $registrations = $uploads = $listParameters = array();
 $yesterdayDate = date('Y-m-d', strtotime('-1 days'));
 $listParameters['date'] = array("$yesterdayDate  00:00::00", "$yesterdayDate 23:59::59", 'between');

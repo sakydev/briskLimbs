@@ -3,8 +3,6 @@
 global $limbs, $users;
 
 $videos = new Videos();
-$videos->initialize();
-
 $actions = new Actions();
 $actions->initialize();
 

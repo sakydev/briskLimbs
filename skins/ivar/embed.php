@@ -3,7 +3,6 @@
 global $limbs;
 
 $videos = new Videos();
-$videos->initialize();
 
 $actions = new Actions();
 $actions->initialize();

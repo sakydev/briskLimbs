@@ -51,8 +51,7 @@ if (count($argv) >=2 ) {
 
   $fields = array('duration' => $duration, 'status' => $status, 'qualities' => $qualities);
 
-  $videos = new Videos();
-  $videos->initialize($database);
+  $videos = new Videos($database);
   $videos->setFields($fields, $filename, 'filename');
 
   @unlink($path);
