@@ -81,11 +81,13 @@ class Ads {
   }
 
   public function getByName($name) {
+    $this->database->where('status', 'active');
     $this->database->where('name', $name);
     return $this->database->getOne($this->table);
   }
 
   public function getByLocation($location) {
+    $this->database->where('status', 'active');
     $this->database->where('location', $location);
     return $this->database->getOne($this->table);
   }

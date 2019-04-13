@@ -4,11 +4,7 @@ global $limbs, $users;
 
 $videos = new Videos();
 $actions = new Actions();
-$actions->initialize();
-
 $comments = new Comments();
-$comments->initialize();
-
 $ads = new Ads();
 
 if (isset($_POST['comment'])) {
