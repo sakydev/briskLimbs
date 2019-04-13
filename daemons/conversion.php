@@ -12,7 +12,6 @@ require MODEL_DIRECTORY . '/Logs.php';
 global $database;
 
 $settings = new Settings($database);
-$settings->initialize();
 
 if (count($argv) >=2 ) {
   foreach ($argv as $key => $argument) {
@@ -30,7 +29,6 @@ if (count($argv) >=2 ) {
   $path = TEMPORARY_DIRECTORY . '/' . $base . '.' . $extension;
   $log = LOGS_DIRECTORY . '/' . $base . '.log';
   $logs = new Logs($log);
-  $logs->initialize();
   $conversion = new Conversion($filename, $directory, $path, $logs);
   $results = $conversion->process();
 

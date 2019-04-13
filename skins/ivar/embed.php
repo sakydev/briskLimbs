@@ -3,9 +3,7 @@
 global $limbs;
 
 $videos = new Videos();
-
 $actions = new Actions();
-$actions->initialize();
 
 $vKey = $_GET['key'];
 $video = new Video($vKey);

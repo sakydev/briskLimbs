@@ -59,6 +59,8 @@ class Limbs {
 		$this->database = $database;
 		$this->templateParameters = array();
 		$this->addonParameters = array();
+
+		$this->initialize();
 	}
 
 	/*
@@ -66,8 +68,6 @@ class Limbs {
 	*/
 	public function initialize() {
 		$this->settings = new Settings($this->database);
-		$this->settings->initialize();
-
 		$this->coreUrl = $this->settings->get('core_url');
 		$this->themeSettings = (object) $this->getThemeSettings();
 

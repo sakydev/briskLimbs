@@ -17,9 +17,5 @@ $page = current($page) == 'watch' ? 'watch' : end($page);
 
 global $database; // ah! just once
 $limbs = new Limbs($database);
-$limbs->initialize();
-
 $users = new Users();
-$users->initialize();
-
 $limbs->stretch($page);

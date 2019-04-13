@@ -16,6 +16,7 @@ class Logs {
 
   function __construct($path) {
     $this->path = $path;
+    $this->initialize();
   }
 
   /**
