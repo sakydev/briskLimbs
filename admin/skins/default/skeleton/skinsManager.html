@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style type="text/css">
+  .dropdown-menu li a {
+    padding: 8px 15px;
+    color: #5f5f5f;
+    font-size: 14px;
+    display: block;
+  }
+</style>
+
+<div class="content-wrapper bg-light">
+  <div class="col-12 grid-margin">
+    {% if message %}
+      <div class="alert alert-success">{{message}}</div>
+    {% endif %}
+
+    {% for error in _errors %}
+      <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+
+    <!-- content here -->
+    {% set urlBase = paginationBase ~ "&page=" ~ pagination.current %}
+
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Skins</h4>
+          {% if results %}
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Author</th>
+                  <th>Description</th>
+                  <th>Install</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for skin in results %}
+              <tr>
+                <td>
+                  {{skin.display_name}}
+                </td>
+                <td>{{skin.author}}</td>
+                <td>{{skin.description}}</td>
+                <td>
+                  {% if skin.name == activeSkin %}
+                    <button class="btn btn-default btn-gradient-default" disabled="true">Active</button>
+                  {% else %}
+                    <a href="{{urlBase}}&install={{skin.name}}"><button class="btn btn-primary btn-gradient-primary">Install</button></a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr><div class="alert alert-warning">No results found</div></tr>
+          {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+{% endblock %}
