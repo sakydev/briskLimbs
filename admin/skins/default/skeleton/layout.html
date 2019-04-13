@@ -7,13 +7,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>{{_title}}</title>
-  <link rel="stylesheet" href="{{_cssUrl}}/iconfonts/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="{{_cssUrl}}/style.css">
-  <link rel="stylesheet" href="{{_cssUrl}}/custom.css">
-  <link rel="stylesheet" href="{{_cssUrl}}/red.css">
+  <link rel="stylesheet" href="{{_coreUrl}}/skins/ivar/assets/css/iconfonts/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="{{_coreUrl}}/skins/ivar/assets/css/style.css">
+  <link rel="stylesheet" href="{{_coreUrl}}/skins/ivar/assets/css/custom.css">
+  <link rel="stylesheet" href="{{_coreUrl}}/skins/ivar/assets/css/red.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{_imagesUrl}}/favicon.png" />
-  <script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
+  <link rel="shortcut icon" href="{{_coreUrl}}/skins/ivar/assets/images/favicon.png" />
+  <script type="text/javascript" src="{{_coreUrl}}/skins/ivar/assets/js/jquery-3.3.1.min.js"></script>
   {% for action in _triggers.head_end %}
     {{hook(action)}}
   {% endfor %}
@@ -30,8 +30,8 @@
     {% endfor %}
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{_coreUrl}}/admin/dashboard"><img src="{{_imagesUrl}}/logo.svg" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="{{_coreUrl}}/admin/dashboard"><img src="{{_imagesUrl}}/logo-mini.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo" href="{{_coreUrl}}/admin/dashboard"><img src="{{_coreUrl}}/skins/ivar/assets/images/logo.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="{{_coreUrl}}/admin/dashboard"><img src="{{_coreUrl}}/skins/ivar/assets/images/logo-mini.svg" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
         <div class="search-field d-none d-md-block">
@@ -241,8 +241,8 @@
             <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a href="https://github.com/briskLimbs" target="_blank">BriskLimbs</a>. All rights reserved.</span>
           <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">UI by BootstrapDash</span>
           </div>
-          <script type="text/javascript" src="{{_jsUrl}}/popper.min.js"></script>
-          <script type="text/javascript" src="{{_jsUrl}}/bootstrap.min.js"></script>
+          <script type="text/javascript" src="{{_coreUrl}}/skins/ivar/assets/js/popper.min.js"></script>
+          <script type="text/javascript" src="{{_coreUrl}}/skins/ivar/assets/js/bootstrap.min.js"></script>
           {% for action in _triggers.footer_end %}
             {{hook(action)}}
           {% endfor %}

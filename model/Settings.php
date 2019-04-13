@@ -69,7 +69,8 @@ class Settings {
 	* @return: { boolean } 
 	*/
 	public function set($name, $value) {
-		return $this->database->update(array($name => $value));
+		$this->database->where('name', 'active_theme');
+		return $this->database->update($this->table, array('value' => $value));
 	}
 
 	/**
