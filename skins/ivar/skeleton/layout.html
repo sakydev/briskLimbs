@@ -116,13 +116,13 @@
       {% if _section == 'user_dashboard' %}
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
-            <li class="nav-item">
+            <li class="nav-item {% if dashSection =='dashboard' %}active{% endif %}">
               <a class="nav-link" id="settings-section" href="{{_coreUrl}}/dashboard">
                 <span class="menu-title">Dashboard</span>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if dashSection =='videos' %}active{% endif %}">
               <a class="nav-link" id="videos-section" data-toggle="collapse" href="#videos" aria-expanded="{% if dashSection =='videos' %}true{% else %}false{% endif %}" aria-controls="videos">
                 <span class="menu-title">Videos</span>
                 <i class="menu-arrow"></i>
@@ -140,7 +140,7 @@
                 </ul>
               </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if dashSection =='settings' %}active{% endif %}">
               <a class="nav-link" id="settings-section" data-toggle="collapse" href="#settings" aria-expanded="{% if dashSection =='settings' %}true{% else %}false{% endif %}" aria-controls="settings">
                 <span class="menu-title">Settings</span>
                 <i class="menu-arrow"></i>
