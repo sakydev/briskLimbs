@@ -27,9 +27,7 @@ class Settings {
 	private $table;
 
 	function __construct($database) {
-		$this->database = $database;
-		$this->settings = array();
-		$this->table = 'settings';
+		$this->initialize();
 	}
 
 	/**
@@ -37,6 +35,10 @@ class Settings {
 	* @return: { array }
 	*/
 	public function initialize() {
+		$this->database = $database;
+		$this->settings = array();
+		$this->table = 'settings';
+		
 		$results = $this->database->get($this->table);
 		foreach ($results as $key => $value) {
 			$this->settings[$value['name']] = $value['value'];
