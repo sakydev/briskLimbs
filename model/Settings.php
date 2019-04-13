@@ -30,7 +30,7 @@ class Settings {
 		if (!$database) {
 			global $database;
 		}
-		
+
 		$this->initialize($database);
 	}
 
@@ -106,7 +106,7 @@ class Settings {
 	* re select from database instead
 	*/
 	public function reFetch() {
-		$this->initialize();
+		$this->initialize($this->database);
 		return $this->fetch();
 	}
 
