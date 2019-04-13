@@ -9,11 +9,13 @@ if (!$users->isAdmin()) {
 
 if (isset($_POST['settings'])) {
 	unset($_POST['settings']);
-  $qualities = array('240', '360', '480', '720', '1080');
-  foreach ($qualities as $key => $value) {
-    $checkKey = "quality_{$value}";
-    $_POST[$checkKey] = isset($_POST[$checkKey]) ? 'yes' : 'no';
-  }
+	if (isset($_POST['video_codec'])) {
+	  $qualities = array('240', '360', '480', '720', '1080');
+	  foreach ($qualities as $key => $value) {
+	    $checkKey = "quality_{$value}";
+	    $_POST[$checkKey] = isset($_POST[$checkKey]) ? 'yes' : 'no';
+	  }
+	}
 
 	if ($settings->bulkSet($_POST)) {
 		$parameters['messages'][] = 'Settings updated successfully';
@@ -47,6 +49,9 @@ foreach ($clips as $key => $type) {
 	}
 }
 
+if (isset($_POST)) {
+	# pr($_POST);
+}
 $preClip = MEDIA_DIRECTORY . '/pre.mp4';
 $postClip = MEDIA_DIRECTORY . '/post.mp4';
 $parameters['_title'] = 'Settings - Dashboard';
