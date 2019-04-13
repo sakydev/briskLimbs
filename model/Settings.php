@@ -27,14 +27,14 @@ class Settings {
 	private $table;
 
 	function __construct($database) {
-		$this->initialize();
+		$this->initialize($database);
 	}
 
 	/**
 	* Fetch settings from database and make ready for all other methods
 	* @return: { array }
 	*/
-	public function initialize() {
+	public function initialize($database) {
 		$this->database = $database;
 		$this->settings = array();
 		$this->table = 'settings';
