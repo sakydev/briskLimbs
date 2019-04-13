@@ -49,8 +49,18 @@ foreach ($clips as $key => $type) {
 	}
 }
 
-if (isset($_POST)) {
-	# pr($_POST);
+if (isset($_POST['test-email'])) {
+	$to = $_POST['test_recipient'];
+	$toName = $_POST['test_name'];
+	$message = $_POST['test_message'];
+	$subject = $_POST['test_subject'];
+
+	$mail = new Mail();
+	if ($mail->send($subject, $message, $to, $toName)) {
+		$parameters['messages'][] = "Message sent to $toName ($to)";
+	} else {
+		$parameters['messages'][] = "Failed to send to $toName ($to)";
+	}
 }
 $preClip = MEDIA_DIRECTORY . '/pre.mp4';
 $postClip = MEDIA_DIRECTORY . '/post.mp4';

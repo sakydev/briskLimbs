@@ -21,7 +21,7 @@ class Mail {
     $this->mailer->SMTPDebug = false; // use 1 or 2 when testing
   }
 
-  public function send($recipientMail, $recipientName, $subject, $message) {
+  public function send($subject, $message, $recipientMail, $recipientName) {
   	$clientId = $this->settings->get('mailer_clientid');
   	$clientSecret = $this->settings->get('mailer_clientsecret');
 
