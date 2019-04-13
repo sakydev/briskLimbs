@@ -162,6 +162,20 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item {% if mainSection == 'skins' %}active{% endif %}">
+            <a class="nav-link" id="skins-section" data-toggle="collapse" href="#skins" aria-expanded="{% if mainSection =='skins' %}true{% else %}false{% endif %}" aria-controls="skins">
+              <span class="menu-title">Skins</span>
+              <i class="menu-arrow"></i>
+              <i class="mdi mdi-wrench menu-icon"></i>
+            </a>
+            <div class="collapse {% if mainSection =='skins' %}show{% endif %}" id="skins">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/skins/?list=all">List</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{_adminUrl}}/editor/?main=skins">Editor</a></li>
+              </ul>
+            </div>
+          </li>
+
           <li class="nav-item {% if mainSection == 'addons' %}active{% endif %}">
             <a class="nav-link" id="addons-section" data-toggle="collapse" href="#addons" aria-expanded="{% if mainSection =='addons' %}true{% else %}false{% endif %}" aria-controls="addons">
               <span class="menu-title">Addons</span>
