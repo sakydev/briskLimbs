@@ -3,7 +3,7 @@
 class Comments {
   
   function __construct() {
-    
+    $this->initialize();
   }
 
   function initialize() {

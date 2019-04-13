@@ -50,15 +50,18 @@ class Users {
 	private $defaultLimit;
 
 	function __construct() {
+		$this->initialize();
+	}
+
+	public function initialize() {
+		global $limbs;
+
 		if (isset($_SESSION['username'])) {
       $this->username = $_SESSION['username'];
       $this->userId = $_SESSION['userId'];
       $this->level = $_SESSION['level'];
     }
-	}
-
-	public function initialize() {
-		global $limbs;
+    
 		$this->limbs = $limbs;
 		$this->database = $limbs->database;
 		$this->table = 'users';

@@ -40,6 +40,10 @@ class Categories {
   private $defaultLimit;
 
   function __construct() {
+    $this->initialize();
+  }
+
+  public function initialize() {
     global $database, $limbs, $users;
     $this->limbs = $limbs;
     $this->users = $users;

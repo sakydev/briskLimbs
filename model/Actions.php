@@ -6,13 +6,14 @@
 class Actions {
   
   function __construct() {
-    global $database, $users;
-    $this->database = $database;
-    $this->users = $users;
+    $this->initialize();
   }
 
   public function initialize() {
-    global $videos;
+    global $database, $users, $videos;
+    $this->database = $database;
+    $this->users = $users;
+
     if (!$videos) {
       $videos = new Videos();
     }
