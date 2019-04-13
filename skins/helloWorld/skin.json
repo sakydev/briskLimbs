@@ -1,0 +1,10 @@
+{ 
+  "name" : "helloWorld",
+  "display_name": "HelloWorld",
+  "author": "Saqib Razzaq",
+  "autor_website": "https://github.com/saqirzzq",
+  "date": "2019, 03, 01",
+  "description": "This is sample briskLimbs skin",
+  "version": "1.0",
+  "state": "Beta"
+}

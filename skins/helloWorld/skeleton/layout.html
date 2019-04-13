@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% for action in _triggers.head_start %}
+    {{hook(action)}}
+  {% endfor %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{{_title}}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{_cssUrl}}/custom.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{{_imagesUrl}}/favicon.png" />
+  <meta name="description" content="{% if video.description %}{{video.description}}{% else %}{{settings.description}}{% endif %}">
+  <meta property="og:title" content="{% if video.title %}{{video.title}}{% else %}{{_title}}{% endif %}"/>
+  <meta property="og:image" content="{{video.thumbnail}}"/>
+  <meta property="og:site_name" content="{{settings.title}}" />
+  <meta property="og:description" content="{% if video.description %}{{video.description}}{% else %}{{settings.description}}{% endif %}}" />
+  {% for action in _triggers.head_end %}
+    {{hook(action)}}
+  {% endfor %}
+</head>
+
+{% for action in _triggers.body_before %}
+  {{hook(action)}}
+{% endfor %}
+<body>
+  <div class="container-scroller">
+    {{hook('adminHound')}}
+    {% for action in _triggers.navbar_before %}
+      {{hook(action)}}
+    {% endfor %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    {% for action in _triggers.navbar_after %}
+      {{hook(action)}}
+    {% endfor %}
+    <div class="container-fluid page-body-wrapper bg-light">
+      {% if _section == 'user_dashboard' %}
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item {% if dashSection =='dashboard' %}active{% endif %}">
+              <a class="nav-link" id="settings-section" href="{{_coreUrl}}/dashboard">
+                <span class="menu-title">Dashboard</span>
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item {% if dashSection =='videos' %}active{% endif %}">
+              <a class="nav-link" id="videos-section" data-toggle="collapse" href="#videos" aria-expanded="{% if dashSection =='videos' %}true{% else %}false{% endif %}" aria-controls="videos">
+                <span class="menu-title">Videos</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+              </a>
+              <div class="collapse {% if dashSection =='videos' %}show{% endif %}" id="videos">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=all">List</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=trending">Trending</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=active">Active</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=inactive">Inactive</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=successful">Successful</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=pending">Pending</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/videos/?list=failed">Failed</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item {% if dashSection =='settings' %}active{% endif %}">
+              <a class="nav-link" id="settings-section" data-toggle="collapse" href="#settings" aria-expanded="{% if dashSection =='settings' %}true{% else %}false{% endif %}" aria-controls="settings">
+                <span class="menu-title">Settings</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+              </a>
+              <div class="collapse {% if dashSection =='settings' %}show{% endif %}" id="settings">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="{{_coreUrl}}/settings">General</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      {% endif %}
+      <!-- partial -->
+      <div class="main-panel" style="width: 100%">
+        <div class="ml-4 search-phone">
+          <form class="d-flex align-items-center h-100" action="{{_coreUrl}}/search/">
+            <div class="input-group">
+              <div class="input-group-prepend bg-transparent">
+                  <i class="input-group-text border-0 mdi mdi-magnify"></i>                
+              </div>
+              <input type="text" name="keyword" class="form-control bg-transparent border-0" placeholder="Search videos" value="{{keyword}}">
+            </div>
+          </form>
+        </div>
+      {% if settings.public_message %}
+        <div class="container mt-2 alert alert-info">{{settings.public_message}}</div>
+      {% endif %}
+      {% block content %}
+
+      {% endblock %}
+
+      {% for action in _triggers.footer_before %}
+        {{hook(action)}}
+      {% endfor %}
+      <footer class="footer fixed-bottom" style="padding: 10px !important;">
+        {% for action in _triggers.footer_start %}
+          {{hook(action)}}
+        {% endfor %}
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019 <a href="https://github.com/briskLimbs" target="_blank">BriskLimbs</a>. All rights reserved.</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">UI by BriskLimbs</span>
+        </div>
+
+        <script type="text/javascript" src="{{_jsUrl}}/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="{{_jsUrl}}/popper.min.js"></script>
+        <script type="text/javascript" src="{{_jsUrl}}/bootstrap.min.js"></script>
+        {% if _section == 'upload' %}
+          <script type="text/javascript" src="{{_jsUrl}}/plupload.full.min.js"></script>
+          <script type="text/javascript" src="{{_jsUrl}}/upload.js"></script>
+        {% elseif (_section == 'watch') or (_section == 'embed') %}
+          <script src="{{_jsUrl}}/video-js/video.min.js"></script>
+          <script src="{{_jsUrl}}/video-js/videojs-resolution-switcher.js"></script>
+          <script src="{{_jsUrl}}/watch.js"></script>
+        {% endif %}
+        
+        {% for action in _triggers.footer_end %}
+          {{hook(action)}}
+        {% endfor %}
+      </footer>
+      {% for action in _triggers.footer_after %}
+        {{hook(action)}}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</body>
+{% for action in _triggers.body_after %}
+  {{hook(action)}}
+{% endfor %}
+</html>

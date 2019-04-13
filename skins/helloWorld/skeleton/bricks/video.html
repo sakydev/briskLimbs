@@ -1,0 +1,15 @@
+<div class="col-lg-2 col-md-3 col-sm-4">
+  <div class="card card-custom mb-4 box-shadow">
+    <div class="image-section">
+      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';" title="{{video.title}}"></a>
+      <div class="time">{{formatDuration(video.duration)}}</div>
+    </div>
+    <div class="card-body card-body-custom">
+      <a href="{{_coreUrl}}/watch/{{video.vkey}}"><h6 title="{{video.title}}" class="video-title">{{video.trunc_title}}</h6></a>
+      <div class="d-flex justify-content-between align-items-center">
+        <small class="text-muted">by <a class="text-muted" href="{{_coreUrl}}/channel/?name={{video.uploader_name}}">{{video.uploader_name}}</a></small>
+        <small class="text-muted">{{formatDate(video.date)}}</small>
+      </div>
+    </div>
+  </div>
+</div>
