@@ -12,10 +12,26 @@
     {% for error in _errors %}
       <div class="alert alert-danger">{{error}}</div>
     {% endfor %}
-    
+    <div class="card" style="border-radius: 4px;margin-bottom: 10px;">
+		  <div class="card-header">
+		    BriskLimbs News
+		  </div>
+		  <div class="card-body" style="height: 250px; overflow-y: scroll;">
+		    {% for content in news %}
+		    	<blockquote class="blockquote">
+			  	<h6 class="card-title">{{content.subject}}</h6>
+			      <p>{{content.message}}</p>
+			      <footer class="blockquote-footer">Published <cite title="Source Title">{{formatDate(content.published)}}</cite></footer>
+			    </blockquote>
+		    {% endfor %}
+		  </div>
+		</div>
+
     <div class="card">
+    	<div class="card-header">
+		    Statistics
+		  </div>
   		<div class="card-body">
-    		<h4 class="card-title mb-5">Statistics</h4>
     		<ul class="nav nav-tabs" id="myTab" role="tablist">
 				  <li class="nav-item">
 				    <a class="nav-link active" id="uploads-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Uploads</a>
@@ -46,7 +62,7 @@
 
   </div>
 </div>
-<script type="text/javascript" src="{{_jsUrl}}/canvasjs.min.js"></script>
+<script type="text/javascript" src="{{_coreUrl}}/skins/ivar/assets/js/canvasjs.min.js"></script>
 <script type="text/javascript">
 	window.onload = function () {
 		var chart = new CanvasJS.Chart("total-uploads", {
