@@ -15,7 +15,11 @@ $page = array_filter($request, function($c) use (&$base)
 define('IS_ADMIN', current($page) == 'admin' ? true : false);
 $page = current($page) == 'watch' ? 'watch' : end($page);
 
-global $database; // ah! just once
+global $database;
 $limbs = new Limbs($database);
+$mail = new Mail();
+$main->send('brisklimbs@gmail.com', 'Frank Castle', 'Oye zinda', 'This freaking shit');
+exit;
+
 $users = new Users();
 $limbs->stretch($page);

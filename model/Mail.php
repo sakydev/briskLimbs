@@ -17,14 +17,17 @@ class Mail {
   }
 
   public function send($recipientMail, $recipientName, $subject, $message) {
-		$provider = new Google('clientId' => $clientId, 'clientSecret' => $clientSecret,]);
+		$provider = new Google([
+			'clientId' => $this->settings->get('mailer_clientid'), 
+			'clientSecret' => $this->settings->get('mailer_clientsecret'),
+		]);
 		$this->mailer->setOAuth(
 		    new OAuth([
           'provider' => $provider,
           'clientId' => $clientId,
           'clientSecret' => $clientSecret,
-          'refreshToken' => $refreshToken,
-          'userName' => $email,
+          'refreshToken' => $this->settings->get('mailer_refreshtoken'),
+          'userName' => $this->settings->get('mailer_sender_email'),
 	        ]
 		    )
 		);

@@ -26,7 +26,11 @@ class Settings {
 	*/
 	private $table;
 
-	function __construct($database) {
+	function __construct($database = false) {
+		if (!$database) {
+			global $database;
+		}
+		
 		$this->initialize($database);
 	}
 
