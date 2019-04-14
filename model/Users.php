@@ -646,7 +646,7 @@ class Users {
 				$subject = prepareMessage($message['subject']);
 				$messageBody = prepareMessage($message['message'], $fields);
 				$mail = new Mail();
-				$mail->send($message['subject'], $messageBody, $fields['email'], $fields['username']);
+				$mail->send($subject, $messageBody, $fields['email'], $fields['username']);
 
 				return $status;
 			}

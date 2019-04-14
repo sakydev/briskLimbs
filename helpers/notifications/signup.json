@@ -1,4 +1,4 @@
 {
-	"subject": "Please activate your account at {{websitename}}",
+	"subject": "Please activate your account at {websitename}",
   "message": "Hi {username},<br><br>Thank you for creating your account at {websitename} using {email} on {date}. Your account will need to be activated before you can login.<br><br>Please login using following link <br><br><strong><a href='{websitelink}/activate/?code={activate_code}'>Activate Account</a></strong><br><br>You may also copy / paste following in your browser: {websitelink}/activate/?code={activate_code}"
 }
