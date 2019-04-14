@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2019 at 12:42 AM
+-- Generation Time: Apr 14, 2019 at 06:38 PM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
 -- PHP Version: 7.0.33-0ubuntu0.16.04.2
 
@@ -50,6 +50,10 @@ CREATE TABLE `videos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `videos`
+--
+
+--
 -- Indexes for dumped tables
 --
 
@@ -59,7 +63,7 @@ CREATE TABLE `videos` (
 ALTER TABLE `videos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `video_key` (`vkey`);
-ALTER TABLE `videos` ADD FULLTEXT KEY `title` (`title`,`description`);
+ALTER TABLE `videos` ADD FULLTEXT KEY `title` (`title`,`description`,`tags`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -69,7 +73,7 @@ ALTER TABLE `videos` ADD FULLTEXT KEY `title` (`title`,`description`);
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
