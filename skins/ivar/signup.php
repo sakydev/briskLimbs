@@ -8,10 +8,10 @@ if ($users->authenticated()) {
 
 if (!empty($_POST['username'])) {
 	if ($users->create($_POST)) {
-		if ($users->login($_POST['username'], $_POST['password'])) {
+		/*if ($users->login($_POST['username'], $_POST['password'])) {
 			jumpTo('home');
 		}
-		jumpTo('signin');
+		jumpTo('signin');*/
 	} else {
 		$parameters['_errors'] = $limbs->errors->collect();
 		$parameters['postFields'] = $_POST;

@@ -639,8 +639,17 @@ class Users {
 	public function create($fields) {
 		if ($this->validate($fields)) {
 			$fields['password'] = $this->securePassword($fields['password']);
-			$fields['status'] = 'ok';
-			return $this->database->insert($this->table, $fields);
+			$fields['activate_code'] = $this->createActivateCode();
+			$status = $this->database->insert($this->table, $fields);
+			if ($status) {
+				$message = getMessage('signup');
+				$subject = prepareMessage($message['subject']);
+				$messageBody = prepareMessage($message['message'], $fields);
+				$mail = new Mail();
+				$mail->send($message['subject'], $messageBody, $fields['email'], $fields['username']);
+
+				return $status;
+			}
 		}
 	}
 
@@ -752,4 +761,20 @@ class Users {
 		if (file_exists($file)) { @unlink($file); }
 		return move_uploaded_file($formData['tmp_name'], $file) ? $file : $this->limbs->errors->add('Failed to upload cover');
 	}
+
+	/**
+	* Create hashed reset code for database
+	* @return: { string }
+	*/
+	public function createResetCode() {
+    return md5(md5(randomString(15)));
+  }
+
+  /**
+	* Create hashed activation code for database
+	* @return: { string }
+	*/
+	public function createActivateCode() {
+    return md5(md5(randomString(13)));
+  }
 }

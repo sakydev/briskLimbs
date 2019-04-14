@@ -145,3 +145,35 @@ function listFiles($path, $parentNames = false, $depth = false, $deep = false) {
 
 	return $files;
 }
+
+function getMessage($name) {
+	$file = HELPERS_DIRECTORY . "/notifications/{$name}.json";
+	if (file_exists($file)) {
+		return json_decode(file_get_contents($file), true);
+	}
+}
+
+function prepareMessage($message, $fields = false) {
+	// Following are default fields, if a field is not matched here
+	// only then we'll search it in fields section
+	// websitename :: 
+	// websitelink ::
+	// date ::
+	global $limbs;
+	$websiteName = $limbs->settings->get('title');
+	$websiteLink = $limbs->settings->get('core_url');
+	$currentDate = date("Y/m/d");
+
+	$message = str_replace('{websitename}', $websiteName, $message);
+	$message = str_replace('{websitelink}', $websiteLink, $message);
+	$message = str_replace('{date}', $currentDate, $message);
+	if ($fields) {
+		foreach ($fields as $key => $value) {
+			if (strstr($message, '{' . $key . '}')) {
+				$message = str_replace('{' . $key . '}', $value, $message);
+			}
+		}
+	}
+
+	return $message;
+}
