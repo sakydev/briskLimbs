@@ -25,7 +25,7 @@ function hasFfprobe() {
   return shell_exec('which ffprobe');
 }
 
-function import($username, $password, $database, $prefix = false) {
+function import($username, $password, $database, $pattern = false) {
   $connection = new mysqli('localhost', $username, $password, $database);
   if ($connection->connect_error) {
     return $connection->connect_error;
