@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 15, 2019 at 11:07 PM
+-- Generation Time: Apr 14, 2019 at 06:37 PM
 -- Server version: 5.7.25-0ubuntu0.16.04.2
--- PHP Version: 7.0.33-0ubuntu0.16.04.1
+-- PHP Version: 7.0.33-0ubuntu0.16.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -39,10 +39,10 @@ CREATE TABLE `ads` (
 --
 
 INSERT INTO `ads` (`id`, `name`, `status`, `location`, `content`) VALUES
-(2, 'search_sidebar', 'active', 'search_sidebar', 'default'),
-(4, 'home_sidebar', 'active', 'home_banner', 'default'),
-(5, 'watch_sidebar', 'active', 'watch_sidebar', 'default'),
-(7, 'watch_banner', 'active', 'watch_banner', 'default');
+(2, 'search_sidebar', 'inactive', 'search_sidebar', 'default'),
+(4, 'home_sidebar', 'inactive', 'home_banner', 'default'),
+(5, 'watch_sidebar', 'inactive', 'watch_sidebar', 'default'),
+(7, 'watch_banner', 'inactive', 'watch_banner', 'default');
 
 --
 -- Indexes for dumped tables
