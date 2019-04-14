@@ -56,14 +56,14 @@ Once you have installed and configured all required tools you can begin installi
 wget https://github.com/briskLimbs/briskLimbs/archive/v1.0.1.zip
 unzip briskLimbs-1.0.zip
 cd briskLimbs-1.0
-composer require "twig/twig:^2.0"
+composer install
 ```
 
 ###### Latest Development Version
 ```
 git clone https://github.com/briskLimbs/briskLimbs.git
 cd briskLimbs
-composer require "twig/twig:^2.0"
+composer install
 ```
 
 That's it. Now visit "http://{yourhost}/briskLimbs" in your browser and follow configuration instructions. 
