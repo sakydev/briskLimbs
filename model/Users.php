@@ -170,6 +170,18 @@ class Users {
 	}
 
 	/**
+	* Check if given activate_code exists
+	* @param: { $activate_code } { integer } { activate_code to check }
+	* @return: { boolean }
+	*/
+	public function activationCodeExists($code) {
+		$results = $this->exists('activate_code', $code, array('id'));
+		if (!empty($results)) {
+			return $results['0']['id']; 
+		}
+	}
+
+	/**
 	* Check if given string matches against id, email or username of existing user
 	* @param: { $user } { mixed } { value to check }
 	* @return: { boolean }
