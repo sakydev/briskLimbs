@@ -15,7 +15,7 @@
 ?>
 <body class="text-center">
   <form class="form-signin" method="post" action="">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <img class="mb-4" src="../skins/ivar/assets/images/logo.svg" alt="" width="200">
     <?php if (!empty($error)): ?>
       <div class="alert alert-danger"><?=$error?></div>
     <?php elseif ($success): ?>

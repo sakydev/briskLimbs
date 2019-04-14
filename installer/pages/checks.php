@@ -45,7 +45,7 @@ $response['ffprobe'] = array(
 
 <body class="text-center">
   <div class="form-signin" action="install.php?section=checks">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <img class="mb-4" src="../skins/ivar/assets/images/logo.svg" alt="" width="200">
     <h1 class="h3 mb-3 font-weight-normal">Requirment Checks</h1>
     <ul class="list-group">
       <?php
