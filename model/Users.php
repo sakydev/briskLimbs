@@ -171,11 +171,23 @@ class Users {
 
 	/**
 	* Check if given activate_code exists
-	* @param: { $activate_code } { integer } { activate_code to check }
+	* @param: { $code } { integer } { activate_code to check }
 	* @return: { boolean }
 	*/
 	public function activationCodeExists($code) {
 		$results = $this->exists('activate_code', $code, array('id'));
+		if (!empty($results)) {
+			return $results['0']['id']; 
+		}
+	}
+
+	/**
+	* Check if given reset_code exists
+	* @param: { $code } { integer } { reset_code to check }
+	* @return: { boolean }
+	*/
+	public function resetCodeExists($code) {
+		$results = $this->exists('reset_code', $code, array('id'));
 		if (!empty($results)) {
 			return $results['0']['id']; 
 		}
@@ -788,5 +800,25 @@ class Users {
 	*/
 	public function createActivateCode() {
     return md5(md5(randomString(13)));
+  }
+
+  public function requestResetPassword($user) {
+  	$code = $this->createResetCode();
+  	$status = $this->setField('reset_code', $code, $user, is_numeric($user) ? 'id' : 'username');
+  	if ($status) {
+  		$fields = array('username' => $user, 'reset_code' => $code);
+  		$message = getMessage('reset');
+			$subject = prepareMessage($message['subject'], $fields);
+			$messageBody = prepareMessage($message['message'], $fields);
+			$mail = new Mail();
+			$mail->send($subject, $messageBody, $this->getEmail($user), $user);
+
+			return $status;
+  	}
+  }
+
+  public function resetPassword($user, $password) {
+  	$password = $this->securePassword($password);
+  	return $this->setField('password', $password, $user, is_numeric($user) ? 'id' : 'username');
   }
 }
