@@ -1,5 +1,13 @@
 <?php
 
+/**
+* Name: Ads
+* Description: Core class for handling Ads related actions
+* @author: Saqib Razzaq
+* @since: v1, Feburary, 2019
+* @link: https://github.com/briskLimbs/briskLimbs/blob/master/model/Ads.php
+*/
+
 class Ads {
   
   function __construct() {
