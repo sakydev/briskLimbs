@@ -36,6 +36,9 @@
   background-color: #d71e18 !important;
   border-color: #d71e18 !important;
 }
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(255, 109, 109, 0.5);
+}
 
 .badge-primary {
   color: #fff;
