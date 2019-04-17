@@ -2,8 +2,18 @@
 
 ini_set('display_errors', 'On');
 error_reporting(-1);
-
 require 'functions.php';
+
+if ( file_exists(__DIR__ . '/../configs/db.php'))
+{
+    $pageTitle = 'Already Installed';
+    require 'pages/header.php';
+    require 'pages/installation_exists.php';
+    require 'pages/footer.php';
+    // header("Location: installer/install.php");
+    exit;
+}
+
 define('INSTALLER_CORE', __DIR__);
 define('CORE_DIRECTORY', dirname(INSTALLER_CORE));
 $section = isset($_GET['section']) ? $_GET['section'] : 'release';
@@ -23,4 +33,4 @@ if ($section == 'release') {
 
 require 'pages/header.php';
 require "pages/{$section}.php";
-require 'pages/footer.php'; 
+require 'pages/footer.php';
