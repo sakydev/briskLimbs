@@ -15,10 +15,12 @@
 }
 
 .btn-outline-primary {
+  color: #d71e18 !important;
   border-color: #d71e18 !important;
 }
 
 .btn-outline-primary:hover {
+  color: #fff !important;
   background-color: #d71e18 !important;
   border-color: #d71e18 !important;
 }
