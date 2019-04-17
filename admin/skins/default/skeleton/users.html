@@ -99,12 +99,9 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th class="bulk-check-main">
-                    <div class="form-check form-check-flat form-check-primary">
-                      <label class="form-check-label">
-                        <input type="checkbox" name="bulk[]" class="form-check-input">
-                        <i class="input-helper"></i>
-                      </label>
+                  <th>
+                    <div class="checkbox">
+                      <label><input class="bulk-check-main" type="checkbox" name="bulk[]"></label>
                     </div>
                   </th>
                   <th>#</th>
@@ -119,13 +116,13 @@
             {% for user in results %}
 	            <tr>
 	            	<td>
-	            		<div class="form-check form-check-flat form-check-primary">
-	                  <label class="form-check-label">
-	                    <input class="bulk-check-sub" type="checkbox" videokey="{{user.username}}" >
-	                  	<i class="input-helper"></i>
-	                  </label>
-	                </div>
-	            	</td>
+                  <div class="checkbox">
+                    <label>
+                      <input class="bulk-check-sub" videokey="{{user.username}}" type="checkbox">
+                      <i class="input-helper"></i>
+                    </label>
+                  </div>
+                </td>
 	              <td>{{user.id}}</td>
 	              <td><a href="{{_coreUrl}}/channel/?name={{user.username}}" target="_blank"><img src="{{user.thumbnail}}"></a></td>
 	              <td>
@@ -203,46 +200,30 @@
 		});
 
     $('.bulk-check-main').on('click', function() {
-			if ($(this).attr('check') == 'selected') {
-				var mode = 'unselected';
-				$('.bulk-check-sub').removeClass('selected').addClass('unselected').attr('check', 'unselected');
-				$(this).removeClass('selected').addClass('unselected').attr('check', 'unselected');
-			} else {
-				var mode = 'selected';
-				$('.bulk-check-sub').removeClass('unselected').addClass('selected').attr('check', 'selected');
-				$(this).removeClass('unselected').addClass('selected').attr('check', 'selected');
-			}
-	    
-	    $('.bulk-check-sub').each(function(i, obj) {
-	    	if (mode == 'selected') {
-	    		if ($(obj).hasClass('selected')) {
-	    			$(obj).trigger('click');
-	    		}
-	    	} else {
-	    		if ($(obj).hasClass('unselected')) {
-	    			$(obj).trigger('click');
-	    		}
-	    	}
+      var mainMode = (this.checked ? "check" : "uncheck");
+      $('input[type=checkbox]').each(function () {
+        var subMode = (this.checked ? "check" : "uncheck");
+        if (mainMode != subMode) {
+          $(this).trigger('click');
+        }
       });
-	  });
+    });
 
-	  $('.bulk-actions').on('click', function(e) {
-	  	e.preventDefault();
-	  	var action = $(this).attr('action');
-	  	$('#bulk-action').val(action);
+    $('.bulk-actions').on('click', function(e) {
+      e.preventDefault();
+      $('#bulk-action').val($(this).attr('action'));
 
-	  	var allkeys = '';
-			$('.selected').each(function(i, obj) {
-				// bulk-keys
-        var currentKey = $(obj).attr('videokey');
-        if (currentKey != null) {
-        	allkeys += currentKey + ',';
+      var allkeys = '';
+      $('input[type=checkbox]').each(function () {
+        var checked = (this.checked ? true : false);
+        if (this.checked) {
+          allkeys += $(this).attr('videokey') + ',';
         }
       });
 
       $('#bulk-keys').val(allkeys);
       $('#bulk-actions').submit();
-	  });
+    });
 	});
 </script>
 
