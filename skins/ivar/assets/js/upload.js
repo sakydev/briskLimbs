@@ -52,7 +52,7 @@ uploader.bind('FileUploaded', function(uploader, FileUploaded, object) {
         if (msg.id) {
           $('#finish-upload').attr('disabled', false).text('Update');
           $('#finish-upload').attr('videoid', msg.id);
-          $('#upload-messages').addClass('alert-success').text('Video has been uploaded successfully').fadeIn();
+          $('#upload-messages').addClass('alert-success').text('Video has been uploaded successfully. You can edit it in videos manager').fadeIn();
         } else {
           $('#upload-messages').addClass('alert-danger').text('Something went wrong trying to update video');
         }
