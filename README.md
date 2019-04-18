@@ -148,11 +148,6 @@ Extract contents of downloaded zip and then login to your server via Filezilla o
 │   └── db.sample.php               
 ├── daemons                         # these are files used for running background processes
 │   └── conversion.php              # handles entire conversion process of a video
-├── documentation                   # documentation files
-│   ├── addons.md
-│   ├── skins.md
-│   ├── users.md
-│   └── videos.md
 ├── helpers                         # helper functions that speed things up
 │   ├── devFunctions.php            # functions purely for easing up development process
 │   ├── functions.php               # general functions
@@ -175,6 +170,7 @@ Extract contents of downloaded zip and then login to your server via Filezilla o
 │   │   ├── footer.php
 │   │   ├── header.php
 │   │   ├── import.php              # imports sql files
+│   │   └── installation_exists.php # already installed message
 │   │   └── release.php             # displays release information
 │   ├── release.json                # holds release information
 │   └── requirments.json            # holds requirements
