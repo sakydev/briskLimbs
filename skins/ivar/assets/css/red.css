@@ -168,4 +168,8 @@ select.form-control.border-primary:focus {
 .btn-outline-primary:active, .btn-outline-primary:focus, .btn-outline-primary:hover {
   background: linear-gradient(to right,#c4302b,red);
 }
+
+.caret {
+  color: red !important;
+}
 /* Reddish theme ends */

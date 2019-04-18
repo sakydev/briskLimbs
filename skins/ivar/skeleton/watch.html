@@ -61,7 +61,7 @@
                 <div class="clearfix mt-1"></div>
                 <strong class="text-muted mb-1">Tags: </strong>{{video.tags}}
                 <div class="d-flex justify-content-between align-items-center mt-1">
-                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}} by {{video.uploader_name}}</span>
+                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}} by <a href="{{_coreUrl}}/channel/?name={{video.uploader_name}}">{{video.uploader_name}}</a></span>
                   <span class="text-muted"><strong>Duration</strong> {{formatDuration(video.duration)}}</span>
                 </div>
                 </div>
