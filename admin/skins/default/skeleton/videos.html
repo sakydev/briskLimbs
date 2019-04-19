@@ -124,8 +124,9 @@
               <thead>
                 <tr>
                   <th>
-                    <div class="checkbox">
-                      <label><input class="bulk-check-main" type="checkbox" name="bulk[]"></label>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input bulk-check-main" id="check-main" name="bulk[]">
+                      <label class="custom-control-label" for="check-main"></label>
                     </div>
                   </th>
                   <th>#</th>
@@ -140,11 +141,9 @@
             {% for video in results %}
 	            <tr>
 	            	<td>
-                  <div class="checkbox">
-                    <label>
-                      <input class="bulk-check-sub" videokey="{{video.vkey}}" type="checkbox">
-                      <i class="input-helper"></i>
-                    </label>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{video.vkey}}" videokey="{{video.vkey}}">
+                    <label class="custom-control-label" for="check-{{video.vkey}}"></label>
                   </div>
 	            	</td>
 	              <td>{{video.id}}</td>
