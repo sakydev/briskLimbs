@@ -100,8 +100,9 @@
               <thead>
                 <tr>
                   <th>
-                    <div class="checkbox">
-                      <label><input class="bulk-check-main custom-control-input" type="checkbox" name="bulk[]"></label>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="bulk-check-main custom-control-input" id="check-main" name="bulk[]">
+                      <label class="custom-control-label" for="check-main"></label>
                     </div>
                   </th>
                   <th>#</th>
@@ -115,12 +116,10 @@
               <tbody>
             {% for user in results %}
 	            <tr>
-	            	<td>
-                  <div class="checkbox">
-                    <label>
-                      <input class="bulk-check-sub" videokey="{{user.username}}" type="checkbox">
-                      <i class="input-helper"></i>
-                    </label>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{user.username}}" theusername="{{user.username}}">
+                    <label class="custom-control-label" for="check-{{user.username}}"></label>
                   </div>
                 </td>
 	              <td>{{user.id}}</td>
@@ -218,7 +217,7 @@
       $('input[type=checkbox]').each(function () {
         var checked = (this.checked ? true : false);
         if (this.checked) {
-          allkeys += $(this).attr('videokey') + ',';
+          allkeys += $(this).attr('theusername') + ',';
         }
       });
 
