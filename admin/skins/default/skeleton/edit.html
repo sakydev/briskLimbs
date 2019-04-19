@@ -85,7 +85,7 @@
               <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Published</label>
                 <div class="col-sm-12">
-                  <input type="text" name="date" class="form-control" placeholder="Publish date" value="{{video.date}}" />
+                  <input type="date" name="date" class="form-control" placeholder="Publish date" value="{{video.date|slice(0,10)}}" />
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
               <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Views</label>
                 <div class="col-sm-12">
-                  <input type="text" name="views" class="form-control" placeholder="Views" value="{{video.views}}" />
+                  <input type="number" name="views" class="form-control" placeholder="Views" value="{{video.views}}" />
                 </div>
               </div>
             </div>
