@@ -74,18 +74,24 @@
             <div class="col-md-12">
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Profile Picture</label>
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-md-4">
                   <img src="{{_auth.avatar}}" width="100" height="100">
-                  <input type="file" name="avatar" class="form-control" />
+                  <div class="custom-file mt-2">
+                    <input type="file" class="custom-file-input" name="avatar" id="custom-avatar">
+                    <label class="custom-file-label" for="custom-avatar">Select Avatar</label>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Channel Cover</label>
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-md-4">
                   <img src="{{_auth.cover}}" width="200">
-                  <input type="file" name="cover" class="form-control" />
+                  <div class="custom-file mt-2">
+                    <input type="file" class="custom-file-input" name="cover" id="custom-cover">
+                    <label class="custom-file-label" for="custom-cover">Select Cover</label>
+                  </div>
                 </div>
               </div>
             </div>
