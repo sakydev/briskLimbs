@@ -147,6 +147,7 @@
                           {{hook(action, user.vkey)}}
                         {% endif %}
                       {% endfor %}
+                      <li><a href="{{_coreUrl}}/channel/?name={{user.username}}">View Channel</a></li>
 						        	{% if user.status == 'ok' %}
 						          	<li><a href="{{urlBase}}&deactivate={{user.username}}">Deactivate</a></li>
 						          {% else %}
