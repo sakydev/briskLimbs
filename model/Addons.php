@@ -454,7 +454,7 @@ class Addons {
   /**
   * Display template file in admin area from addon 
   * @param: { string } { $addonCoreDirectoryName } { base name of addon's main directory }
-  * @param: { string } { $file } { main file path }
+  * @param: { string } { $file } { main file relative to $addonCoreDirectoryName }
   * @param: { array } { $parameters } { an array of params to be assigned to template }
   */
   public function display($addonCoreDirectoryName, $file, $parameters = array()) {
