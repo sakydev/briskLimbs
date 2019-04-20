@@ -59,12 +59,30 @@
     <div class="card">
       <div class="card-body">
         <button id="advanced-search" class="btn btn-primary btn-gradient-primary float-right">Advanced Search</button>
+        <div class="dropdown float-right mr-2">
+          <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Bulk Actions
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li class="bulk-actions" action="deactivate"><a href="#">Deactivate</a></li>
+            <li class="bulk-actions" action="activate"><a href="#">Activate</a></li>
+            <li class="divider"></li>
+            <li class="bulk-actions" action="uninstall"><a href="#">Uninstall</a></li>
+          </ul>
+        </div>
         <h4 class="card-title">Used Addons ({{subSection}})</h4>
         <p class="card-description mb-2">Listing: {{start}} - {{end}} / {{total}}</p>
           {% if results %}
-            <table class="table table-bordered">
+            <table class="table">
               <thead>
                 <tr>
+                  <th>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input bulk-check-main" id="check-main" name="bulk[]">
+                      <label class="custom-control-label mb-1" for="check-main"></label>
+                    </div>
+                  </th>
                   <th>#</th>
                   <th>Name</th>
                   <th>Author</th>
@@ -75,6 +93,12 @@
               <tbody>
             {% for addon in results %}
               <tr>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{addon.name}}" addonid="{{addon.name}}">
+                    <label class="custom-control-label custom-sub-check" for="check-{{addon.name}}"></label>
+                  </div>
+                </td>
                 <td>{{addon.id}}</td>
                 <td>
                   {{addon.display_name}}
@@ -108,6 +132,11 @@
           </tbody>
         </table>
 
+        <form name="bulk-actions" id="bulk-actions" method="post" action="">
+          <input type="hidden" id="bulk-action" name="bulk-action">
+          <input type="hidden" id="bulk-keys" name="bulk-keys">
+        </form>
+
         <div class="text-center mt-5">
           <div class="btn-group" role="group" aria-label="Basic example">
             <a href="{{paginationBase}}&page={{pagination.first}}"><button type="button" class="btn btn-outline-primary">First</button></a>
@@ -125,10 +154,10 @@
   <div class="col-12 grid-margin">
     <div class="card">
       <div class="card-body">
-
         <h4 class="card-title">Idle Addons</h4>
+        <p class="card-description mb-2">Total: {{available|length}}</p>
           {% if available %}
-            <table class="table table-bordered">
+            <table class="table">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -159,8 +188,6 @@
         </table>
       </div>
     </div>
-
-
   </div>
 </div>
 
@@ -171,6 +198,8 @@
 		$('#advanced-search').on('click', function() {
 			$('#advanced-search-section').slideToggle();
 		});
+
+    bulkActions('addonid'); // handles active section
 	});
 </script>
 

@@ -7,6 +7,35 @@ if (!$users->isAdmin()) {
 }
 
 $addons = new Addons();
+if (isset($_POST['bulk-action'])) {
+	$addonNames = explode(',', trim($_POST['bulk-keys'], ','));
+	switch ($_POST['bulk-action']) {
+		case 'deactivate':
+			if ($addons->bulkDeactivate($addonNames)) {
+				$parameters['message'] = "Selected addons have been deactivated";
+			} else {
+				$parameters['message'] = "Something went wrong trying deactivate to selected addons";
+			}
+			break;
+		case 'activate':
+			if ($addons->bulkActivate($addonNames)) {
+				$parameters['message'] = "Selected addons have been activated";
+			} else {
+				$parameters['message'] = "Something went wrong trying activate to selected addons";
+			}
+			break;
+		case 'uninstall':
+			if ($addons->bulkUninstall($addonNames)) {
+				$parameters['message'] = "Selected addons have been deleted";
+			} else {
+				$parameters['message'] = "Something went wrong trying delete to selected addons";
+			}
+			break;
+		
+		default:
+			break;
+	}
+}
 
 if (isset($_GET['deactivate'])) {
 	if ($addons->deactivate($_GET['deactivate'])) {

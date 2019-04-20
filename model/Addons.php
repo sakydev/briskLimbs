@@ -226,7 +226,7 @@ class Addons {
     return $this->setField('status', 'active', $video, is_numeric($video) ? 'id' : 'name');
   }
 
-  public function bulkActivate($videosArray, $identifier = 'username') {
+  public function bulkActivate($videosArray, $identifier = 'name') {
     return $this->setFields('status', 'active', $videosArray, $identifier);
   }
 
