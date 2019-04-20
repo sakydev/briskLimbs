@@ -348,6 +348,7 @@ class Addons {
   */
   public function activate($addon) {
     return $this->setField('status', 'active', $addon, is_numeric($addon) ? 'id' : 'name');
+  }
 
   /**
   * Set addon state to active for multiple addons
