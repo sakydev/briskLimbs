@@ -8,6 +8,36 @@ if (!$users->isAdmin()) {
 
 $categories = new Categories();
 
+if (isset($_POST['bulk-action'])) {
+	$categoryIds = explode(',', trim($_POST['bulk-keys'], ','));
+	switch ($_POST['bulk-action']) {
+		case 'deactivate':
+			if ($categories->bulkDeactivate($categoryIds, 'id')) {
+				$parameters['message'] = "Selected categories have been deactivated";
+			} else {
+				$parameters['message'] = "Something went wrong trying deactivate to selected categories";
+			}
+			break;
+		case 'activate':
+			if ($categories->bulkActivate($categoryIds, 'id')) {
+				$parameters['message'] = "Selected categories have been activated";
+			} else {
+				$parameters['message'] = "Something went wrong trying activate to selected categories";
+			}
+			break;
+		case 'delete':
+			if ($categories->bulkDelete($categoryIds, 'id')) {
+				$parameters['message'] = "Selected categories have been deleted";
+			} else {
+				$parameters['message'] = "Something went wrong trying delete to selected categories";
+			}
+			break;
+		
+		default:
+			break;
+	}
+}
+
 if (isset($_POST['name']) && !isset($_POST['edit'])) {
 	if ($categories->create($_POST)) {
 		$parameters['message'] = 'Category created successfully';

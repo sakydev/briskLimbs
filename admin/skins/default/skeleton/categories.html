@@ -24,12 +24,30 @@
     <div class="card">
       <div class="card-body">
         {% if action == 'list' %}
+          <div class="dropdown float-right mr-2">
+            <button class="btn btn-gradient-primary btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Bulk Actions
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li class="bulk-actions" action="deactivate"><a href="#">Deactivate</a></li>
+              <li class="bulk-actions" action="activate"><a href="#">Activate</a></li>
+              <li class="divider"></li>
+              <li class="bulk-actions" action="delete"><a href="#">Delete</a></li>
+            </ul>
+          </div>
           <h4 class="card-title">Categories Manager - List</h4>
           <p class="card-description mb-2">Total: {{total}}</p>
           {% if results %}
-            <table class="table table-bordered">
+            <table class="table">
               <thead>
                 <tr>
+                  <th>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="bulk-check-main custom-control-input" id="check-main" name="bulk[]">
+                      <label class="custom-control-label mb-1" for="check-main"></label>
+                    </div>
+                  </th>
                   <th>#</th>
                   <th>Name</th>
                   <th>Description</th>
@@ -40,6 +58,12 @@
               <tbody>
             {% for category in results %}
               <tr>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{category.id}}" categoryid="{{category.id}}">
+                    <label class="custom-control-label custom-sub-check" for="check-{{category.id}}"></label>
+                  </div>
+                </td>
                 <td>{{category.id}}</td>
                 <td>{{category.name}}</td>
                 <td>{{category.description}}</td>
@@ -101,10 +125,46 @@
           </div>
         </form>
         {% endif %}
+        <form name="bulk-actions" id="bulk-actions" method="post" action="">
+          <input type="hidden" id="bulk-action" name="bulk-action">
+          <input type="hidden" id="bulk-keys" name="bulk-keys">
+        </form>
       </div>
     </div>
-
-    
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#advanced-search').on('click', function() {
+      $('#advanced-search-section').slideToggle();
+    });
+
+    $('.bulk-check-main').on('click', function() {
+      var mainMode = (this.checked ? "check" : "uncheck");
+      $('input[type=checkbox]').each(function () {
+        var subMode = (this.checked ? "check" : "uncheck");
+        if (mainMode != subMode) {
+          $(this).trigger('click');
+        }
+      });
+    });
+
+    $('.bulk-actions').on('click', function(e) {
+      e.preventDefault();
+      $('#bulk-action').val($(this).attr('action'));
+
+      var allkeys = '';
+      $('input[type=checkbox]').each(function () {
+        var checked = (this.checked ? true : false);
+        if (this.checked) {
+          allkeys += $(this).attr('categoryid') + ',';
+        }
+      });
+
+      $('#bulk-keys').val(allkeys);
+      $('#bulk-actions').submit();
+    });
+  });
+</script>
 {% endblock %}
