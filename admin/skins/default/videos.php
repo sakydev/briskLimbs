@@ -8,6 +8,7 @@ if (!$users->isAdmin()) {
 }
 
 $videos = new Videos();
+$bulkActions = isset($_POST['bulk-action']) ? true : false;
 if (isset($_POST['bulk-action'])) {
 	$vKeys = explode(',', trim($_POST['bulk-keys'], ','));
 	switch ($_POST['bulk-action']) {
@@ -50,19 +51,19 @@ if (isset($_GET['feature'])) {
 	}
 }
 
-if (isset($_GET['deactivate'])) {
+if (isset($_GET['deactivate']) && !$bulkActions) {
 	if ($videos->deactivate($_GET['deactivate'])) {
 		$parameters['message'] = sprintf("Video %s deactivated successfully", $_GET['deactivate']);
 	}
 }
 
-if (isset($_GET['activate'])) {
+if (isset($_GET['activate']) && !$bulkActions) {
 	if ($videos->activate($_GET['activate'])) {
 		$parameters['message'] = sprintf("Video %s activated successfully", $_GET['activate']);
 	}
 }
 
-if (isset($_GET['delete'])) {
+if (isset($_GET['delete']) && !$bulkActions) {
 	if ($videos->delete($_GET['delete'])) {
 		$parameters['message'] = sprintf("Video %s deleted successfully", $_GET['delete']);	
 	}

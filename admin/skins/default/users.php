@@ -7,6 +7,7 @@ if (!$users->isAdmin()) {
 	jumpTo('home');
 }
 
+$bulkActions = isset($_POST['bulk-action']) ? true : false;
 if (isset($_POST['bulk-action'])) {
 	$usernames = explode(',', trim($_POST['bulk-keys'], ','));
 	switch ($_POST['bulk-action']) {
@@ -37,19 +38,19 @@ if (isset($_POST['bulk-action'])) {
 	}
 }
 
-if (isset($_GET['deactivate'])) {
+if (isset($_GET['deactivate']) && !$bulkActions) {
 	if ($users->deactivate($_GET['deactivate'])) {
 		$parameters['message'] = sprintf("User %s deactivated successfully", $_GET['deactivate']);
 	}
 }
 
-if (isset($_GET['activate'])) {
+if (isset($_GET['activate']) && !$bulkActions) {
 	if ($users->activate($_GET['activate'])) {
 		$parameters['message'] = sprintf("User %s activated successfully", $_GET['activate']);
 	}
 }
 
-if (isset($_GET['delete'])) {
+if (isset($_GET['delete']) && !$bulkActions) {
 	if ($users->delete($_GET['delete'])) {
 		$parameters['message'] = sprintf("User %s deleted successfully", $_GET['delete']);	
 	}
