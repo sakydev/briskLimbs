@@ -378,6 +378,11 @@ class Addons {
     return $this->setFields('status', 'inactive', $addonsArray, $identifier);
   }
   
+  /**
+  * Uninstall an addon
+  * @param: { string } { $name } { name of addon to uninstall }
+  * @return: { boolean }
+  */
   public function uninstall($name) {
     $directory = ADDONS_DIRECTORY . '/' . $this->directory($name);
     $file = $directory . '/uninstall.php';
@@ -389,6 +394,11 @@ class Addons {
     return $this->database->delete($this->table);
   }
 
+  /**
+  * Uninstall multiple addons
+  * @param: { array } { $names } { array of names }
+  * @return: { boolean }
+  */
   public function bulkUninstall($names) {
     foreach ($names as $key => $name) {
       if (!$this->uninstall($name)) {
@@ -399,6 +409,9 @@ class Addons {
     return true;
   }
 
+  /**
+  * Loads all active functions by requiring their main files during BriskLimbs init phase
+  */
   public function load() {
     $this->database->where('status', 'active');
     $addons = $this->database->get($this->table, null, array('file', 'directory'));
@@ -410,8 +423,11 @@ class Addons {
     }
   }
 
-  // name is what you will use in twig template
-  // function is what name will call
+  /**
+  * Adds an addon hook to inject functionality
+  * @param: { string } { $name } { name of hook to be used in Twig templates } 
+  * @param: { string } { $function } { function to be called when hooked }
+  */
   public function addHook($name, $function) {
     if (function_exists($function)) {
       $hook = new \Twig\TwigFunction($name, function () use (&$function) {
@@ -424,12 +440,23 @@ class Addons {
     }
   }
 
+  /**
+  * Adds a new menu in admin area
+  * @param: { array } { $menu } { an array with menu details }
+  * @example: https://github.com/briskLimbs/briskLimbs/wiki/Class:-Addons
+  */
   public function addMenu($menu) {
     $existing = $this->limbs->getAddonParameter('admin_menu');
     $menu = is_array($existing) ? array_merge($existing, $menu) : $menu;
     $this->limbs->addAddonParameter('admin_menu', $menu);
   }
 
+  /**
+  * Display template file in admin area from addon 
+  * @param: { string } { $addonCoreDirectoryName } { base name of addon's main directory }
+  * @param: { string } { $file } { main file path }
+  * @param: { array } { $parameters } { an array of params to be assigned to template }
+  */
   public function display($addonCoreDirectoryName, $file, $parameters = array()) {
     $directory = ADDONS_DIRECTORY . '/' . $addonCoreDirectoryName;
     if (($fileDirectory = dirname($file)) != '.') {
@@ -440,10 +467,21 @@ class Addons {
     $this->limbs->display("@$addonCoreDirectoryName/" . basename($file), $parameters); // @
   }
 
+  /**
+  * Returns URL for an addon
+  * @param: { string } { $name } { name of addon }
+  * @return: { string }
+  */
   public function url($name) {
     return ADDONS_URL . '/' . $name;
   }
 
+  /**
+  * Register a new trigger
+  * @param: { string } { $function } { name of function to be called }
+  * @param: { string } { $location } { where to call this function }
+  * @param: { string / boolean } { $return } { fields to return if any }
+  */
   public function addTrigger($function, $location, $return = false) {
     $locationsList = array(
       'admin_videos_actions_top',
