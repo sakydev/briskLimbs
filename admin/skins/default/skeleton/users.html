@@ -96,13 +96,13 @@
         <h4 class="card-title">Users Manager ({{subSection}})</h4>
         <p class="card-description mb-2">Listing: {{start}} - {{end}} / {{total}}</p>
           {% if results %}
-            <table class="table table-bordered">
+            <table class="table">
               <thead>
                 <tr>
                   <th>
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="bulk-check-main custom-control-input" id="check-main" name="bulk[]">
-                      <label class="custom-control-label" for="check-main"></label>
+                      <label class="custom-control-label mb-1" for="check-main"></label>
                     </div>
                   </th>
                   <th>#</th>
@@ -119,7 +119,7 @@
                 <td>
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{user.username}}" theusername="{{user.username}}">
-                    <label class="custom-control-label" for="check-{{user.username}}"></label>
+                    <label class="custom-control-label custom-sub-check" for="check-{{user.username}}"></label>
                   </div>
                 </td>
 	              <td>{{user.id}}</td>
