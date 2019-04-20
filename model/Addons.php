@@ -357,7 +357,7 @@ class Addons {
   * @return: { boolean }
   */
   public function bulkActivate($addonsArray, $identifier = 'name') {
-    return $this->setFields('status', 'active', $addonsArray, $identifier);
+    return $this->setFieldBulk('status', 'active', $addonsArray, $identifier);
   }
 
   /**
@@ -376,7 +376,7 @@ class Addons {
   * @return: { boolean }
   */
   public function bulkDeactivate($addonsArray, $identifier = 'name') {
-    return $this->setFields('status', 'inactive', $addonsArray, $identifier);
+    return $this->setFieldBulk('status', 'inactive', $addonsArray, $identifier);
   }
   
   /**
