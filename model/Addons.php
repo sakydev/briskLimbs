@@ -99,7 +99,16 @@ class Addons {
       return $this->database->getValue($this->table, 'count(*)');
     }
   }
-
+  
+  /**
+  * List Addons matching several dynamic parameters
+  * @param: { $parameters } { array } { array of parameters }
+  * This array can include any column from $this->table table which
+  * is addons by default. You can specify fields and values in
+  * $field => $value format which is then turned in MySQL conditions
+  * Please refer to our Github page for usage examples
+  * @return: { array }
+  */
   public function list($parameters = false) {
     if (is_array($parameters)) {
       foreach ($parameters as $column => $condition) {
@@ -126,21 +135,46 @@ class Addons {
     return isset($parameters['count']) ? $this->database->getValue($this->table, 'count(*)') : $this->database->get($this->table, $limit);
   }
 
+  /**
+  * Check if an addon is installed
+  * @param : { string } { $name } { name of addon to check }
+  * @return: { boolean }
+  */
   public function exists($name) {
     $this->database->where('name', $name);
     return $this->database->getValue($this->table, 'count(*)');
   }
 
-  public function active($parameters) {
+  /**
+  * List active addons
+  * @param: { $limit } { integer } { number or mysql style limit }
+  * @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+  * @return: { array }
+  */
+  public function listActive($limit, $parameters) {
     $parameters['status'] = 'active';
+    $parameters['limit'] = $limit;
     return $this->list($parameters);
   }
 
-  public function inactive($limit) {
+  /**
+  * List inactive addons
+  * @param: { $limit } { integer } { number or mysql style limit }
+  * @param: { $parameters } { array } { false by default, any additional paramters e.g select within range }
+  * @return: { array }
+  */
+  public function listInactive($limit, $parameters) {
     $parameters['status'] = 'inactive';
+    $parameters['limit'] = $limit;
     return $this->list($parameters);
   }
 
+  /**
+  * Installs an addon
+  * @param : { string } { $name } { name of addon to install }
+  * @return: { integer } { addon id }
+  * 
+  */
   public function install($name) {
     $list = $this->idle();
     foreach ($list as $folder => $addon) {
@@ -169,73 +203,179 @@ class Addons {
     }
   }
 
+  /**
+  * Get all details for an addon
+  * @param: { string } { $name } { name of addon }
+  * @return: { array }
+  */
   public function get($name) {
     $this->database->where('name', $name);
     return $this->database->getOne($this->table);
   }
 
+  /**
+  * Get a single field of an addon
+  * @param: { string } { $name } { name of addon }
+  * @param: { string } { $field } { field to fetch }
+  * @return : { mixed }
+  */
   public function getField($name, $field) {
     $this->database->where('name', $name);
     $results = $this->database->get($this->table, null, array($field));
     return isset($results['0'][$field]) ? $results['0'][$field] : false;
   }
 
+  /**
+  * Get multiple fields of an addon
+  * @param: { string } { $name } { name of addon }
+  * @param: { string or array } { $field } { single field or array of fields }
+  * @return : { mixed }
+  */
   public function getFields($name, $fields) {
     $this->database->where('name', $name);
     $results = $this->database->get($this->table, null, is_array($fields) ? $fields : array($fields));
     return isset($results['0']) ? $results['0'] : false;
   }
 
+  /**
+  * Get an addon's display name
+  * @param: { string } { $name } { dev name of addon }
+  * @return: { string }
+  */
   public function displayName($name) {
     return $this->getField($name, 'display_name');
   }
   
+  /**
+  * Get an addon's version
+  * @param: { string } { $name } { dev name of addon }
+  * @return: { string }
+  */
   public function version($name) {
     return $this->getField($name, 'version');
   }
 
+  /**
+  * Get an addon's description
+  * @param: { string } { $name } { dev name of addon }
+  * @return: { string }
+  */
   public function description($name) {
     return $this->getField($name, 'description');
   }
 
+  /**
+  * Get an addon's author name
+  * @param: { string } { $name } { dev name of addon }
+  * @return: { string }
+  */
   public function author($name) {
     return $this->getField($name, 'author');
   }
 
+  /**
+  * Get an addon's status
+  * @param: { string } { $name } { dev name of addon }
+  * @return: { string }
+  */
   public function status($name) {
     return $this->getField($name, 'status');
   }
 
+  /**
+  * Get an addon's directory
+  * @param: { string } { $name } { dev name of addon }
+  * @return: { string }
+  */
   public function directory($name) {
     return $this->getField($name, 'directory');
   }
 
-  // set('status', 'successful', 'sad2314', 'vkey');
+  /**
+  * Update a single field of single addon
+  * @param: { $field } { string } { field to update }
+  * @param: { $value } { mixed } { new value to set }
+  * @param: { $identiferValue } { mixed } { value to search addon by }
+  * @param: { $identifier } { string } { vkey by default, column to search against }
+  * @return: { boolean }
+  */
   public function setField($field, $value, $identifierValue, $identifier = 'name') {
     $this->database->where($identifier, $identifierValue);
     return $this->database->update($this->table, array($field => $value));
   }
 
-  // update a single column of multiple videos
-  public function setFields($field, $value, $identifierValueArray, $identifier = 'name') {
+  /**
+  * update a single field of multiple addons
+  * @param: { $field } { string } { field to update }
+  * @param: { $value } { mixed } { new value to set }
+  * @param: { $identifierValueArray } { array } { values array to search addons by }
+  * @param: { $identifier } { string } { name by default, column to search against }
+  * @return: { boolean }
+  */
+  public function setFieldBulk($field, $value, $identifierValueArray, $identifier = 'name') {
     $this->database->where($identifier, $identifierValueArray, 'IN');
     return $this->database->update($this->table, array($field => $value));
   }
+
+  /**
+  * update multiple fields of single video
+  * @param: { $fieldValueArray } { array } { field => value array to update }
+  * @param: { $identiferValue } { mixed } { value to search video by }
+  * @param: { $identifier } { string } { name by default, column to search against }
+  * @return: { boolean }
+  */
+  public function setFields($fieldValueArray, $identifierValue, $identifier = 'name') {
+    $this->database->where($identifier, $identifierValue);
+    return $this->database->update($this->table, $fieldValueArray);
+  }
   
-  public function activate($video) {
-    return $this->setField('status', 'active', $video, is_numeric($video) ? 'id' : 'name');
+  /**
+  * update multiple columns of multiple addons
+  * @param: { $fieldValueArray } { array } { field => value array to update }
+  * @param: { $identifierValueArray } { array } { values array to search addons by }
+  * @param: { $identifier } { string } { vkey by default, column to search against }
+  * @return: { boolean }
+  */
+  public function setFieldsBulk($fieldValueArray, $identifierValueArray, $identifier = 'vkey') {
+    $this->database->where($identifier, $identifierValueArray, 'IN');
+    return $this->database->update($this->table, $fieldValueArray);
   }
 
-  public function bulkActivate($videosArray, $identifier = 'name') {
-    return $this->setFields('status', 'active', $videosArray, $identifier);
+  /**
+  * Set addon state to active
+  * @param: { $addon } { string / integer } { addon id or name }
+  * @return: { boolean }
+  */
+  public function activate($addon) {
+    return $this->setField('status', 'active', $addon, is_numeric($addon) ? 'id' : 'name');
+
+  /**
+  * Set addon state to active for multiple addons
+  * @param: { $addonsArray } { mixed array } { list of addon ids or names }
+  * @param: { $identifer } { string } { specify if list contains ids or names }
+  * @return: { boolean }
+  */
+  public function bulkActivate($addonsArray, $identifier = 'name') {
+    return $this->setFields('status', 'active', $addonsArray, $identifier);
   }
 
-  public function deactivate($video) {
-    return $this->setField('status', 'inactive', $video, is_numeric($video) ? 'id' : 'name');
+  /**
+  * Set addon state to inactive
+  * @param: { $addon } { string / integer } { addon id or name }
+  * @return: { boolean }
+  */
+  public function deactivate($addon) {
+    return $this->setField('status', 'inactive', $addon, is_numeric($addon) ? 'id' : 'name');
   }
 
-  public function bulkDeactivate($videosArray, $identifier = 'name') {
-    return $this->setFields('status', 'inactive', $videosArray, $identifier);
+  /**
+  * Set addon state to inactive for multiple addons
+  * @param: { $addonsArray } { mixed array } { list of addon ids or names }
+  * @param: { $identifer } { string } { specify if list contains ids or names }
+  * @return: { boolean }
+  */
+  public function bulkDeactivate($addonsArray, $identifier = 'name') {
+    return $this->setFields('status', 'inactive', $addonsArray, $identifier);
   }
   
   public function uninstall($name) {
