@@ -254,6 +254,36 @@
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    function bulkActions(identifier) {
+      $('.bulk-check-main').on('click', function() {
+        var mainMode = (this.checked ? "check" : "uncheck");
+        $('input[type=checkbox]').each(function () {
+          var subMode = (this.checked ? "check" : "uncheck");
+          if (mainMode != subMode) {
+            $(this).trigger('click');
+          }
+        });
+      });
+
+      $('.bulk-actions').on('click', function(e) {
+        e.preventDefault();
+        $('#bulk-action').val($(this).attr('action'));
+
+        var allkeys = '';
+        $('input[type=checkbox]').each(function () {
+          var checked = (this.checked ? true : false);
+          if (this.checked) {
+            allkeys += $(this).attr(identifier) + ',';
+          }
+        });
+
+        $('#bulk-keys').val(allkeys);
+        $('#bulk-actions').submit();
+      });
+    }
+  </script>
 </body>
 {% for action in _triggers.body_after %}
   {{hook(action)}}

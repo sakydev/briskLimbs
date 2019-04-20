@@ -136,35 +136,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#advanced-search').on('click', function() {
-      $('#advanced-search-section').slideToggle();
-    });
-
-    $('.bulk-check-main').on('click', function() {
-      var mainMode = (this.checked ? "check" : "uncheck");
-      $('input[type=checkbox]').each(function () {
-        var subMode = (this.checked ? "check" : "uncheck");
-        if (mainMode != subMode) {
-          $(this).trigger('click');
-        }
-      });
-    });
-
-    $('.bulk-actions').on('click', function(e) {
-      e.preventDefault();
-      $('#bulk-action').val($(this).attr('action'));
-
-      var allkeys = '';
-      $('input[type=checkbox]').each(function () {
-        var checked = (this.checked ? true : false);
-        if (this.checked) {
-          allkeys += $(this).attr('categoryid') + ',';
-        }
-      });
-
-      $('#bulk-keys').val(allkeys);
-      $('#bulk-actions').submit();
-    });
+    bulkActions('categoryid');
   });
 </script>
 {% endblock %}
