@@ -29,4 +29,12 @@ class Mail {
 		$this->mailer->msgHTML($message);
 		return $this->mailer->send() ? true : $this->errors->add($this->mailer->ErrorInfo);
   }
+
+  public function contact($email, $subject, $message) {
+    $this->mailer->setFrom($email, $this->settings->get('title') . ' Contact Form');
+    $this->mailer->addAddress($this->settings->get('mailer_sender_email'), $this->settings->get('mailer_sender_name'));
+    $this->mailer->Subject = $subject;
+    $this->mailer->msgHTML($message);
+    return $this->mailer->send() ? true : $this->errors->add($this->mailer->ErrorInfo);
+  }
 }
