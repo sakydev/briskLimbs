@@ -82,11 +82,9 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (45, 'mailer_host', 'smtp.gmail.com'),
 (46, 'mailer_port', '587'),
 (47, 'mailer_smtp_secure', 'tls'),
-(48, 'mailer_authtype', 'XOAUTH2'),
 (49, 'mailer_email', 'brisklimbs@gmail.com'),
-(50, 'mailer_clientid', 'your_client_id'),
-(51, 'mailer_clientsecret', 'your_client_secret'),
-(52, 'mailer_refreshtoken', 'your_refresh_token'),
+(50, 'mailer_smpt_username', 'Your SMTP username here'),
+(51, 'mailer_smpt_password', 'Your SMTP password here'),
 (53, 'mailer_sender_email', 'brisklimbs@gmail.com'),
 (54, 'mailer_sender_name', 'Admin');
 
