@@ -7,7 +7,7 @@ var uploader = new plupload.Uploader({
   file_data_name : "uploadMedia",
   filters: {
     mime_types : [
-    { title : "Video files", extensions : 'mkv,mp4' }
+    { title : "Video files", extensions : '3gp,avi,flv,m4v,mkv,mov,mp4,mpg,mpeg,mts,webm,wmv,vob' }
     ]
   },
 });
