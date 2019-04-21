@@ -83,8 +83,8 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (46, 'mailer_port', '587'),
 (47, 'mailer_smtp_secure', 'tls'),
 (49, 'mailer_email', 'brisklimbs@gmail.com'),
-(50, 'mailer_smpt_username', 'Your SMTP username here'),
-(51, 'mailer_smpt_password', 'Your SMTP password here'),
+(50, 'mailer_smpt_username', ''),
+(51, 'mailer_smpt_password', ''),
 (53, 'mailer_sender_email', 'brisklimbs@gmail.com'),
 (54, 'mailer_sender_name', 'Admin');
 
