@@ -100,6 +100,23 @@ Extract contents of downloaded zip and then login to your server via Filezilla o
 
 Extract contents of downloaded zip and then login to your server via Filezilla or similar FTP program and upload extracted contents under */addons*directory. Once finish simply refresh your addons manager and now you should see your addon.
 
+- What are supported video formats?
+BriskLimbs uses mp4 as standard format and can convert several other formats to it. The supported formats are follow:
+
+    - 3GP
+    - AVI
+    - FLV
+    - M4V
+    - MKV
+    - MOV
+    - MP4
+    - MPG
+    - MPEG
+    - MTS
+    - WEBM
+    - WMV
+    - VOB
+
 ### Contribute
 [Coding Conventions](https://github.com/briskLimbs/briskLimbs/wiki/Coding-Style-Guide)
 
