@@ -398,7 +398,7 @@ class Videos {
 	*/
 	public function list($parameters = false) {
 		if (is_array($parameters)) {
-			if (!$this->users->isAdmin()) {
+			if (!$this->users->isAdmin() && !defined('USER_DASHBOARD')) {
 				$parameters['state'] = isset($parameters['state']) ? $parameters['state'] : 'active';
 				$parameters['status'] = isset($parameters['status']) ? $parameters['status'] : 'successful';
 

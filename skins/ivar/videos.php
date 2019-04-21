@@ -6,6 +6,7 @@ if (!$users->authenticated()) {
   jumpTo('home');
 }
 
+define('USER_DASHBOARD', true);
 $videos = new Videos();
 if (isset($_GET['deactivate'])) {
   if ($videos->deactivate($_GET['deactivate'])) {
