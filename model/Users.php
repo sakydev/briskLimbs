@@ -656,6 +656,21 @@ class Users {
 	}
 
 	/**
+	* Delete multiple users
+	* @param: { $usersArray } { mixed array } { list of user ids or usernames }
+	* @return: { boolean }
+	*/
+	public function bulkDelete($usersArray) {
+		foreach ($usersArray as $key => $user) {
+			if (!$this->delete($user)) {
+				return $this->limbs->errors->add('Unable to delete ' . $user);
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	* Insert a user into database
 	* @param: { $fields } { array } { raw form fields }
 	* @return: { integer } { user id if inserted }
