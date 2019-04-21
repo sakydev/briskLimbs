@@ -66,6 +66,7 @@ uploader.bind('FileUploaded', function(uploader, FileUploaded, object) {
 })
  
 uploader.bind('Error', function(up, err) {
+  $('#plupload-errors').addClass('alert-danger').text(err.message);
   console.log("\nError #" + err.code + ": " + err.message);
 });
 
