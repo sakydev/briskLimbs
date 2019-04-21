@@ -269,9 +269,17 @@
 
       $('.bulk-actions').on('click', function(e) {
         e.preventDefault();
-        $('#bulk-action').val($(this).attr('action'));
 
-        var allkeys = '';
+        var allkeys = '',
+        action = $(this).attr('action');
+
+        if (action == 'delete') {
+          if (confirm("Are you sure you want to delete multiple items?") != true) {
+            return false;
+          }
+        }
+
+        $('#bulk-action').val(action);
         $('input[type=checkbox]').each(function () {
           var checked = (this.checked ? true : false);
           if (this.checked) {
