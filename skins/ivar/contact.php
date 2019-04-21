@@ -16,8 +16,8 @@ if (isset($_POST['contact-form'])) {
 	}
 
 	$mail = new Mail();
-	$message = "Following is message by {$name} ($email) from {$country} sent using contact form at your website. <br>{$message}";
-	if ($mail->contact($email, $subject, $message)) {
+	$message = "Following is message by <strong>{$name}</strong> ($email) from <strong>{$country}</strong> sent using contact form at your website. <br>{$message}";
+	if ($mail->contact($email, $reason, $message)) {
 		$parameters['message'] = 'Message has been sent successfully';
 	} else {
 		$parameters['_errors'][] = 'Failed to send message';
