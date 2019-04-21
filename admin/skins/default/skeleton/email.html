@@ -7,15 +7,7 @@
           <div class="form-group row">
             <label class="col-sm-12 col-form-label">Host</label>
             <div class="col-sm-12">
-              <input type="text" name="mailer_host" class="form-control" placeholder="smtp.gmail.com" value="{{settings.mailer_host}}" disabled="true" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Type</label>
-            <div class="col-sm-12">
-              <input type="text" name="mailer_authtype" class="form-control" placeholder="Auth type" value="{{settings.mailer_authtype}}" disabled="true" />
+              <input type="text" name="mailer_host" class="form-control" placeholder="smtp.gmail.com" value="{{settings.mailer_host}}" />
             </div>
           </div>
         </div>
@@ -35,34 +27,24 @@
             </div>
           </div>
         </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="col-sm-12 col-form-label">SMTP Username</label>
+            <div class="col-sm-12">
+              <input type="text" name="mailer_smpt_username" class="form-control" placeholder="SMTP username" value="{{settings.mailer_smpt_username}}" />
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-4">
           <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Client ID</label>
+            <label class="col-sm-12 col-form-label">SMTP Password</label>
             <div class="col-sm-12">
-              <input type="text" name="mailer_clientid" class="form-control" placeholder="Google's Client ID" value="{{settings.mailer_clientid}}" />
+              <input type="text" name="mailer_smpt_password" class="form-control" placeholder="SMTP Password" value="{{settings.mailer_smpt_password}}" />
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Client Secret</label>
-            <div class="col-sm-12">
-              <input type="text" name="mailer_clientsecret" class="form-control" placeholder="Google's Client Secret" value="{{settings.mailer_clientsecret}}" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Token</label>
-            <div class="col-sm-12">
-              <input type="text" name="mailer_refreshtoken" class="form-control" placeholder="Google's Token" value="{{settings.mailer_refreshtoken}}" />
-            </div>
-          </div>
-        </div>
-      </div>
-        <div class="row">
         <div class="col-md-4">
           <div class="form-group row">
             <label class="col-sm-12 col-form-label">User Email</label>
@@ -79,14 +61,16 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Sender Name</label>
-            <div class="col-sm-12">
-              <input type="text" name="mailer_sender_name" class="form-control" placeholder="Send email as" value="{{settings.mailer_sender_name}}" />
+      </div>
+        <div class="row">        
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="col-sm-12 col-form-label">Sender Name</label>
+              <div class="col-sm-12">
+                <input type="text" name="mailer_sender_name" class="form-control" placeholder="Send email as" value="{{settings.mailer_sender_name}}" />
+              </div>
             </div>
           </div>
-        </div>
       </div>
       <div class="float-right">
         <button type="submit" name="settings" type="button" class="btn btn-gradient-primary btn-icon-text">
