@@ -16,7 +16,6 @@ A video sharing software created with both webmasters and developers in mind.
     - [Documentation](https://github.com/briskLimbs/briskLimbs/wiki)
     - [Coding Style Guide](https://github.com/briskLimbs/briskLimbs/wiki/Coding-Style-Guide)
     - [Videos Class Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Videos)
-    - [Users Class Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Users)
     - [Addons Class Examples](https://github.com/briskLimbs/briskLimbs/wiki/Class:-Addons)
     - [Addons Development, HellWorld Addon](https://github.com/briskLimbs/briskLimbs/wiki/How-to:-Addons)
 - [License](#license)
