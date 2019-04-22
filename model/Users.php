@@ -651,6 +651,13 @@ class Users {
 	* @return: { boolean }
 	*/
 	public function delete($user) {
+		if (!$this->isAdmin()) {
+			return $this->limbs->errors->add("You don't have sufficient permissions for this");
+		}
+
+		if ($user == $this->username() || $user == $this->userId()) {
+			return $this->limbs->errors->add("You can't delete your own account");
+		}
 		$this->database->where(is_numeric($user) ? 'id' : 'username', $user);
 		return $this->database->delete($this->table);
 	}
@@ -662,6 +669,9 @@ class Users {
 	*/
 	public function bulkDelete($usersArray) {
 		foreach ($usersArray as $key => $user) {
+			if ($user == 'undefined' || $user == $this->username() || $user == $this->userId()) {
+				continue;
+			}
 			if (!$this->delete($user)) {
 				return $this->limbs->errors->add('Unable to delete ' . $user);
 			}
