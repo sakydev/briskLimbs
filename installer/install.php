@@ -1,7 +1,7 @@
 <?php
 
 require 'functions.php';
-if (file_exists(__DIR__ . '/../configs/db.php')) {
+if (file_exists(__DIR__ . '/../configs/db.php') && $_GET['section'] != 'finish') {
   $pageTitle = 'Already Installed';
   require 'pages/header.php';
   require 'pages/installation_exists.php';
