@@ -1,17 +1,12 @@
 <?php
 
-ini_set('display_errors', 'On');
-error_reporting(-1);
 require 'functions.php';
-
-if ( file_exists(__DIR__ . '/../configs/db.php'))
-{
-    $pageTitle = 'Already Installed';
-    require 'pages/header.php';
-    require 'pages/installation_exists.php';
-    require 'pages/footer.php';
-    // header("Location: installer/install.php");
-    exit;
+if (file_exists(__DIR__ . '/../configs/db.php')) {
+  $pageTitle = 'Already Installed';
+  require 'pages/header.php';
+  require 'pages/installation_exists.php';
+  require 'pages/footer.php';
+  exit;
 }
 
 define('INSTALLER_CORE', __DIR__);
