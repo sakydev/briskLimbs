@@ -239,69 +239,6 @@
           </div>
         </div>
       </div>
-      <h4 class="text-muted">Pre, Post Clip</h4>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Enable Pre Clip</label>
-            <div class="col-sm-12">
-              <select name="enable_pre_clip" class="form-control">
-                <option value="no" {% if settings.enable_pre_clip == 'no' %}selected="selected"{% endif %}>No</option>
-                <option value="yes" {% if settings.enable_pre_clip == 'yes' %}selected="selected"{% endif %}>Yes</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Enable Post Clip</label>
-            <div class="col-sm-12">
-              <select name="enable_post_clip" class="form-control">
-                <option value="no" {% if settings.enable_post_clip == 'no' %}selected="selected"{% endif %}>No</option>
-                <option value="yes" {% if settings.enable_post_clip == 'yes' %}selected="selected"{% endif %}>Yes</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Pre Clip</label>
-            <div class="custom-file col-sm-12">
-              <input type="file" class="custom-file-input" name="pre_clip" id="custom-preclip">
-              <label class="custom-file-label" for="custom-preclip">Select Preclip</label>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Existing Pre Clip</label>
-            <div class="col-sm-12">
-              <input type="text" class="form-control" disabled="disabled" value="{{preClip}}" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Post Clip</label>
-            <div class="custom-file col-sm-12">
-              <input type="file" class="custom-file-input" name="post_clip" id="custom-postclip">
-              <label class="custom-file-label" for="custom-postclip">Select Postclip</label>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Existing Post Clip</label>
-            <div class="col-sm-12">
-              <input type="text" class="form-control" disabled="disabled" value="{{postClip}}" />
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="float-right">
         <button type="submit" name="settings" type="button" class="btn btn-gradient-primary btn-icon-text">
           <i class="mdi mdi-file-check btn-icon-prepend"></i>
