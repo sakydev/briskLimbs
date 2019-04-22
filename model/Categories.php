@@ -446,6 +446,9 @@ class Categories {
       $category = $this->getId($category);
     }
 
+    if ($category == '1') {
+      return $this->limbs->errors->add("Default category can't be deleted");
+    }
     // set all videos to default category that were under this cat
     $this->database->where('category', $category);
     $updated = $this->database->update('videos', array('category' => '1'));
@@ -464,6 +467,9 @@ class Categories {
   */
   public function bulkDelete($categoriesArray) {
     foreach ($categoriesArray as $key => $category) {
+      if ($category == '1' || $category == 'undefined') {
+        continue;
+      }
       if (!$this->delete($category)) {
         return $this->limbs->errors->add('Unable to delete ' . $category);
       }

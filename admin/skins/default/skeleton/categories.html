@@ -60,7 +60,7 @@
               <tr>
                 <td>
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{category.id}}" categoryid="{{category.id}}">
+                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{category.id}}" categoryid="{{category.id}}" {% if category.id != '1' %} disabled="true" {% endif %}>
                     <label class="custom-control-label custom-sub-check" for="check-{{category.id}}"></label>
                   </div>
                 </td>
@@ -75,14 +75,16 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      {% if category.status == 'active' %}
-                        <li><a href="{{_adminUrl}}/categories/?action=list&deactivate={{category.id}}">Deactivate</a></li>
-                      {% else %}
-                        <li><a href="{{_adminUrl}}/categories/?action=list&activate={{category.id}}">Activate</a></li>
-                      {% endif %}
                       <li><a href="{{_adminUrl}}/categories/?action=edit&id={{category.id}}">Edit</a></li>
-                      <li class="divider"></li>
-                      <li><a href="{{_adminUrl}}/categories/?action=list&delete={{category.id}}">Delete</a></li>
+                      {% if category.id != '1' %}
+                        {% if category.status == 'active' %}
+                          <li><a href="{{_adminUrl}}/categories/?action=list&deactivate={{category.id}}">Deactivate</a></li>
+                        {% else %}
+                          <li><a href="{{_adminUrl}}/categories/?action=list&activate={{category.id}}">Activate</a></li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        <li><a href="{{_adminUrl}}/categories/?action=list&delete={{category.id}}">Delete</a></li>
+                      {% endif %}
                     </ul>
                   </div>
                 </td>
