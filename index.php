@@ -14,7 +14,7 @@ $page = array_filter($request, function($c) use (&$base) {
 define('IS_ADMIN', current($page) == 'admin' ? true : false);
 $page = current($page) == 'watch' ? 'watch' : end($page);
 
-global $database; // ah! just once
+global $database;
 $limbs = new Limbs($database);
 $users = new Users();
 $limbs->stretch($page);

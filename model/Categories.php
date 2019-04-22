@@ -441,7 +441,19 @@ class Categories {
   * @return: { boolean }
   */
   public function delete($category) {
-    $this->database->where($this->column($category), $category);
+    $column = $this->column($category);
+    if ($column == 'name') {
+      $category = $this->getId($category);
+    }
+
+    // set all videos to default category that were under this cat
+    $this->database->where('category', $category);
+    $updated = $this->database->update('videos', array('category' => '1'));
+    if (!$updated) {
+      return $this->limbs->errors->add("Unabel to update videos with category $category");
+    }
+
+    $this->database->where($column, $category);
     return $this->database->delete($this->table);
   }
 
