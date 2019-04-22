@@ -146,15 +146,17 @@
                           {{hook(action, user.vkey)}}
                         {% endif %}
                       {% endfor %}
+                      <li><a href="{{_adminUrl}}/edituser/?username={{user.username}}">Edit</a></li>
                       <li><a href="{{_coreUrl}}/channel/?name={{user.username}}">View Channel</a></li>
-						        	{% if user.status == 'ok' %}
-						          	<li><a href="{{urlBase}}&deactivate={{user.username}}">Deactivate</a></li>
-						          {% else %}
-							          <li><a href="{{urlBase}}&activate={{user.username}}">Activate</a></li>
-						        	{% endif %}
-						          <li><a href="{{_adminUrl}}/edituser/?username={{user.username}}">Edit</a></li>
-						          <li class="divider"></li>
-						          <li><a href="{{urlBase}}&delete={{user.username}}">Delete</a></li>
+						        	{% if user.username != _auth.username %}
+                        {% if user.status == 'ok' %}
+                          <li><a href="{{urlBase}}&deactivate={{user.username}}">Deactivate</a></li>
+                        {% else %}
+                          <li><a href="{{urlBase}}&activate={{user.username}}">Activate</a></li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        <li><a href="{{urlBase}}&delete={{user.username}}">Delete</a></li>
+                      {% endif %}
                       {% for action in _triggers.admin_users_actions_bottom %}
                         {% if action is iterable %}
                           {{hook(action|keys|first, user[action|first])}}
