@@ -1,9 +1,9 @@
 {
   "version": "2.0",
-  "state": "beta",
+  "state": "RC1",
   "release": {
     "name": "Raven",
-    "date": "17th April, 2019",
+    "date": "22nd April, 2019",
     "author": "BriskLimbs"
   }
 }
