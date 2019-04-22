@@ -70,8 +70,6 @@ class Conversion {
     $this->videoCodec = $this->settings->get('video_codec');
     $this->audioCodec = $this->settings->get('audio_codec');
     $this->enableWatermark = $this->settings->enabled('enable_watermark');
-    $this->enablePreClip = $this->settings->enabled('enable_pre_clip');
-    $this->enablePostClip = $this->settings->enabled('enable_post_clip');
   }
 
   /**
@@ -217,14 +215,6 @@ class Conversion {
     $this->logs->write("Getting ready to generate thumbs");
     $generatedThumbs = $this->createThumbnails($this->path);
     $this->logs->write("Generated thumbs are : \n" . implode("\n", $generatedThumbs));
-
-    if ($this->enablePreClip) {
-      // code for joining first clip
-    }
-
-    if ($this->enablePostClip) {
-      // code for joing post clip
-    }
     
     if ($this->enableWatermark) {
       $this->logs->write("Getting ready to add watermark");
