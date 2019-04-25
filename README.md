@@ -40,6 +40,7 @@ briskLimbs requires several tools to run smoothly. You are recomended to have th
 - [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
 - [Git](https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
+- [PHPMailer](https://github.com/PHPMailer/PHPMailer) (if you want to send notification emails)
 
 #### Recomendations
 - OS: [Ubuntu](https://www.ubuntu.com/) or [Centos](https://www.centos.org/)
