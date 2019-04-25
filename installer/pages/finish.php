@@ -1,7 +1,7 @@
 <?php
   
   $url = $_GET['url'];
-  $adminUrl = $url . '/admin/settings';
+  $signinUrl = $url . '/signin';
   $success = false;
 
   if (isset($_POST['username'])) {
@@ -19,7 +19,7 @@
     <?php if (!empty($error)): ?>
       <div class="alert alert-danger"><?=$error?></div>
     <?php elseif ($success): ?>
-      <div class="alert alert-success">Installation successful. [ <a href="<?=$adminUrl?>">Admin Area</a> ] [ <a href="<?=$url?>">Frontend</a> ]</div>
+      <div class="alert alert-success">Installation successful. [ <a href="<?=$url?>">Frontend</a> ] [ <a href="<?=$signinUrl?>">Signin</a> ]</div>
     <?php else: ?>
       <h4>Final Step: Admin Credentials</h4>
       <input type="text" name="username" class="form-control" placeholder="Admin username here" required autofocus>
