@@ -67,7 +67,6 @@ if (isset($_GET['advanced-search'])) {
   }
 }
 
-# pr($listParameters);
 $listParameters['limit'] = $limit;
 $listParameters['uploader_name'] = $users->username();
 $results = $videos->list($listParameters);
@@ -77,7 +76,7 @@ foreach ($results as $key => $video) {
 }
 
 $totalFound = count($results);
-
+$parameters['currentBaseUrl'] = buildUrl($_GET);
 $parameters['_section'] = 'user_dashboard';
 $parameters['total'] = $total = $videos->count($listParameters);
 $parameters['start'] = $start;

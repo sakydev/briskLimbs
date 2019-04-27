@@ -91,38 +91,36 @@ function buildPagination($currentPage, $limit, $total) {
 		}
 	}
 
-	$pagination['first'] = 1;
-	$pagination['last'] = $totalPages;
-	$pagination['current'] = $currentPage;
+	$pagination['first'] = array('page' => 1, 'url' => buildPaginationUrl(1));
+	$pagination['last'] = array('page' => $totalPages, 'url' => buildPaginationUrl($totalPages));
+	$pagination['current'] = array('page' => $currentPage, 'url' => false);
 
 	if ($currentPage > 3) {
-		$pagination['pages'][] = $currentPage - 3;
+		$pagination['pages'][] = array('page' => ($pageNow = $currentPage - 3), 'url' => buildPaginationUrl($pageNow));
 	}
 
 	if ($currentPage > 2) {
-		$pagination['pages'][] = $currentPage - 2;
+		$pagination['pages'][] = array('page' => ($pageNow = $currentPage - 2), 'url' => buildPaginationUrl($pageNow));
 	}
 
 	if ($currentPage > 1) {
-		$pagination['pages'][] = $currentPage - 1;
+		$pagination['pages'][] = array('page' => ($pageNow = $currentPage - 1), 'url' => buildPaginationUrl($pageNow));
 	}
 
-	$pagination['pages'][] = $currentPage;
+	$pagination['pages'][] = array('page' => $currentPage);
 	if ($currentPage < $totalPages) {
 		if ($currentPage + 1 <= $totalPages) {
-			$pagination['pages'][] = $currentPage + 1;
+			$pagination['pages'][] = array('page' => $pageNow = $currentPage + 1, 'url' => buildPaginationUrl($pageNow));
 		}
 
 		if ($currentPage + 2 <= $totalPages) {
-			$pagination['pages'][] = $currentPage + 2;
+			$pagination['pages'][] = array('page' => ($pageNow = $currentPage + 2), 'durl' => buildPaginationUrl($currentPage + 2));
 		}
 
 		if ($currentPage + 3 <= $totalPages) {
-			$pagination['pages'][] = $currentPage + 3;
+			$pagination['pages'][] = array('page' => ($pageNow = $currentPage + 3), 'url' => buildPaginationUrl($pageNow));
 		}
 	}
-
-	#pex($pagination);
 
 	return $pagination;
 }
@@ -176,4 +174,36 @@ function prepareMessage($message, $fields = false) {
 	}
 
 	return $message;
+}
+
+function buildUrl($parameters, $append = array(), $skip = array()) {
+	$skip = array_merge($skip, array('activate', 'deactivate', 'delete', 'main', 'section', 'crumbs'));
+	$parameters = array_merge($parameters, $append);
+	$url = CORE_URL . '/' . $parameters['main'];
+	if (isset($parameters['section'])) {
+		$url .= '/' . $parameters['section'];
+	}
+
+	foreach ($parameters as $key => $value) {
+		if (!in_array($key, $skip) && !empty($value)) {
+			$url .= "/$key/$value";
+		}
+	}
+
+	return $url;
+}
+
+function buildPaginationUrl($page) {
+	$_GET['page'] = $page;
+	return buildUrl($_GET);
+}
+
+function hook($function, $parameters = false) {
+	if (function_exists($function)) {
+		return 'FUCK';
+	}
+}
+
+function hookable($function) {
+	return function_exists($function) ? true : false;
 }

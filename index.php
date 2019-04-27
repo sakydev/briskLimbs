@@ -13,7 +13,7 @@ $page = isset($_GET['main']) ? $_GET['main'] : false;
 $page = $page == 'admin' ? $next : $page;
 
 define('IS_ADMIN', $page == 'admin' ? true : false);
-if (!empty(($crumbs = explode('/', $_GET['crumbs'])))) {
+if (!empty($_GET['crumbs']) && ($crumbs = explode('/', $_GET['crumbs']))) {
 	foreach ($crumbs as $key => $value) {
 		$nextKey = $key + 1;
 		if ($key % 2 == 0 && !empty($value) && isset($crumbs[$nextKey])) {

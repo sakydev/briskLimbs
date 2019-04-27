@@ -116,7 +116,10 @@ class Limbs {
 			'_imagesDirectory' => $assetsDirectory . '/images',
 			'_imagesUrl' => $assetsUrl . '/images',
 			'_mediaUrl' => $this->coreUrl . '/media',
-			'_currentUrl' => getCurrentUrl()
+			'_currentUrl' => getCurrentUrl(),
+			'_get' => $_GET,
+			'_post' => $_POST,
+			'_request' => $_REQUEST
 		);
 	}
 
@@ -291,9 +294,13 @@ class Limbs {
 		  pex($array);
 	  });
 
-	  $printHookExit = new \Twig\TwigFunction('addonInstalled', function ($name) {
+	  $addonInstalled = new \Twig\TwigFunction('addonInstalled', function ($name) {
 		  $addons = new Addons();
 		  return $addons->active(array('name' => $name));
+	  });
+
+	  $buildUrl = new \Twig\TwigFunction('buildUrl', function ($parameters) {
+		  return buildUrl($parameters);
 	  });
 	  
 	  $hookable = new \Twig\TwigFunction('hookable', function ($function) {
@@ -308,6 +315,8 @@ class Limbs {
 		$this->twig->addFunction($dateHook);
 	  $this->twig->addFunction($printHook);
 	  $this->twig->addFunction($printHookExit);
+	  $this->twig->addFunction($addonInstalled);
+	  $this->twig->addFunction($buildUrl);
 	  $this->twig->addFunction($hookable);
 	  $this->twig->addFunction($hook);
 

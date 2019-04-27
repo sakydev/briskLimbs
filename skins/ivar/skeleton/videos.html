@@ -26,13 +26,12 @@
 				border-radius: 2px !important;
 			}
     </style>
-    {% set paginationBase = "?list=" ~ subSection|lower %}
-    {% set urlBase = paginationBase ~ "&page=" ~ pagination.current %}
+
     <div class="col-12 grid-margin">
       <div class="card" id="advanced-search-section" style="display: none">
         <div class="card-body">
           <h4 class="card-title">Advanced Video Search</h4>
-          <form class="form-sample" action="{{urlBase}}">
+          <form class="form-sample" action="{{currentBaseUrl}}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group row">
@@ -132,14 +131,14 @@
                         {% endif %}
                       {% endfor %}
 						        	{% if video.state == 'active' %}
-						          	<li><a href="{{urlBase}}&deactivate={{video.vkey}}">Deactivate</a></li>
+						          	<li><a href="{{currentBaseUrl}}/deactivate/{{video.vkey}}">Deactivate</a></li>
 						          {% else %}
-							          <li><a href="{{urlBase}}&activate={{video.vkey}}">Activate</a></li>
+							          <li><a href="{{currentBaseUrl}}/activate/{{video.vkey}}">Activate</a></li>
 						        	{% endif %}
 						          <li><a href="{{_coreUrl}}/edit/{{video.vkey}}">Edit</a></li>
 						          <li><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank">Watch</a></li>
 						          <li class="divider"></li>
-						          <li><a href="{{urlBase}}&delete={{video.vkey}}">Delete</a></li>
+						          <li><a href="{{currentBaseUrl}}/delete/{{video.vkey}}">Delete</a></li>
                       {% for action in _triggers.user_videos_actions_top %}
                         {% if action is iterable %}
                           {{hook(action|keys|first, video[action|first])}}
@@ -165,11 +164,11 @@
 
         <div class="text-center mt-5">
         	<div class="btn-group" role="group" aria-label="Basic example">
-        		<a href="{{paginationBase}}&page={{pagination.first}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+        		<a href="{{pagination.first.url}}"><button type="button" class="btn btn-outline-primary">First</button></a>
             {% for page in pagination.pages %}
-            	<a href="{{paginationBase}}&page={{page}}"><button type="button" class="btn btn{% if page != pagination.current %}-outline{% endif %}-primary">{{page}}</button></a>
+              <a href="{{page.url}}"><button type="button" class="btn btn{% if page.page != pagination.current.page %}-outline{% endif %}-primary">{{page.page}}</button></a>
             {% endfor %}
-            <a href="{{paginationBase}}&page={{pagination.last}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+            <a href="{{pagination.last.url}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
           </div>
         </div>
       </div>
