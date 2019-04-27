@@ -5,4 +5,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # RewriteRule ^(.*)$ index.php [L,QSA]
-RewriteRule ^(.*)$ index.php?request=$1 [L,QSA]
+# RewriteRule ^(.*)$ index.php?request=$1&hell=$2 [L,QSA]
+RewriteRule ^([A-Za-z0-9-]+)\/([A-Za-z0-9-]+)\/?$ index.php?main=$1&section=$2 [NC]
+RewriteRule ^([A-Za-z0-9-]+)\/([A-Za-z0-9-]+)\/([A-Za-z0-9-]+)\/?$ index.php?main=$1&section=$2&sub=$3 [NC]
+RewriteRule ^([A-Za-z0-9-]+)\/?$ index.php?main=$1 [NC]

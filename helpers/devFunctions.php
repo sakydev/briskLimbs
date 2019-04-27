@@ -24,6 +24,10 @@ function displayMessage($message) {
 	echo php_sapi_name() === 'cli' ? "$message\n" : "$message<br>";
 }
 
+function getCurrentUrl() {
+	return "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+}
+
 function jumpTo($path) {
 	switch ($path) {
 		case 'home':
@@ -33,7 +37,7 @@ function jumpTo($path) {
 			$url = CORE_URL . '/signup';
 			break;
 		case 'signin':
-			$url = CORE_URL . '/signin';
+			$url = CORE_URL . '/signin/?return=' . getCurrentUrl();
 			break;
 		
 		default:

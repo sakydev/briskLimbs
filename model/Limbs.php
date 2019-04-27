@@ -115,7 +115,8 @@ class Limbs {
 			'_cssUrl' => $assetsUrl . '/css',
 			'_imagesDirectory' => $assetsDirectory . '/images',
 			'_imagesUrl' => $assetsUrl . '/images',
-			'_mediaUrl' => $this->coreUrl . '/media'
+			'_mediaUrl' => $this->coreUrl . '/media',
+			'_currentUrl' => getCurrentUrl()
 		);
 	}
 
