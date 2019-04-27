@@ -62,12 +62,13 @@ if (isset($_POST['test-email'])) {
 		$parameters['messages'][] = "Failed to send to $toName ($to)";
 	}
 }
+
 $preClip = MEDIA_DIRECTORY . '/pre.mp4';
 $postClip = MEDIA_DIRECTORY . '/post.mp4';
-$parameters['_title'] = 'Settings - Dashboard';
 $parameters['mainSection'] = 'settings';
 $parameters['settings'] = $settings->reFetch();
-$parameters['type'] = isset($_GET['type']) ? $_GET['type'] : 'general';
+$parameters['type'] = isset($_GET['section']) ? $_GET['section'] : 'general';
+$parameters['_title'] = ucfirst($parameters['type']) . ' Settings - Dashboard';
 $parameters['preClip'] = file_exists($preClip) ? $preClip : 'No existing clip';
 $parameters['postClip'] = file_exists($postClip) ? $postClip : 'No existing clip';
 $parameters['_errors'] = $limbs->errors->collect();
