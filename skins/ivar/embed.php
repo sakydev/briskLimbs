@@ -5,7 +5,7 @@ global $limbs;
 $videos = new Videos();
 $actions = new Actions();
 
-$vKey = $_GET['key'];
+$vKey = $_GET['section'];
 $video = new Video($vKey);
 $data = $video->fetch();
 
