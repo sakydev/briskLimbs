@@ -7,7 +7,7 @@ if (!$users->authenticated()) {
 	jumpTo('home');
 }
 
-$vkey = $_GET['key'];
+$vkey = $_GET['section'];
 
 $videos = new Videos();
 $categories = new Categories();

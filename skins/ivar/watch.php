@@ -16,8 +16,7 @@ if (isset($_POST['comment'])) {
 }
 
 $categories = new Categories();
-
-$vKey = basename($_GET['request']);
+$vKey = $_GET['section'];
 $video = new Video($vKey);
 $data = $video->fetch();
 $data['category'] = $categories->getNames(explode(',', $data['category']));

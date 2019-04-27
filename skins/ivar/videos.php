@@ -26,12 +26,12 @@ if (isset($_GET['delete'])) {
   }
 }
 $size = 10;
-$list = isset($_GET['list']) ? $_GET['list'] : 'all';
+$list = isset($_GET['section']) ? $_GET['section'] : 'all';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $size;
 $limit = array($start, $size);
 
-$subSection = !empty($_GET['list']) ? ucfirst($_GET['list']) : 'All';
+$subSection = !empty($_GET['section']) ? ucfirst($_GET['section']) : 'All';
 $listParameters = array();
 
 switch ($list) {
