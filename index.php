@@ -8,11 +8,9 @@ if (!file_exists($vendorFile)) {
 require_once $vendorFile;
 require_once 'config.php';
 global $database;
-
 $page = isset($_GET['main']) ? $_GET['main'] : false;
-$page = $page == 'admin' ? $next : $page;
+define('IS_ADMIN', isset($_SERVER['REDIRECT_URL']) && strstr($_SERVER['REDIRECT_URL'], '/admin/') ? true : false);
 
-define('IS_ADMIN', $page == 'admin' ? true : false);
 if (!empty($_GET['crumbs']) && ($crumbs = explode('/', $_GET['crumbs']))) {
 	foreach ($crumbs as $key => $value) {
 		$nextKey = $key + 1;
