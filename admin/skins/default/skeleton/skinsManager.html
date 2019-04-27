@@ -48,7 +48,7 @@
                   {% if skin.name == activeSkin %}
                     <button class="btn btn-default btn-gradient-default" disabled="true">Active</button>
                   {% else %}
-                    <a href="{{urlBase}}&install={{skin.name}}"><button class="btn btn-primary btn-gradient-primary">Install</button></a>
+                    <a href="{{currentBaseUrl}}/install/{{skin.name}}"><button class="btn btn-primary btn-gradient-primary">Install</button></a>
                   {% endif %}
                 </td>
               </tr>

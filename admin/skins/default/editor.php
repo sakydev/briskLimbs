@@ -51,7 +51,7 @@ if (isset($_POST['list'])) {
 	sendJsonResponse($response);
 }
 
-$section = isset($_GET['main']) ? $_GET['main'] : false;
+$section = isset($_GET['section']) ? $_GET['section'] : false;
 if ($section == 'addons' || $section == 'skins') {
 	$items = listFiles(CORE_DIRECTORY . '/' . $section);
 	if (is_dir(current($items))) {
@@ -60,7 +60,7 @@ if ($section == 'addons' || $section == 'skins') {
 }
 
 $parameters['_title'] = 'Editor - Dashboard';
-$parameters['mainSection'] = 'addons';
+$parameters['mainSection'] = $section;
 $parameters['section'] = $section;
 $parameters['items'] = isset($items) ? $items : false;
 $parameters['_errors'] = $limbs->errors->collect();

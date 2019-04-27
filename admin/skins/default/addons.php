@@ -62,7 +62,7 @@ if (isset($_GET['install'])) {
 	}
 }
 
-$list = isset($_GET['list']) ? $_GET['list'] : 'all';
+$list = isset($_GET['section']) ? $_GET['section'] : 'all';
 switch ($list) {
 	case 'active':
 	case 'inactive':
@@ -75,12 +75,12 @@ switch ($list) {
 
 
 $size = 10;
-$list = isset($_GET['list']) ? $_GET['list'] : 'all';
+$list = isset($_GET['section']) ? $_GET['section'] : 'all';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $size;
 $limit = array($start, $size);
 
-$subSection = !empty($_GET['list']) ? ucfirst($_GET['list']) : 'All';
+$subSection = !empty($_GET['section']) ? ucfirst($_GET['section']) : 'All';
 $listParameters = array();
 
 switch ($list) {
@@ -108,11 +108,11 @@ if (isset($_GET['advanced-search'])) {
 	}
 }
 
-# pr($listParameters);
 $listParameters['sort'] = 'id';
 $listParameters['limit'] = $limit;
 $results = $addons->list($listParameters);
 $totalFound = count($results);
+$parameters['currentBaseUrl'] = buildUrl($_GET);
 $parameters['total'] = $total = $addons->count($listParameters);
 $parameters['start'] = $start;
 $parameters['end'] = $start + ($totalFound < $size ? $totalFound : $size);

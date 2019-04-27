@@ -20,14 +20,11 @@
       <div class="alert alert-danger">{{error}}</div>
     {% endfor %}
 
-    <!-- content here -->
-    {% set paginationBase = "?list=" ~ subSection|lower %}
-    {% set urlBase = paginationBase ~ "&page=" ~ pagination.current %}
     <div class="col-12 grid-margin">
       <div class="card" id="advanced-search-section" style="display: none">
         <div class="card-body">
           <h4 class="card-title">Advanced Addon Search</h4>
-          <form class="form-sample" action="{{urlBase}}">
+          <form class="form-sample" action="{{currentBaseUrl}}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group row">
@@ -115,12 +112,12 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                       {% if addon.status == 'active' %}
-                        <li><a href="{{urlBase}}&deactivate={{addon.name}}">Deactivate</a></li>
+                        <li><a href="{{currentBaseUrl}}/deactivate/{{addon.name}}">Deactivate</a></li>
                       {% else %}
-                        <li><a href="{{urlBase}}&activate={{addon.name}}">Activate</a></li>
+                        <li><a href="{{currentBaseUrl}}/activate/{{addon.name}}">Activate</a></li>
                       {% endif %}
                       <li class="divider"></li>
-                      <li><a href="{{urlBase}}&uninstall={{addon.name}}">Uninstall</a></li>
+                      <li><a href="{{currentBaseUrl}}/uninstall/{{addon.name}}">Uninstall</a></li>
                     </ul>
                   </div>
                 </td>
@@ -139,11 +136,11 @@
 
         <div class="text-center mt-5">
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="{{paginationBase}}&page={{pagination.first}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+            <a href="{{pagination.first.url}}"><button type="button" class="btn btn-outline-primary">First</button></a>
             {% for page in pagination.pages %}
-              <a href="{{paginationBase}}&page={{page}}"><button type="button" class="btn btn{% if page != pagination.current %}-outline{% endif %}-primary">{{page}}</button></a>
+              <a href="{{page.url}}"><button type="button" class="btn btn{% if page.page != pagination.current.page %}-outline{% endif %}-primary">{{page.page}}</button></a>
             {% endfor %}
-            <a href="{{paginationBase}}&page={{pagination.last}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+            <a href="{{pagination.last.url}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
           </div>
         </div>
       </div>
@@ -177,7 +174,7 @@
 	              <td>{{addon.author}}</td>
 	              <td>{{addon.description}}</td>
 	              <td>
-	              	<a href="{{urlBase}}&install={{addon.name}}"><button class="btn btn-primary btn-gradient-primary">Install</button></a>
+	              	<a href="{{currentBaseUrl}}/install/{{addon.name}}"><button class="btn btn-primary btn-gradient-primary">Install</button></a>
 	              </td>
 	            </tr>
             {% endfor %}

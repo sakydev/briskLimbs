@@ -15,6 +15,7 @@ if (isset($_GET['install'])) {
 
 $results = $skins->list();
 $totalFound = count($results);
+$parameters['currentBaseUrl'] = buildUrl($_GET);
 $parameters['activeSkin'] = $limbs->settings->get('active_theme');
 $parameters['results'] = $results;
 $parameters['mainSection'] = 'skins';
