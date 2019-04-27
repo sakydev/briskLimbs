@@ -153,7 +153,7 @@
                   </div>
                 </td>
 	              <td title="{{video.title}}">
-	              	{{video.truc_title}}
+	              	<span onclick="window.location='{{_coreUrl}}/watch/{{video.vkey}}'">{{video.truc_title}}</span>
 	              	<span class="clearfix"></span>
                   <label class="mt-2 badge badge-dark">{{video.views|number_format}}</label>
 	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}" title="{% if video.status == 'successful'%}{{video.qualities}}{% endif %}">{{video.status|title}}</label>

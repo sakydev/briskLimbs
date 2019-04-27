@@ -108,7 +108,7 @@
 	              <td>{{video.id}}</td>
 	              <td><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';"></a></td>
 	              <td>
-	              	{{video.title}}
+	              	<span onclick="window.location='{{_coreUrl}}/watch/{{video.vkey}}'">{{video.title}}</span>
 	              	<span class="clearfix"></span>
 	              	<label class="badge badge-gradient-dark mt-2">{{formatDuration(video.duration)}}</label>
 	              	<label class="badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}" title="{% if video.status == 'successful'%}{{video.qualities}}{% endif %}">{{video.status|title}}</label>
