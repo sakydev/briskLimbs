@@ -45,6 +45,7 @@ uploader.bind('FileUploaded', function(uploader, FileUploaded, object) {
         dataType : 'json',
         data : {
           insert : $('#title').val(),
+          description : $('#description').val(),
           filename : objectResponse.filename
 
         }

@@ -909,6 +909,7 @@ class Videos {
 		if ($this->validateInsert($form)) {
 			$prepare = array();
 			$prepare['title'] = $form['title'];
+			$prepare['description'] = $form['description'];
 			$prepare['filename'] = $form['filename'];
 	    $prepare['date'] = date("Y/m/d H:i:s");
 	    $prepare['vkey'] = $this->createKey();
