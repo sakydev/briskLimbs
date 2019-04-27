@@ -7,7 +7,7 @@ if (!$users->isAdmin()) {
 	jumpTo('home');
 }
 
-$username = $_GET['username'];
+$username = $_GET['section'];
 if (isset($_POST['email'])) {
   if ($users->update($username, $_POST)) {
     $parameters['message'] = 'User updated successfully';

@@ -26,13 +26,12 @@
 				border-radius: 2px !important;
 			}
     </style>
-    {% set paginationBase = "?list=" ~ subSection|lower %}
-    {% set urlBase = paginationBase ~ "&page=" ~ pagination.current %}
+
     <div class="col-12 grid-margin">
       <div class="card" id="advanced-search-section" style="display: none">
         <div class="card-body">
           <h4 class="card-title">Advanced User Search</h4>
-          <form class="form-sample" action="{{urlBase}}">
+          <form class="form-sample" action="{{currentBaseUrl}}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group row">
@@ -146,16 +145,16 @@
                           {{hook(action, user.vkey)}}
                         {% endif %}
                       {% endfor %}
-                      <li><a href="{{_adminUrl}}/edituser/?username={{user.username}}">Edit</a></li>
-                      <li><a href="{{_coreUrl}}/channel/?name={{user.username}}">View Channel</a></li>
+                      <li><a href="{{_adminUrl}}/edituser/{{user.username}}">Edit</a></li>
+                      <li><a href="{{_coreUrl}}/channel/{{user.username}}">View Channel</a></li>
 						        	{% if user.username != _auth.username %}
                         {% if user.status == 'ok' %}
-                          <li><a href="{{urlBase}}&deactivate={{user.username}}">Deactivate</a></li>
+                          <li><a href="{{currentBaseUrl}}/deactivate/{{user.username}}">Deactivate</a></li>
                         {% else %}
-                          <li><a href="{{urlBase}}&activate={{user.username}}">Activate</a></li>
+                          <li><a href="{{currentBaseUrl}}/activate/{{user.username}}">Activate</a></li>
                         {% endif %}
                         <li class="divider"></li>
-                        <li><a href="{{urlBase}}&delete={{user.username}}">Delete</a></li>
+                        <li><a href="{{currentBaseUrl}}/delete/{{user.username}}">Delete</a></li>
                       {% endif %}
                       {% for action in _triggers.admin_users_actions_bottom %}
                         {% if action is iterable %}
@@ -181,12 +180,12 @@
 				</form>
 
         <div class="text-center mt-5">
-        	<div class="btn-group" role="group" aria-label="Basic example">
-        		<a href="{{paginationBase}}&page={{pagination.first}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="{{pagination.first.url}}"><button type="button" class="btn btn-outline-primary">First</button></a>
             {% for page in pagination.pages %}
-            	<a href="{{paginationBase}}&page={{page}}"><button type="button" class="btn btn{% if page != pagination.current %}-outline{% endif %}-primary">{{page}}</button></a>
+              <a href="{{page.url}}"><button type="button" class="btn btn{% if page.page != pagination.current.page %}-outline{% endif %}-primary">{{page.page}}</button></a>
             {% endfor %}
-            <a href="{{paginationBase}}&page={{pagination.last}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+            <a href="{{pagination.last.url}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
           </div>
         </div>
       </div>

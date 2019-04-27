@@ -101,6 +101,7 @@ foreach ($results as $key => $value) {
 }
 
 $totalFound = count($results);
+$parameters['currentBaseUrl'] = buildUrl($_GET);
 $parameters['total'] = $total = $users->count($listParameters);
 $parameters['start'] = $start;
 $parameters['end'] = $start + ($totalFound < $size ? $totalFound : $size);
