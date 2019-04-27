@@ -107,7 +107,7 @@
             {% for video in results %}
 	            <tr>
 	              <td>{{video.id}}</td>
-	              <td><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img src="{{video.thumbnail}}"></a></td>
+	              <td><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';"></a></td>
 	              <td>
 	              	{{video.title}}
 	              	<span class="clearfix"></span>

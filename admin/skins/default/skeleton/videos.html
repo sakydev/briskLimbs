@@ -149,7 +149,7 @@
 	              <td>{{video.id}}</td>
 	              <td>
                   <div class="image-section">
-                    <a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = 'https://via.placeholder.com/632x395.png?text=No+Image';"></a>
+                    <a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';"></a>
                     <div class="time">{{formatDuration(video.duration)}}</div>
                   </div>
                 </td>
