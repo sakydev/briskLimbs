@@ -52,12 +52,12 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                       {% if ad.status == 'active' %}
-                        <li><a href="{{_adminUrl}}/ads/?action=list&deactivate={{ad.name}}">Deactivate</a></li>
+                        <li><a href="{{_adminUrl}}/ads/list/deactivate/{{ad.name}}">Deactivate</a></li>
                       {% else %}
-                        <li><a href="{{_adminUrl}}/ads/?action=list&activate={{ad.name}}">Activate</a></li>
+                        <li><a href="{{_adminUrl}}/ads/list/activate/{{ad.name}}">Activate</a></li>
                       {% endif %}
                       <li class="divider"></li>
-                      <li><a href="{{_adminUrl}}/ads/?action=list&delete={{ad.name}}">Delete</a></li>
+                      <li><a href="{{_adminUrl}}/ads/list/delete/{{ad.name}}">Delete</a></li>
                     </ul>
                   </div>
                 </td>

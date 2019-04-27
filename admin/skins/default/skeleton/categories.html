@@ -75,15 +75,15 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      <li><a href="{{_adminUrl}}/categories/?action=edit&id={{category.id}}">Edit</a></li>
+                      <li><a href="{{_adminUrl}}/categories/edit/{{category.id}}">Edit</a></li>
                       {% if category.id != '1' %}
                         {% if category.status == 'active' %}
-                          <li><a href="{{_adminUrl}}/categories/?action=list&deactivate={{category.id}}">Deactivate</a></li>
+                          <li><a href="{{_adminUrl}}/categories/list/deactivate/{{category.id}}">Deactivate</a></li>
                         {% else %}
-                          <li><a href="{{_adminUrl}}/categories/?action=list&activate={{category.id}}">Activate</a></li>
+                          <li><a href="{{_adminUrl}}/categories/list/activate/{{category.id}}">Activate</a></li>
                         {% endif %}
                         <li class="divider"></li>
-                        <li><a href="{{_adminUrl}}/categories/?action=list&delete={{category.id}}">Delete</a></li>
+                        <li><a href="{{_adminUrl}}/categories/list/delete/{{category.id}}">Delete</a></li>
                       {% endif %}
                     </ul>
                   </div>

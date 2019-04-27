@@ -71,7 +71,7 @@ if (isset($_GET['delete'])) {
 	}
 }
 
-$list = isset($_GET['list']) ? $_GET['list'] : 'all';
+$list = isset($_GET['section']) ? $_GET['section'] : 'all';
 $subSection = !empty($_GET['list']) ? ucfirst($_GET['list']) : 'All';
 $listParameters = array();
 $listParameters['sort'] = 'id';
@@ -79,9 +79,9 @@ $results = $categories->list($listParameters);
 
 $totalFound = count($results);
 $parameters['total'] = $total = $categories->count($listParameters);
-$parameters['results'] = !isset($_GET['id']) ? $results : $categories->get($_GET['id']);
+$parameters['results'] = !isset($_GET['crumbs']) ? $results : $categories->get($_GET['crumbs']);
 $parameters['mainSection'] = 'categories';
-$parameters['action'] = $_GET['action'];
+$parameters['action'] = $_GET['section'];
 
 $parameters['_errors'] = $limbs->errors->collect();
 $parameters['_title'] = 'Categories Manager - Dashboard';

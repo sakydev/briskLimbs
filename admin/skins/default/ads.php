@@ -45,7 +45,7 @@ $totalFound = count($results);
 $parameters['total'] = $total = $ads->count($listParameters);
 $parameters['results'] = $results;
 $parameters['mainSection'] = 'ads';
-$parameters['action'] = $_GET['action'];
+$parameters['action'] = $_GET['section'];
 
 $parameters['_errors'] = $limbs->errors->collect();
 $parameters['_title'] = 'Ads Manager - Dashboard';
