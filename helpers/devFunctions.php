@@ -28,8 +28,8 @@ function getCurrentUrl() {
 	return "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 }
 
-function jumpTo($path) {
-	switch ($path) {
+function jumpTo($url) {
+	switch ($url) {
 		case 'home':
 			$url = CORE_URL;
 			break;
@@ -41,7 +41,6 @@ function jumpTo($path) {
 			break;
 		
 		default:
-			$url = $path;
 			break;
 	}
 
