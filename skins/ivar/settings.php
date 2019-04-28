@@ -11,14 +11,14 @@ if (isset($_POST['email'])) {
   $form = array();
   foreach ($_POST as $field => $value) {
     if (empty($value)) { continue; }
-    if (isset($user[$field]) && $user[$field] != $value) {
+    if ((isset($user[$field]) && $user[$field] != $value) || (strstr($field, '_password'))) {
       $form[$field] = $value;
     }
   }
 
   if (empty($form) || $users->update($users->username(), $form)) {
     $parameters['messages'][] = 'Settings updated successully';
-    $data = $users->get($users->username)['0'];
+    $data = $users->get($users->username);
   } else {
     $data = $_POST;
   }

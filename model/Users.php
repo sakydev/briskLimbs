@@ -593,7 +593,7 @@ class Users {
 				return $this->limbs->errors->add("Field ($key) is required");	
 			}
 		}
-
+		
 		if (isset($fields['password'])) {
 	    if ($fields['new_password'] != $fields['confirm_password']) {
 	    	return $this->limbs->errors->add("New passwords don't match");
