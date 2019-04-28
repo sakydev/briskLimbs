@@ -83,7 +83,13 @@ class Users {
 	* @return: { string / integer } { id or username }
 	*/
 	private function column($identifier) {
-		return is_numeric($identifier) ? 'id' : 'username';
+		if (is_numeric($identifier)) {
+			return 'id';
+		} elseif (strstr($identifier, '@')) {
+			return 'email';
+		} else {
+			return 'username';
+		}
 	}
 
 	/**
@@ -829,14 +835,18 @@ class Users {
 
   public function requestResetPassword($user) {
   	$code = $this->createResetCode();
-  	$status = $this->setField('reset_code', $code, $user, is_numeric($user) ? 'id' : 'username');
+  	$column = $this->column($user);
+  	$status = $this->setField('reset_code', $code, $user, $column);
+  	$email = $column != 'email' ? $this->getEmail($user) : $user;
+  	$username = $column != 'username' ? $this->getUsername($user) : $user;
+
   	if ($status) {
-  		$fields = array('username' => $user, 'reset_code' => $code);
+  		$fields = array('username' => $username, 'email' => $email, 'reset_code' => $code);
   		$message = getMessage('reset');
 			$subject = prepareMessage($message['subject'], $fields);
 			$messageBody = prepareMessage($message['message'], $fields);
 			$mail = new Mail();
-			if ($mail->send($subject, $messageBody, $this->getEmail($user), $user)) {
+			if ($mail->send($subject, $messageBody, $email, $username)) {
 				return $status;
 			}
 
