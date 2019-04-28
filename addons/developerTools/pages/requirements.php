@@ -1,25 +1,29 @@
 <?php
 
 $addons = new Addons();
+$settings = $addons->limbs->settings;
+
+$ffmpegPath = $settings->get('ffmpeg');
+$ffprobePath = $settings->get('ffprobe');
 
 $requirments = json_decode(file_get_contents(CORE_DIRECTORY . '/configs/requirments.json'), true);
 $response = array();
 
 $phpVersion = getPhpVersion();
-$status = $phpVersion >= $requirments['php'] ? 'Ok' : $requirments['php'] . ' or higher required';
+$phpStatus = $phpVersion >= $requirments['php'] ? 'Ok' : $requirments['php'] . ' or higher required';
 
 $mysqlVersion = getMysqlVersion();
-$status = $mysqlVersion >= $requirments['mysql'] ? 'Ok' : $requirments['mysql'] . ' or higher required';
+$mysqlStatus = $mysqlVersion >= $requirments['mysql'] ? 'Ok' : $requirments['mysql'] . ' or higher required';
 
 $shell = hasShellAccess() ? 'Ok' : 'Disabled';
-$ffmpegStatus = ($ffmpeg = hasFfmpeg()) ? 'Ok' : 'Not found';
-$ffprobeStatus = ($ffprobe = hasFfprobe()) ? 'Ok' : 'Not found';
+$ffmpegStatus = ($ffmpeg = hasFfmpeg($ffmpegPath)) ? 'Ok' : 'Not found';
+$ffprobeStatus = ($ffprobe = hasFfprobe($ffprobePath)) ? 'Ok' : 'Not found';
 
-$response['php'] = array('version' => $phpVersion, 'status' => $status);
-$response['mysql'] = array('version' => $mysqlVersion, 'status' => $status);
+$response['php'] = array('version' => $phpVersion, 'status' => $phpStatus);
+$response['mysql'] = array('version' => $mysqlVersion, 'status' => $mysqlStatus);
 $response['shell_exec'] = array('status' => $shell);
-$response['ffmpeg'] = array('path' => $ffmpeg, 'status' => $ffmpegStatus);
-$response['ffprobe'] = array('path' => $ffprobe, 'status' => $ffprobeStatus);
+$response['ffmpeg'] = array('path' => $ffmpegPath, 'status' => $ffmpegStatus);
+$response['ffprobe'] = array('path' => $ffprobePath, 'status' => $ffprobeStatus);
 
 $parameters['response'] = $response;
 $parameters['_title'] = 'Requirements Check';

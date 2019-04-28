@@ -6,18 +6,18 @@ function getPhpVersion() {
 
 function getMysqlVersion() {
   $output = shell_exec('mysql -V'); 
-  preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version); 
-  return $version[0];
+  preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version);
+  return isset($version[0]) ? $version[0] : false;
 }
 
 function hasShellAccess() {
   return is_callable('shell_exec') && false === stripos(ini_get('disable_functions'), 'shell_exec');
 }
 
-function hasFfmpeg() {
-  return shell_exec('which ffmpeg');
+function hasFfmpeg($path = 'which ffmpeg') {
+  return shell_exec($path);
 }
 
-function hasFfprobe() {
-  return shell_exec('which ffprobe');
+function hasFfprobe($path = 'which ffprobe') {
+  return shell_exec($path);
 }
