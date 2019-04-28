@@ -5,7 +5,7 @@
 <div class="content-wrapper bg-light">
   <div class="row">
     <div class="col-lg-9 col-xs-12 col-sm-12">
-      <!-- {% if ad %}
+      {% if ad %}
         <div class="text-center">
           {% if ad.content == 'default' %}
             <img class="mb-2" src="{{_coreUrl}}/media/defaults/ads/728x90.png" title="ad">
@@ -13,7 +13,7 @@
             {{ad.content|raw}}
           {% endif %}
         </div>
-      {% endif %} -->
+      {% endif %}
       <h4>Browse</h4>
       {% if results %}
         <div class="row">
@@ -24,7 +24,7 @@
         {% if next %}
           <div class="clearfix">
             <div class="text-center">
-              <a href="{{_coreUrl}}/browse/?page={{next}}"><button class="btn btn-primary btn-gradient-primary">Show More</button></a>
+              <a href="{{_coreUrl}}/browse/page/{{next}}"><button class="btn btn-primary btn-gradient-primary">Show More</button></a>
             </div>
           </div>
         {% endif %}

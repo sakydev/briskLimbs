@@ -5,8 +5,8 @@ $videos = new Videos();
 $ads = new Ads();
 
 $size = 12;
-$list = isset($_GET['list']) ? $_GET['list'] : 'all';
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$list = isset($_GET['section']) ? $_GET['section'] : 'all';
+$page = isset($_GET['crumbs']) ? $_GET['crumbs'] : 1;
 $start = ($page - 1) * $size;
 $limit = array($start, $size);
 
