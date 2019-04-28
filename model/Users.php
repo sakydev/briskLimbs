@@ -836,9 +836,11 @@ class Users {
 			$subject = prepareMessage($message['subject'], $fields);
 			$messageBody = prepareMessage($message['message'], $fields);
 			$mail = new Mail();
-			$mail->send($subject, $messageBody, $this->getEmail($user), $user);
+			if ($mail->send($subject, $messageBody, $this->getEmail($user), $user)) {
+				return $status;
+			}
 
-			return $status;
+			return $this->limbs->errors->add('Unable to reset password');
   	}
   }
 
