@@ -5,6 +5,7 @@ if (!$users->isAdmin()) {
   jumpTo('home');
 }
 
+// Use | when / are causing any problems and at end it will be same
 $path = ADDONS_DIRECTORY . '/' . str_replace('|', '/', $_GET['path']);
 if (strstr($path, '?')) {
   $path = substr($path, 0, strpos($path, '?'));
