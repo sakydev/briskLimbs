@@ -1,7 +1,9 @@
 <?php
 
 global $limbs, $users;
-
+if ($users->authenticated()) {
+	jumpTo('home');
+}
 if (isset($_POST['password'])) {
 	$userId = $users->resetCodeExists($_GET['code']);
 	if ($users->resetPassword($userId, $_POST['password'])) {
