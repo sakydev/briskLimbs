@@ -6,7 +6,7 @@ if (!$users->isAdmin()) {
 	jumpTo('home');
 }
 
-$key = $_GET['key'];
+$key = $_GET['section'];
 
 $videos = new Videos();
 $fields = $videos->getFields($key, array('filename', 'date'));

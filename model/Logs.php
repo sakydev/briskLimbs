@@ -16,7 +16,9 @@ class Logs {
 
   function __construct($path) {
     $this->path = $path;
-    $this->initialize();
+    if (!file_exists($path)) {
+      $this->initialize();
+    }
   }
 
   /**
