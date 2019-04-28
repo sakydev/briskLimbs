@@ -193,7 +193,7 @@
 						          <li><a href="{{_adminUrl}}/edit/{{video.vkey}}">Edit</a></li>
 						          <li><a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank">Watch</a></li>
 						          <li class="divider"></li>
-						          <li><a href="{{currentBaseUrl}}&delete={{video.vkey}}">Delete</a></li>
+						          <li><a href="{{currentBaseUrl}}/delete/{{video.vkey}}">Delete</a></li>
                       {% for action in _triggers.admin_videos_actions_bottom %}
                         {% if action is iterable %}
                           {{hook(action|keys|first, video[action|first])}}
