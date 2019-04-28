@@ -201,7 +201,7 @@ function buildPaginationUrl($page) {
 
 function hook($function, $parameters = false) {
 	if (function_exists($function)) {
-		return 'FUCK';
+		return $function($parameters)
 	}
 }
 
