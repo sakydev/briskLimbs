@@ -61,7 +61,7 @@
                 <div class="clearfix mt-1"></div>
                 <strong class="text-muted mb-1">Tags: </strong>{{video.tags}}
                 <div class="d-flex justify-content-between align-items-center mt-1">
-                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}} by <a href="{{_coreUrl}}/channel/?name={{video.uploader_name}}">{{video.uploader_name}}</a></span>
+                  <span class="text-muted"><strong>Published</strong> {{formatDate(video.date)}} by <a href="{{_coreUrl}}/channel/{{video.uploader_name}}">{{video.uploader_name}}</a></span>
                   <span class="text-muted"><strong>Duration</strong> {{formatDuration(video.duration)}}</span>
                 </div>
                 </div>
@@ -163,7 +163,7 @@
                 <div class="col-lg-6 col-sm-6 video-info">
                   <a href="{{_coreUrl}}/watch/{{video.vkey}}">{{video.title}}</a>
                   <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">by <a class="text-muted" href="{{_coreUrl}}/channel/?name={{video.uploader_name}}">{{video.uploader_name}}</a></small>
+                    <small class="text-muted">by <a class="text-muted" href="{{_coreUrl}}/channel/{{video.uploader_name}}">{{video.uploader_name}}</a></small>
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted">{{video.views|number_format}} views</small>
