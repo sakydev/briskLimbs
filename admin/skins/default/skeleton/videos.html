@@ -149,12 +149,12 @@
 	              <td>
                   <div class="image-section">
                     <a href="{{_coreUrl}}/watch/{{video.vkey}}" target="_blank"><img class="card-img-top" src="{{video.thumbnail}}" alt="{{video.title}}" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png';"></a>
-                    <div class="time">{{formatDuration(video.duration)}}</div>
                   </div>
                 </td>
 	              <td title="{{video.title}}">
 	              	<span onclick="window.location='{{_coreUrl}}/watch/{{video.vkey}}'">{{video.truc_title}}</span>
 	              	<span class="clearfix"></span>
+                  <label class="mt-2 badge badge-dark">{{formatDuration(video.duration)}}</label>
                   <label class="mt-2 badge badge-dark">{{video.views|number_format}}</label>
 	              	<label class="mt-2 badge badge-{% if video.status == 'successful'%}success{% elseif video.status == 'pending' %}warning{% else %}danger{% endif %}" title="{% if video.status == 'successful'%}{{video.qualities}}{% endif %}">{{video.status|title}}</label>
 	              	<label class="badge badge-{% if video.state == 'active' %}success{% elseif video.state == 'inactive' %}warning{% else %}danger{% endif %}">{{video.state|title}}</label>
