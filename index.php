@@ -9,7 +9,7 @@ require_once $vendorFile;
 require_once 'config.php';
 global $database;
 $page = isset($_GET['main']) ? $_GET['main'] : false;
-define('IS_ADMIN', isset($_SERVER['REDIRECT_URL']) && strstr($_SERVER['REDIRECT_URL'], '/admin/') ? true : false);
+define('IS_ADMIN', isset($_SERVER['REDIRECT_URL']) && strstr(stringBetween($_SERVER['REDIRECT_URL'], '/', '/'), 'admin') ? true : false);
 
 if (!empty($_GET['crumbs']) && ($crumbs = explode('/', $_GET['crumbs']))) {
 	foreach ($crumbs as $key => $value) {
