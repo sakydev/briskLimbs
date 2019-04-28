@@ -40,4 +40,5 @@ if ($code) {
 
 $parameters['code'] = $code;
 $parameters['_title'] = 'Forgot';
+$parameters['_errors'] = $limbs->errors->collect();
 $limbs->display('forgot.html', $parameters);
