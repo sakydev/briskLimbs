@@ -14,10 +14,10 @@ function hasShellAccess() {
   return is_callable('shell_exec') && false === stripos(ini_get('disable_functions'), 'shell_exec');
 }
 
-function hasFfmpeg($path = 'which ffmpeg') {
-  return shell_exec($path);
+function hasFfmpeg($path) {
+  return strstr(shell_exec("$path 2>&1"), 'ffmpeg version');
 }
 
-function hasFfprobe($path = 'which ffprobe') {
-  return shell_exec($path);
+function hasFfprobe($path) {
+  return strstr(shell_exec("$path --version 2>&1"), 'ffprobe version');
 }
