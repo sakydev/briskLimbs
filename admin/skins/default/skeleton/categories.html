@@ -56,41 +56,41 @@
                 </tr>
               </thead>
               <tbody>
-            {% for category in results %}
-              <tr>
-                <td>
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{category.id}}" categoryid="{{category.id}}" {% if category.id != '1' %} disabled="true" {% endif %}>
-                    <label class="custom-control-label custom-sub-check" for="check-{{category.id}}"></label>
-                  </div>
-                </td>
-                <td>{{category.id}}</td>
-                <td>{{category.name}}</td>
-                <td>{{category.description}}</td>
-                <td><label class="mt-2 badge badge-{% if category.status == 'active' %}success{% else %}danger{% endif %}">{{category.status}}</label></td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn btn-gradient-primary btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      Actions
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      <li><a href="{{_adminUrl}}/categories/edit/{{category.id}}">Edit</a></li>
-                      {% if category.id != '1' %}
-                        {% if category.status == 'active' %}
-                          <li><a href="{{_adminUrl}}/categories/list/deactivate/{{category.id}}">Deactivate</a></li>
-                        {% else %}
-                          <li><a href="{{_adminUrl}}/categories/list/activate/{{category.id}}">Activate</a></li>
-                        {% endif %}
-                        <li class="divider"></li>
-                        <li><a href="{{_adminUrl}}/categories/list/delete/{{category.id}}">Delete</a></li>
-                      {% endif %}
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
+                {% for category in results %}
+                  <tr>
+                    <td>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input bulk-check-sub" id="check-{{category.id}}" categoryid="{{category.id}}" {% if category.id == '1' %} disabled="true" {% endif %}>
+                        <label class="custom-control-label custom-sub-check" for="check-{{category.id}}"></label>
+                      </div>
+                    </td>
+                    <td>{{category.id}}</td>
+                    <td>{{category.name}}</td>
+                    <td>{{category.description}}</td>
+                    <td><label class="mt-2 badge badge-{% if category.status == 'active' %}success{% else %}danger{% endif %}">{{category.status}}</label></td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-gradient-primary btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                          Actions
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                          <li><a href="{{_adminUrl}}/categories/edit/{{category.id}}">Edit</a></li>
+                          {% if category.id != '1' %}
+                            {% if category.status == 'active' %}
+                              <li><a href="{{_adminUrl}}/categories/list/deactivate/{{category.id}}">Deactivate</a></li>
+                            {% else %}
+                              <li><a href="{{_adminUrl}}/categories/list/activate/{{category.id}}">Activate</a></li>
+                            {% endif %}
+                            <li class="divider"></li>
+                            <li><a href="{{_adminUrl}}/categories/list/delete/{{category.id}}">Delete</a></li>
+                          {% endif %}
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
           </table>
           {% else %}
             <div class="alert alert-warning">No results found</div>
