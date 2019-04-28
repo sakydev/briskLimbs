@@ -5,7 +5,7 @@ $videos = new Videos();
 $ads = new Ads();
 
 $size = 12;
-$channel = isset($_GET['name']) ? $_GET['name'] : false;
+$channel = isset($_GET['section']) ? $_GET['section'] : false;
 if (!$channel) {
   $limbs->displayErrorPage( array(), 'Invalid channel name');
 }

@@ -62,7 +62,7 @@
         {% if next %}
           <div class="clearfix">
             <div class="text-center">
-              <a href="{{_coreUrl}}/channel/?name={{user.username}}&page={{next}}"><button class="btn btn-primary btn-gradient-primary">Show More</button></a>
+              <a href="{{_coreUrl}}/channel/{{user.username}}/page/{{next}}"><button class="btn btn-primary btn-gradient-primary">Show More</button></a>
             </div>
           </div>
         {% endif %}
