@@ -7,7 +7,7 @@ The fastest video sharing software created with both webmasters and developers i
 - [Getting Started](#getting-started)
     - [Requirments](#requirments)
     - [Recomendations](#recomendations)
-    - [Installation](#installation)
+    - [Quick Installation](#installation)
 - [Upcoming Release](https://github.com/briskLimbs/briskLimbs/projects/1)
 - [Official Addons](#official-addons)
 - [Frequently Asked Questions](#faq)
@@ -24,7 +24,7 @@ The fastest video sharing software created with both webmasters and developers i
 ### Why BriskLimbs
 There aren't many open source video solutions out there. The ones that exist are mostly painful to deal with. The frustration of having to go back and forth with customer support, lack of documentation and having to figure things out yourself, claiming features that aren't even half built and lots of similiar issues is the reason why we created BriskLimbs.
 
-We have the detremination to always put the community first and build things people actually want. We aren't hiding behind open source curtain looking at your wallets and instead want to share solutions with the world in purest sense of open source. 
+We are focused on building this project in pursest sense of open source. We have the detremination to always put the community first and build things people actually want.
 
 ### Getting Started
 It is easy to get started with BriskLimbs no matter if you are a developer or a webmaster with no technical knowledge. 
@@ -75,7 +75,6 @@ Are you having problems installing? Shoot an email at brisklimbs@gmail.com and w
 #### Official Addons
 Addons allow you to extend basic functionality of BriskLimbs by adding new features, enhancing existing ones or simply making something easier. 
 
-- [Pages](https://github.com/briskLimbs/pages): Add, manage and display custom pages
 - [TagsDip](https://github.com/briskLimbs/tagsDip): Add custom CSS, JavaScript or any other tags in Header or Footer of website
 - [TwitFeed](https://github.com/briskLimbs/twitFeed): Show Twitter timeline anywhere
 - [SocialCrow](https://github.com/briskLimbs/socialCrow): Show social page buttons
@@ -119,11 +118,14 @@ BriskLimbs uses mp4 as standard format and can convert several other formats to 
     - VOB
 
 ### Contribute
-[Coding Conventions](https://github.com/briskLimbs/briskLimbs/wiki/Coding-Style-Guide)
+First of all, we are honoured that you consisdered us worthy of your time, your grace :)
 
-[Addons: Development & usage](https://github.com/briskLimbs/briskLimbs/wiki/Hello-World-Addon)
+We'll be super excited to have you on board and you can get started in few simple steps. 
 
-[Skins: Development & usage](https://github.com/briskLimbs/briskLimbs/wiki/Hello-World-Skin)
+1. Please make sure to read [Coding Conventions](https://github.com/briskLimbs/briskLimbs/wiki/Coding-Style-Guide) and [Addon Development](https://github.com/briskLimbs/briskLimbs/wiki/How-to:-Addons) if you are planning to build addons
+2. Fork this project, make any changes as you see fit and send us a pull request
+
+And that's it. :) 
 
 #### Directory structure
 ```
