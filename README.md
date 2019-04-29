@@ -8,7 +8,6 @@ The fastest video sharing software created with both webmasters and developers i
     - [Requirments](#requirments)
     - [Recomendations](#recomendations)
     - [Quick Installation](#installation)
-- [Upcoming Release](https://github.com/briskLimbs/briskLimbs/projects/1)
 - [Official Addons](#official-addons)
 - [Frequently Asked Questions](#faq)
 - [Contribute](#contribute)
