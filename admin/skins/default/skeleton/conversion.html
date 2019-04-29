@@ -219,22 +219,21 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group row">
-            <label class="col-sm-12 col-form-label">Watermark</label>
-            <div class="custom-file col-sm-12">
-              <input type="file" class="custom-file-input" name="watermark" id="custom-watermark">
-              <label class="custom-file-label" for="custom-watermark">Select watermark</label>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="row">
         <div class="col-md-4">
           <div class="form-group row">
+            <label class="col-sm-12 col-form-label">Watermark</label>
+            <div class="custom-file col-sm-12">
+              <input type="file" name="watermark" id="custom-watermark">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
             <label class="col-sm-12 col-form-label">Watermark Preview</label>
             <div class="col-sm-12">
-              <img src="{{_coreUrl}}/media/watermark.png">
+              <img src="{{_coreUrl}}/media/watermark.png" onerror="this.src = '{{_mediaUrl}}/defaults/thumbnail.png'; this.width=100">
             </div>
           </div>
         </div>

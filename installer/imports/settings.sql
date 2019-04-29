@@ -76,16 +76,16 @@ INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 (38, 'fullhd_vbitrate', '4992'),
 (39, 'fullhd_abitrate', '128'),
 (40, 'watermark_placement', 'right:bottom'),
-(41, 'enable_watermark', 'yes'),
-(42, 'enable_pre_clip', 'yes'),
-(44, 'enable_post_clip', 'yes'),
-(45, 'mailer_host', 'smtp.gmail.com'),
+(41, 'enable_watermark', 'no'),
+(42, 'enable_pre_clip', 'no'),
+(44, 'enable_post_clip', 'no'),
+(45, 'mailer_host', 'smtp.mailgun.org'),
 (46, 'mailer_port', '587'),
 (47, 'mailer_smtp_secure', 'tls'),
-(49, 'mailer_email', 'brisklimbs@gmail.com'),
+(49, 'mailer_email', 'admin@yourwebsite.com'),
 (50, 'mailer_smpt_username', ''),
 (51, 'mailer_smpt_password', ''),
-(53, 'mailer_sender_email', 'brisklimbs@gmail.com'),
+(53, 'mailer_sender_email', 'admin@yourwebsite.com'),
 (54, 'mailer_sender_name', 'Admin');
 
 --
