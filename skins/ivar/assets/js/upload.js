@@ -49,13 +49,18 @@ uploader.bind('FileUploaded', function(uploader, FileUploaded, object) {
           filename : objectResponse.filename
 
         }
-      }).done(function(msg) {
-        if (msg.id) {
+      }).done(function(result) {
+        if (result.id) {
           $('#finish-upload').attr('disabled', false).text('Update');
-          $('#finish-upload').attr('videoid', msg.id);
+          $('#finish-upload').attr('videoid', result.id);
           $('#upload-messages').addClass('alert-success').text('Video has been uploaded successfully. You can edit it in videos manager').fadeIn();
         } else {
-          $('#upload-messages').addClass('alert-danger').text('Something went wrong trying to update video');
+          $('#finish-upload').text('Upload failed');
+          if (result.status == 'error') {
+            $('#upload-messages').addClass('alert-danger').text(result.message);
+          } else {
+            $('#upload-messages').addClass('alert-danger').text('Something went wrong trying to update video');
+          }
         }
       }).fail(function(err){
         console.log(err);
