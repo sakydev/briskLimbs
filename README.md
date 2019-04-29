@@ -54,9 +54,9 @@ Once you have installed and configured all required tools you can begin installi
 
 ###### Latest Stable Version
 ```
-wget https://github.com/briskLimbs/briskLimbs/archive/v1.0.1.zip
-unzip briskLimbs-1.0.1.zip
-cd briskLimbs-1.0.1
+wget https://github.com/briskLimbs/briskLimbs/archive/v2.0-stable.zip
+unzip briskLimbs-2.0-stable.zip
+cd briskLimbs-2.0-stable
 composer install
 ```
 
