@@ -179,7 +179,8 @@ function prepareMessage($message, $fields = false) {
 function buildUrl($parameters, $append = array(), $skip = array()) {
 	$skip = array_merge($skip, array('activate', 'deactivate', 'delete', 'main', 'section', 'crumbs', 'feature', 'unfeature'));
 	$parameters = array_merge($parameters, $append);
-	$base = defined('IS_ADMIN') ? CORE_URL . '/admin' : CORE_URL;
+	$base = defined('IS_ADMIN') && IS_ADMIN == true ? CORE_URL . '/admin' : CORE_URL;
+	
 	$url = $base . '/' . $parameters['main'];
 	if (isset($parameters['section'])) {
 		$url .= '/' . $parameters['section'];

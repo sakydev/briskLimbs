@@ -4,6 +4,7 @@ global $limbs, $users;
 $settings = $limbs->settings;
 
 if (!$users->authenticated()) {
+  exit("NOPE");
 	jumpTo('home');
 }
 
@@ -41,7 +42,7 @@ $parameters['video'] = $data;
 $parameters['categories'] = $activeCategories;
 $parameters['_errors'] = $limbs->errors->collect();
 
-if (!$videos->validatePermissions($key)) {
+if (!$videos->validatePermissions($vkey)) {
   $limbs->displayErrorPage($parameters, "You don't have permissions to edit this video");
 } else {
   $limbs->display('edit.html', $parameters);
