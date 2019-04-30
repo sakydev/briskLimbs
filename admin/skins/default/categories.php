@@ -48,7 +48,7 @@ if (isset($_POST['name']) && !isset($_POST['edit'])) {
 
 if (isset($_POST['edit'])) {
 	unset($_POST['edit']);
-	if ($categories->update($_GET['id'], $_POST)) {
+	if ($categories->update($_GET['crumbs'], $_POST)) {
 		$parameters['message'] = 'Category updated successfully';
 	}
 }
@@ -77,9 +77,13 @@ $listParameters = array();
 $listParameters['sort'] = 'id';
 $results = $categories->list($listParameters);
 
+if (isset($_GET['crumbs']) && !strstr($_GET['crumbs'], '/')) {
+	$results = $categories->get($_GET['crumbs']);
+}
+
 $totalFound = count($results);
 $parameters['total'] = $total = $categories->count($listParameters);
-$parameters['results'] = !isset($_GET['crumbs']) ? $results : $categories->get($_GET['crumbs']);
+$parameters['results'] = $results;
 $parameters['mainSection'] = 'categories';
 $parameters['action'] = $_GET['section'];
 
