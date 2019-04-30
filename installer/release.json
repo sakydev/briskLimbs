@@ -1,8 +1,8 @@
 {
-  "version": "2.0",
+  "version": "2.0.1",
   "state": "Stable",
   "release": {
-    "name": "Raven",
+    "name": "Cockroach",
     "date": "22nd April, 2019",
     "author": "BriskLimbs"
   }
