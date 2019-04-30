@@ -181,11 +181,15 @@
 
         <div class="text-center mt-5">
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="{{pagination.first.url}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+            {% if pagination.first.page < pagination.last.page %}
+              <a href="{{pagination.first.url}}"><button type="button" class="btn btn-outline-primary">First</button></a>
+            {% endif %}
             {% for page in pagination.pages %}
               <a href="{{page.url}}"><button type="button" class="btn btn{% if page.page != pagination.current.page %}-outline{% endif %}-primary">{{page.page}}</button></a>
             {% endfor %}
-            <a href="{{pagination.last.url}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+            {% if pagination.last.page > pagination.first.page %}
+              <a href="{{pagination.last.url}}"><button type="button" class="btn btn-outline-primary">Last</button></a>
+            {% endif %}
           </div>
         </div>
       </div>
