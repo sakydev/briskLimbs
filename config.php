@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 'On');
-error_reporting(-1);
-
 if (!file_exists(__DIR__ . '/configs/db.php')) {
   header("Location: installer/install.php");
   exit;
