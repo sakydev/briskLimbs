@@ -1,5 +1,4 @@
 The fastest video sharing software created with both webmasters and developers in mind.
-![BriskLimbs Home](http://brisklimbs.com/demo.png?)
 
 ## Table of contents
 
