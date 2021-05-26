@@ -26,9 +26,13 @@ function hasFfprobe() {
 }
 
 function import($username, $password, $database, $pattern = false) {
-  $connection = new mysqli('localhost', $username, $password, $database);
-  if ($connection->connect_error) {
-    return $connection->connect_error;
+  try {
+    $connection = @new mysqli('localhost', $username, $password, $database);
+    if ($connection->connect_error) {
+      return $connection->connect_error;
+    }
+  } catch (Exception $e) {
+    echo $e;
   }
 
   $files = glob(INSTALLER_CORE . '/imports/*.sql');
