@@ -30,7 +30,7 @@ if (isset($_POST['username'])) {
     <label for="username" class="float-left mt-2">Database Username</label>
     <input type="user" name="username" class="form-control" placeholder="Database username here" required autofocus>
     <label for="password" class="float-left mt-2">Database Password</label>
-    <input type="password" name="password" class="form-control" placeholder="Database password here" required>
+    <input type="password" name="password" class="form-control" placeholder="Database password here">
     <label for="database" class="float-left mt-2">Database Name</label>
     <input type="database" name="database" class="form-control" placeholder="Database name here" required>
     <button class="btn btn-primary mt-2" type="submit" value="install">Install</button>
