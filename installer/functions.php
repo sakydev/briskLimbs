@@ -8,9 +8,9 @@ function getPhpVersion() {
 }
 
 function getMysqlVersion() {
-  $output = shell_exec('mysql -V'); 
-  preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version); 
-  return $version[0];
+  $output = shell_exec('mysql -V');
+  preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version);
+  return isset($version[0]) ? $version[0] : false;
 }
 
 function hasShellAccess() {
@@ -50,7 +50,7 @@ function import($username, $password, $database, $pattern = false) {
       fclose($handle);
     } else {
       // error opening the file.
-    } 
+    }
   }
 
   $coreUrl = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
