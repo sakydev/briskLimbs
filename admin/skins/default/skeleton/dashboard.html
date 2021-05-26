@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    
+
 <div class="content-wrapper bg-light">
   <div class="col-12 grid-margin">
 	<h4>Admin Dashboard</h4>
@@ -12,20 +12,6 @@
     {% for error in _errors %}
       <div class="alert alert-danger">{{error}}</div>
     {% endfor %}
-    <div class="card" style="border-radius: 4px;margin-bottom: 10px;">
-		  <div class="card-header">
-		    BriskLimbs News
-		  </div>
-		  <div class="card-body" style="height: 250px; overflow-y: scroll;">
-		    {% for content in news %}
-		    	<blockquote class="blockquote">
-			  	<h6 class="card-title">{{content.subject}}</h6>
-			      <p>{{content.message}}</p>
-			      <footer class="blockquote-footer">Published <cite title="Source Title">{{formatDate(content.published)}}</cite></footer>
-			    </blockquote>
-		    {% endfor %}
-		  </div>
-		</div>
 
     <div class="card">
     	<div class="card-header">
@@ -74,12 +60,12 @@
 			axisY: {
 				title: "Uploads"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Uploads",
-				dataPoints: [      
+				dataPoints: [
 					{ y: {{stats.uploads.yesterday}}, label: "Yesterday" },
 					{ y: {{stats.uploads.today}}, label: "Today" },
 				]
@@ -96,9 +82,9 @@
 			axisY: {
 				title: "Uploads"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Uploads",
 				dataPoints: {{stats.uploads.last_week|raw}}
@@ -115,9 +101,9 @@
 			axisY: {
 				title: "Uploads"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Uploads",
 				dataPoints: {{stats.uploads.before_last_week|raw}}
@@ -134,9 +120,9 @@
 			axisY: {
 				title: "Uploads"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Uploads",
 				dataPoints: {{stats.uploads.last_month|raw}}
@@ -153,9 +139,9 @@
 			axisY: {
 				title: "Uploads"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Uploads",
 				dataPoints: {{stats.uploads.before_last_month|raw}}
@@ -172,9 +158,9 @@
 			axisY: {
 				title: "Total"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Conversions",
 				dataPoints: {{stats.conversions.today|raw}}
@@ -191,9 +177,9 @@
 			axisY: {
 				title: "Total"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Conversions",
 				dataPoints: {{stats.conversions.yesterday|raw}}
@@ -210,9 +196,9 @@
 			axisY: {
 				title: "Total"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Conversions",
 				dataPoints: {{stats.conversions.last_week|raw}}
@@ -229,9 +215,9 @@
 			axisY: {
 				title: "Total"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Conversions",
 				dataPoints: {{stats.conversions.before_last_week|raw}}
@@ -248,9 +234,9 @@
 			axisY: {
 				title: "Total"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Conversions",
 				dataPoints: {{stats.conversions.last_month|raw}}
@@ -267,9 +253,9 @@
 			axisY: {
 				title: "Total"
 			},
-			data: [{        
-				type: "column",  
-				showInLegend: true, 
+			data: [{
+				type: "column",
+				showInLegend: true,
 				legendMarkerColor: "grey",
 				legendText: "Total Conversions",
 				dataPoints: {{stats.conversions.before_last_month|raw}}
@@ -280,6 +266,6 @@
 	}
 </script>
 <!-- content-wrapper ends -->
-        
-        
+
+
 {% endblock %}

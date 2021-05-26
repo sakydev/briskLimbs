@@ -39,11 +39,8 @@ $monthStart = date('Y-m-d', strtotime('-60 days'));
 $uploads['before_last_month'] = json_encode($limbs->database->rawQuery("SELECT DATE(date) AS label,COUNT(*) AS y FROM videos WHERE date BETWEEN '$monthStart' AND '$monthEnd' GROUP BY DATE(date)"));
 $conversions['before_last_month'] = json_encode($limbs->database->rawQuery("SELECT status AS label, COUNT(*) AS y FROM videos WHERE date BETWEEN '$monthStart' AND '$monthEnd' GROUP BY status"));
 
-$news = json_decode(file_get_contents('http://brisklimbs.com/adminsApi/news'), true);
-
 $stats['uploads'] = $uploads;
 $stats['conversions'] = $conversions;
-$parameters['news'] = $news;
 $parameters['mainSection'] = 'dashboard';
 $parameters['_errors'] = $limbs->errors->collect();
 $parameters['_title'] = 'Admin Dashboard';
