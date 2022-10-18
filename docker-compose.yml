@@ -1,0 +1,49 @@
+version: '3.5'
+
+volumes:
+  search-data-redis:
+    driver: local
+  # data-varnish:
+  #   driver: local
+
+
+services:
+  brisk.http:
+    container_name: brisk.http
+    build:
+      context: ./docker/brisk.http
+
+    restart: "unless-stopped"
+    ports:
+      - "80:80"
+
+    environment:
+      ENV:
+      REDIS_HOST: brisk.redis
+      REDIS_CLIENT: predis
+
+    volumes:
+      - './src/:/home/brisk.http/'
+  mysql:
+    image: mysql/mysql-server:8.0.23
+    container_name: brisk.mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: brisk
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "9906:3306"
+
+  redis:
+    image: redis
+    container_name: brisk.redis
+    restart: always
+    ports:
+      - "${REDIS_LISTEN:-127.0.0.1:6379:6379}"
+
+    # volumes:
+    #   - ./local/redis.conf:/usr/local/etc/redis/redis.conf
+    # command: redis-server /usr/local/etc/redis/redis.conf
+
+
