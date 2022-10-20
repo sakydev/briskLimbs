@@ -19,6 +19,7 @@
     <link href="{{ asset("_tabler/css/tabler-payments.min.css") }}" rel="stylesheet"/>
     <link href="{{ asset("_tabler/css/tabler-vendors.min.css") }}" rel="stylesheet"/>
     <link href="{{ asset("_tabler/css/demo.min.css") }}" rel="stylesheet"/>
+    <link href="{{ asset("_tabler/css/custom.css") }}" rel="stylesheet"/>
     <style>
         @import url('https://rsms.me/inter/inter.css');
         :root {
