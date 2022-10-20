@@ -18,7 +18,9 @@ Route::get('/', function () {
 });
 
 Route::view('/blank', 'blank');
+Route::view('/login', 'login');
+Route::view('/signup', 'signup');
 
-Auth::routes();
+#Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

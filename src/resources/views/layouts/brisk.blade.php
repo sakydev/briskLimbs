@@ -31,12 +31,17 @@
 <script src="{{ asset("_tabler/js/demo-theme.min.js") }}"></script>
 <div class="page">
     <!-- Navbar -->
-    @include('partials.header-top')
-    @include('partials.header-secondary')
+    @if(!isset($override_default_layout))
+        @include('partials.header-top')
+        @include('partials.header-secondary')
+    @endif
     <div class="page-wrapper">
         <!-- Page body -->
         @yield('content')
-        @include('partials.footer')
+
+        @if(!isset($override_default_layout))
+            @include('partials.footer')
+        @endif
     </div>
 </div>
 <!-- Libs JS -->
