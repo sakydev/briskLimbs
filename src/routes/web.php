@@ -21,6 +21,8 @@ Route::view('/blank', 'blank');
 Route::view('/login', 'login');
 Route::view('/signup', 'signup');
 
+Route::view('/admin/blank', 'admin/blank');
+
 #Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
