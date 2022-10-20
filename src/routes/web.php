@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::view('/blank', 'blank');
 Route::view('/login', 'login');
 Route::view('/signup', 'signup');
+Route::view('/upload', 'upload');
 
 Route::view('/admin/blank', 'admin/blank');
 
