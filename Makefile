@@ -45,36 +45,36 @@ logs:																		    ## Show php container logs
 
 .PHONY: copy-env
 copy-env:																	    ## Copy .env.example to .env
-	$(DOCKER_COMPOSE_CMD) exec -T php cp .env.example .env
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http cp .env.example .env
 
 .PHONY: key-generate
 key-generate:																	## Run laravel key generation
-	$(DOCKER_COMPOSE_CMD) exec -T php php artisan key:generate
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http php artisan key:generate
 
 .PHONY: composer-install
 composer-install:																## Run composer install
-	$(DOCKER_COMPOSE_CMD) exec -T php composer install
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http composer install
 
 .PHONY: npm-install
 npm-install:																	## Run npm install
-	$(DOCKER_COMPOSE_CMD) exec -T php npm install
-	$(DOCKER_COMPOSE_CMD) exec -T php npm run dev
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http npm install
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http npm run dev
 
 .PHONY: migrate
 migrate:																		## Migrations
-	$(DOCKER_COMPOSE_CMD) exec -T php php artisan migrate
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http php artisan migrate
 
 .PHONY: migrate-fresh
 migrate-fresh:																	## Clear DB and migrate from scratch
-	$(DOCKER_COMPOSE_CMD) exec -T php php artisan migrate:fresh --seed
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http php artisan migrate:fresh --seed
 
 .PHONY: clear-cache
 clear-cache:																	## Clear all cache
-	$(DOCKER_COMPOSE_CMD) exec -T php php artisan optimize:clear
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http php artisan optimize:clear
 
 .PHONY: seed
 seed:																			## Seeds
-	$(DOCKER_COMPOSE_CMD) exec -T php php artisan db:seed
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http php artisan db:seed
 
 #.PHONY: test
 #test:									 										## Execute tests
