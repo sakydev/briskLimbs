@@ -5,11 +5,12 @@
     <div class="container container-tight py-4">
         <form class="card card-md" method="POST" action="{{ route('password.update') }}">
             @csrf
+            <input type="hidden" name="token" value="{{ $token }}">
             <div class="card-body">
                 <h2 class="card-title text-center mb-4">Reset password</h2>
                 <div class="mb-3">
                     <label class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control @if ($errors->has('email')) is-invalid @endif" placeholder="snow@thewall.com" value="{{ old('email') }}" required>
+                    <input type="email" name="email" class="form-control @if ($errors->has('email')) is-invalid @endif" placeholder="snow@thewall.com" value="{{ $email ?? old('email')  }}" required>
                     @error('email')
                     <div class="invalid-feedback">
                         <strong>{{ $message }}</strong>
@@ -27,8 +28,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                    @error('password')
+                    <input id="password" name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="****" required autocomplete="new-password">
+                    @error('password_confirmation')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
