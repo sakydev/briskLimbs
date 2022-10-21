@@ -18,10 +18,9 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Username</label>
-                                        <input type="text" name="username" class="form-control" placeholder="Jon"
-                                               required>
+                                        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" placeholder="Jon" required>
                                         @error('username')
-                                        <span class="invalid-feedback" role="alert">
+                                            <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
@@ -34,15 +33,9 @@
                                             </span>
                                         </label>
                                         <div class="input-group input-group-flat">
-                                            <input type="password" name="password" class="form-control"
-                                                   placeholder="Your password" autocomplete="off" required>
-                                            <span class="input-group-text">
-                                                <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
-                                                    @include('svg.icons.eye')
-                                                </a>
-                                            </span>
+                                            <input type="password" name="password" class="form-control @error('username') is-invalid @enderror" placeholder="Your password" autocomplete="off" required>
                                             @error('password')
-                                            <span class="invalid-feedback" role="alert">
+                                                <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
