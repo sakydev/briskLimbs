@@ -3,9 +3,6 @@ version: '3.5'
 volumes:
   search-data-redis:
     driver: local
-  # data-varnish:
-  #   driver: local
-
 
 services:
   brisk.http:
@@ -24,6 +21,7 @@ services:
 
     volumes:
       - './src/:/home/brisk.http/'
+
   mysql:
     image: mysql/mysql-server:8.0.23
     container_name: brisk.mysql
@@ -41,9 +39,3 @@ services:
     restart: always
     ports:
       - "${REDIS_LISTEN:-127.0.0.1:6379:6379}"
-
-    # volumes:
-    #   - ./local/redis.conf:/usr/local/etc/redis/redis.conf
-    # command: redis-server /usr/local/etc/redis/redis.conf
-
-
