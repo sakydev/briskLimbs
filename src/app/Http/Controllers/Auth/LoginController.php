@@ -43,8 +43,8 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|min:4',
+            'password' => 'required|min:4',
         ]);
 
         $credentials = $request->only('username', 'password');
@@ -52,6 +52,6 @@ class LoginController extends Controller
             return redirect()->route('home');
         }
 
-        return redirect("login")->withErrors('You have entered invalid credentials');
+        return redirect('login')->withErrors('You have entered invalid credentials');
     }
 }
