@@ -10,30 +10,30 @@
                 <h2 class="card-title text-center mb-4">Reset password</h2>
                 <div class="mb-3">
                     <label class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control @if ($errors->has('email')) is-invalid @endif" placeholder="snow@thewall.com" value="{{ $email ?? old('email')  }}" required>
-                    @error('email')
-                    <div class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                    </div>
-                    @enderror
+                    @include('components.fields.general', [
+                        'name' => 'email',
+                        'type' => 'email',
+                        'placeholder' => 'snow@thewall.com',
+                        'required' => true,
+                    ])
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control @if ($errors->has('password')) is-invalid @endif" placeholder="****" required>
-                    @error('password')
-                    <div class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                    </div>
-                    @enderror
+                    @include('components.fields.general', [
+                        'name' => 'password',
+                        'type' => 'password',
+                        'placeholder' => '****',
+                        'required' => true,
+                    ])
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input id="password" name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="****" required autocomplete="new-password">
-                    @error('password_confirmation')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    @include('components.fields.general', [
+                        'name' => 'password_confirmation',
+                        'type' => 'password',
+                        'placeholder' => '****',
+                        'required' => true,
+                    ])
                 </div>
                 <div class="form-footer">
                     @include('components.button', [

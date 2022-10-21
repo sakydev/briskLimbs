@@ -9,12 +9,12 @@
                 <h2 class="card-title text-center mb-4">Reset password</h2>
                 <div class="mb-3">
                     <label class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control @if ($errors->has('email')) is-invalid @endif" placeholder="snow@thewall.com" value="{{ old('email') }}" required>
-                    @error('email')
-                    <div class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                    </div>
-                    @enderror
+                    @include('components.fields.general', [
+                        'name' => 'email',
+                        'type' => 'email',
+                        'placeholder' => 'snow@thewall.com',
+                        'required' => true,
+                    ])
                 </div>
                 <div class="form-footer">
                     @include('components.button', [
