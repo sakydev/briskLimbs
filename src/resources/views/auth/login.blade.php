@@ -18,12 +18,11 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Username</label>
-                                        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" placeholder="Jon" required>
-                                        @error('username')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        @include('components.fields.general', [
+                                            'name' => 'username',
+                                            'placeholder' => 'Jon Snow',
+                                            'required' => true,
+                                        ])
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">
@@ -33,12 +32,12 @@
                                             </span>
                                         </label>
                                         <div class="input-group input-group-flat">
-                                            <input type="password" name="password" class="form-control @error('username') is-invalid @enderror" placeholder="Your password" autocomplete="off" required>
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                            @include('components.fields.general', [
+                                                'name' => 'password',
+                                                'type' => 'password',
+                                                'placeholder' => '****',
+                                                'required' => true,
+                                            ])
                                         </div>
                                     </div>
                                     <div class="mb-2">
