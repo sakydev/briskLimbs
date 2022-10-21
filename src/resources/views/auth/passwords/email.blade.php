@@ -3,7 +3,7 @@
 @section('content')
     <div class="page page-center">
         <div class="container container-tight py-4">
-            <form class="card card-md" method="POST" action="{{ route('password.email') }}"">
+            <form class="card card-md" method="POST" action="{{ route('password.email') }}">
             @csrf
             <div class="card-body">
                 <h2 class="card-title text-center mb-4">Reset password</h2>
