@@ -12,7 +12,7 @@
                     <h2 class="card-title text-center mb-4">Create new account</h2>
                     <div class="mb-3">
                         <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" placeholder="Jon Snow" required>
+                        <input type="text" name="username" class="form-control @if ($errors->has('username')) is-invalid @endif" placeholder="Jon Snow" value="{{ old('username') }}" required>
                         @error('username')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -21,27 +21,22 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email address</label>
-                        <input type="email" name="email" class="form-control" placeholder="snow@thewall.com" required>
+                        <input type="email" name="email" class="form-control @if ($errors->has('email')) is-invalid @endif" placeholder="snow@thewall.com" value="{{ old('email') }}" required>
                         @error('email')
-                            <span class="invalid-feedback" role="alert">
+                            <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
                         <div class="input-group input-group-flat">
-                            <input type="password" name="password" class="form-control"  placeholder="****"  autocomplete="off" required>
-                            <span class="input-group-text">
-                            <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
-                            @include('svg.icons.eye')
+                            <input type="password" name="password" class="form-control @if ($errors->has('password')) is-invalid @endif"  placeholder="****"  autocomplete="off" required>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                             @enderror
-                      </a>
-                    </span>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -59,7 +54,7 @@
                 </div>
             </form>
             <div class="text-center text-muted mt-3">
-                Already have account? <a href="./sign-in.html" tabindex="-1">Sign in</a>
+                Already have account? <a href="{{ route('login') }}" tabindex="-1">Login</a>
             </div>
         </div>
     </div>
