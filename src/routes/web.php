@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'home');
 
 Route::view('/blank', 'blank');
-Route::view('/upload', 'upload');
+Route::view('/upload', 'upload')->name('upload-video');
 
 Route::view('/admin/blank', 'admin/blank');
 
