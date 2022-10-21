@@ -43,7 +43,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|min:4',
+            'username' => 'required|min:3',
             'password' => 'required|min:4',
         ]);
 
