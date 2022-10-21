@@ -9,37 +9,59 @@
             </a>
         </h1>
         <div class="navbar-nav flex-row order-md-last">
-            <div class="nav-item d-none d-md-flex me-3">
-                <div class="btn-list">
-                    @include('components.button', [
-                        'modifier_class' => 'btn-outline-default',
-                        'icon' => 'svg.icons.login',
-                        'text' => 'Login',
-                    ])
-                    @include('components.button', [
-                        'modifier_class' => 'btn-outline-primary',
-                        'icon' => 'svg.icons.userplus',
-                        'text' => 'Signup',
-                    ])
-                </div>
-            </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    <span class="avatar avatar-sm" style="background-image: url({{ asset("_tabler/static/avatars/000m.jpg") }})"></span>
-                    <div class="d-none d-xl-block ps-2">
-                        <div>Paweł Kuna</div>
-                        <div class="mt-1 small text-muted">UI Designer</div>
+            @guest
+                <div class="nav-item d-none d-md-flex me-3">
+                    <div class="btn-list">
+                        @include('components.button-link', [
+                            'modifier_class' => 'btn-outline-default',
+                            'icon' => 'svg.icons.login',
+                            'text' => 'Login',
+                            'link' => route('login'),
+                        ])
+                        @include('components.button-link', [
+                            'modifier_class' => 'btn-outline-primary',
+                            'icon' => 'svg.icons.userplus',
+                            'text' => 'Register',
+                            'link' => route('register'),
+                        ])
                     </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="#" class="dropdown-item">Status</a>
-                    <a href="#" class="dropdown-item">Profile</a>
-                    <a href="#" class="dropdown-item">Feedback</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="./settings.html" class="dropdown-item">Settings</a>
-                    <a href="./sign-in.html" class="dropdown-item">Logout</a>
                 </div>
-            </div>
+            @else
+                <div class="nav-item d-none d-md-flex me-3">
+                    <div class="btn-list">
+                        @include('components.button', [
+                            'modifier_class' => 'btn-outline-primary',
+                            'icon' => 'svg.icons.upload',
+                            'text' => 'Upload',
+                            'link' => route('upload-video'),
+                        ])
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                        <span class="avatar avatar-sm" style="background-image: url({{ asset("_tabler/static/avatars/000m.jpg") }})"></span>
+                        <div class="d-none d-xl-block ps-2">
+                            <div>Paweł Kuna</div>
+                            <div class="mt-1 small text-muted">UI Designer</div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <a href="#" class="dropdown-item">Status</a>
+                        <a href="#" class="dropdown-item">Profile</a>
+                        <a href="#" class="dropdown-item">Feedback</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="./settings.html" class="dropdown-item">Settings</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            @endguest
         </div>
     </div>
 </header>
