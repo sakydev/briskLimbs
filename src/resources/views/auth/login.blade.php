@@ -30,7 +30,7 @@
                                         <label class="form-label">
                                             Password
                                             <span class="form-label-description">
-                                                <a href="./forgot-password.html">I forgot password</a>
+                                                <a href="{{ route('password.request')  }}">I forgot password</a>
                                             </span>
                                         </label>
                                         <div class="input-group input-group-flat">
