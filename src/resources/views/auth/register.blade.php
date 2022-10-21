@@ -6,37 +6,37 @@
             <div class="text-center mb-4">
                 <a href="." class="navbar-brand navbar-brand-autodark"><img src="{{ asset("_tabler/static/logo.svg") }}" height="36" alt=""></a>
             </div>
+            @include('components.errors')
             <form class="card card-md" action="{{ route("register") }}" method="POST">
                 @csrf
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Create new account</h2>
                     <div class="mb-3">
                         <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" placeholder="Enter name" value="{{ old('name') }}" required>
-                        @error('username')
-                            <div class="invalid-feedback">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
+                        @include('components.fields.general', [
+                            'name' => 'username',
+                            'placeholder' => 'Jon Snow',
+                            'required' => true,
+                        ])
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email address</label>
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Enter email" required>
-                        @error('email')
-                            <div class="invalid-feedback">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror
+                        @include('components.fields.general', [
+                            'name' => 'email',
+                            'type' => 'email',
+                            'placeholder' => 'snow@thewall.com',
+                            'required' => true,
+                        ])
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
                         <div class="input-group input-group-flat">
-                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"  placeholder="Password"  autocomplete="off" required>
-                            @error('password')
-                                <div class="invalid-feedback">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                            @enderror
+                            @include('components.fields.general', [
+                                'name' => 'password',
+                                'type' => 'password',
+                                'placeholder' => '****',
+                                'required' => true,
+                            ])
                         </div>
                     </div>
                     <div class="mb-3">
