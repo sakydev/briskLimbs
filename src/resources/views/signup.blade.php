@@ -6,24 +6,40 @@
             <div class="text-center mb-4">
                 <a href="." class="navbar-brand navbar-brand-autodark"><img src="{{ asset("_tabler/static/logo.svg") }}" height="36" alt=""></a>
             </div>
-            <form class="card card-md" action="./" method="get" autocomplete="off" novalidate>
+            <form class="card card-md" action="{{ route('register') }}" method="POST" autocomplete="off">
+                @csrf
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4">Create new account</h2>
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" placeholder="Enter name">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="Jon Snow" required>
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email address</label>
-                        <input type="email" class="form-control" placeholder="Enter email">
+                        <input type="email" name="email" class="form-control" placeholder="snow@thewall.com" required>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
                         <div class="input-group input-group-flat">
-                            <input type="password" class="form-control"  placeholder="Password"  autocomplete="off">
+                            <input type="password" name="password" class="form-control"  placeholder="****"  autocomplete="off" required>
                             <span class="input-group-text">
-                      <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
-                          @include('svg.icons.eye')
+                            <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
+                            @include('svg.icons.eye')
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                       </a>
                     </span>
                         </div>
