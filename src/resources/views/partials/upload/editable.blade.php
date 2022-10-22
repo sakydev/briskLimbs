@@ -1,11 +1,11 @@
-<div id="editable-upload" class="col-md-6">
+<div id="editable-upload" class="col-md-6 d-none">
     <div class="progress mb-2">
         <div class="progress-bar" id="upload-progress" style="width: 38%" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100" aria-label="38% Complete">
             <span class="visually-hidden">38% Complete</span>
         </div>
         <br>
     </div>
-    <small class="text-muted">Upload <span id="total-uploaded"></span> of <span id="upload-total-size"></span> bytes</small>
+    <small class="text-muted">Uploaded <span id="total-uploaded"></span> of <span id="upload-total-size"></span> bytes</small>
     <div class="card mt-3">
         <div class="card-header">
             <h3 class="card-title">Edit video details</h3>
@@ -17,6 +17,7 @@
                     <div>
                         @include('components.fields.text', [
                             'name' => 'title',
+                            'modifier_id' => 'upload-title',
                             'required' => true,
                             'placeholder' => 'Jon Snow climbs the wall',
                             'hint' => 'Captivate your audience with an interesting title'
@@ -28,6 +29,7 @@
                     <div>
                         @include('components.fields.textarea', [
                             'name' => 'description',
+                            'modifier_id' => 'upload-description',
                             'required' => true,
                             'placeholder' => 'He was alone. The others were scared to follow.',
                             'hint' => 'Explain what your video is about.',
@@ -52,6 +54,7 @@
                 <div class="form-footer">
                     @include('components.button', [
                             'modifier_class' => 'btn-outline-success',
+                            'modifier_id' => 'video-update',
                             'type' => 'submit',
                             'text' => 'Update',
                     ])
