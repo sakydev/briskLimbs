@@ -18,18 +18,6 @@
     <script>
         // @formatter:off
         document.addEventListener("DOMContentLoaded", function() {
-            new Dropzone("#dropzone-default")
-        })
-    </script>
-    <script>
-        // @formatter:off
-        document.addEventListener("DOMContentLoaded", function() {
-            new Dropzone("#dropzone-multiple")
-        })
-    </script>
-    <script>
-        // @formatter:off
-        document.addEventListener("DOMContentLoaded", function() {
             new Dropzone("#dropzone-custom")
         })
     </script>
