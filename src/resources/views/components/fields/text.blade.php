@@ -1,4 +1,4 @@
-<input type="text" name="{{ $name }}" class="form-control {{ $modifier_class ?? null }} @error($name) is-invalid @enderror" placeholder="{{ $placeholder ?? env('text_placeholder') }}" required="{{ $required ?? false }}">
+<input type="text" name="{{ $name }}" id="{{ $modifier_id ?? null }}" class="form-control {{ $modifier_class ?? null }} @error($name) is-invalid @enderror" placeholder="{{ $placeholder ?? env('text_placeholder') }}" required="{{ $required ?? false }}">
 @isset($hint)
     <small class="form-hint">{{ $hint }}</small>
 @endisset

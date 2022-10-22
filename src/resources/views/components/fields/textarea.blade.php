@@ -1,4 +1,4 @@
-<textarea name="{{ $name }}" class="form-control {{ $modifier_class ?? null }} @error($name) is-invalid @enderror" placeholder="{{ $placeholder ?? env('text_placeholder') }}" rows="{{ $rows ?? null }}">
+<textarea name="{{ $name }}" id="{{ $modifier_id ?? null }}" class="form-control {{ $modifier_class ?? null }} @error($name) is-invalid @enderror" placeholder="{{ $placeholder ?? env('text_placeholder') }}" rows="{{ $rows ?? null }}">
     {{ $value ?? null }}
 </textarea>
 @isset($hint)
