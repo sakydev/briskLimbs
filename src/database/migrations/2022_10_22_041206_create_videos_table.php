@@ -32,9 +32,9 @@ return new class extends Migration
             $table->string('tags');
             $table->integer('total_views');
             $table->integer('total_comments');
-            $table->int('allow_comments'); // 1: yes, 0:no
-            $table->int('allow_embed'); // 1: yes, 0:no
-            $table->int('allow_download'); // 1: yes, 0:no
+            $table->integer('allow_comments'); // 1: yes, 0:no
+            $table->integer('allow_embed'); // 1: yes, 0:no
+            $table->integer('allow_download'); // 1: yes, 0:no
             $table->string('server_url');
             $table->timestamp('converted_at')->useCurrent();
 
