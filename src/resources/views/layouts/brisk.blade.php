@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     @include('partials.head')
-    @if($injectStyleSheets)
+    @if(isset($injectStyleSheets))
         @foreach($injectStyleSheets as $styleSheet)
             <link href="{{ asset($styleSheet) }}" rel="stylesheet"/>
         @endforeach
@@ -26,7 +26,7 @@
 <script src="{{ asset("_tabler/js/tabler.min.js") }}" defer></script>
 <script src="{{ asset("_tabler/js/demo.min.js") }}" defer></script>
 
-@if($injectScripts)
+@if(isset($injectScripts))
     @foreach($injectScripts as $script)
         <script src="{{ asset($script) }}" defer></script>
     @endforeach
