@@ -1,7 +1,13 @@
-@extends('layouts.brisk')
+@extends('layouts.brisk', [
+    'injectStyleSheets' => [
+        '_tabler/libs/dropzone/dist/dropzone.css'
+    ],
+    'injectScripts' => [
+        '_tabler/libs/dropzone/dist/dropzone-min.js'
+    ],
+])
 
 @section('content')
-    <link href="{{ asset("_tabler/libs/dropzone/dist/dropzone.css") }}" rel="stylesheet"/>
     <div class="page-body">
         <div class="container-xl">
             <div class="row justify-content-center">
@@ -9,7 +15,6 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset("_tabler/libs/dropzone/dist/dropzone-min.js") }}" defer></script>
     <script>
         // @formatter:off
         document.addEventListener("DOMContentLoaded", function() {
