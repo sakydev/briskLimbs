@@ -42,7 +42,7 @@
                     <div class="mb-3">
                         <label class="form-check">
                             <input type="checkbox" class="form-check-input"/>
-                            <span class="form-check-label">Agree the <a href="./terms-of-service.html" tabindex="-1">terms and policy</a>.</span>
+                            <span class="form-check-label">Agree the <a href="{{ URL("pages/terms") }}" tabindex="-1">terms and policy</a>.</span>
                         </label>
                     </div>
                     <div class="form-footer">
