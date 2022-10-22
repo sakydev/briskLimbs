@@ -1,8 +1,8 @@
-<div class="col-10">
+<div id="draggable-upload" class="col-10">
     <div class="card">
         <div class="card-body mb-3">
             <h3 class="card-title">Upload Video</h3>
-            <form class="dropzone" id="dropzone-custom" action="./" autocomplete="off" novalidate>
+            <form class="dropzone" id="dropzone-custom" method="POST" action="{{ route('store_video') }}">
                 <div class="fallback">
                     <input name="file" type="file"  />
                 </div>
