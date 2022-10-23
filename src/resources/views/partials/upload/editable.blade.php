@@ -1,4 +1,4 @@
-<div id="editable-upload" class="col-md-6">
+<div id="editable-upload" class="col-md-6 d-none">
     <div id="messages-container" class="alert alert-success d-none"></div>
     <div id="errors-container" class="alert alert-danger d-none"></div>
     <div class="progress mb-2">

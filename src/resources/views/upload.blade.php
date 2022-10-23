@@ -70,7 +70,7 @@
         function showMessage(message) {
             const messageContainer = document.getElementById('messages-container');
             messageContainer.innerHTML = buildMessageDisplay(message);
-            showElement('message-container');
+            showElement('messages-container');
         }
 
         function showErrors(errors) {
@@ -106,7 +106,9 @@
                 },
                 success: function (file, response) {
                     if (response.success && response.message) {
+                        document.getElementById('video-update').setAttribute('videoId', response.data.id);
                         showMessage(response.message);
+                        enableButton('video-update');
                     }
 
                     if (response.errors) {
