@@ -1,7 +1,7 @@
 <div id="editable-upload" class="col-md-6 d-none">
     <div class="progress mb-2">
-        <div class="progress-bar" id="upload-progress" style="width: 38%" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100" aria-label="38% Complete">
-            <span class="visually-hidden">38% Complete</span>
+        <div class="progress-bar" id="upload-progress" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% Complete">
+            <span class="visually-hidden">0% Complete</span>
         </div>
         <br>
     </div>
