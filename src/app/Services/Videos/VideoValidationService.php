@@ -16,6 +16,8 @@ class VideoValidationService
                 'description' => 'User must be active in order to upload videos',
             ];
         }
+
+        return null;
     }
 
     public function validateRequest(array $input): ?array
@@ -23,8 +25,12 @@ class VideoValidationService
         $rules = [
             'file' => [
                 'required',
-                'mimes:' . env('support_video_formats'),
-                'max:' . env('max_video_upload_size'),
+                'mimes:' . str_replace(
+                    '.',
+                    '',
+                    config('settings.supported_formats_video')
+                ),
+                'max:' . config('settings.max_filesize_video') * 1000,
 
             ],
             'title' => ['required', 'string', 'min:10', 'max:100'],
