@@ -21,6 +21,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'status',
+        'level',
     ];
 
     /**
@@ -43,6 +45,7 @@ class User extends Authenticatable
     ];
 
     public const ACTIVE_STATE = 'active';
+    public const DEFAULT_LEVEL = 5;
 
     public function canUpload(): bool
     {
