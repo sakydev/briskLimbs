@@ -38,12 +38,12 @@
             return filename.replaceAll('-', ' ');
         }
 
-        function hideForm(formId) {
-            document.getElementById(formId).classList.add('d-none');
+        function hideElement(elementId) {
+            document.getElementById(elementId).classList.add('d-none');
         }
 
-        function showForm(formId) {
-            document.getElementById(formId).classList.remove('d-none');
+        function showElement(elementId) {
+            document.getElementById(elementId).classList.remove('d-none');
         }
 
         function disableButton(buttonId) {
@@ -70,7 +70,7 @@
         function showMessage(message) {
             const messageContainer = document.getElementById('messages-container');
             messageContainer.innerHTML = buildMessageDisplay(message);
-            messageContainer.classList.remove('d-none');
+            showElement('message-container');
         }
 
         function showErrors(errors) {
@@ -79,7 +79,7 @@
                 errorsContainer.innerHTML += buildMessageDisplay(error);
             });
 
-            errorsContainer.classList.remove('d-none');
+            showElement('errors-container');
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -91,9 +91,9 @@
                 acceptedFiles: "{{ config('settings.supported_formats_video') }}",
                 timeout: 50000,
                 addedfile: function (file) {
-                    hideForm('draggable-upload');
+                    hideElement('draggable-upload');
                     disableButton('video-update');
-                    showForm('editable-upload');
+                    showElement('editable-upload');
                     fillEditableForm(file.name);
                 },
                 sending: function(file, xhr, formData) {
