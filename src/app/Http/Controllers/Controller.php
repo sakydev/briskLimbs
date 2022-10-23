@@ -12,8 +12,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function sendErrorJsonResponse(mixed $data): JsonResponse
+    public function sendErrorJsonResponse(array $data): JsonResponse
     {
-        return new JsonResponse($data);
+        return new JsonResponse(['success' => false, 'errors' => $data]);
     }
 }
