@@ -21,8 +21,6 @@ Route::view('/', 'home');
 Route::view('/blank', 'blank');
 Route::view('/admin/blank', 'admin/blank');
 
-Route::view('/upload', 'upload')->name('upload-video');
-
 Route::prefix('videos')->middleware('auth')->group(function () {
     Route::post('/', [VideoController::class, 'store'])->name('store_video');
     Route::put('/{video}', [VideoController::class, 'update'])->name('update_video');
