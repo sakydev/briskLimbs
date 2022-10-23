@@ -59,13 +59,7 @@ class VideoController extends Controller
             return $this->sendErrorJsonResponse([__('video.errors.failed_upload')]);
         }
 
-        $created = $this->videoRepository->create(
-            $input,
-            $vkey,
-            $filename,
-            $user->getAuthIdentifier(),
-        );
-
+        $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
         if (!$created) {
             return $this->sendErrorJsonResponse([__('general.errors.database.failed_insert')]);
         }

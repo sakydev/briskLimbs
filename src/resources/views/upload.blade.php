@@ -3,7 +3,8 @@
         '_tabler/libs/dropzone/dist/dropzone.css'
     ],
     'injectScripts' => [
-        '_tabler/libs/dropzone/dist/dropzone-min.js'
+        '_tabler/libs/dropzone/dist/dropzone-min.js',
+        '_tabler/js/custom.js'
     ],
 ])
 
@@ -38,30 +39,10 @@
             return filename.replaceAll('-', ' ');
         }
 
-        function hideElement(elementId) {
-            document.getElementById(elementId).classList.add('d-none');
-        }
-
-        function showElement(elementId) {
-            document.getElementById(elementId).classList.remove('d-none');
-        }
-
-        function disableButton(buttonId) {
-            document.getElementById(buttonId).setAttribute('disabled', '');
-        }
-
-        function enableButton(buttonId) {
-            document.getElementById(buttonId).removeAttribute('disabled');
-        }
-
-        function buildMessageDisplay(message) {
-            return '<p><strong>' + message + '</strong></p>';
-        }
-
         function showMessage(message) {
             const messageContainer = document.getElementById('messages-container');
             messageContainer.innerHTML = buildMessageDisplay(message);
-            showElement('messages-container');
+            showElementById('messages-container');
         }
 
         function showErrors(errors) {
@@ -70,7 +51,7 @@
                 errorsContainer.innerHTML += buildMessageDisplay(error);
             });
 
-            showElement('errors-container');
+            showElementById('errors-container');
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -82,9 +63,9 @@
                 acceptedFiles: "{{ config('settings.supported_formats_video') }}",
                 timeout: 50000,
                 addedfile: function (file) {
-                    hideElement('draggable-upload');
-                    disableButton('video-update');
-                    showElement('editable-upload');
+                    hideElementById('draggable-upload');
+                    disableButtonById('video-update');
+                    showElementById('editable-upload');
                     fillEditableForm(file.name);
                 },
                 sending: function(file, xhr, formData) {
@@ -99,7 +80,7 @@
                     if (response.success && response.message) {
                         document.getElementById('video-update').setAttribute('videoId', response.data.id);
                         showMessage(response.message);
-                        enableButton('video-update');
+                        enableButtonById('video-update');
                     }
 
                     if (response.errors) {
