@@ -9,7 +9,6 @@
 ])
 
 @section('content')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="page-body">
         <div class="container-xl">
             <div class="row justify-content-center">
@@ -19,40 +18,40 @@
         </div>
     </div>
     <script>
-        function fillEditableForm(filename) {
-            const formattedName = formatFileName(filename);
-            $('#upload-title').val(formattedName);
-            $('#upload-description').val(formattedName);
-        }
-
-        function fillUploadProgress(filesize, progress, bytesSent) {
-            $('#total-uploaded').text(Math.floor(bytesSent / 1000));
-            $('#upload-total-size').text(Math.floor(filesize / 1000));
-            $('#upload-progress').css('width', progress + "%")
-        }
-
-        function formatFileName(filename) {
-            return filename.replaceAll('-', ' ');
-        }
-
-        function showMessage(message) {
-            $('messages-container').html(buildMessageDisplay(message));
-            showElement('#messages-container');
-        }
-
-        function showErrors(errors) {
-            const errorsContainer = document.getElementById('errors-container');
-            errors.forEach((error) => {
-                errorsContainer.innerHTML += buildMessageDisplay(error);
-            });
-
-            showElement('#errors-container');
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
+            function fillEditableForm(filename) {
+                const formattedName = formatFileName(filename);
+                $('#upload-title').val(formattedName);
+                $('#upload-description').val(formattedName);
+            }
+
+            function fillUploadProgress(filesize, progress, bytesSent) {
+                $('#total-uploaded').text(Math.floor(bytesSent / 1000));
+                $('#upload-total-size').text(Math.floor(filesize / 1000));
+                $('#upload-progress').css('width', progress + "%")
+            }
+
+            function formatFileName(filename) {
+                return filename.replaceAll('-', ' ');
+            }
+
+            function showMessage(message) {
+                $('#messages-container').html(buildMessageDisplay(message));
+                showElement('#messages-container');
+            }
+
+            function showErrors(errors) {
+                const errorsContainer = document.getElementById('errors-container');
+                errors.forEach((error) => {
+                    errorsContainer.innerHTML += buildMessageDisplay(error);
+                });
+
+                showElement('#errors-container');
+            }
+
             let dropzone = new Dropzone("#dropzone-custom", {
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
                 maxFilesize: {{ config('settings.max_filesize_video') }},
                 acceptedFiles: "{{ config('settings.supported_formats_video') }}",
@@ -73,7 +72,7 @@
                 },
                 success: function (file, response) {
                     if (response.success && response.message) {
-                        document.getElementById('video-update').setAttribute('videoId', response.data.id);
+                        $('#video-update').prop('videoId', response.data.id);
                         hideElement('#progress-section');
                         showMessage(response.message);
                         enableButton('#video-update');
@@ -86,6 +85,40 @@
                 error: function (file, response) {
                     return false;
                 }
+            });
+
+            $('#video-update').on('click', function(e) {
+                e.preventDefault();
+                disableButton('#video-update');
+
+                let url = '{{ route('update_video', ['video' => '__#__']) }}';
+                url = url.replace('__#__', $(this).prop('videoId'));
+
+                let data = {
+                    'title': $('#upload-title').val(),
+                    'description': $('#upload-description').val(),
+                    'scope': $('#upload-scope').val(),
+                    '_token': '{{ csrf_token() }}',
+                }
+
+                $.ajax({
+                    type: 'PUT',
+                    url: url,
+                    contentType: 'application/json',
+                    data: JSON.stringify(data), // access in body
+                }).done(function (response) {
+                    if (response.success && response.message) {
+                        showMessage(response.message);
+                    }
+
+                    if (response.errors) {
+                        showErrors(response.errors);
+                    }
+                }).fail(function (response) {
+                    console.log('FAIL');
+                }).always(function (response) {
+                    enableButton('#video-update');
+                });
             });
         });
 

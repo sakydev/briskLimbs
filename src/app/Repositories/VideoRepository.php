@@ -15,4 +15,9 @@ class VideoRepository
 
         return Video::create($input);
     }
+
+    public function updateById(array $input, int $videoId): ?int
+    {
+        return Video::where('id', $videoId)->update($input);
+    }
 }
