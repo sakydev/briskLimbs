@@ -1,4 +1,4 @@
-<select name="{{ $name }}" class="form-select {{ $modifier_class ?? null }} @error($name) is-invalid @enderror">
+<select name="{{ $name }}" id="{{ $modifier_id ?? null }}" class="form-select {{ $modifier_class ?? null }} @error($name) is-invalid @enderror">
     @foreach($options as $value => $option)
         <option value="{{ $value }}" @if(!empty($selected) && $value === $selected) selected="selected" @endif>
             {{ $option }}

@@ -46,6 +46,7 @@
                     <div>
                         @include('components.fields.select', [
                             'name' => 'scope',
+                            'modifier_id' => 'upload-scope',
                             'hint' => 'Who should see your video',
                             'options' => [
                                 'public' => 'Public',
