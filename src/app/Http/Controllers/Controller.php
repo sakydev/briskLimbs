@@ -17,8 +17,13 @@ class Controller extends BaseController
         return new JsonResponse(['success' => false, 'errors' => $errors, 'data' => []]);
     }
 
-    public function sendSuccessJsonResponse(mixed $data): JsonResponse
+    public function sendSuccessJsonResponse(string $message, mixed $data): JsonResponse
     {
-        return new JsonResponse(['success' => true, 'errors' => false, 'data' => $data]);
+        return new JsonResponse([
+            'success' => true,
+            'errors' => false,
+            'message' => $message,
+            'data' => $data,
+        ]);
     }
 }
