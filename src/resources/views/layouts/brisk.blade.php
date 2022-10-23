@@ -25,6 +25,7 @@
 </div>
 <script src="{{ asset("_tabler/js/tabler.min.js") }}" defer></script>
 <script src="{{ asset("_tabler/js/demo.min.js") }}" defer></script>
+<script src="{{ asset("_tabler/js/jquery.min.js") }}" defer></script>
 
 @if(isset($injectScripts))
     @foreach($injectScripts as $script)

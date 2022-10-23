@@ -21,18 +21,14 @@
     <script>
         function fillEditableForm(filename) {
             const formattedName = formatFileName(filename);
-            document.getElementById('upload-title').value = formattedName;
-            document.getElementById('upload-description').innerText = formattedName;
+            $('#upload-title').val(formattedName);
+            $('#upload-description').val(formattedName);
         }
 
         function fillUploadProgress(filesize, progress, bytesSent) {
-            let uploadedSpan = document.getElementById('total-uploaded');
-            let totalSpan = document.getElementById('upload-total-size');
-            let progressElement = document.getElementById("upload-progress");
-
-            uploadedSpan.textContent = Math.floor(bytesSent / 1000);
-            totalSpan.textContent = Math.floor(filesize / 1000);
-            progressElement.style.width = progress + "%";
+            $('#total-uploaded').text(Math.floor(bytesSent / 1000));
+            $('#upload-total-size').text(Math.floor(filesize / 1000));
+            $('#upload-progress').css('width', progress + "%")
         }
 
         function formatFileName(filename) {
@@ -40,9 +36,8 @@
         }
 
         function showMessage(message) {
-            const messageContainer = document.getElementById('messages-container');
-            messageContainer.innerHTML = buildMessageDisplay(message);
-            showElementById('messages-container');
+            $('messages-container').html(buildMessageDisplay(message));
+            showElement('#messages-container');
         }
 
         function showErrors(errors) {
@@ -51,7 +46,7 @@
                 errorsContainer.innerHTML += buildMessageDisplay(error);
             });
 
-            showElementById('errors-container');
+            showElement('#errors-container');
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -63,9 +58,9 @@
                 acceptedFiles: "{{ config('settings.supported_formats_video') }}",
                 timeout: 50000,
                 addedfile: function (file) {
-                    hideElementById('draggable-upload');
-                    disableButtonById('video-update');
-                    showElementById('editable-upload');
+                    hideElement('#draggable-upload');
+                    disableButton('#video-update');
+                    showElement('#editable-upload');
                     fillEditableForm(file.name);
                 },
                 sending: function(file, xhr, formData) {
@@ -79,8 +74,9 @@
                 success: function (file, response) {
                     if (response.success && response.message) {
                         document.getElementById('video-update').setAttribute('videoId', response.data.id);
+                        hideElement('#progress-section');
                         showMessage(response.message);
-                        enableButtonById('video-update');
+                        enableButton('#video-update');
                     }
 
                     if (response.errors) {
@@ -91,6 +87,7 @@
                     return false;
                 }
             });
-        })
+        });
+
     </script>
 @endsection

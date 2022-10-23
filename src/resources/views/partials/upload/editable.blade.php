@@ -1,13 +1,15 @@
 <div id="editable-upload" class="col-md-6 d-none">
     <div id="messages-container" class="alert alert-success d-none"></div>
     <div id="errors-container" class="alert alert-danger d-none"></div>
-    <div class="progress mb-2">
-        <div class="progress-bar" id="upload-progress" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% Complete">
-            <span class="visually-hidden">0% Complete</span>
+    <div id="progress-section">
+        <div class="progress mb-2">
+            <div class="progress-bar" id="upload-progress" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% Complete">
+                <span class="visually-hidden">0% Complete</span>
+            </div>
+            <br>
         </div>
-        <br>
+        <small class="text-muted">Uploaded <span id="total-uploaded"></span> of <span id="upload-total-size"></span> bytes</small>
     </div>
-    <small class="text-muted">Uploaded <span id="total-uploaded"></span> of <span id="upload-total-size"></span> bytes</small>
     <div class="card mt-3">
         <div class="card-header">
             <h3 class="card-title">Edit video details</h3>

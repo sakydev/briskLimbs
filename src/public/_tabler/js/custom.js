@@ -1,17 +1,17 @@
-function hideElementById(elementId) {
-    document.getElementById(elementId).classList.add('d-none');
+function hideElement(element) {
+    $(element).addClass('d-none');
 }
 
-function showElementById(elementId) {
-    document.getElementById(elementId).classList.remove('d-none');
+function showElement(element) {
+    $(element).removeClass('d-none');
 }
 
-function disableButtonById(buttonId) {
-    document.getElementById(buttonId).setAttribute('disabled', '');
+function disableButton(button) {
+    $(button).prop('disabled', 'disabled');
 }
 
-function enableButtonById(buttonId) {
-    document.getElementById(buttonId).removeAttribute('disabled');
+function enableButton(button) {
+    $(button).prop('disabled', false);
 }
 
 function buildMessageDisplay(message) {
