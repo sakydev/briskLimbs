@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Repositories\VideoRepository;
 use App\Services\Videos\VideoService;
 use App\Services\Videos\VideoUploadService;
@@ -34,6 +35,9 @@ class VideoController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        /**
+         * @var User $user
+         */
         $user = Auth::user();
         $input = $request->all();
 
@@ -52,7 +56,7 @@ class VideoController extends Controller
 
         $stored = $this->videoUploadService->store($request->file, $filename);
         if (!$stored) {
-            return $this->sendErrorJsonResponse(['title' => 'Failed to store', 'description' => '']);
+            return $this->sendErrorJsonResponse([__('video.errors.failed_upload')]);
         }
 
         $created = $this->videoRepository->create(
@@ -63,10 +67,10 @@ class VideoController extends Controller
         );
 
         if (!$created) {
-            return $this->sendErrorJsonResponse(['title' => 'Failed to save video in database', 'description' => '']);
+            return $this->sendErrorJsonResponse([__('general.errors.database.failed_insert')]);
         }
 
-        return $this->sendSuccessJsonResponse('Video saved successfully', [
+        return $this->sendSuccessJsonResponse(__('video.success_video_save'), [
             'id' => $created['id'],
             'vkey' => $created['vkey'],
             'filename' => $created['filename'],

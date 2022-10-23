@@ -11,10 +11,7 @@ class VideoValidationService
     {
         $errors = [];
         if (!$user->canUpload()) {
-            $errors[] = [
-                'title' => 'Permissions issue',
-                'description' => 'User must be active in order to upload videos',
-            ];
+            $errors[] = __('video.errors.failed_upload_permissions');
 
             return $errors;
         }
@@ -43,10 +40,7 @@ class VideoValidationService
         $errors = [];
         if ($validator->fails()) {
             foreach ($validator->messages()->get('*') as $title => $description) {
-                $errors[] = [
-                    'title' => $title,
-                    'description' => current($description),
-                ];
+                $errors[] = sprintf("%s: %s", $title, $description);
             }
 
             return $errors;

@@ -55,15 +55,6 @@
         }
 
         function buildMessageDisplay(message) {
-            if (message.title) {
-                let response = '<p><strong>' + message.title + '</strong>';
-                if (message.description) {
-                    response += ': ' + message.description;
-                }
-
-                return response + '</p>';
-            }
-
             return '<p><strong>' + message + '</strong></p>';
         }
 
