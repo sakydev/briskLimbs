@@ -10,7 +10,7 @@ class VideoValidationService
     public function validateCanUpload(User $user): ?array
     {
         $errors = [];
-        if ($user->status !== User::ACTIVE_STATE) {
+        if (!$user->canUpload()) {
             return $errors[] = [
                 'title' => 'User must be active',
                 'description' => 'User must be active in order to upload videos',
