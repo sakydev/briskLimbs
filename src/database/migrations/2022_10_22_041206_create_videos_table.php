@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->string('vkey');
+            $table->string('filename');
             $table->string('title');
             $table->text('description');
             $table->string('state'); // active, inactive
