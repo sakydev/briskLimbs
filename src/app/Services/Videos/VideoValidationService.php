@@ -19,7 +19,19 @@ class VideoValidationService
         return null;
     }
 
-    public function validateRequest(array $input): ?array
+    public function validateCanUpdate(User $user): ?array
+    {
+        $errors = [];
+        if (!$user->canUpload()) {
+            $errors[] = __('video.errors.failed_upload_permissions');
+
+            return $errors;
+        }
+
+        return null;
+    }
+
+    public function validateUploadRequest(array $input): ?array
     {
         $rules = [
             'file' => [
@@ -40,7 +52,28 @@ class VideoValidationService
         $errors = [];
         if ($validator->fails()) {
             foreach ($validator->messages()->get('*') as $title => $description) {
-                $errors[] = sprintf("%s: %s", $title, $description);
+                $errors[] = sprintf("%s: %s", $title, current($description));
+            }
+
+            return $errors;
+        }
+
+        return null;
+    }
+
+    public function validateUpdateRequest(array $input): ?array
+    {
+        $rules = [
+            'title' => ['sometimes', 'required', 'string', 'min:10', 'max:100'],
+            'description' => ['sometimes', 'required', 'string', 'min:10', 'max:3000'],
+            'scope' => ['sometimes', 'required', 'string', 'in:public,private,unlisted'],
+        ];
+
+        $validator = Validator::make($input, $rules);
+        $errors = [];
+        if ($validator->fails()) {
+            foreach ($validator->messages()->get('*') as $title => $description) {
+                $errors[] = sprintf("%s: %s", $title, current($description));
             }
 
             return $errors;
