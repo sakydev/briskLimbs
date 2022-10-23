@@ -23,7 +23,7 @@ class SettingSeeder extends Seeder
             'directory' => '',
             'url' => 'http://localhost',
             'title_separator' => '-',
-            'supported_formats_video' => 'mp4,mpeg,mov,wmv,flv',
+            'supported_formats_video' => '.mp4,.mpeg,.mov,.wmv,.flv',
             'supported_formats_avatar' => 'jpg,png,jpeg',
             'supported_formats_cover' => 'jpg,png,jpeg',
             'max_filesize_video' => 100,
