@@ -54,6 +54,34 @@
             document.getElementById(buttonId).removeAttribute('disabled');
         }
 
+        function buildMessageDisplay(message) {
+            if (message.title) {
+                let response = '<p><strong>' + message.title + '</strong>';
+                if (message.description) {
+                    response += ': ' + message.description;
+                }
+
+                return response + '</p>';
+            }
+
+            return '<p><strong>' + message + '</strong></p>';
+        }
+
+        function showMessage(message) {
+            const messageContainer = document.getElementById('messages-container');
+            messageContainer.innerHTML = buildMessageDisplay(message);
+            messageContainer.classList.remove('d-none');
+        }
+
+        function showErrors(errors) {
+            const errorsContainer = document.getElementById('errors-container');
+            errors.forEach((error) => {
+                errorsContainer.innerHTML += buildMessageDisplay(error);
+            });
+
+            errorsContainer.classList.remove('d-none');
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             let dropzone = new Dropzone("#dropzone-custom", {
                 headers: {
@@ -77,7 +105,13 @@
                     fillUploadProgress(file.size, progress, bytesSent);
                 },
                 success: function (file, response) {
-                    console.log('success', response);
+                    if (response.success && response.message) {
+                        showMessage(response.message);
+                    }
+
+                    if (response.errors) {
+                        showErrors(response.errors);
+                    }
                 },
                 error: function (file, response) {
                     return false;

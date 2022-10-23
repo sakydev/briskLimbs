@@ -66,7 +66,7 @@ class VideoController extends Controller
             return $this->sendErrorJsonResponse(['title' => 'Failed to save video in database', 'description' => '']);
         }
 
-        return $this->sendSuccessJsonResponse([
+        return $this->sendSuccessJsonResponse('Video saved successfully', [
             'id' => $created['id'],
             'vkey' => $created['vkey'],
             'filename' => $created['filename'],

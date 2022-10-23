@@ -11,10 +11,12 @@ class VideoValidationService
     {
         $errors = [];
         if (!$user->canUpload()) {
-            return $errors[] = [
-                'title' => 'User must be active',
+            $errors[] = [
+                'title' => 'Permissions issue',
                 'description' => 'User must be active in order to upload videos',
             ];
+
+            return $errors;
         }
 
         return null;
