@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class VideoController extends Controller
@@ -42,68 +43,76 @@ class VideoController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        /**
-         * @var User $user
-         */
-        $user = Auth::user();
-        $input = $request->all();
+        try {
+            /**
+             * @var User $user
+             */
+            $user = Auth::user();
+            $input = $request->all();
 
-        $uploadPermissionsErrors = $this->videoValidationService->validateCanUpload($user);
-        if ($uploadPermissionsErrors) {
-            return $this->sendErrorResponseJSON($uploadPermissionsErrors);
+            $uploadPermissionsErrors = $this->videoValidationService->validateCanUpload($user);
+            if ($uploadPermissionsErrors) {
+                return $this->sendErrorResponseJSON($uploadPermissionsErrors);
+            }
+
+            $uploadRequestErrors = $this->videoValidationService->validateUploadRequest($input);
+            if ($uploadRequestErrors) {
+                return $this->sendErrorResponseJSON($uploadRequestErrors);
+            }
+
+            $filename = $this->videoService->generateFilename();
+            $vkey = $this->videoService->generateVkey();
+
+            $stored = $this->videoUploadService->store($request->file, $filename);
+            if (!$stored) {
+                return $this->sendErrorResponseJSON([__('video.errors.failed_upload')]);
+            }
+
+            $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
+            if (!$created) {
+                return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
+            }
+
+            return $this->sendSuccessJsonResponse(__('video.success_save'), [
+                'id' => $created['id'],
+                'vkey' => $created['vkey'],
+                'filename' => $created['filename'],
+            ]);
+        } catch (\Exception $exception) {
+            Log::error('error: save_video => ' . $exception->getMessage());
+            return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }
-
-        $uploadRequestErrors = $this->videoValidationService->validateUploadRequest($input);
-        if ($uploadRequestErrors) {
-            return $this->sendErrorResponseJSON($uploadRequestErrors);
-        }
-
-        $filename = $this->videoService->generateFilename();
-        $vkey = $this->videoService->generateVkey();
-
-        $stored = $this->videoUploadService->store($request->file, $filename);
-        if (!$stored) {
-            return $this->sendErrorResponseJSON([__('video.errors.failed_upload')]);
-        }
-
-        $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
-        if (!$created) {
-            return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
-        }
-
-        return $this->sendSuccessJsonResponse(__('video.success_save'), [
-            'id' => $created['id'],
-            'vkey' => $created['vkey'],
-            'filename' => $created['filename'],
-        ]);
     }
 
-    public function update(Request $request, int $videoId): JsonResponse|RedirectResponse
+    public function update(Request $request, int $videoId): JsonResponse
     {
-        $responseType = $request->getContentType() === 'json' ? 'json' : 'redirect';
+        try {
+            /**
+             * @var User $user
+             */
+            $user = Auth::user();
+            $input = $request->all();
 
-        /**
-         * @var User $user
-         */
-        $user = Auth::user();
-        $input = $request->all();
+            $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user);
+            if ($updatePermissionsErrors) {
+                return $this->sendErrorResponseJSON($updatePermissionsErrors);
+            }
 
-        $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user);
-        if ($updatePermissionsErrors) {
-            return $this->sendErrorResponseJSON($updatePermissionsErrors);
+            $updateRequestErrors = $this->videoValidationService->validateUpdateRequest($input);
+            if ($updateRequestErrors) {
+                return $this->sendErrorResponseJSON($updateRequestErrors);
+            }
+
+            unset($input['_token']);
+            $updated = $this->videoRepository->updateById($input, $videoId);
+            if (!$updated) {
+                return $this->sendErrorResponseJSON([__('general.errors.database.failed_update')]);
+            }
+
+            return $this->sendSuccessJsonResponse(__('video.success_update'), []);
+        } catch (\Exception $exception) {
+            Log::error('error: update_video => ' . $exception->getMessage());
+            return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }
-
-        $updateRequestErrors = $this->videoValidationService->validateUpdateRequest($input);
-        if ($updateRequestErrors) {
-            return $this->sendErrorResponseJSON($updateRequestErrors);
-        }
-
-        unset($input['_token']);
-        $updated = $this->videoRepository->updateById($input, $videoId);
-        if (!$updated) {
-            return $this->sendErrorResponseJSON([__('general.errors.database.failed_update')]);
-        }
-
-        return $this->sendSuccessJsonResponse(__('video.success_update'), []);
     }
 }
