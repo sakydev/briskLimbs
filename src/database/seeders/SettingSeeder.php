@@ -26,10 +26,10 @@ class SettingSeeder extends Seeder
             'supported_formats_video' => '.mp4,.mpeg,.mov,.wmv,.flv',
             'supported_formats_avatar' => 'jpg,png,jpeg',
             'supported_formats_cover' => 'jpg,png,jpeg',
-            'max_filesize_video' => 100,
-            'max_filesize_avatar' => 2,
-            'max_filesize_cover' => 3,
-	        'max_filesize_thumbnail' => 3,
+            'max_filesize_video' => 10485760, // 10MB
+            'max_filesize_avatar' => 2097152, // 2MB
+            'max_filesize_cover' => 3145728, // 3MB
+	        'max_filesize_thumbnail' => 3145728, // 3MB
             'placeholder_text' => 'Enter value',
             'placeholder_email' => 'snow@thewall.com',
             'placeholder_textarea' => 'Enter your input',
