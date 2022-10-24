@@ -3,6 +3,7 @@
 namespace App\Services\Videos;
 
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Support\Facades\Validator;
 
 class VideoValidationService
@@ -19,10 +20,10 @@ class VideoValidationService
         return null;
     }
 
-    public function validateCanUpdate(User $user): ?array
+    public function validateCanUpdate(User $user, Video $video): ?array
     {
         $errors = [];
-        if (!$user->canUpload()) {
+        if ($user->getAuthIdentifier() !== $video->user_id) {
             $errors[] = __('video.errors.failed_upload_permissions');
 
             return $errors;
