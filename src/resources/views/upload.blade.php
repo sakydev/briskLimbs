@@ -87,7 +87,6 @@
                     }
                 },
                 error: function (file, response) {
-                    console.log('error', response);
                     showErrors([response]);
 
                     showElement('#draggable-upload');
@@ -125,7 +124,7 @@
                         showErrors(response.errors);
                     }
                 }).fail(function (response) {
-                    console.log('FAIL');
+                    // FAILED
                 }).always(function (response) {
                     enableButton('#video-update');
                 });
