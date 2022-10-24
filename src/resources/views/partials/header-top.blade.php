@@ -29,11 +29,11 @@
             @else
                 <div class="nav-item d-none d-md-flex me-3">
                     <div class="btn-list">
-                        @include('components.button', [
+                        @include('components.button-link', [
                             'modifier_class' => 'btn-outline-primary',
                             'icon' => 'svg.icons.upload',
                             'text' => 'Upload',
-                            'link' => route('upload-video'),
+                            'link' => route('upload_video'),
                         ])
                     </div>
                 </div>

@@ -8,7 +8,7 @@
                     <div class="container-tight">
                         <div class="text-center mb-4">
                             <a href="." class="navbar-brand navbar-brand-autodark"><img
-                                    src="{{ asset('_tabler/static/logo.svg') }}" height="36" alt=""></a>
+                                        src="{{ asset('_tabler/static/logo.svg') }}" height="36" alt=""></a>
                         </div>
                         @include('components.errors')
                         <div class="card card-md">
@@ -18,7 +18,7 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Username</label>
-                                        @include('components.fields.general', [
+                                        @include('components.fields.text', [
                                             'name' => 'username',
                                             'placeholder' => 'Jon Snow',
                                             'required' => true,
@@ -32,10 +32,8 @@
                                             </span>
                                         </label>
                                         <div class="input-group input-group-flat">
-                                            @include('components.fields.general', [
+                                            @include('components.fields.password', [
                                                 'name' => 'password',
-                                                'type' => 'password',
-                                                'placeholder' => '****',
                                                 'required' => true,
                                             ])
                                         </div>

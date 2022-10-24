@@ -21,6 +21,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'status',
+        'level',
     ];
 
     /**
@@ -41,4 +43,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public const ACTIVE_STATE = 'active';
+    public const DEFAULT_LEVEL = 5;
+
+    public function canUpload(): bool
+    {
+        return $this->status === self::ACTIVE_STATE;
+    }
 }
