@@ -6,6 +6,11 @@ use App\Models\Video;
 
 class VideoRepository
 {
+    public function getById(int $videoId): ?Video
+    {
+        return (new Video())->where('id', $videoId)->first();
+    }
+
     public function create(array $input, string $vkey, string $filename, int $userId): Video
     {
         unset($input['file']);
@@ -13,11 +18,11 @@ class VideoRepository
         $input['filename'] = $filename;
         $input['user_id'] = $userId;
 
-        return Video::create($input);
+        return (new Video())->create($input);
     }
 
     public function updateById(array $input, int $videoId): ?int
     {
-        return Video::where('id', $videoId)->update($input);
+        return (new Video())->where('id', $videoId)->update($input);
     }
 }

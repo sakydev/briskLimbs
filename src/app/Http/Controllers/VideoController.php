@@ -8,11 +8,11 @@ use App\Services\Videos\VideoService;
 use App\Services\Videos\VideoUploadService;
 use App\Services\Videos\VideoValidationService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Exception;
 
 class VideoController extends Controller
 {
@@ -73,12 +73,12 @@ class VideoController extends Controller
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
             }
 
-            return $this->sendSuccessJsonResponse(__('video.success_save'), [
+            return $this->sendSuccessResponseJSON(__('video.success_save'), [
                 'id' => $created['id'],
                 'vkey' => $created['vkey'],
                 'filename' => $created['filename'],
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error('error: save_video => ' . $exception->getMessage());
             return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }
@@ -91,9 +91,10 @@ class VideoController extends Controller
              * @var User $user
              */
             $user = Auth::user();
-            $input = $request->all();
+            $input = $request->except('_token');
+            $video = $this->videoRepository->getById($videoId);
 
-            $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user);
+            $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user, $video);
             if ($updatePermissionsErrors) {
                 return $this->sendErrorResponseJSON($updatePermissionsErrors);
             }
@@ -103,14 +104,13 @@ class VideoController extends Controller
                 return $this->sendErrorResponseJSON($updateRequestErrors);
             }
 
-            unset($input['_token']);
             $updated = $this->videoRepository->updateById($input, $videoId);
             if (!$updated) {
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_update')]);
             }
 
-            return $this->sendSuccessJsonResponse(__('video.success_update'), []);
-        } catch (\Exception $exception) {
+            return $this->sendSuccessResponseJSON(__('video.success_update'), []);
+        } catch (Exception $exception) {
             Log::error('error: update_video => ' . $exception->getMessage());
             return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }

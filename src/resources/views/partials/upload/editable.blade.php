@@ -6,7 +6,7 @@
             </div>
             <br>
         </div>
-        <small class="text-muted">Uploaded <span id="total-uploaded"></span> of <span id="upload-total-size"></span> bytes</small>
+        <small class="text-muted">Uploaded <span id="total-uploaded"></span> of <span id="upload-total-size"></span> KB</small>
     </div>
     <div class="card mt-3">
         <div class="card-header">
