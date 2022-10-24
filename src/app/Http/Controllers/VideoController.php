@@ -36,7 +36,9 @@ class VideoController extends Controller
 
         $iniMaxFilesize = convertToMB(ini_get('upload_max_filesize'));
         $configMaxFilesize = convertToMB(config('settings.max_filesize_video'));
-        $maxFilesizeInMB = min($iniMaxFilesize, $configMaxFilesize);
+
+        // always prefer ini if it is smaller to prevent unexpected errors
+        $maxFilesizeInMB = $iniMaxFilesize < $configMaxFilesize ? $iniMaxFilesize : $configMaxFilesize;
 
         return view('upload', compact('maxFilesizeInMB', 'supportedVideoFormats'));
     }

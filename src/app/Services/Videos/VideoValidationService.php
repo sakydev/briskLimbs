@@ -24,7 +24,7 @@ class VideoValidationService
     {
         $errors = [];
         if ($user->getAuthIdentifier() !== $video->user_id) {
-            $errors[] = __('video.errors.failed_upload_permissions');
+            $errors[] = __('video.errors.failed_update_permissions');
 
             return $errors;
         }
@@ -36,7 +36,9 @@ class VideoValidationService
     {
         $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
         $configMaxFilesize = config('settings.max_filesize_video');
-        $maxFilesize = min($iniMaxFilesize, $configMaxFilesize);
+
+        // always prefer ini if it is smaller to prevent unexpected errors
+        $maxFilesize = $iniMaxFilesize < $configMaxFilesize ? $iniMaxFilesize : $configMaxFilesize;
 
         $rules = [
             'file' => [
