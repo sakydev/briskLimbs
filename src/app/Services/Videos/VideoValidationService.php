@@ -33,6 +33,10 @@ class VideoValidationService
 
     public function validateUploadRequest(array $input): ?array
     {
+        $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
+        $configMaxFilesize = config('settings.max_filesize_video');
+        $maxFilesize = min($iniMaxFilesize, $configMaxFilesize);
+
         $rules = [
             'file' => [
                 'required',
@@ -41,7 +45,7 @@ class VideoValidationService
                     '',
                     config('settings.supported_formats_video')
                 ),
-                'max:' . config('settings.max_filesize_video') * 1000,
+                'max:' . $maxFilesize,
 
             ],
             'title' => ['required', 'string', 'min:10', 'max:100'],

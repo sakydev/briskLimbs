@@ -12,6 +12,8 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row justify-content-center">
+                <div id="messages-container" class="col-8 alert alert-success d-none"></div>
+                <div id="errors-container" class="col-8 alert alert-danger d-none"></div>
                 @include('partials.upload.draggable')
                 @include('partials.upload.editable')
             </div>
@@ -53,11 +55,13 @@
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
-                maxFilesize: {{ config('settings.max_filesize_video') }},
-                acceptedFiles: "{{ config('settings.supported_formats_video') }}",
+                maxFilesize: {{ $maxFilesizeInMB }},
+                acceptedFiles: "{{ $supportedVideoFormats }}",
                 timeout: 50000,
                 addedfile: function (file) {
                     hideElement('#draggable-upload');
+                    hideElement('#errors-container');
+                    hideElement('#messages-container');
                     disableButton('#video-update');
                     showElement('#editable-upload');
                     fillEditableForm(file.name);
@@ -83,6 +87,12 @@
                     }
                 },
                 error: function (file, response) {
+                    console.log('error', response);
+                    showErrors([response]);
+
+                    showElement('#draggable-upload');
+                    hideElement('#editable-upload');
+
                     return false;
                 }
             });

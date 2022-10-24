@@ -1,6 +1,4 @@
-<div id="editable-upload" class="col-md-6 d-none">
-    <div id="messages-container" class="alert alert-success d-none"></div>
-    <div id="errors-container" class="alert alert-danger d-none"></div>
+<div id="editable-upload" class="col-md-8 d-none">
     <div id="progress-section">
         <div class="progress mb-2">
             <div class="progress-bar" id="upload-progress" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="0% Complete">

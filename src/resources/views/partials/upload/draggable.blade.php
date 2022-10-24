@@ -1,4 +1,4 @@
-<div id="draggable-upload" class="col-10">
+<div id="draggable-upload" class="col-8">
     <div class="card">
         <div class="card-body mb-3">
             <h3 class="card-title">Upload Video</h3>
