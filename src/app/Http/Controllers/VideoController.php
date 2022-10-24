@@ -50,12 +50,12 @@ class VideoController extends Controller
 
         $uploadPermissionsErrors = $this->videoValidationService->validateCanUpload($user);
         if ($uploadPermissionsErrors) {
-            return $this->sendErrorJsonResponse($uploadPermissionsErrors);
+            return $this->sendErrorResponseJSON($uploadPermissionsErrors);
         }
 
         $uploadRequestErrors = $this->videoValidationService->validateUploadRequest($input);
         if ($uploadRequestErrors) {
-            return $this->sendErrorJsonResponse($uploadRequestErrors);
+            return $this->sendErrorResponseJSON($uploadRequestErrors);
         }
 
         $filename = $this->videoService->generateFilename();
@@ -63,12 +63,12 @@ class VideoController extends Controller
 
         $stored = $this->videoUploadService->store($request->file, $filename);
         if (!$stored) {
-            return $this->sendErrorJsonResponse([__('video.errors.failed_upload')]);
+            return $this->sendErrorResponseJSON([__('video.errors.failed_upload')]);
         }
 
         $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
         if (!$created) {
-            return $this->sendErrorJsonResponse([__('general.errors.database.failed_insert')]);
+            return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
         }
 
         return $this->sendSuccessJsonResponse(__('video.success_save'), [
@@ -90,18 +90,18 @@ class VideoController extends Controller
 
         $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user);
         if ($updatePermissionsErrors) {
-            return $this->sendErrorJsonResponse($updatePermissionsErrors);
+            return $this->sendErrorResponseJSON($updatePermissionsErrors);
         }
 
         $updateRequestErrors = $this->videoValidationService->validateUpdateRequest($input);
         if ($updateRequestErrors) {
-            return $this->sendErrorJsonResponse($updateRequestErrors);
+            return $this->sendErrorResponseJSON($updateRequestErrors);
         }
 
         unset($input['_token']);
         $updated = $this->videoRepository->updateById($input, $videoId);
         if (!$updated) {
-            return $this->sendErrorJsonResponse([__('general.errors.database.failed_update')]);
+            return $this->sendErrorResponseJSON([__('general.errors.database.failed_update')]);
         }
 
         return $this->sendSuccessJsonResponse(__('video.success_update'), []);
