@@ -31,7 +31,13 @@ class VideoController extends Controller
 
     public function create(): View
     {
-        return view('upload');
+        $supportedVideoFormats = config('settings.supported_formats_video');
+
+        $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
+        $configMaxFilesize = config('settings.max_filesize_video');
+        $maxFilesizeInMB = min($iniMaxFilesize, $configMaxFilesize);
+
+        return view('upload', compact('maxFilesizeInMB', 'supportedVideoFormats'));
     }
 
     public function store(Request $request): JsonResponse
