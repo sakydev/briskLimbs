@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,10 +18,23 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // admin user with all access
+        User::factory()->create([
+            'username' => 'brisklimbs',
+            'email' => 'brisklimbs@local.com',
+            'level' => 1,
+            'status' => 'active',
+            'password' => Hash::make(env('DEFAULT_USER_PASSWORD')),
+        ]);
+
+        // normal user with frontend access only
+        User::factory()->create([
+            'username' => 'snow',
+            'email' => 'snow@local.com',
+            'level' => 5,
+            'status' => 'active',
+            'password' => Hash::make(env('DEFAULT_USER_PASSWORD')),
+        ]);
 
         $this->call([
             TermsSeeder::class,
