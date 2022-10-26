@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('state'); // active, inactive
-            $table->string('status'); // pending, processing, success, failed
+            $table->string('status'); // pending, progress, success, failure
             $table->string('scope'); // public, private, unlisted
             $table->integer('duration');
             $table->string('directory');
