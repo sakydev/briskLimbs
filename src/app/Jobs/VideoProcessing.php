@@ -38,6 +38,8 @@ class VideoProcessing implements ShouldQueue
         VideoProcessingService $videoProcessingService,
         VideoRepository $videoRepository,
     ): void {
+        $videoRepository->updateStatus(Video::VIDEO_PROCESSING_PROGRESS, $this->video);
+
         $destinations = $this->makeDestinationDirectories();
         $thumbnailsDestination = $destinations['thumbnails'];
         $videosDestination = $destinations['videos'];
@@ -45,13 +47,7 @@ class VideoProcessing implements ShouldQueue
         $videos = [];
         $thumbnails = [];
 
-        $path = storage_path(
-            sprintf(
-                'app/%s/%s.mp4',
-                config('paths.temporary_videos'),
-                $this->video->filename
-            )
-        );
+        $path = $this->getFullInputPath();
 
         foreach ($videoProcessingService->getProcessableQualities() as $quality => $dimensions) {
             $videos[$quality] = $videoProcessingService->process(
@@ -67,6 +63,8 @@ class VideoProcessing implements ShouldQueue
                 $dimensions,
             );
         }
+
+        $videoRepository->updateStatus(Video::VIDEO_PROCESSING_SUCCESS, $this->video);
     }
 
     private function makeDestinationDirectories(): array
@@ -82,5 +80,16 @@ class VideoProcessing implements ShouldQueue
             'videos' => storage_path("app/{$videos}"),
             'thumbnails' => storage_path("app/{$thumbnails}"),
         ];
+    }
+
+    private function getFullInputPath(): string
+    {
+        return storage_path(
+            sprintf(
+                'app/%s/%s.mp4',
+                config('paths.temporary_videos'),
+                $this->video->filename
+            )
+        );
     }
 }
