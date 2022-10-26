@@ -7,13 +7,14 @@ class VideoProcessingService extends MediaProcessingService
 
     private const BASE_DIRECTORY = 'out/videos';
 
-    public function process(string $path, string $filename, string $destinationDirectory): array
+    public function process(string $path, string $filename, string $destinationDirectory, array $dimensions): array
     {
-        $processableFormats = $this->getProcessableFormats();
+        $this->init($path, $dimensions);
 
         $generated = [];
+        $processableFormats = $this->getProcessableFormats();
         foreach ($processableFormats as $formatName => $format) {
-            $prefix = sprintf('%s-%s.%s', $filename, $this->getDimensions(), $formatName);
+            $prefix = sprintf('%s-%s.%s', $filename, implode('x', $dimensions), $formatName);
             $videoFilePath = $this->generateOutputPath($prefix, $destinationDirectory);
             $this->video->save($format, $videoFilePath);
 
@@ -26,8 +27,7 @@ class VideoProcessingService extends MediaProcessingService
     protected function generateOutputPath(string $prefix, string $destinationDirectory): string
     {
         return sprintf(
-            "%s/%s/%s",
-            self::BASE_DIRECTORY,
+            "%s/%s",
             $destinationDirectory,
             $prefix,
         );

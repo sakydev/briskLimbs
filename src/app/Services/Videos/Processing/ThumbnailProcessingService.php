@@ -6,17 +6,18 @@ use FFMpeg\Coordinate\TimeCode;
 class ThumbnailProcessingService extends MediaProcessingService
 {
     private const TOTAL = 5;
-    private const BASE_DIRECTORY = 'out/thumbnails';
     private const EXTENSION = 'jpg';
 
-    public function process(string $path, string $filename, string $destinationDirectory): array
+    public function process(string $path, string $filename, string $destinationDirectory, array $dimensions): array
     {
+        $this->init($path, $dimensions);
+
         $duration = $this->getVideoDuration();
         $framerateInterval = $this->calculateThumbnailFramerateInterval($duration);
 
         $generated = [];
         for($iteration = 0; $iteration < self::TOTAL; $iteration++) {
-            $prefix = sprintf('%s-%s-%d', $filename, $this->getDimensions(), $iteration);
+            $prefix = sprintf('%s-%s-%d', $filename, implode('x', $dimensions), $iteration);
             $thumbnailFilePath = $this->generateOutputPath($prefix, $destinationDirectory);
             $generated[] = $this->generateThumbnail(
                 $iteration,
@@ -32,8 +33,7 @@ class ThumbnailProcessingService extends MediaProcessingService
     protected function generateOutputPath(string $prefix, string $destinationDirectory): string
     {
         return sprintf(
-            "%s/%s/%s.%s",
-            self::BASE_DIRECTORY,
+            "%s/%s.%s",
             $destinationDirectory,
             $prefix,
             self::EXTENSION
@@ -44,6 +44,7 @@ class ThumbnailProcessingService extends MediaProcessingService
     {
         $nextTimestamp = $this->calculateNextTimestamp($iteration, $framerateInterval);
         $frame = $this->video->frame(TimeCode::fromSeconds($nextTimestamp));
+
         $frame->save($thumbnailFilePath);
 
         return basename($thumbnailFilePath);
