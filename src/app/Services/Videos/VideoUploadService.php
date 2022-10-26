@@ -2,15 +2,20 @@
 
 namespace App\Services\Videos;
 
-use App\Services\FileService;
+use App\Services\UploadService;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
-class VideoUploadService extends FileService
+class VideoUploadService extends UploadService
 {
     public function store(UploadedFile $file, string $filename): string
     {
         $this->createTemporaryDirectories();
         $extension = $file->extension() ?? 'mp4';
-        return $this->getDisk()->putFileAs('temporary/videos', $file, $filename . '.' . $extension);
+        return Storage::disk('local')->putFileAs(
+            config('paths.temporary_videos'),
+            $file,
+            $filename . '.' . $extension
+        );
     }
 }

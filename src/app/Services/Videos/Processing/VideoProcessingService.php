@@ -2,11 +2,10 @@
 
 namespace App\Services\Videos\Processing;
 
+use FFMpeg\Format\Video;
+
 class VideoProcessingService extends MediaProcessingService
 {
-
-    private const BASE_DIRECTORY = 'out/videos';
-
     public function process(string $path, string $filename, string $destinationDirectory, array $dimensions): array
     {
         $this->init($path, $dimensions);
@@ -36,9 +35,9 @@ class VideoProcessingService extends MediaProcessingService
     public function getSupportedFormats(): array
     {
         return [
-            'x264' => new \FFMpeg\Format\Video\X264(),
-            'wmv' => new \FFMpeg\Format\Video\WMV(),
-            'webm' => new \FFMpeg\Format\Video\WebM(),
+            'x264' => new Video\X264(),
+            'wmv' => new Video\WMV(),
+            'webm' => new Video\WebM(),
         ];
     }
 
