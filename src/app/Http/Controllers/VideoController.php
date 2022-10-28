@@ -74,7 +74,7 @@ class VideoController extends Controller
             unset($input['file']);
             $input['original_meta'] = array_merge(
                 json_decode($input['original_meta'], true),
-                $this->videoService->extractFileMeta($stored),
+                $this->videoService->extractMeta($stored),
             );
 
             $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
