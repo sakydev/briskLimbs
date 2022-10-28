@@ -11,7 +11,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class VideoProcessing implements ShouldQueue
 {
@@ -38,33 +40,41 @@ class VideoProcessing implements ShouldQueue
         VideoProcessingService $videoProcessingService,
         VideoRepository $videoRepository,
     ): void {
-        $videoRepository->updateStatus(Video::VIDEO_PROCESSING_PROGRESS, $this->video);
+        try {
+            $videoRepository->updateStatus(Video::VIDEO_PROCESSING_PROGRESS, $this->video);
 
-        $destinations = $this->makeDestinationDirectories();
-        $thumbnailsDestination = $destinations['thumbnails'];
-        $videosDestination = $destinations['videos'];
+            $destinations = $this->makeDestinationDirectories();
+            $thumbnailsDestination = $destinations['thumbnails'];
+            $videosDestination = $destinations['videos'];
 
-        $videos = [];
-        $thumbnails = [];
+            $videos = [];
+            $thumbnails = [];
 
-        $path = $this->getFullInputPath();
-
-        foreach ($videoProcessingService->getProcessableQualities() as $quality => $dimensions) {
-            $videos[$quality] = $videoProcessingService->process(
-                $path,
-                $this->video->filename,
-                $videosDestination,
-                $dimensions,
+            $path = $this->getFullInputPath();
+            $processableQualities = $videoProcessingService->getProcessableQualities(
+                $this->video->getOriginalWidth(),
+                $this->video->getOriginalHeight(),
             );
-            $thumbnails[$quality] = $thumbnailProcessingService->process(
-                $path,
-                $this->video->filename,
-                $thumbnailsDestination,
-                $dimensions,
-            );
+
+            foreach ($processableQualities as $quality => $dimensions) {
+                $thumbnails[$quality] = $thumbnailProcessingService->process(
+                    $path,
+                    $this->video->filename,
+                    $thumbnailsDestination,
+                    $this->video->original_meta,
+                );
+                $videos[$quality] = $videoProcessingService->process(
+                    $path,
+                    $this->video->filename,
+                    $videosDestination,
+                    $this->video->original_meta,
+                );
+            }
+
+            $videoRepository->updateStatus(Video::VIDEO_PROCESSING_SUCCESS, $this->video);
+        } catch (Throwable $exception) {
+            Log::error('Error processing video: ' . $exception->getMessage());
         }
-
-        $videoRepository->updateStatus(Video::VIDEO_PROCESSING_SUCCESS, $this->video);
     }
 
     private function makeDestinationDirectories(): array
