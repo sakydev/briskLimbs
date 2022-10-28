@@ -86,9 +86,10 @@ class VideoProcessing implements ShouldQueue
     {
         return storage_path(
             sprintf(
-                'app/%s/%s.mp4',
+                'app/%s/%s.%s',
                 config('paths.temporary_videos'),
-                $this->video->filename
+                $this->video->filename,
+                $this->video->original_meta['extension']
             )
         );
     }
