@@ -8,16 +8,16 @@ class ThumbnailProcessingService extends MediaProcessingService
     private const TOTAL = 5;
     private const EXTENSION = 'jpg';
 
-    public function process(string $path, string $filename, string $destinationDirectory, array $dimensions): array
+    public function process(string $path, string $filename, string $destinationDirectory, array $meta): array
     {
-        $this->init($path, $dimensions);
+        $this->init($path, $meta);
 
         $duration = $this->getVideoDuration();
         $framerateInterval = $this->calculateThumbnailFramerateInterval($duration);
 
         $generated = [];
         for($iteration = 0; $iteration < self::TOTAL; $iteration++) {
-            $prefix = sprintf('%s-%s-%d', $filename, implode('x', $dimensions), $iteration);
+            $prefix = sprintf('%s-%s-%d', $filename, $this->getHeight(), $iteration);
             $thumbnailFilePath = $this->generateOutputPath($prefix, $destinationDirectory);
             $generated[] = $this->generateThumbnail(
                 $iteration,

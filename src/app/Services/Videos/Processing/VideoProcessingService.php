@@ -6,14 +6,14 @@ use FFMpeg\Format\Video;
 
 class VideoProcessingService extends MediaProcessingService
 {
-    public function process(string $path, string $filename, string $destinationDirectory, array $dimensions): array
+    public function process(string $path, string $filename, string $destinationDirectory, array $meta): array
     {
-        $this->init($path, $dimensions);
+        $this->init($path, $meta);
 
         $generated = [];
         $processableFormats = $this->getProcessableFormats();
         foreach ($processableFormats as $formatName => $format) {
-            $prefix = sprintf('%s-%s.%s', $filename, implode('x', $dimensions), $formatName);
+            $prefix = sprintf('%s-%s.%s', $filename, $this->getHeight(), $formatName);
             $videoFilePath = $this->generateOutputPath($prefix, $destinationDirectory);
             $this->video->save($format, $videoFilePath);
 
@@ -75,14 +75,14 @@ class VideoProcessingService extends MediaProcessingService
         return [360, 720];
     }
 
-    public function getProcessableQualities(): array
+    public function getProcessableQualities(int $width, int $height): array
     {
         $allowedQualities = $this->getAllowedQualities();
         $supportedQualities = $this->getSupportedQualities();
         $processableQualities = [];
 
         foreach ($allowedQualities as $quality) {
-            if (isset($supportedQualities[$quality])) {
+            if (isset($supportedQualities[$quality]) && $quality <= $height) {
                 $processableQualities[$quality] = $supportedQualities[$quality];
             }
         }
