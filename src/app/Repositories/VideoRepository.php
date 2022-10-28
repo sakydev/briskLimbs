@@ -13,9 +13,9 @@ class VideoRepository
 
     public function create(array $input, string $vkey, string $filename, int $userId): Video
     {
+        $input['user_id'] = $userId;
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
-        $input['user_id'] = $userId;
 
         return (new Video())->create($input);
     }
