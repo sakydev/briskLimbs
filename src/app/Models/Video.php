@@ -49,4 +49,12 @@ class Video extends Model
     public const VIDEO_PROCESSING_PROGRESS = 'progress';
     public const VIDEO_PROCESSING_SUCCESS = 'success';
     public const VIDEO_PROCESSING_FAILED = 'failure';
+
+    public function getOriginalWidth(): ?int {
+        return $this->original_meta['width'] ?? null;
+    }
+
+    public function getOriginalHeight(): ?int {
+        return $this->original_meta['height'] ?? null;
+    }
 }

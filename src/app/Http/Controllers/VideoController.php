@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\VideoProcessing;
 use App\Models\User;
 use App\Repositories\VideoRepository;
 use App\Services\Videos\VideoService;
@@ -71,6 +72,11 @@ class VideoController extends Controller
             }
 
             unset($input['file']);
+            $input['original_meta'] = array_merge(
+                json_decode($input['original_meta'], true),
+                $this->videoService->extractFileMeta($stored),
+            );
+
             $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
             if (!$created) {
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
@@ -95,7 +101,7 @@ class VideoController extends Controller
              */
             $user = Auth::user();
             $input = $request->except('_token');
-            $video = $this->videoRepository->getById($videoId);
+            $video = $this->videoRepository->get($videoId);
 
             $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user, $video);
             if ($updatePermissionsErrors) {
@@ -107,7 +113,7 @@ class VideoController extends Controller
                 return $this->sendErrorResponseJSON($updateRequestErrors);
             }
 
-            $updated = $this->videoRepository->updateById($input, $videoId);
+            $updated = $this->videoRepository->update($input, $videoId);
             if (!$updated) {
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_update')]);
             }
