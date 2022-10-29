@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Video;
+use App\Services\FileService;
 
 class VideoRepository
 {
@@ -22,8 +23,10 @@ class VideoRepository
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
         $input['original_meta'] = $meta;
+
         $input['state'] = Video::VIDEO_STATE_ACTIVE;
         $input['scope'] = Video::VIDEO_SCOPE_PUBLIC;
+        $input['directory'] = FileService::getDatedDirectoryName();
 
         return (new Video())->create($input);
     }
