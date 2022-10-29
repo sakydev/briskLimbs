@@ -70,12 +70,6 @@
                     formattedFileName = formatFileName(file.name);
                     formData.append('title', formattedFileName);
                     formData.append('description', formattedFileName);
-                    formData.append('original_meta', JSON.stringify({
-                        'name': file.name,
-                        'size': file.size,
-                        'extension': file.name.split('.').pop(),
-
-                    }));
                 },
                 uploadprogress: function (file, progress, bytesSent) {
                     fillUploadProgress(file.size, progress, bytesSent);
