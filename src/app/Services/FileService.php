@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
 
-class FileService
+final class FileService
 {
     private const DIRECTORY_TYPE_TEMPORARY = 'temporary';
     private const DIRECTORY_TYPE_TEMPORARY_VIDEOS = 'temporary/videos';
@@ -18,7 +18,7 @@ class FileService
     public static function createDirectory(string $directory, string $disk = 'local'): ?string {
         $created = Storage::disk($disk)->makeDirectory($directory);
         if ($created) {
-            return $directory;
+            return self::getDirectory($directory);
         }
 
         return null;
