@@ -21,7 +21,7 @@ class VideoService
         return Str::random(14);
     }
 
-    public function extractMeta(string $path): array {
+    public function extractMeta(string $path): ?array {
         try {
             $ffmpeg = FFMpeg::create();
             $video = $ffmpeg->open($path);
@@ -42,5 +42,7 @@ class VideoService
             report($exception);
             Log::error('Meta extraction error: ' . $exception->getMessage());
         }
+
+        return null;
     }
 }

@@ -11,11 +11,17 @@ class VideoRepository
         return (new Video())->where('id', $videoId)->first();
     }
 
-    public function create(array $input, string $vkey, string $filename, int $userId): Video
-    {
+    public function create(
+        array $input,
+        string $filename,
+        string $vkey,
+        array $meta,
+        int $userId,
+    ): Video {
         $input['user_id'] = $userId;
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
+        $input['original_meta'] = $meta;
 
         return (new Video())->create($input);
     }

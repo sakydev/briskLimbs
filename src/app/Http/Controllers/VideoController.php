@@ -64,20 +64,24 @@ class VideoController extends Controller
             }
 
             $filename = $this->videoService->generateFilename();
-            $vkey = $this->videoService->generateVkey();
-
             $stored = $this->videoUploadService->store($request->file, $filename);
             if (!$stored) {
                 return $this->sendErrorResponseJSON([__('video.errors.failed_upload')]);
             }
 
-            unset($input['file']);
-            $input['original_meta'] = array_merge(
-                json_decode($input['original_meta'], true),
-                $this->videoService->extractMeta($stored),
-            );
+            $originalMeta = $this->videoService->extractMeta($stored);
+            if (empty($originalMeta['width'])) {
+                return $this->sendErrorResponseJSON([__('video.errors.failed_meta_extraction')]);
+            }
 
-            $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
+            unset($input['file']);
+            $created = $this->videoRepository->create(
+                $input,
+                $filename,
+                $this->videoService->generateVkey(),
+                $originalMeta,
+                $user->getAuthIdentifier(),
+            );
             if (!$created) {
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
             }
