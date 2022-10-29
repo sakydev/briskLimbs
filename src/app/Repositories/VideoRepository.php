@@ -22,6 +22,8 @@ class VideoRepository
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
         $input['original_meta'] = $meta;
+        $input['state'] = Video::VIDEO_STATE_ACTIVE;
+        $input['scope'] = Video::VIDEO_SCOPE_PUBLIC;
 
         return (new Video())->create($input);
     }

@@ -50,6 +50,13 @@ class Video extends Model
     public const VIDEO_PROCESSING_SUCCESS = 'success';
     public const VIDEO_PROCESSING_FAILED = 'failure';
 
+    public const VIDEO_STATE_ACTIVE = 'active';
+    public const VIDEO_STATE_INACTIVE = 'inactive';
+
+    public const VIDEO_SCOPE_PUBLIC = 'public';
+    public const VIDEO_SCOPE_PRIVATE = 'private';
+    public const VIDEO_SCOPE_UNLISTED = 'unlisted';
+
     public function getOriginalWidth(): ?int {
         return $this->original_meta['width'] ?? null;
     }
