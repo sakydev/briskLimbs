@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Video;
 use App\Repositories\VideoRepository;
+use App\Services\FileService;
 use App\Services\Videos\Processing\ThumbnailProcessingService;
 use App\Services\Videos\Processing\VideoProcessingService;
 use Illuminate\Bus\Queueable;
@@ -43,14 +44,19 @@ class VideoProcessing implements ShouldQueue
         try {
             $videoRepository->updateStatus(Video::VIDEO_PROCESSING_PROGRESS, $this->video);
 
-            $destinations = $this->makeDestinationDirectories();
+            $destinations = FileService::createMediaDestinationDirecctories();
             $thumbnailsDestination = $destinations['thumbnails'];
             $videosDestination = $destinations['videos'];
 
             $videos = [];
             $thumbnails = [];
 
-            $path = $this->getFullInputPath();
+            $completeFilename = sprintf("%s.%s",
+                $this->video->filename,
+                $this->video->original_meta['extension']
+            );
+
+            $path = FileService::getTemporaryVideo($completeFilename);
             $processableQualities = $videoProcessingService->getProcessableQualities(
                 $this->video->getOriginalWidth(),
                 $this->video->getOriginalHeight(),
@@ -76,32 +82,5 @@ class VideoProcessing implements ShouldQueue
             report($exception);
             Log::error('Error processing video: ' . $exception->getMessage());
         }
-    }
-
-    private function makeDestinationDirectories(): array
-    {
-        $disk = Storage::disk('local');
-        $videos = sprintf('%s/%s', config('paths.videos'), config('paths.dated'));
-        $thumbnails = sprintf('%s/%s', config('paths.thumbnails'), config('paths.dated'));
-
-        $disk->makeDirectory($videos);
-        $disk->makeDirectory($thumbnails);
-
-        return [
-            'videos' => storage_path("app/{$videos}"),
-            'thumbnails' => storage_path("app/{$thumbnails}"),
-        ];
-    }
-
-    private function getFullInputPath(): string
-    {
-        return storage_path(
-            sprintf(
-                'app/%s/%s.%s',
-                config('paths.temporary_videos'),
-                $this->video->filename,
-                $this->video->original_meta['extension']
-            )
-        );
     }
 }
