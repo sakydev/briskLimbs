@@ -56,7 +56,7 @@ class VideoProcessing implements ShouldQueue
                 $this->video->getOriginalHeight(),
             );
 
-            foreach ($processableQualities as $quality => $dimensions) {
+            foreach (array_keys($processableQualities) as $quality) {
                 $thumbnails[$quality] = $thumbnailProcessingService->process(
                     $path,
                     $this->video->filename,

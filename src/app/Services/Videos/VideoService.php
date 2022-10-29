@@ -34,8 +34,8 @@ class VideoService
                 'aspect' => $streams->get('display_aspect_ratio'),
                 'duration' => $streams->get('duration'),
                 'bitrate' => $streams->get('bitrate'),
+                'extension' => pathinfo($path, PATHINFO_EXTENSION),
             ];
-
 
             return $meta;
         } catch (Throwable $exception) {

@@ -64,6 +64,7 @@ class VideoProcessingService extends MediaProcessingService
     public function getSupportedQualities(): array
     {
         return [
+            240 => [426, 240],
             360 => [640, 360],
             720 => [1280, 720],
             1080 => [1920, 1080],
@@ -72,7 +73,8 @@ class VideoProcessingService extends MediaProcessingService
 
     public function getAllowedQualities(): array
     {
-        return [360, 720];
+        $exploded = explode(',', config('settings.allow_qualities'));
+        return array_map('intval', $exploded);
     }
 
     public function getProcessableQualities(int $width, int $height): array

@@ -11,7 +11,7 @@ class VideoUploadService extends UploadService
     public function store(UploadedFile $file, string $filename): ?string
     {
         $this->createTemporaryDirectories();
-        $extension = $file->extension() ?? 'mp4';
+        $extension = $file->extension() ?? config('settings.default_video_extension');
         $path = Storage::disk('local')->putFileAs(
             config('paths.temporary_videos'),
             $file,
