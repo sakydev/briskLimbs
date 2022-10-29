@@ -5,9 +5,6 @@ use FFMpeg\Coordinate\TimeCode;
 
 class ThumbnailProcessingService extends MediaProcessingService
 {
-    private const TOTAL = 5;
-    private const EXTENSION = 'jpg';
-
     public function process(string $path, string $filename, string $destinationDirectory, array $meta): array
     {
         $this->init($path, $meta);
@@ -16,7 +13,7 @@ class ThumbnailProcessingService extends MediaProcessingService
         $framerateInterval = $this->calculateThumbnailFramerateInterval($duration);
 
         $generated = [];
-        for($iteration = 0; $iteration < self::TOTAL; $iteration++) {
+        for($iteration = 0; $iteration < config('settings.max_thumbnails_count'); $iteration++) {
             $prefix = sprintf('%s-%s-%d', $filename, $this->getHeight(), $iteration);
             $thumbnailFilePath = $this->generateOutputPath($prefix, $destinationDirectory);
             $generated[] = $this->generateThumbnail(
@@ -36,7 +33,7 @@ class ThumbnailProcessingService extends MediaProcessingService
             "%s/%s.%s",
             $destinationDirectory,
             $prefix,
-            self::EXTENSION
+            config('settings.default_thumbnail_extension'),
         );
     }
 
@@ -53,7 +50,7 @@ class ThumbnailProcessingService extends MediaProcessingService
     private function calculateNextTimestamp(int $iteration, int $framerateInterval): int
     {
         $timestamp = ($iteration * $framerateInterval) + $framerateInterval;
-        if ($iteration + 1 == self::TOTAL) {
+        if ($iteration + 1 == config('settings.max_thumbnails_count')) {
             $timestamp  = $timestamp - 1;
         }
 
@@ -64,7 +61,7 @@ class ThumbnailProcessingService extends MediaProcessingService
     {
         $options = [60, 30, 10, 5, 2, 1];
         foreach ($options as $interval) {
-            $dividable = ($interval * self::TOTAL) <= $duration;
+            $dividable = ($interval * config('settings.max_thumbnails_count')) <= $duration;
             if ($dividable) {
                 return $interval;
             }
