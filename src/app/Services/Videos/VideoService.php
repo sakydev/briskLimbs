@@ -22,27 +22,20 @@ class VideoService
     }
 
     public function extractMeta(string $path): ?array {
-        try {
-            $ffmpeg = FFMpeg::create();
-            $video = $ffmpeg->open($path);
-            $streams = $video->getStreams()?->videos()?->first();
+        $ffmpeg = FFMpeg::create();
+        $video = $ffmpeg->open($path);
+        $streams = $video->getStreams()?->videos()?->first();
 
-            $meta = [
-                'codec' => $streams->get('codec_name'),
-                'width' => $streams->get('width'),
-                'height' => $streams->get('height'),
-                'aspect' => $streams->get('display_aspect_ratio'),
-                'duration' => $streams->get('duration'),
-                'bitrate' => $streams->get('bitrate'),
-                'extension' => pathinfo($path, PATHINFO_EXTENSION),
-            ];
+        $meta = [
+            'codec' => $streams->get('codec_name'),
+            'width' => $streams->get('width'),
+            'height' => $streams->get('height'),
+            'aspect' => $streams->get('display_aspect_ratio'),
+            'duration' => $streams->get('duration'),
+            'bitrate' => $streams->get('bitrate'),
+            'extension' => pathinfo($path, PATHINFO_EXTENSION),
+        ];
 
-            return $meta;
-        } catch (Throwable $exception) {
-            report($exception);
-            Log::error('Meta extraction error: ' . $exception->getMessage());
-        }
-
-        return null;
+        return $meta;
     }
 }
