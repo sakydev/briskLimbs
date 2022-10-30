@@ -10,6 +10,7 @@ use App\Services\Users\UserValidationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,26 +18,31 @@ class UserController extends Controller
         private UserValidationService $userValidationService,
         private UserRepository $userRepository,
     ) {}
-    public function index(): JsonResponse {
-
-    }
-
-    public function store(Request $request): JsonResponse {
+    public function store(Request $request): SuccessResponse|ErrorResponse {
         $input = $request->all();
 
         $registrationAccessValidationErrors = $this->userValidationService->validateCanRegister();
         if ($registrationAccessValidationErrors) {
-            return new ErrorResponse($registrationAccessValidationErrors, Response::HTTP_FORBIDDEN);
+            return new ErrorResponse(
+                $registrationAccessValidationErrors,
+                Response::HTTP_FORBIDDEN
+            );
         }
 
         $requestValidationErrors = $this->userValidationService->validateRegisterInput($input);
         if ($requestValidationErrors) {
-            return new ErrorResponse($requestValidationErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new ErrorResponse(
+                $requestValidationErrors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
         $createdUser = $this->userRepository->create($input);
         if (!$createdUser) {
-            return new ErrorResponse([__('auth.failed_insert')], Response::HTTP_BAD_REQUEST);
+            return new ErrorResponse(
+                [__('auth.failed_insert')],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         $userDetails = [
@@ -48,7 +54,34 @@ class UserController extends Controller
         return new SuccessResponse(__('user.registration_success'), $userDetails, Response::HTTP_OK);
     }
 
-    public function login(Request $request): JsonResponse {
+    public function login(Request $request): SuccessResponse|ErrorResponse {
+        $input = $request->only(['username', 'password']);
 
+        $loginRequestValidationErrors = $this->userValidationService->validateLoginRequest($input);
+        if ($loginRequestValidationErrors) {
+            return new ErrorResponse(
+                $loginRequestValidationErrors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $loggedIn = Auth::attempt($input);
+        if (!$loggedIn) {
+            return new ErrorResponse(
+                [__('auth.failed')],
+                Response::HTTP_UNAUTHORIZED
+            );
+        }
+
+        $user = Auth::user();
+        $userData = [
+            '_token' => $user->createToken('auth_token')->plainTextToken,
+        ];
+
+        return new SuccessResponse(
+            __('auth.success'),
+            $userData,
+            Response::HTTP_OK
+        );
     }
 }
