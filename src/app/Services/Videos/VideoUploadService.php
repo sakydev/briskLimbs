@@ -14,12 +14,7 @@ class VideoUploadService extends UploadService
         $extension = $file->extension() ?? config('settings.default_video_extension');
         $completeFilename = "{$filename}.{$extension}";
 
-        $path = Storage::disk('local')->putFileAs(
-            FileService::createTemporaryVideosDirectory(),
-            $file,
-            $completeFilename,
-        );
-
+        $path = Storage::disk('temporaryVideos')->putFileAs('', $file, $completeFilename);
         return $path ? FileService::getTemporaryVideo($completeFilename) : null;
     }
 }
