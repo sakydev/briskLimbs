@@ -18,7 +18,7 @@ use App\Http\Controllers\Api\V1\UserController;
 Route::prefix('V1/users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.list');
     Route::post('/', [UserController::class, 'store'])->name('users.create');
-    Route::get('/login', [UserController::class, 'login'])->name('users.login');
+    Route::post('/login', [UserController::class, 'login'])->name('users.login');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
