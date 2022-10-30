@@ -36,6 +36,18 @@ return [
             'throw' => false,
         ],
 
+        'temporary' => [
+            'driver' => 'local',
+            'root' => storage_path('app/temporary'),
+            'throw' => false,
+        ],
+
+        'temporaryVideos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/temporary/videos'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
