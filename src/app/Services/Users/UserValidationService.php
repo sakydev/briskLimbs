@@ -9,8 +9,8 @@ class UserValidationService
     public function validateCanRegister(): ?array {
         if (!config('settings.allow_registrations')) {
             return [[
-               'title' => 'Registrations restricted',
-               'description' => 'Registrations are restricted at the moment.',
+               'title' => '',
+               'description' => __('user.errors.restricted_registrations'),
             ]];
         }
 
