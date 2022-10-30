@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('state'); // active, inactive
-            $table->string('status'); // pending, processing, success, failed
+            $table->string('status'); // pending, progress, success, failure
             $table->string('scope'); // public, private, unlisted
             $table->integer('duration');
             $table->string('directory');
@@ -37,6 +37,7 @@ return new class extends Migration
             $table->integer('allow_embed'); // 1: yes, 0:no
             $table->integer('allow_download'); // 1: yes, 0:no
             $table->string('server_url');
+            $table->json('original_meta'); // size, dimensions, format etc
             $table->timestamp('converted_at')->useCurrent();
 
             $table->timestamps();

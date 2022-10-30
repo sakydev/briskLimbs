@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use \Illuminate\Contracts\Cache\Factory;
 
@@ -30,7 +31,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $settings = $cache->remember('settings', 60, function() use ($settings)
         {
-            return $settings->pluck('value', 'name')->all();
+            if (Schema::hasTable('settings')) {
+                return $settings->pluck('value', 'name')->all();
+            }
         });
 
         config()->set('settings', $settings);

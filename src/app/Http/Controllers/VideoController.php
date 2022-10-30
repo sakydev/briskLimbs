@@ -63,15 +63,24 @@ class VideoController extends Controller
             }
 
             $filename = $this->videoService->generateFilename();
-            $vkey = $this->videoService->generateVkey();
-
             $stored = $this->videoUploadService->store($request->file, $filename);
             if (!$stored) {
                 return $this->sendErrorResponseJSON([__('video.errors.failed_upload')]);
             }
 
+            $originalMeta = $this->videoService->extractMeta($stored);
+            if (empty($originalMeta['width'])) {
+                return $this->sendErrorResponseJSON([__('video.errors.failed_meta_extraction')]);
+            }
+
             unset($input['file']);
-            $created = $this->videoRepository->create($input, $vkey, $filename, $user->getAuthIdentifier());
+            $created = $this->videoRepository->create(
+                $input,
+                $filename,
+                $this->videoService->generateVkey(),
+                $originalMeta,
+                $user->getAuthIdentifier(),
+            );
             if (!$created) {
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_insert')]);
             }
@@ -82,6 +91,7 @@ class VideoController extends Controller
                 'filename' => $created['filename'],
             ]);
         } catch (Exception $exception) {
+            report($exception);
             Log::error('error: save_video => ' . $exception->getMessage());
             return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }
@@ -95,7 +105,7 @@ class VideoController extends Controller
              */
             $user = Auth::user();
             $input = $request->except('_token');
-            $video = $this->videoRepository->getById($videoId);
+            $video = $this->videoRepository->get($videoId);
 
             $updatePermissionsErrors = $this->videoValidationService->validateCanUpdate($user, $video);
             if ($updatePermissionsErrors) {
@@ -107,13 +117,14 @@ class VideoController extends Controller
                 return $this->sendErrorResponseJSON($updateRequestErrors);
             }
 
-            $updated = $this->videoRepository->updateById($input, $videoId);
+            $updated = $this->videoRepository->update($input, $videoId);
             if (!$updated) {
                 return $this->sendErrorResponseJSON([__('general.errors.database.failed_update')]);
             }
 
             return $this->sendSuccessResponseJSON(__('video.success_update'), []);
         } catch (Exception $exception) {
+            report($exception);
             Log::error('error: update_video => ' . $exception->getMessage());
             return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }
