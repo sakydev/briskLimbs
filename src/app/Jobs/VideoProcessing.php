@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Logger\ProcessingLogger;
 use App\Models\Video;
 use App\Repositories\VideoRepository;
 use App\Services\FileService;
@@ -13,7 +14,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class VideoProcessing implements ShouldQueue
@@ -42,7 +42,9 @@ class VideoProcessing implements ShouldQueue
         VideoRepository $videoRepository,
     ): void {
         try {
+            $logger = new ProcessingLogger($this->video->filename);
             $videoRepository->updateStatus(Video::VIDEO_PROCESSING_PROGRESS, $this->video);
+            $logger->statusChange(Video::VIDEO_PROCESSING_PROGRESS);
 
             $destinations = FileService::createMediaDestinationDirecctories();
             $thumbnailsDestination = $destinations['thumbnails'];
@@ -57,6 +59,8 @@ class VideoProcessing implements ShouldQueue
             );
 
             $path = FileService::getTemporaryVideo($completeFilename);
+            $logger->inputFile($path);
+
             $processableQualities = $videoProcessingService->getProcessableQualities(
                 $this->video->getOriginalWidth(),
                 $this->video->getOriginalHeight(),
@@ -69,15 +73,19 @@ class VideoProcessing implements ShouldQueue
                     $thumbnailsDestination,
                     $this->video->original_meta,
                 );
+                $logger->processedThumbnails($thumbnails[$quality], $quality);
+
                 $videos[$quality] = $videoProcessingService->process(
                     $path,
                     $this->video->filename,
                     $videosDestination,
                     $this->video->original_meta,
                 );
+                $logger->processedVideos($videos[$quality], $quality);
             }
 
             $videoRepository->updateStatus(Video::VIDEO_PROCESSING_SUCCESS, $this->video);
+            $logger->statusChange(Video::VIDEO_PROCESSING_SUCCESS);
         } catch (Throwable $exception) {
             report($exception);
             Log::error('Error processing video: ' . $exception->getMessage());
