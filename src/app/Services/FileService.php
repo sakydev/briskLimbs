@@ -10,6 +10,7 @@ final class FileService
     private const DIRECTORY_TYPE_TEMPORARY_VIDEOS = 'temporary/videos';
     private const DIRECTORY_TYPE_VIDEOS = 'public/videos';
     private const DIRECTORY_TYPE_THUMBNAILS = 'public/thumbnails';
+    private const DIRECTORY_TYPE_LOGS = 'logs';
 
     public static function getDatedDirectoryName(): string {
         return date('Y/m/d');
@@ -52,7 +53,12 @@ final class FileService
         return self::createDirectory($directory);
     }
 
+    public static function createLogsDirectory(): string {
+        return self::createDirectory(self::DIRECTORY_TYPE_LOGS, '');
+    }
+
     public static function createMediaDestinationDirecctories(): array {
+        self::createLogsDirectory();
         return [
             'videos' => self::createVideosDirectory(),
             'thumbnails' => self::createThumbnailsDirectory(),
@@ -79,11 +85,19 @@ final class FileService
         return self::getDirectory(self::DIRECTORY_TYPE_THUMBNAILS);
     }
 
+    public static function getLogsDirectory(): string {
+        return self::getDirectory(self::DIRECTORY_TYPE_LOGS);
+    }
+
     public static function getTemporaryVideo(string $filename): string {
         return sprintf('%s/%s', self::getTemporaryVideosDirectory(), $filename);
     }
 
     public static function getVideo(string $dated, string $filename): string {
         return sprintf('%s/%s/%s', self::getVideosDirectory(), $dated, $filename);
+    }
+
+    public static function getLog(string $filename): string {
+        return sprintf('%s/%s.log', self::getLogsDirectory(), $filename);
     }
 }
