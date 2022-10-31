@@ -20,10 +20,10 @@ class UserController extends Controller
     public function show(int $userId): UserResource|ErrorResponse {
         $user = $this->userRepository->get($userId);
         if (!$user) {
-            return new ErrorResponse([__('user.errors.not_found')], Response::HTTP_NOT_FOUND);
+            return new ErrorResponse([__('user.errors.failed_find')], Response::HTTP_NOT_FOUND);
         }
 
-        return new UserResource($user, __('user.fetch_success'));
+        return new UserResource($user, __('user.success_find'));
     }
 
     public function store(Request $request): UserResource|ErrorResponse {
@@ -53,7 +53,7 @@ class UserController extends Controller
             );
         }
 
-        return new UserResource($createdUser, __('user.registration_success'), true);
+        return new UserResource($createdUser, __('user.success_registration'), true);
     }
 
     public function login(Request $request): UserResource|ErrorResponse {
@@ -76,6 +76,6 @@ class UserController extends Controller
         }
 
         $user = Auth::user();
-        return new UserResource($user, __('user.login_success'), true);
+        return new UserResource($user, __('user.success_login'), true);
     }
 }
