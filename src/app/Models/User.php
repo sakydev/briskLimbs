@@ -58,9 +58,13 @@ class User extends Authenticatable
 
     public const ACTIVE_STATE = 'active';
     public const DEFAULT_LEVEL = 5;
+    public const ADMIN_LEVEL = 1;
 
-    public function canUpload(): bool
-    {
+    public function canUpload(): bool {
         return $this->status === self::ACTIVE_STATE;
+    }
+
+    public function isAdmin(): bool {
+        return $this->level === self::ADMIN_LEVEL;
     }
 }
