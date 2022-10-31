@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Resources\Api\V1\ErrorResponse;
-use App\Resources\Api\V1\SuccessResponse;
 use App\Services\Users\UserValidationService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +16,17 @@ class UserController extends Controller
         private UserValidationService $userValidationService,
         private UserRepository $userRepository,
     ) {}
-    public function store(Request $request): SuccessResponse|ErrorResponse {
+
+    public function show(int $userId): UserResource|ErrorResponse {
+        $user = $this->userRepository->get($userId);
+        if (!$user) {
+            return new ErrorResponse([__('user.errors.not_found')], Response::HTTP_NOT_FOUND);
+        }
+
+        return new UserResource($user, __('user.fetch_success'));
+    }
+
+    public function store(Request $request): UserResource|ErrorResponse {
         $input = $request->all();
 
         $registrationAccessValidationErrors = $this->userValidationService->validateCanRegister();
@@ -45,16 +53,10 @@ class UserController extends Controller
             );
         }
 
-        $userDetails = [
-            'username' => $createdUser['username'],
-            'email' => $createdUser['email'],
-            '_token' => $createdUser->createToken('auth_token')->plainTextToken,
-        ];
-
-        return new SuccessResponse(__('user.registration_success'), $userDetails, Response::HTTP_OK);
+        return new UserResource($createdUser, __('user.registration_success'), true);
     }
 
-    public function login(Request $request): SuccessResponse|ErrorResponse {
+    public function login(Request $request): UserResource|ErrorResponse {
         $input = $request->only(['username', 'password']);
 
         $loginRequestValidationErrors = $this->userValidationService->validateLoginRequest($input);
@@ -74,14 +76,6 @@ class UserController extends Controller
         }
 
         $user = Auth::user();
-        $userData = [
-            '_token' => $user->createToken('auth_token')->plainTextToken,
-        ];
-
-        return new SuccessResponse(
-            __('auth.success'),
-            $userData,
-            Response::HTTP_OK
-        );
+        return new UserResource($user, __('user.login_success'), true);
     }
 }
