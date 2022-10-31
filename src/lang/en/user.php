@@ -2,8 +2,11 @@
 
 return [
     'errors' => [
-        'restricted_registrations' => 'Registrations are restricted at the moment',
+        'failed_registration_restriction' => 'Registrations are restricted at the moment',
         'failed_insert' => 'User database insert failed',
+        'failed_find' => 'User not found',
     ],
-    'registration_success' => 'User created successfully',
+    'success_registration' => 'User created successfully',
+    'success_login' => 'User logged in successfully',
+    'success_find' => 'User fetched successfully',
 ];

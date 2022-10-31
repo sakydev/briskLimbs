@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
+    public function get(int $videoId): ?User
+    {
+        return (new User())->where('id', $videoId)->first();
+    }
+
     public function create(array $input): User
     {
         return User::create([

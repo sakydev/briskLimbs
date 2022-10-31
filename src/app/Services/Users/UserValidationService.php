@@ -10,7 +10,7 @@ class UserValidationService
         if (!config('settings.allow_registrations')) {
             return [[
                'title' => '',
-               'description' => __('user.errors.restricted_registrations'),
+               'description' => __('user.errors.failed_registration_restriction'),
             ]];
         }
 
