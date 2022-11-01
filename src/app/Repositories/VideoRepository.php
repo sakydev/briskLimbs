@@ -31,7 +31,7 @@ class VideoRepository
         return (new Video())->create($input);
     }
 
-    public function update(array $fieldValueParis, int|Video $video): ?int
+    public function update(array $fieldValueParis, int|Video $video): bool
     {
         if ($video instanceof Video) {
             return $video->update($fieldValueParis);
