@@ -57,6 +57,7 @@ class User extends Authenticatable
     ];
 
     public const ACTIVE_STATE = 'active';
+    public const INACTIVE_STATE = 'inactive';
     public const DEFAULT_LEVEL = 5;
     public const ADMIN_LEVEL = 1;
 
@@ -66,5 +67,13 @@ class User extends Authenticatable
 
     public function isAdmin(): bool {
         return $this->level === self::ADMIN_LEVEL;
+    }
+
+    public function isActive(): bool {
+        return $this->status === self::ACTIVE_STATE;
+    }
+
+    public function isInactive(): bool {
+        return $this->status === self::INACTIVE_STATE;
     }
 }

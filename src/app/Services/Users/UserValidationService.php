@@ -4,9 +4,13 @@ namespace App\Services\Users;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserValidationService
 {
+    private array $errors;
+    private string $status;
+
     public function validateCanRegister(): ?array {
         if (!config('settings.allow_registrations')) {
             return [[
@@ -18,18 +22,64 @@ class UserValidationService
         return null;
     }
 
-    public function validateCanUpdate(int $updateUserId, User $authenticatedUser): ?array {
+    public function getErrors(): array {
+        return $this->errors;
+    }
+
+    public function hasErrors(): bool {
+        return !empty($this->getErrors());
+    }
+
+    private function addError(string $error): void {
+        $this->errors[] = $error;
+    }
+
+    private function resetErrors(): void {
+        $this->errors = [];
+    }
+
+    public function getStatus(): string {
+        return $this->status;
+    }
+
+    private function setStatus(string $status): void {
+        $this->status = $status;
+    }
+
+    public function validateCanUpdate(int $inputUserId, User $authUser): bool {
         if (
-            !$authenticatedUser->isAdmin()
-            && $updateUserId != $authenticatedUser->getAuthIdentifier()
+            !$authUser->isAdmin()
+            && $inputUserId != $authUser->getAuthIdentifier()
         ) {
-            return [[
-                'title' => '',
-                'description' => __('user.errors.failed_update_permissions'),
-            ]];
+            $this->addError(__('user.errors.failed_update_permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
+
+            return false;
         }
 
-        return null;
+        return true;
+    }
+
+    public function validateAlreadyActive(User $user): bool {
+        if ($user->isActive()) {
+            $this->addError(__('user.errors.failed_activate'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateAlreadyInactive(User $user): bool {
+        if ($user->isInactive()) {
+            $this->addError(__('user.errors.failed_deactivate'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
     }
 
     public function validateRegisterRequest(array $input): ?array {
@@ -58,6 +108,46 @@ class UserValidationService
         ];
 
         return $this->validateRules($input, $rules);
+    }
+
+    public function validatePreConditionsToRegister(): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanRegister()) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToUpdate(int $userId, User $authUser): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($userId, $authUser)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToActivate(User $inputUser, User $authUser): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($inputUser->id, $authUser)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyActive($inputUser)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToDeactivate(User $inputUser, User $authUser): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($inputUser->id, $authUser)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyInactive($inputUser)) {
+            return;
+        }
     }
 
     private function validateRules(array $input, array $rules): ?array {
