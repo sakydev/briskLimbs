@@ -21,11 +21,25 @@ class UserRepository
         ]);
     }
 
-    public function update(int|User $user, array $fieldValuePairs): bool {
-        if ($user instanceof User) {
-            return $user->update($fieldValuePairs);
-        }
+    public function update(User $user, array $fieldValuePairs): bool {
+        return $user->update($fieldValuePairs);
+    }
 
-        return (new User())->where('id', $user)->update($fieldValuePairs);
+    public function updateById(int $userId, array $fieldValuePairs): bool {
+        return (new User())->where('id', $userId)->update($fieldValuePairs);
+    }
+
+    public function activate(User $user): User {
+        $user->status = User::ACTIVE_STATE;
+        $user->save();
+
+        return $user;
+    }
+
+    public function deactivate(User $user): User {
+        $user->status = User::INACTIVE_STATE;
+        $user->save();
+
+        return $user;
     }
 }
