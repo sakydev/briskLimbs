@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,18 @@ use App\Http\Controllers\Api\V1\UserController;
 */
 
 Route::prefix('V1/users')->group(function () {
+    Route::post('/', [AuthenticationController::class, 'register'])->name('users.register');
+    Route::post('/login', [AuthenticationController::class, 'login'])->name('users.login');
+
     Route::get('/', [UserController::class, 'index'])->name('users.list');
-    Route::post('/', [UserController::class, 'store'])->name('users.create');
-    Route::post('/login', [UserController::class, 'login'])->name('users.login');
     Route::get('/{userId}', [UserController::class, 'show'])->name('users.show');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{userId}', [UserController::class, 'update'])->name('users.update');
+        Route::put('/{userId}/activate', [UserController::class, 'activate'])
+            ->name('users.activate');
+        Route::put('/{userId}/deactivate', [UserController::class, 'deactivate'])
+            ->name('users.deactivate');
     });
 });
 
