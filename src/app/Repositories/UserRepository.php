@@ -3,12 +3,24 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
     public function get(int $userId): ?User {
         return (new User())->where('id', $userId)->first();
+    }
+
+    public function list(array $parameters, int $page, int $limit): Collection {
+        $skip = ($page * $limit) - $limit;
+
+        $users = new User();
+        foreach ($parameters as $name => $value) {
+            $users = $users->where($name, $value);
+        }
+
+        return $users->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
     }
 
     public function create(array $input): User {
