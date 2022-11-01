@@ -63,8 +63,8 @@ class UserController extends Controller
     }
 
     public function activate(int $userId): UserResource|ErrorResponse {
-        $foundUser = $this->userRepository->get($userId);
-        if (!$foundUser) {
+        $requestedUser = $this->userRepository->get($userId);
+        if (!$requestedUser) {
             return new ErrorResponse([__('user.errors.failed_find')], Response::HTTP_NOT_FOUND);
         }
 
@@ -73,7 +73,7 @@ class UserController extends Controller
          */
         $authenticatedUser = Auth::user();
 
-        $this->userValidationService->validatePreConditionsToActivate($foundUser, $authenticatedUser);
+        $this->userValidationService->validatePreConditionsToActivate($requestedUser, $authenticatedUser);
         if ($this->userValidationService->hasErrors()) {
             return new ErrorResponse(
                 $this->userValidationService->getErrors(),
@@ -81,7 +81,7 @@ class UserController extends Controller
             );
         }
 
-        $activatedUser = $this->userRepository->activate($foundUser);
+        $activatedUser = $this->userRepository->activate($requestedUser);
         return new UserResource($activatedUser, __('user.success_activate'));
     }
 
