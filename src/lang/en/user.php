@@ -16,4 +16,5 @@ return [
     'success_update' => 'User updated successfully',
     'success_activate' => 'User activated successfully',
     'success_deactivate' => 'User deactivated successfully',
+    'success_list' => 'Users listed successfully',
 ];
