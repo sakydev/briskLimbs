@@ -9,7 +9,7 @@ use App\Resources\Api\V1\ErrorResponse;
 use App\Resources\Api\V1\SuccessResponse;
 use App\Services\Users\UserValidationService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -18,36 +18,6 @@ class UserController extends Controller
         private UserValidationService $userValidationService,
         private UserRepository $userRepository,
     ) {}
-    public function store(Request $request): UserResource|ErrorResponse {
-        $input = $request->all();
-
-        $accessValidationErrors = $this->userValidationService->validateCanRegister();
-        if ($accessValidationErrors) {
-            return new ErrorResponse(
-                $accessValidationErrors,
-                Response::HTTP_FORBIDDEN
-            );
-        }
-
-        $requestValidationErrors = $this->userValidationService->validateRegisterRequest($input);
-        if ($requestValidationErrors) {
-            return new ErrorResponse(
-                $requestValidationErrors,
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
-        $createdUser = $this->userRepository->create($input);
-        if (!$createdUser) {
-            return new ErrorResponse(
-                [__('auth.failed_insert')],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        return new UserResource($createdUser, __('user.success_registration'), true);
-    }
-
     public function show(int $userId): UserResource|ErrorResponse {
         $user = $this->userRepository->get($userId);
         if (!$user) {
@@ -64,14 +34,12 @@ class UserController extends Controller
          * @var User $user;
          */
         $user = Auth::user();
-        $accessValidationErrors = $this->userValidationService->validateCanUpdate(
-            $userId,
-            $user,
-        );
-        if ($accessValidationErrors) {
+
+        $this->userValidationService->validatePreConditionsToUpdate($userId, $user);
+        if ($this->userValidationService->hasErrors()) {
             return new ErrorResponse(
-                $accessValidationErrors,
-                Response::HTTP_FORBIDDEN
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
             );
         }
 
@@ -83,7 +51,7 @@ class UserController extends Controller
             );
         }
 
-        $updatedUser = $this->userRepository->update($userId, $input);
+        $updatedUser = $this->userRepository->updateById($userId, $input);
         if (!$updatedUser) {
             return new ErrorResponse(
                 [__('user.errors.failed_update')],
@@ -94,26 +62,49 @@ class UserController extends Controller
         return new SuccessResponse(__('user.success_update'), [], Response::HTTP_OK);
     }
 
-    public function login(Request $request): UserResource|ErrorResponse {
-        $input = $request->only(['username', 'password']);
+    public function activate(int $userId): UserResource|ErrorResponse {
+        $foundUser = $this->userRepository->get($userId);
+        if (!$foundUser) {
+            return new ErrorResponse([__('user.errors.failed_find')], Response::HTTP_NOT_FOUND);
+        }
 
-        $loginRequestValidationErrors = $this->userValidationService->validateLoginRequest($input);
-        if ($loginRequestValidationErrors) {
+        /**
+         * @var User $authenticatedUser;
+         */
+        $authenticatedUser = Auth::user();
+
+        $this->userValidationService->validatePreConditionsToActivate($foundUser, $authenticatedUser);
+        if ($this->userValidationService->hasErrors()) {
             return new ErrorResponse(
-                $loginRequestValidationErrors,
-                Response::HTTP_UNPROCESSABLE_ENTITY
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
             );
         }
 
-        $loggedIn = Auth::attempt($input);
-        if (!$loggedIn) {
+        $activatedUser = $this->userRepository->activate($foundUser);
+        return new UserResource($activatedUser, __('user.success_activate'));
+    }
+
+    public function deactivate(int $userId): UserResource|ErrorResponse {
+        $foundUser = $this->userRepository->get($userId);
+        if (!$foundUser) {
+            return new ErrorResponse([__('user.errors.failed_find')], Response::HTTP_NOT_FOUND);
+        }
+
+        /**
+         * @var User $authenticatedUser;
+         */
+        $authenticatedUser = Auth::user();
+
+        $this->userValidationService->validatePreConditionsToDeactivate($foundUser, $authenticatedUser);
+        if ($this->userValidationService->hasErrors()) {
             return new ErrorResponse(
-                [__('auth.failed')],
-                Response::HTTP_UNAUTHORIZED
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
             );
         }
 
-        $user = Auth::user();
-        return new UserResource($user, __('user.success_login'), true);
+        $activatedUser = $this->userRepository->deactivate($foundUser);
+        return new UserResource($activatedUser, __('user.success_deactivate'));
     }
 }
