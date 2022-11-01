@@ -86,8 +86,8 @@ class UserController extends Controller
     }
 
     public function deactivate(int $userId): UserResource|ErrorResponse {
-        $foundUser = $this->userRepository->get($userId);
-        if (!$foundUser) {
+        $requestedUser = $this->userRepository->get($userId);
+        if (!$requestedUser) {
             return new ErrorResponse([__('user.errors.failed_find')], Response::HTTP_NOT_FOUND);
         }
 
@@ -96,7 +96,7 @@ class UserController extends Controller
          */
         $authenticatedUser = Auth::user();
 
-        $this->userValidationService->validatePreConditionsToDeactivate($foundUser, $authenticatedUser);
+        $this->userValidationService->validatePreConditionsToDeactivate($requestedUser, $authenticatedUser);
         if ($this->userValidationService->hasErrors()) {
             return new ErrorResponse(
                 $this->userValidationService->getErrors(),
@@ -104,7 +104,7 @@ class UserController extends Controller
             );
         }
 
-        $deactivatedUser = $this->userRepository->deactivate($foundUser);
+        $deactivatedUser = $this->userRepository->deactivate($requestedUser);
         return new UserResource($deactivatedUser, __('user.success_deactivate'));
     }
 }
