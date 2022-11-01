@@ -104,7 +104,7 @@ class UserController extends Controller
             );
         }
 
-        $activatedUser = $this->userRepository->deactivate($foundUser);
-        return new UserResource($activatedUser, __('user.success_deactivate'));
+        $deactivatedUser = $this->userRepository->deactivate($foundUser);
+        return new UserResource($deactivatedUser, __('user.success_deactivate'));
     }
 }
