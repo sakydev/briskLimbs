@@ -16,18 +16,22 @@ class UserControllerTest extends TestCase {
     private User $basicUser;
     private User $inactiveUser;
 
+    private const USER_SUCCESSFUL_DATA_STRUCTURE = [
+        [
+            'id',
+            'username',
+            'email',
+            'status',
+            'created_at',
+            'updated_at',
+        ]
+    ];
+
     private const USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
         'success',
         'messages',
         'data' => [
-            '*' => [
-                'id',
-                'username',
-                'email',
-                'status',
-                'created_at',
-                'updated_at',
-            ],
+            '*' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
         ],
     ];
 
