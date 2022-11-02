@@ -21,8 +21,21 @@ class UserController extends Controller
         private UserRepository $userRepository,
     ) {}
 
-    public function index(Request $request): SuccessResponse {
+    public function index(Request $request): SuccessResponse|ErrorResponse {
         $parameters = $request->only(['status', 'level']);
+
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        $this->userValidationService->validateCanSeeUsers($user);
+        if ($this->userValidationService->hasErrors()) {
+            return new ErrorResponse(
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
+            );
+        }
 
         $users = UserResource::collection(
             $this->userRepository->list(
@@ -40,6 +53,19 @@ class UserController extends Controller
     }
 
     public function show(int $userId): SuccessResponse|ErrorResponse {
+        /**
+         * @var User $authenticatedUser;
+         */
+        $authenticatedUser = Auth::user();
+
+        $this->userValidationService->validateCanSeeUsers($authenticatedUser);
+        if ($this->userValidationService->hasErrors()) {
+            return new ErrorResponse(
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
+            );
+        }
+
         $user = $this->userRepository->get($userId);
         if (!$user) {
             return new ErrorResponse(
