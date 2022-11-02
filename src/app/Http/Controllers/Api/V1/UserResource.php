@@ -9,11 +9,10 @@ class UserResource extends JsonResource
     private bool $includeToken;
     private string $message;
 
-    public function __construct($resource, string $message, bool $includeToken = false)
+    public function __construct($resource, bool $includeToken = false)
     {
         parent::__construct($resource);
 
-        $this->message = $message;
         $this->includeToken = $includeToken;
     }
 
@@ -23,7 +22,7 @@ class UserResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray($request = []): array
     {
         $data = [
             'id' => $this->id,
@@ -38,12 +37,6 @@ class UserResource extends JsonResource
             $data['_token'] = $this->createToken('auth_token')->plainTextToken;
         }
 
-        $response = [
-            'status' => 'success',
-            'messages' => $this->message,
-            'data' => $data,
-        ];
-
-        return $response;
+        return $data;
     }
 }

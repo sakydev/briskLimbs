@@ -20,7 +20,52 @@ class UserController extends Controller
         private UserValidationService $userValidationService,
         private UserRepository $userRepository,
     ) {}
-    public function show(int $userId): UserResource|ErrorResponse {
+
+    public function index(Request $request): SuccessResponse|ErrorResponse {
+        $parameters = $request->only(['status', 'level']);
+
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        $this->userValidationService->validateCanSeeUsers($user);
+        if ($this->userValidationService->hasErrors()) {
+            return new ErrorResponse(
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
+            );
+        }
+
+        $users = UserResource::collection(
+            $this->userRepository->list(
+                $parameters,
+                $request->get('page', 1),
+                $request->get('limit', 10),
+            ),
+        );
+
+        return new SuccessResponse(
+            __('user.success_list'),
+            $users->toArray($request),
+            Response::HTTP_OK,
+        );
+    }
+
+    public function show(int $userId): SuccessResponse|ErrorResponse {
+        /**
+         * @var User $authenticatedUser;
+         */
+        $authenticatedUser = Auth::user();
+
+        $this->userValidationService->validateCanSeeUsers($authenticatedUser);
+        if ($this->userValidationService->hasErrors()) {
+            return new ErrorResponse(
+                $this->userValidationService->getErrors(),
+                $this->userValidationService->getStatus(),
+            );
+        }
+
         $user = $this->userRepository->get($userId);
         if (!$user) {
             return new ErrorResponse(
@@ -29,7 +74,12 @@ class UserController extends Controller
             );
         }
 
-        return new UserResource($user, __('user.success_find'));
+        $userResource = new UserResource($user);
+        return new SuccessResponse(
+            __('user.success_find'),
+            $userResource->toArray(),
+            Response::HTTP_OK,
+        );
     }
 
     public function update(Request $request, int $userId): SuccessResponse|ErrorResponse {
@@ -82,7 +132,7 @@ class UserController extends Controller
         }
     }
 
-    public function activate(int $userId): UserResource|ErrorResponse {
+    public function activate(int $userId): SuccessResponse|ErrorResponse {
         /**
          * @var User $authenticatedUser;
          */
@@ -110,7 +160,12 @@ class UserController extends Controller
             }
 
             $activatedUser = $this->userRepository->activate($requestedUser);
-            return new UserResource($activatedUser, __('user.success_activate'));
+
+            return new SuccessResponse(
+                __('user.success_activate'),
+                $activatedUser->toArray(),
+                Response::HTTP_OK,
+            );
         } catch (Throwable $exception) {
             report($exception);
 
@@ -126,7 +181,7 @@ class UserController extends Controller
         }
     }
 
-    public function deactivate(int $userId): UserResource|ErrorResponse {
+    public function deactivate(int $userId): SuccessResponse|ErrorResponse {
         /**
          * @var User $authenticatedUser;
          */
@@ -153,7 +208,12 @@ class UserController extends Controller
             }
 
             $deactivatedUser = $this->userRepository->deactivate($requestedUser);
-            return new UserResource($deactivatedUser, __('user.success_deactivate'));
+
+            return new SuccessResponse(
+                __('user.success_deactivate'),
+                $deactivatedUser->toArray(),
+                Response::HTTP_OK,
+            );
         } catch (Throwable $exception) {
             report($exception);
 

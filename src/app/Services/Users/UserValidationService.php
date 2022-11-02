@@ -23,7 +23,7 @@ class UserValidationService
     }
 
     public function getErrors(): array {
-        return $this->errors;
+        return $this->errors ?? [];
     }
 
     public function hasErrors(): bool {
@@ -110,6 +110,17 @@ class UserValidationService
         return $this->validateRules($input, $rules);
     }
 
+    public function validateCanSeeUsers(User $user): bool {
+        if ($user->isInactive()) {
+            $this->addError(__('user.errors.failed_view_permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function validatePreConditionsToRegister(): void {
         $this->resetErrors();
 
@@ -121,6 +132,10 @@ class UserValidationService
     public function validatePreConditionsToUpdate(int $userId, User $authUser): void {
         $this->resetErrors();
 
+        if (!$this->validateCanSeeUsers($authUser)) {
+            return;
+        }
+
         if (!$this->validateCanUpdate($userId, $authUser)) {
             return;
         }
@@ -128,6 +143,10 @@ class UserValidationService
 
     public function validatePreConditionsToActivate(User $inputUser, User $authUser): void {
         $this->resetErrors();
+
+        if (!$this->validateCanSeeUsers($authUser)) {
+            return;
+        }
 
         if (!$this->validateCanUpdate($inputUser->id, $authUser)) {
             return;
@@ -140,6 +159,10 @@ class UserValidationService
 
     public function validatePreConditionsToDeactivate(User $inputUser, User $authUser): void {
         $this->resetErrors();
+
+        if (!$this->validateCanSeeUsers($authUser)) {
+            return;
+        }
 
         if (!$this->validateCanUpdate($inputUser->id, $authUser)) {
             return;
