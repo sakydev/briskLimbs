@@ -9,4 +9,5 @@ return [
     ],
     'success_save' => 'Video saved successfully.',
     'success_update' => 'Video updated successfully.',
+    'success_list' => 'Videos fetched successfully.',
 ];
