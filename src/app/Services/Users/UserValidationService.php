@@ -3,47 +3,18 @@
 namespace App\Services\Users;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
+use App\Services\ValidationService;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserValidationService
+class UserValidationService extends ValidationService
 {
-    private array $errors;
-    private string $status;
-
-    public function validateCanRegister(): ?array {
+    public function validateCanRegister(): bool {
         if (!config('settings.allow_registrations')) {
-            return [[
-               'title' => '',
-               'description' => __('user.errors.failed_registration_restriction'),
-            ]];
+            $this->addError(__('user.errors.failed_registration_restriction'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
         }
 
-        return null;
-    }
-
-    public function getErrors(): array {
-        return $this->errors ?? [];
-    }
-
-    public function hasErrors(): bool {
-        return !empty($this->getErrors());
-    }
-
-    private function addError(string $error): void {
-        $this->errors[] = $error;
-    }
-
-    private function resetErrors(): void {
-        $this->errors = [];
-    }
-
-    public function getStatus(): string {
-        return $this->status;
-    }
-
-    private function setStatus(string $status): void {
-        $this->status = $status;
+        return true;
     }
 
     public function validateCanUpdate(int $inputUserId, User $authUser): bool {
@@ -171,22 +142,5 @@ class UserValidationService
         if (!$this->validateAlreadyInactive($inputUser)) {
             return;
         }
-    }
-
-    private function validateRules(array $input, array $rules): ?array {
-        $validator = Validator::make($input, $rules);
-        $errors = [];
-        if ($validator->fails()) {
-            foreach ($validator->messages()->get('*') as $title => $description) {
-                $errors[] = [
-                    'title' => $title,
-                    'description' => current($description),
-                ];
-            }
-
-            return $errors;
-        }
-
-        return null;
     }
 }
