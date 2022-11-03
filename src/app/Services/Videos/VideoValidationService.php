@@ -4,36 +4,34 @@ namespace App\Services\Videos;
 
 use App\Models\User;
 use App\Models\Video;
-use Illuminate\Support\Facades\Validator;
+use App\Services\ValidationService;
+use Symfony\Component\HttpFoundation\Response;
 
-class VideoValidationService
+class VideoValidationService extends ValidationService
 {
-    public function validateCanUpload(User $user): ?array
-    {
-        $errors = [];
+    public function validateCanUpload(User $user): bool {
         if (!$user->canUpload()) {
-            $errors[] = __('video.errors.failed_upload_permissions');
+            $this->addError(__('video.errors.failed_upload_permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
 
-            return $errors;
+            return false;
         }
 
-        return null;
+        return true;
     }
 
-    public function validateCanUpdate(User $user, Video $video): ?array
-    {
-        $errors = [];
+    public function validateCanUpdate(User $user, Video $video): bool {
         if ($user->getAuthIdentifier() !== $video->user_id) {
-            $errors[] = __('video.errors.failed_update_permissions');
+            $this->addError(__('video.errors.failed_update_permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
 
-            return $errors;
+            return false;
         }
 
-        return null;
+        return true;
     }
 
-    public function validateUploadRequest(array $input): ?array
-    {
+    public function validateUploadRequest(array $input): ?array {
         $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
         $configMaxFilesize = config('settings.max_filesize_video');
 
@@ -55,17 +53,7 @@ class VideoValidationService
             'description' => ['required', 'string', 'min:10', 'max:3000'],
         ];
 
-        $validator = Validator::make($input, $rules);
-        $errors = [];
-        if ($validator->fails()) {
-            foreach ($validator->messages()->get('*') as $title => $description) {
-                $errors[] = sprintf("%s: %s", $title, current($description));
-            }
-
-            return $errors;
-        }
-
-        return null;
+        return $this->validateRules($input, $rules);
     }
 
     public function validateUpdateRequest(array $input): ?array
@@ -76,16 +64,6 @@ class VideoValidationService
             'scope' => ['sometimes', 'required', 'string', 'in:public,private,unlisted'],
         ];
 
-        $validator = Validator::make($input, $rules);
-        $errors = [];
-        if ($validator->fails()) {
-            foreach ($validator->messages()->get('*') as $title => $description) {
-                $errors[] = sprintf("%s: %s", $title, current($description));
-            }
-
-            return $errors;
-        }
-
-        return null;
+        return $this->validateRules($input, $rules);
     }
 }
