@@ -38,7 +38,7 @@ return new class extends Migration
             $table->integer('allow_download'); // 1: yes, 0:no
             $table->string('server_url');
             $table->json('original_meta'); // size, dimensions, format etc
-            $table->timestamp('converted_at')->useCurrent();
+            $table->timestamp('converted_at')->nullable();
 
             $table->timestamps();
         });
