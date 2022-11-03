@@ -68,7 +68,10 @@ class VideoController extends Controller
             $filename = $this->videoService->generateFilename();
             $stored = $this->videoUploadService->store($request->file, $filename);
             if (!$stored) {
-                return new ErrorResponse([__('video.errors.failed_upload')], Response::HTTP_BAD_REQUEST);
+                return new ErrorResponse(
+                    [__('video.errors.failed_upload')],
+                    Response::HTTP_BAD_REQUEST,
+                );
             }
 
             $originalMeta = $this->videoService->extractMeta($stored);
@@ -105,7 +108,10 @@ class VideoController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse([__('general.errors.unknown')], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new ErrorResponse(
+                [__('general.errors.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
         }
     }
 }
