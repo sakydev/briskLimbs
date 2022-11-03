@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AuthenticationController;
+use App\Http\Controllers\Api\V1\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,12 @@ Route::prefix('V1/users')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('V1/videos')->group(function () {
+    Route::get('/', [VideoController::class, 'index'])->name('videos.list');
+    Route::get('/{videoId}', [VideoController::class, 'show'])->name('videos.show');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/', [VideoController::class, 'store'])->name('videos.store');
+        Route::put('/{videoId}', [VideoController::class, 'update'])->name('videos.update');
+    });
 });
