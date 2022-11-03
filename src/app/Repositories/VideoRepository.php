@@ -45,24 +45,24 @@ class VideoRepository
         return (new Video())->create($input);
     }
 
-    public function update(array $fieldValueParis, int|Video $video): bool
+    public function update(Video $video, array $fieldValueParis): bool
     {
-        if ($video instanceof Video) {
-            return $video->update($fieldValueParis);
-        }
-
-        return (new Video())->where('id', $video)->update($fieldValueParis);
+        return $video->update($fieldValueParis);
     }
 
-    public function updateStatus(string $status, int|Video $video): bool
+    public function updateById(int $videoId, array $fieldValuePairs): bool {
+        return (new Video())->where('id', $videoId)->update($fieldValuePairs);
+    }
+
+    public function updateStatus(Video $video, string $status): bool
     {
         $fieldValueParis = ['status' => $status];
-        return $this->update($fieldValueParis, $video);
+        return $this->update($video, $fieldValueParis);
     }
 
-    public function updateState(string $state, int|Video $video): bool
+    public function updateState(Video $video, string $state): bool
     {
         $fieldValueParis = ['state' => $state];
-        return $this->update($fieldValueParis, $video);
+        return $this->update($video, $fieldValueParis);
     }
 }

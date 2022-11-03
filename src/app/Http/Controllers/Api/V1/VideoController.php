@@ -131,4 +131,62 @@ class VideoController extends Controller
             );
         }
     }
+
+    public function update(Request $request, int $videoId): SuccessResponse|ErrorResponse {
+        $input = $request->except(['id', 'vkey', 'filename', '_method']);
+
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        try {
+            $video = $this->videoRepository->get($videoId);
+            if (!$video) {
+                return new ErrorResponse(
+                    [__('video.errors.failed_find')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $this->videoValidationService->validatePreConditionsToUpdate($video, $user);
+            if ($this->videoValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->videoValidationService->getErrors(),
+                    $this->videoValidationService->getStatus(),
+                );
+            }
+
+            $requestValidationErrors = $this->videoValidationService->validateUpdateRequest($input);
+            if ($requestValidationErrors) {
+                return new ErrorResponse(
+                    $requestValidationErrors,
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+
+            $updatedVideo = $this->videoRepository->updateById($videoId, $input);
+            if (!$updatedVideo) {
+                return new ErrorResponse(
+                    [__('videos.errors.failed_update')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            return new SuccessResponse(__('video.success_update'), [], Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Log::error('Video update: unexpected error', [
+                'videoId' => $videoId,
+                'input' => $input,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('general.errors.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
 }

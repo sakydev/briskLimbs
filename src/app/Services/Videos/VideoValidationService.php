@@ -20,7 +20,7 @@ class VideoValidationService extends ValidationService
         return true;
     }
 
-    public function validateCanUpdate(User $user, Video $video): bool {
+    public function validateCanUpdate(Video $video, User $user): bool {
         if ($user->getAuthIdentifier() !== $video->user_id) {
             $this->addError(__('video.errors.failed_update_permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
@@ -65,5 +65,13 @@ class VideoValidationService extends ValidationService
         ];
 
         return $this->validateRules($input, $rules);
+    }
+
+    public function validatePreConditionsToUpdate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
     }
 }
