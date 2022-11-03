@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Resources\Api\V1\ErrorResponse;
 use App\Resources\Api\V1\SuccessResponse;
+use App\Resources\Api\V1\UserResource;
 use App\Services\Users\UserValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
