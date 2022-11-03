@@ -75,10 +75,10 @@ class UserController extends Controller
             );
         }
 
-        $userResource = new UserResource($user);
+        $userData = new UserResource($user);
         return new SuccessResponse(
             __('user.success_find'),
-            $userResource->toArray(),
+            $userData->toArray(),
             Response::HTTP_OK,
         );
     }

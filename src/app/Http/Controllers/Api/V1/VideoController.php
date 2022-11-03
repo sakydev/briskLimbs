@@ -44,6 +44,23 @@ class VideoController extends Controller
         );
     }
 
+    public function show(int $videoId): SuccessResponse|ErrorResponse {
+        $video = $this->videoRepository->get($videoId);
+        if (!$video) {
+            return new ErrorResponse(
+                [__('video.errors.failed_find')],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $videoData = new VideoResource($video);
+        return new SuccessResponse(
+            __('video.success_list'),
+            $videoData->toArray(),
+            Response::HTTP_OK,
+        );
+    }
+
     public function store(Request $request): SuccessResponse|ErrorResponse {
         try {
             /**
