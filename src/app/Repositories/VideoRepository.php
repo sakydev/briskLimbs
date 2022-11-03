@@ -4,12 +4,24 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use App\Services\FileService;
+use Illuminate\Database\Eloquent\Collection;
 
 class VideoRepository
 {
     public function get(int $videoId): ?Video
     {
         return (new Video())->where('id', $videoId)->first();
+    }
+
+    public function list(array $parameters, int $page, int $limit): Collection {
+        $skip = ($page * $limit) - $limit;
+
+        $users = new Video();
+        foreach ($parameters as $name => $value) {
+            $users = $users->where($name, $value);
+        }
+
+        return $users->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
     }
 
     public function create(
@@ -27,6 +39,8 @@ class VideoRepository
         $input['state'] = Video::VIDEO_STATE_ACTIVE;
         $input['scope'] = Video::VIDEO_SCOPE_PUBLIC;
         $input['directory'] = FileService::getDatedDirectoryName();
+
+        $input['converted_at'] = null;
 
         return (new Video())->create($input);
     }
