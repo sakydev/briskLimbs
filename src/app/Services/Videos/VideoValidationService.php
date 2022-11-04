@@ -21,9 +21,31 @@ class VideoValidationService extends ValidationService
     }
 
     public function validateCanUpdate(Video $video, User $user): bool {
-        if ($user->getAuthIdentifier() !== $video->user_id) {
+        if ($user->isInactive() || $user->getAuthIdentifier() !== $video->user_id) {
             $this->addError(__('video.errors.failed_update_permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateAlreadyActive(Video $video): bool {
+        if ($video->state === Video::VIDEO_STATE_ACTIVE) {
+            $this->addError(__('video.errors.failed_already_activate'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateAlreadyInactive(Video $video): bool {
+        if ($video->state === VIDEO::VIDEO_STATE_INACTIVE) {
+            $this->addError(__('video.errors.failed_already_deactivate'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
         }
@@ -71,6 +93,30 @@ class VideoValidationService extends ValidationService
         $this->resetErrors();
 
         if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToActivate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyActive($video)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToDeactivate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyInactive($video)) {
             return;
         }
     }
