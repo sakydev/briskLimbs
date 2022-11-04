@@ -56,11 +56,22 @@ class VideoRepository
 
     public function updateStatus(Video $video, string $status): bool
     {
-        return $this->update($video, ['status' => $status]);
+        return $video->update(['status' => $status]);
     }
 
-    public function updateState(Video $video, string $state): bool
+    public function activate(Video $video): Video
     {
-        return $this->update($video, ['state' => $state]);
+        $video->state = VIDEO::VIDEO_STATE_ACTIVE;
+        $video->save();
+
+        return $video;
+    }
+
+    public function deactivate(Video $video): Video
+    {
+        $video->state = VIDEO::VIDEO_STATE_INACTIVE;
+        $video->save();
+
+        return $video;
     }
 }
