@@ -56,13 +56,11 @@ class VideoRepository
 
     public function updateStatus(Video $video, string $status): bool
     {
-        $fieldValueParis = ['status' => $status];
-        return $this->update($video, $fieldValueParis);
+        return $this->update($video, ['status' => $status]);
     }
 
     public function updateState(Video $video, string $state): bool
     {
-        $fieldValueParis = ['state' => $state];
-        return $this->update($video, $fieldValueParis);
+        return $this->update($video, ['state' => $state]);
     }
 }
