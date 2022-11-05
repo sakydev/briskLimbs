@@ -72,4 +72,25 @@ class VideoRepository
 
         return $video;
     }
+
+    public function makePublic(Video $video): Video {
+        $video->scope = Video::VIDEO_SCOPE_PUBLIC;
+        $video->save();
+
+        return $video;
+    }
+
+    public function makePrivate(Video $video): Video {
+        $video->scope = Video::VIDEO_SCOPE_PRIVATE;
+        $video->save();
+
+        return $video;
+    }
+
+    public function makeUnlisted(Video $video): Video {
+        $video->scope = Video::VIDEO_SCOPE_UNLISTED;
+        $video->save();
+
+        return $video;
+    }
 }
