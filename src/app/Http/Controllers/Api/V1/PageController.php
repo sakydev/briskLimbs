@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\PageRepository;
 use App\Resources\Api\V1\ErrorResponse;
 use App\Resources\Api\V1\PageResource;
 use App\Resources\Api\V1\SuccessResponse;
+use App\Services\PageValidationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class PageController extends Controller
 {
     public function __construct(
+        private PageValidationService $pageValidationService,
         private PageRepository $pageRepository,
     ) {}
 
@@ -47,5 +53,52 @@ class PageController extends Controller
             $pageData->toArray(),
             Response::HTTP_OK,
         );
+    }
+
+    public function store(Request $request): SuccessResponse|ErrorResponse {
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+        $input = $request->all();
+
+        try {
+            $this->pageValidationService->validateCanCreate($user);
+            if ($this->pageValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->pageValidationService->getErrors(),
+                    $this->pageValidationService->getStatus(),
+                );
+            }
+
+            $createRequestErrors = $this->pageValidationService->validateCreateRequest($input);
+            if ($createRequestErrors) {
+                return new ErrorResponse($createRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $createdPage = $this->pageRepository->create($input);
+            if (!$createdPage) {
+                return new ErrorResponse(
+                    [__('page.failed.store.unknown')],
+                    Response::HTTP_BAD_REQUEST,
+                );
+            }
+
+            return new SuccessResponse(
+                __('page.success.store.single'),
+                $createdPage->toArray(),
+                Response::HTTP_OK,
+            );
+        } catch (Throwable $exception) {
+            Log::error('Store page: unexpected error ', [
+                'input' => $input,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('general.errors.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
     }
 }
