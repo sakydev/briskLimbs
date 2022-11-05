@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AuthenticationController;
 use App\Http\Controllers\Api\V1\VideoController;
+use App\Http\Controllers\Api\V1\VideoStateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +42,9 @@ Route::prefix('V1/videos')->group(function () {
         Route::post('/', [VideoController::class, 'store'])->name('videos.store');
         Route::put('/{videoId}', [VideoController::class, 'update'])->name('videos.update');
 
-        Route::put('/{videoId}/activate', [VideoController::class, 'activate'])
+        Route::put('/{videoId}/activate', [VideoStateController::class, 'activate'])
             ->name('videos.activate');
-        Route::put('/{videoId}/deactivate', [VideoController::class, 'deactivate'])
+        Route::put('/{videoId}/deactivate', [VideoStateController::class, 'deactivate'])
             ->name('videos.deactivate');
     });
 });
