@@ -45,17 +45,17 @@ class Video extends Model
         'original_meta' => 'array',
     ];
 
-    public const VIDEO_PROCESSING_PENDING = 'pending';
-    public const VIDEO_PROCESSING_PROGRESS = 'progress';
-    public const VIDEO_PROCESSING_SUCCESS = 'success';
-    public const VIDEO_PROCESSING_FAILED = 'failure';
+    public const PROCESSING_PENDING = 'pending';
+    public const PROCESSING_PROGRESS = 'progress';
+    public const PROCESSING_SUCCESS = 'success';
+    public const PROCESSING_FAILED = 'failure';
 
-    public const VIDEO_STATE_ACTIVE = 'active';
-    public const VIDEO_STATE_INACTIVE = 'inactive';
+    public const STATE_ACTIVE = 'active';
+    public const STATE_INACTIVE = 'inactive';
 
-    public const VIDEO_SCOPE_PUBLIC = 'public';
-    public const VIDEO_SCOPE_PRIVATE = 'private';
-    public const VIDEO_SCOPE_UNLISTED = 'unlisted';
+    public const SCOPE_PUBLIC = 'public';
+    public const SCOPE_PRIVATE = 'private';
+    public const SCOPE_UNLISTED = 'unlisted';
 
     public function getOriginalWidth(): ?int {
         return $this->original_meta['width'] ?? null;

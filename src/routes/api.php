@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AuthenticationController;
 use App\Http\Controllers\Api\V1\VideoController;
 use App\Http\Controllers\Api\V1\VideoStateController;
+use App\Http\Controllers\Api\V1\VideoScopeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,12 @@ Route::prefix('V1/videos')->group(function () {
             ->name('videos.activate');
         Route::put('/{videoId}/deactivate', [VideoStateController::class, 'deactivate'])
             ->name('videos.deactivate');
+
+        Route::put('/{videoId}/public', [VideoScopeController::class, 'public'])
+            ->name('videos.makePublic');
+        Route::put('/{videoId}/private', [VideoScopeController::class, 'private'])
+            ->name('videos.makePrivate');
+        Route::put('/{videoId}/unlisted', [VideoScopeController::class, 'unlisted'])
+            ->name('videos.makeUnlisted');
     });
 });

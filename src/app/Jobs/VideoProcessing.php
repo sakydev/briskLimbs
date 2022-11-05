@@ -43,8 +43,8 @@ class VideoProcessing implements ShouldQueue
     ): void {
         try {
             $logger = new ProcessingLogger($this->video->filename);
-            $videoRepository->updateStatus(Video::VIDEO_PROCESSING_PROGRESS, $this->video);
-            $logger->statusChange(Video::VIDEO_PROCESSING_PROGRESS);
+            $videoRepository->updateStatus($this->video, Video::PROCESSING_PROGRESS);
+            $logger->statusChange(Video::PROCESSING_PROGRESS);
 
             $destinations = FileService::createMediaDestinationDirecctories();
             $thumbnailsDestination = $destinations['thumbnails'];
@@ -84,8 +84,8 @@ class VideoProcessing implements ShouldQueue
                 $logger->processedVideos($videos[$quality], $quality);
             }
 
-            $videoRepository->updateStatus(Video::VIDEO_PROCESSING_SUCCESS, $this->video);
-            $logger->statusChange(Video::VIDEO_PROCESSING_SUCCESS);
+            $videoRepository->updateStatus($this->video, Video::PROCESSING_SUCCESS);
+            $logger->statusChange(Video::PROCESSING_SUCCESS);
         } catch (Throwable $exception) {
             report($exception);
             Log::error('Error processing video: ' . $exception->getMessage());
