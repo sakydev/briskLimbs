@@ -101,4 +101,64 @@ class PageController extends Controller
             );
         }
     }
+
+    public function update(Request $request, int $pageId): SuccessResponse|ErrorResponse {
+        $input = $request->only(['title', 'slug', 'content']);
+
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        try {
+            $page = $this->pageRepository->get($pageId);
+            if (!$page) {
+                return new ErrorResponse(
+                    [__('page.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $this->pageValidationService->validateCanCreate($user);
+            if ($this->pageValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->pageValidationService->getErrors(),
+                    $this->pageValidationService->getStatus(),
+                );
+            }
+
+            $updateRequestErrors = $this->pageValidationService->validateUpdateRequest($input);
+            if ($updateRequestErrors) {
+                return new ErrorResponse($updateRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $updatedPage = $this->pageRepository->update($page, $input);
+            if (!$updatedPage) {
+                return new ErrorResponse(
+                    [__('page.failed.update.unknown')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            $pageData = new PageResource($page);
+            return new SuccessResponse(
+                __('page.success.update.single'),
+                $pageData->toArray(),
+                Response::HTTP_OK,
+            );
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Log::error('Page update: unexpected error', [
+                'videoId' => $pageId,
+                'input' => $input,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('general.errors.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
 }

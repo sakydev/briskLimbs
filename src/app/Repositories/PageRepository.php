@@ -31,7 +31,18 @@ class PageRepository
     {
         return Page::create([
             'title' => $input['title'],
+            'slug' => $input['slug'],
             'content' => $input['content'],
         ]);
+    }
+
+    public function update(Page $page, $fields): Page {
+        foreach ($fields as $name => $value) {
+            $page->$name = $value;
+        }
+
+        $page->save();
+
+        return $page;
     }
 }

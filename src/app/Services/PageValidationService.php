@@ -27,4 +27,14 @@ class PageValidationService extends ValidationService
 
         return $this->validateRules($input, $rules);
     }
+
+    public function validateUpdateRequest(array $input): ?array {
+        $rules = [
+            'title' => ['sometimes', 'required', 'string', 'min:5', 'max:100'],
+            'content' => ['sometimes', 'required', 'string', 'min:10', 'max:3000'],
+            'slug' => ['sometimes', 'required', 'string', 'min:5'],
+        ];
+
+        return $this->validateRules($input, $rules);
+    }
 }
