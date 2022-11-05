@@ -5,6 +5,7 @@ return [
         'failed_registration_restriction' => 'Registrations are restricted at the moment',
         'failed_insert' => 'User database insert failed',
         'failed_update' => 'User failed to update',
+        'failed_update_settings' => 'Settings failed to update',
         'failed_find' => 'User not found',
         'failed_view_permissions' => 'User has insufficient permissions to view',
         'failed_update_permissions' => 'User has insufficient permissions to update',
@@ -18,4 +19,5 @@ return [
     'success_activate' => 'User activated successfully',
     'success_deactivate' => 'User deactivated successfully',
     'success_list' => 'Users listed successfully',
+    'success_update_settings' => 'Settings updated successfully',
 ];

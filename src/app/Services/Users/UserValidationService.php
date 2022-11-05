@@ -92,6 +92,17 @@ class UserValidationService extends ValidationService
         return true;
     }
 
+    public function validateCanUpdateSettings(User $user): bool {
+        if (!$user->isAdmin()) {
+            $this->addError(__('user.errors.failed_update_permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function validatePreConditionsToRegister(): void {
         $this->resetErrors();
 
