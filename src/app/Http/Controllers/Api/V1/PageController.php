@@ -26,8 +26,25 @@ class PageController extends Controller
         );
 
         return new SuccessResponse(
-            __('general.pages.success.find.list'),
+            __('page.success.find.list'),
             $pages->toArray($request),
+            Response::HTTP_OK,
+        );
+    }
+
+    public function show(int $pageId): SuccessResponse|ErrorResponse {
+        $page = $this->pageRepository->get($pageId);
+        if (!$page) {
+            return new ErrorResponse(
+                [__('page.failed.find.fetch')],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $pageData = new PageResource($page);
+        return new SuccessResponse(
+            __('page.success.find.fetch'),
+            $pageData->toArray(),
             Response::HTTP_OK,
         );
     }

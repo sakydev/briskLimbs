@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PageRepository
 {
+    public function get(int $pageId): ?Page {
+        return (new Page())->where('id', $pageId)->first();
+    }
+
     public function getBySlug(string $slug): ?Page
     {
         return (new Page())->where('slug', $slug)->first();
