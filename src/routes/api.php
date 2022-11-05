@@ -40,5 +40,10 @@ Route::prefix('V1/videos')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [VideoController::class, 'store'])->name('videos.store');
         Route::put('/{videoId}', [VideoController::class, 'update'])->name('videos.update');
+
+        Route::put('/{videoId}/activate', [VideoController::class, 'activate'])
+            ->name('videos.activate');
+        Route::put('/{videoId}/deactivate', [VideoController::class, 'deactivate'])
+            ->name('videos.deactivate');
     });
 });

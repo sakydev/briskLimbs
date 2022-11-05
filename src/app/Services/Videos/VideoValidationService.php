@@ -21,7 +21,7 @@ class VideoValidationService extends ValidationService
     }
 
     public function validateCanUpdate(Video $video, User $user): bool {
-        if ($user->getAuthIdentifier() !== $video->user_id) {
+        if ($user->isInactive() || $user->getAuthIdentifier() !== $video->user_id) {
             $this->addError(__('video.errors.failed_update_permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
@@ -29,6 +29,60 @@ class VideoValidationService extends ValidationService
         }
 
         return true;
+    }
+
+    public function validateAlreadyActive(Video $video): bool {
+        if ($video->state === Video::VIDEO_STATE_ACTIVE) {
+            $this->addError(__('video.errors.failed_already_activate'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateAlreadyInactive(Video $video): bool {
+        if ($video->state === VIDEO::VIDEO_STATE_INACTIVE) {
+            $this->addError(__('video.errors.failed_already_deactivate'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validatePreConditionsToUpdate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToActivate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyActive($video)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToDeactivate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyInactive($video)) {
+            return;
+        }
     }
 
     public function validateUploadRequest(array $input): ?array {
@@ -56,8 +110,7 @@ class VideoValidationService extends ValidationService
         return $this->validateRules($input, $rules);
     }
 
-    public function validateUpdateRequest(array $input): ?array
-    {
+    public function validateUpdateRequest(array $input): ?array {
         $rules = [
             'title' => ['sometimes', 'required', 'string', 'min:10', 'max:100'],
             'description' => ['sometimes', 'required', 'string', 'min:10', 'max:3000'],
@@ -65,13 +118,5 @@ class VideoValidationService extends ValidationService
         ];
 
         return $this->validateRules($input, $rules);
-    }
-
-    public function validatePreConditionsToUpdate(Video $video, User $user): void {
-        $this->resetErrors();
-
-        if (!$this->validateCanUpdate($video, $user)) {
-            return;
-        }
     }
 }
