@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class VideoRepository
 {
-    public function get(int $videoId): ?Video
-    {
+    public function get(int $videoId): ?Video {
         return (new Video())->where('id', $videoId)->first();
     }
 
@@ -45,8 +44,7 @@ class VideoRepository
         return (new Video())->create($input);
     }
 
-    public function update(Video $video, array $fieldValueParis): bool
-    {
+    public function update(Video $video, array $fieldValueParis): bool {
         return $video->update($fieldValueParis);
     }
 
@@ -54,21 +52,21 @@ class VideoRepository
         return (new Video())->where('id', $videoId)->update($fieldValuePairs);
     }
 
-    public function updateStatus(Video $video, string $status): bool
-    {
-        return $video->update(['status' => $status]);
+    public function updateStatus(Video $video, string $status): Video {
+        $video->status = $status;
+        $video->save();
+
+        return $video;
     }
 
-    public function activate(Video $video): Video
-    {
+    public function activate(Video $video): Video {
         $video->state = VIDEO::VIDEO_STATE_ACTIVE;
         $video->save();
 
         return $video;
     }
 
-    public function deactivate(Video $video): Video
-    {
+    public function deactivate(Video $video): Video {
         $video->state = VIDEO::VIDEO_STATE_INACTIVE;
         $video->save();
 

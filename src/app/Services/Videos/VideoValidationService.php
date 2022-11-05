@@ -53,42 +53,6 @@ class VideoValidationService extends ValidationService
         return true;
     }
 
-    public function validateUploadRequest(array $input): ?array {
-        $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
-        $configMaxFilesize = config('settings.max_filesize_video');
-
-        // always prefer ini if it is smaller to prevent unexpected errors
-        $maxFilesize = $iniMaxFilesize < $configMaxFilesize ? $iniMaxFilesize : $configMaxFilesize;
-
-        $rules = [
-            'file' => [
-                'required',
-                'mimes:' . str_replace(
-                    '.',
-                    '',
-                    config('settings.supported_formats_video')
-                ),
-                'max:' . $maxFilesize,
-
-            ],
-            'title' => ['required', 'string', 'min:10', 'max:100'],
-            'description' => ['required', 'string', 'min:10', 'max:3000'],
-        ];
-
-        return $this->validateRules($input, $rules);
-    }
-
-    public function validateUpdateRequest(array $input): ?array
-    {
-        $rules = [
-            'title' => ['sometimes', 'required', 'string', 'min:10', 'max:100'],
-            'description' => ['sometimes', 'required', 'string', 'min:10', 'max:3000'],
-            'scope' => ['sometimes', 'required', 'string', 'in:public,private,unlisted'],
-        ];
-
-        return $this->validateRules($input, $rules);
-    }
-
     public function validatePreConditionsToUpdate(Video $video, User $user): void {
         $this->resetErrors();
 
@@ -119,5 +83,40 @@ class VideoValidationService extends ValidationService
         if (!$this->validateAlreadyInactive($video)) {
             return;
         }
+    }
+
+    public function validateUploadRequest(array $input): ?array {
+        $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
+        $configMaxFilesize = config('settings.max_filesize_video');
+
+        // always prefer ini if it is smaller to prevent unexpected errors
+        $maxFilesize = $iniMaxFilesize < $configMaxFilesize ? $iniMaxFilesize : $configMaxFilesize;
+
+        $rules = [
+            'file' => [
+                'required',
+                'mimes:' . str_replace(
+                    '.',
+                    '',
+                    config('settings.supported_formats_video')
+                ),
+                'max:' . $maxFilesize,
+
+            ],
+            'title' => ['required', 'string', 'min:10', 'max:100'],
+            'description' => ['required', 'string', 'min:10', 'max:3000'],
+        ];
+
+        return $this->validateRules($input, $rules);
+    }
+
+    public function validateUpdateRequest(array $input): ?array {
+        $rules = [
+            'title' => ['sometimes', 'required', 'string', 'min:10', 'max:100'],
+            'description' => ['sometimes', 'required', 'string', 'min:10', 'max:3000'],
+            'scope' => ['sometimes', 'required', 'string', 'in:public,private,unlisted'],
+        ];
+
+        return $this->validateRules($input, $rules);
     }
 }

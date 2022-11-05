@@ -260,11 +260,11 @@ class VideoController extends Controller
                 );
             }
 
-            $activatedVideo = $this->videoRepository->deactivate($video);
+            $deactivatedVideo = $this->videoRepository->deactivate($video);
 
             return new SuccessResponse(
                 __('video.success_deactivate'),
-                $activatedVideo->toArray(),
+                $deactivatedVideo->toArray(),
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
