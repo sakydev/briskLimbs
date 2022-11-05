@@ -53,6 +53,39 @@ class VideoValidationService extends ValidationService
         return true;
     }
 
+    public function validateAlreadyPublic(Video $video): bool {
+        if ($video->scope === VIDEO::VIDEO_SCOPE_PUBLIC) {
+            $this->addError(__('video.errors.failed_already_public'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateAlreadyPrivate(Video $video): bool {
+        if ($video->scope === VIDEO::VIDEO_SCOPE_PRIVATE) {
+            $this->addError(__('video.errors.failed_already_private'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateAlreadyUnlisted(Video $video): bool {
+        if ($video->scope === VIDEO::VIDEO_SCOPE_UNLISTED) {
+            $this->addError(__('video.errors.failed_already_unlisted'));
+            $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function validatePreConditionsToUpdate(Video $video, User $user): void {
         $this->resetErrors();
 
@@ -81,6 +114,42 @@ class VideoValidationService extends ValidationService
         }
 
         if (!$this->validateAlreadyInactive($video)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToMakePublic(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyPublic($video)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToMakePrivate(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyPrivate($video)) {
+            return;
+        }
+    }
+
+    public function validatePreConditionsToMakeUnlisted(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+
+        if (!$this->validateAlreadyUnlisted($video)) {
             return;
         }
     }
