@@ -17,7 +17,6 @@ class PageController extends Controller
     ) {}
 
     public function index(Request $request): SuccessResponse|ErrorResponse {
-        dd('asd');
         $pages = PageResource::collection(
             $this->pageRepository->list(
                 [],
@@ -25,8 +24,6 @@ class PageController extends Controller
                 $request->get('limit', 10),
             ),
         );
-
-        dd($pages);
 
         return new SuccessResponse(
             __('general.pages.success.find.list'),
