@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\AuthenticationController;
 use App\Http\Controllers\Api\V1\VideoController;
 use App\Http\Controllers\Api\V1\VideoStateController;
 use App\Http\Controllers\Api\V1\VideoScopeController;
+use App\Http\Controllers\Api\V1\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +57,7 @@ Route::prefix('V1/videos')->group(function () {
             ->name('videos.makeUnlisted');
     });
 });
+
+Route::put('V1/settings', [SettingController::class, 'update'])
+    ->middleware('auth:sanctum')
+    ->name('videos.makeUnlisted');
