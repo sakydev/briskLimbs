@@ -35,8 +35,9 @@ class VideoRepository
         $input['filename'] = $filename;
         $input['original_meta'] = $meta;
 
-        $input['state'] = Video::VIDEO_STATE_ACTIVE;
-        $input['scope'] = Video::VIDEO_SCOPE_PUBLIC;
+        $input['status'] = Video::PROCESSING_PENDING;
+        $input['state'] = Video::STATE_ACTIVE;
+        $input['scope'] = Video::SCOPE_PUBLIC;
         $input['directory'] = FileService::getDatedDirectoryName();
 
         $input['converted_at'] = null;
@@ -60,35 +61,35 @@ class VideoRepository
     }
 
     public function activate(Video $video): Video {
-        $video->state = VIDEO::VIDEO_STATE_ACTIVE;
+        $video->state = VIDEO::STATE_ACTIVE;
         $video->save();
 
         return $video;
     }
 
     public function deactivate(Video $video): Video {
-        $video->state = VIDEO::VIDEO_STATE_INACTIVE;
+        $video->state = VIDEO::STATE_INACTIVE;
         $video->save();
 
         return $video;
     }
 
     public function makePublic(Video $video): Video {
-        $video->scope = Video::VIDEO_SCOPE_PUBLIC;
+        $video->scope = Video::SCOPE_PUBLIC;
         $video->save();
 
         return $video;
     }
 
     public function makePrivate(Video $video): Video {
-        $video->scope = Video::VIDEO_SCOPE_PRIVATE;
+        $video->scope = Video::SCOPE_PRIVATE;
         $video->save();
 
         return $video;
     }
 
     public function makeUnlisted(Video $video): Video {
-        $video->scope = Video::VIDEO_SCOPE_UNLISTED;
+        $video->scope = Video::SCOPE_UNLISTED;
         $video->save();
 
         return $video;
