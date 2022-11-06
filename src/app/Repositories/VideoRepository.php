@@ -15,12 +15,12 @@ class VideoRepository
     public function list(array $parameters, int $page, int $limit): Collection {
         $skip = ($page * $limit) - $limit;
 
-        $users = new Video();
+        $videos = new Video();
         foreach ($parameters as $name => $value) {
-            $users = $users->where($name, $value);
+            $videos = $videos->where($name, $value);
         }
 
-        return $users->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
+        return $videos->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
     }
 
     public function create(

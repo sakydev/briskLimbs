@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AuthenticationController;
@@ -8,6 +7,8 @@ use App\Http\Controllers\Api\V1\VideoController;
 use App\Http\Controllers\Api\V1\VideoStateController;
 use App\Http\Controllers\Api\V1\VideoScopeController;
 use App\Http\Controllers\Api\V1\SettingController;
+use App\Http\Controllers\Api\V1\PageController;
+use App\Http\Controllers\Api\V1\PageStateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,21 @@ Route::prefix('V1/videos')->group(function () {
             ->name('videos.makePrivate');
         Route::put('/{videoId}/unlisted', [VideoScopeController::class, 'unlisted'])
             ->name('videos.makeUnlisted');
+    });
+});
+
+Route::prefix('V1/pages')->group(function () {
+    Route::get('/', [PageController::class, 'index'])->name('pages.list');
+    Route::get('/{pageId}', [PageController::class, 'show'])->name('pages.show');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/', [PageController::class, 'store'])->name('pages.store');
+        Route::delete('/{pageId}', [PageController::class, 'destroy'])->name('pages.delete');
+
+        Route::put('/{pageId}', [PageController::class, 'update'])->name('pages.update');
+        Route::put('/{pageId}/publish', [PageStateController::class, 'publish'])->name('pages.publish');
+        Route::put('/{pageId}/unpublish', [PageStateController::class, 'unpublish'])->name('pages.unpublish');
+
     });
 });
 
