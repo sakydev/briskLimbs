@@ -96,7 +96,7 @@ class PageController extends Controller
             ]);
 
             return new ErrorResponse(
-                [__('general.errors.unknown')],
+                [__('page.failed.store.unknown')],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
             );
         }
@@ -119,7 +119,7 @@ class PageController extends Controller
                 );
             }
 
-            $this->pageValidationService->validateCanCreate($user);
+            $this->pageValidationService->validateCanUpdate($user);
             if ($this->pageValidationService->hasErrors()) {
                 return new ErrorResponse(
                     $this->pageValidationService->getErrors(),
@@ -150,13 +150,60 @@ class PageController extends Controller
             report($exception);
 
             Log::error('Page update: unexpected error', [
-                'videoId' => $pageId,
+                'pageId' => $pageId,
                 'input' => $input,
                 'error' => $exception->getMessage(),
             ]);
 
             return new ErrorResponse(
-                [__('general.errors.unknown')],
+                [__('page.failed.delete.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+    public function destroy(int $pageId): SuccessResponse|ErrorResponse {
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        try {
+            $page = $this->pageRepository->get($pageId);
+            if (!$page) {
+                return new ErrorResponse(
+                    [__('page.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $this->pageValidationService->validateCanDelete($user);
+            if ($this->pageValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->pageValidationService->getErrors(),
+                    $this->pageValidationService->getStatus(),
+                );
+            }
+
+            $deletedPage = $this->pageRepository->delete($page);
+            if (!$deletedPage) {
+                return new ErrorResponse(
+                    [__('page.failed.delete.unknown')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            return new SuccessResponse(__('page.success.delete.single'), [],Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Log::error('Page delete: unexpected error', [
+                'pageId' => $pageId,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('page.failed.delete.unknown')],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
             );
         }
