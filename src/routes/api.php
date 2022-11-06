@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\VideoStateController;
 use App\Http\Controllers\Api\V1\VideoScopeController;
 use App\Http\Controllers\Api\V1\SettingController;
 use App\Http\Controllers\Api\V1\PageController;
+use App\Http\Controllers\Api\V1\PageStateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,11 +66,11 @@ Route::prefix('V1/pages')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [PageController::class, 'store'])->name('pages.store');
-        Route::delete('/{pageId}', [PageController::class, 'delete'])->name('pages.delete');
+        Route::delete('/{pageId}', [PageController::class, 'destroy'])->name('pages.delete');
 
         Route::put('/{pageId}', [PageController::class, 'update'])->name('pages.update');
-        Route::put('/{pageId}/publish', [PageController::class, 'publish'])->name('pages.publish');
-        Route::put('/{pageId}/unpublish', [PageController::class, 'unpublish'])->name('pages.unpublish');
+        Route::put('/{pageId}/publish', [PageStateController::class, 'publish'])->name('pages.publish');
+        Route::put('/{pageId}/unpublish', [PageStateController::class, 'unpublish'])->name('pages.unpublish');
 
     });
 });
