@@ -8,6 +8,8 @@ return [
             'unknown' => 'Something went wrong trying to find page',
         ],
         'update' => [
+            'already_published' => 'Requested page is already published',
+            'already_unpublished' => 'Requested page is already unpublished',
             'permissions' => 'User has insufficient to update page',
             'unknown' => 'Something went wrong trying to update page',
         ],
@@ -28,6 +30,8 @@ return [
         'update' => [
             'single' => 'Requested page has been updated successfully',
             'list' => 'Requested pages have been updated successfully',
+            'publish' => 'Requested page has been published successfully',
+            'unpublish' => 'Requested page has been unpublished successfully',
         ],
         'store' => [
             'single' => 'Page has been created successfully',
