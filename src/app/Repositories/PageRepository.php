@@ -45,4 +45,22 @@ class PageRepository
 
         return $page;
     }
+
+    public function delete(Page $page): bool {
+        return $page->delete();
+    }
+
+    public function publish(Page $page): Page {
+        $page->state = PAGE::STATE_PUBLISHED;
+        $page->save();
+
+        return $page;
+    }
+
+    public function unpublish(Page $page): Page {
+        $page->state = Page::STATE_UNPUBLISHED;
+        $page->save();
+
+        return $page;
+    }
 }
