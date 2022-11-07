@@ -76,7 +76,7 @@ class PageStateController extends Controller
             $page = $this->pageRepository->get($videoId);
             if (!$page) {
                 return new ErrorResponse(
-                    [__('page.errors.failed_find')],
+                    [__('page.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }

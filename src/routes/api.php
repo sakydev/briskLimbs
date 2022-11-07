@@ -85,8 +85,8 @@ Route::prefix('V1/categories')->group(function () {
         Route::delete('/{categoryId}', [CategoryController::class, 'destroy'])->name('categories.delete');
 
         Route::put('/{categoryId}', [CategoryController::class, 'update'])->name('categories.update');
-        #Route::put('/{categoryId}/publish', [CategoryStateController::class, 'publish'])->name('categories.publish');
-        #Route::put('/{categoryId}/unpublish', [CategoryStateController::class, 'unpublish'])->name('categories.unpublish');
+        Route::put('/{categoryId}/publish', [CategoryStateController::class, 'publish'])->name('categories.publish');
+        Route::put('/{categoryId}/unpublish', [CategoryStateController::class, 'unpublish'])->name('categories.unpublish');
 
     });
 });
