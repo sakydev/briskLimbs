@@ -78,15 +78,15 @@ Route::prefix('V1/pages')->group(function () {
 
 Route::prefix('V1/categories')->group(function () {
     Route::get('/', [CategoryController::class, 'index'])->name('categories.list');
-    Route::get('/{pageId}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::get('/{categoryId}', [CategoryController::class, 'show'])->name('categories.show');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [CategoryController::class, 'store'])->name('categories.store');
-        Route::delete('/{pageId}', [CategoryController::class, 'destroy'])->name('categories.delete');
+        Route::delete('/{categoryId}', [CategoryController::class, 'destroy'])->name('categories.delete');
 
-        Route::put('/{pageId}', [CategoryController::class, 'update'])->name('categories.update');
-        Route::put('/{pageId}/publish', [CategoryStateController::class, 'publish'])->name('categories.publish');
-        Route::put('/{pageId}/unpublish', [CategoryStateController::class, 'unpublish'])->name('categories.unpublish');
+        Route::put('/{categoryId}', [CategoryController::class, 'update'])->name('categories.update');
+        #Route::put('/{categoryId}/publish', [CategoryStateController::class, 'publish'])->name('categories.publish');
+        #Route::put('/{categoryId}/unpublish', [CategoryStateController::class, 'unpublish'])->name('categories.unpublish');
 
     });
 });
