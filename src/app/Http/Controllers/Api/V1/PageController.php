@@ -140,7 +140,7 @@ class PageController extends Controller
                 );
             }
 
-            $pageData = new PageResource($page);
+            $pageData = new PageResource($updatedPage);
             return new SuccessResponse(
                 __('page.success.update.single'),
                 $pageData->toArray(),

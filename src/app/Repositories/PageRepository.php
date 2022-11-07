@@ -33,6 +33,7 @@ class PageRepository
             'title' => $input['title'],
             'slug' => $input['slug'],
             'content' => $input['content'],
+            'state' => Page::STATE_PUBLISHED,
         ]);
     }
 
