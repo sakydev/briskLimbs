@@ -25,7 +25,7 @@ return [
     'success' => [
         'find' => [
             'fetch' => 'Requested category fetched successfully',
-            'list' => 'Pages have been fetched successfully',
+            'list' => 'Categories have been fetched successfully',
         ],
         'update' => [
             'single' => 'Requested category has been updated successfully',
@@ -34,7 +34,7 @@ return [
             'unpublish' => 'Requested category has been unpublished successfully',
         ],
         'store' => [
-            'single' => 'Page has been created successfully',
+            'single' => 'Category has been created successfully',
         ],
         'delete' => [
             'single' => 'Requested category has been deleted successfully',
