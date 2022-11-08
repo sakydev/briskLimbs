@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
+use App\Models\Video;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
         // admin user with all access
         User::factory()->create([
             'username' => 'brisklimbs',
@@ -35,6 +35,10 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
             'password' => Hash::make(env('DEFAULT_USER_PASSWORD')),
         ]);
+
+        User::factory()->count(10)->create();
+        Category::factory()->count(10)->create();
+        Video::factory()->count(10)->create();
 
         $this->call([
             TermsSeeder::class,
