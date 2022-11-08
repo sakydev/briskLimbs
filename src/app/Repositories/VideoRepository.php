@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Video;
 use App\Services\FileService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class VideoRepository
 {
@@ -23,9 +24,7 @@ class VideoRepository
         return $videos->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
     }
 
-    public function search(string $query, int $page, int $limit): Collection {
-        $skip = ($page * $limit) - $limit;
-
+    public function search(string $query, int $page, int $limit): LengthAwarePaginator {
         $videos = new Video();
 
         return
@@ -34,9 +33,7 @@ class VideoRepository
             ->whereIn('state', [Video::STATE_ACTIVE])
             ->whereIn('status', [Video::PROCESSING_SUCCESS])
             ->whereIn('scope', [Video::SCOPE_PUBLIC])
-            #->skip($skip)
-            ->take($limit)
-            ->get();
+            ->paginate($limit, '', $page);
     }
 
     public function create(
