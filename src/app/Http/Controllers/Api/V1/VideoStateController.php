@@ -30,7 +30,7 @@ class VideoStateController extends Controller
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_find')],
+                    [__('video.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -47,7 +47,7 @@ class VideoStateController extends Controller
             $activatedVideo = $this->videoRepository->activate($video);
 
             return new SuccessResponse(
-                __('video.success_activate'),
+                __('video.success.update.activate'),
                 $activatedVideo->toArray(),
                 Response::HTTP_OK,
             );
@@ -76,7 +76,7 @@ class VideoStateController extends Controller
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_find')],
+                    [__('video.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -93,7 +93,7 @@ class VideoStateController extends Controller
             $deactivatedVideo = $this->videoRepository->deactivate($video);
 
             return new SuccessResponse(
-                __('video.success_deactivate'),
+                __('video.success.update.deactivate'),
                 $deactivatedVideo->toArray(),
                 Response::HTTP_OK,
             );

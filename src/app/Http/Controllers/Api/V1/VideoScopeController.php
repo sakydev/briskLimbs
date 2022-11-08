@@ -30,7 +30,7 @@ class VideoScopeController extends Controller
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_find')],
+                    [__('video.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -47,7 +47,7 @@ class VideoScopeController extends Controller
             $publicVideo = $this->videoRepository->makePublic($video);
 
             return new SuccessResponse(
-                __('video.success_make_public'),
+                __('video.success.update.public'),
                 $publicVideo->toArray(),
                 Response::HTTP_OK,
             );
@@ -76,7 +76,7 @@ class VideoScopeController extends Controller
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_find')],
+                    [__('video.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -93,7 +93,7 @@ class VideoScopeController extends Controller
             $privateVideo = $this->videoRepository->makePrivate($video);
 
             return new SuccessResponse(
-                __('video.success_make_private'),
+                __('video.success.update.private'),
                 $privateVideo->toArray(),
                 Response::HTTP_OK,
             );
@@ -122,7 +122,7 @@ class VideoScopeController extends Controller
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_find')],
+                    [__('video.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -139,7 +139,7 @@ class VideoScopeController extends Controller
             $unlistedVideo = $this->videoRepository->makeUnlisted($video);
 
             return new SuccessResponse(
-                __('video.success_make_unlisted'),
+                __('video.success.update.unlisted'),
                 $unlistedVideo->toArray(),
                 Response::HTTP_OK,
             );

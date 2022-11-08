@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Video;
 use App\Services\FileService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class VideoRepository
 {
@@ -23,6 +24,18 @@ class VideoRepository
         return $videos->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
     }
 
+    public function search(string $query, int $page, int $limit): LengthAwarePaginator {
+        $videos = new Video();
+
+        return
+            $videos
+            ->search($query)
+            ->whereIn('state', [Video::STATE_ACTIVE])
+            ->whereIn('status', [Video::PROCESSING_SUCCESS])
+            ->whereIn('scope', [Video::SCOPE_PUBLIC])
+            ->paginate($limit, '', $page);
+    }
+
     public function create(
         array $input,
         string $filename,
@@ -31,6 +44,7 @@ class VideoRepository
         int $userId,
     ): Video {
         $input['user_id'] = $userId;
+        $input['category_id'] = $input['category_id'] ?? 1;
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
         $input['original_meta'] = $meta;
@@ -45,8 +59,14 @@ class VideoRepository
         return (new Video())->create($input);
     }
 
-    public function update(Video $video, array $fieldValueParis): bool {
-        return $video->update($fieldValueParis);
+    public function update(Video $video, array $fieldValueParis): Video {
+        foreach ($fieldValueParis as $field => $value) {
+            $video->$field = $value;
+        }
+
+        $video->save();
+
+        return $video;
     }
 
     public function updateById(int $videoId, array $fieldValuePairs): bool {

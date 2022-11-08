@@ -38,7 +38,7 @@ class VideoController extends Controller
         );
 
         return new SuccessResponse(
-            __('video.success_list'),
+            __('video.success.find.list'),
             $videos->toArray($request),
             Response::HTTP_OK,
         );
@@ -48,14 +48,14 @@ class VideoController extends Controller
         $video = $this->videoRepository->get($videoId);
         if (!$video) {
             return new ErrorResponse(
-                [__('video.errors.failed_find')],
+                [__('video.failed.find.fetch')],
                 Response::HTTP_NOT_FOUND
             );
         }
 
         $videoData = new VideoResource($video);
         return new SuccessResponse(
-            __('video.success_list'),
+            __('video.success.find.fetch'),
             $videoData->toArray(),
             Response::HTTP_OK,
         );
@@ -86,7 +86,7 @@ class VideoController extends Controller
             $stored = $this->videoUploadService->store($request->file, $filename);
             if (!$stored) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_upload')],
+                    [__('video.failed.store.file')],
                     Response::HTTP_BAD_REQUEST,
                 );
             }
@@ -94,7 +94,7 @@ class VideoController extends Controller
             $originalMeta = $this->videoService->extractMeta($stored);
             if (empty($originalMeta['width'])) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_meta_extraction')],
+                    [__('video.failed.store.meta')],
                     Response::HTTP_UNPROCESSABLE_ENTITY,
                 );
             }
@@ -115,7 +115,7 @@ class VideoController extends Controller
             }
 
             return new SuccessResponse(
-                __('video.success_save'),
+                __('video.success.store.single'),
                 $createdVideo->toArray(),
                 Response::HTTP_OK,
             );
@@ -144,7 +144,7 @@ class VideoController extends Controller
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
                 return new ErrorResponse(
-                    [__('video.errors.failed_find')],
+                    [__('video.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -165,15 +165,20 @@ class VideoController extends Controller
                 );
             }
 
-            $updatedVideo = $this->videoRepository->updateById($videoId, $input);
+            $updatedVideo = $this->videoRepository->update($video, $input);
             if (!$updatedVideo) {
                 return new ErrorResponse(
-                    [__('videos.errors.failed_update')],
+                    [__('videos.failed.update.unknown')],
                     Response::HTTP_BAD_REQUEST
                 );
             }
 
-            return new SuccessResponse(__('video.success_update'), [], Response::HTTP_OK);
+            $videoData = new VideoResource($updatedVideo);
+            return new SuccessResponse(
+                __('video.success.update.single'),
+                $videoData->toArray(),
+                Response::HTTP_OK
+            );
         } catch (Throwable $exception) {
             report($exception);
 

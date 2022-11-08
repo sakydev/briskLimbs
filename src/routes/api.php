@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\PageStateController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CategoryStateController;
+use App\Http\Controllers\Api\V1\Search\VideoSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::prefix('V1/users')->group(function () {
 
 Route::prefix('V1/videos')->group(function () {
     Route::get('/', [VideoController::class, 'index'])->name('videos.list');
+    Route::get('/search', [VideoSearchController::class, 'search'])->name('videos.search');
     Route::get('/{videoId}', [VideoController::class, 'show'])->name('videos.show');
 
     Route::middleware('auth:sanctum')->group(function () {
