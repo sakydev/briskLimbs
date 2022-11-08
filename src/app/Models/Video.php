@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * @property int $user_id
@@ -39,6 +40,7 @@ use Illuminate\Database\Eloquent\Model;
 class Video extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $guarded = [];
     protected $casts = [
@@ -56,6 +58,18 @@ class Video extends Model
     public const SCOPE_PUBLIC = 'public';
     public const SCOPE_PRIVATE = 'private';
     public const SCOPE_UNLISTED = 'unlisted';
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray(): array {
+        return [
+            'title' => $this->title,
+            'description' => $this->description,
+        ];
+    }
 
     public function getOriginalWidth(): ?int {
         return $this->original_meta['width'] ?? null;
