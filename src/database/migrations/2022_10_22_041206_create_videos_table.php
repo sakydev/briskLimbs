@@ -44,6 +44,9 @@ return new class extends Migration
             $table->timestamp('converted_at')->nullable();
 
             $table->timestamps();
+
+            $table->fullText('title');
+            $table->fullText('description');
         });
     }
 
