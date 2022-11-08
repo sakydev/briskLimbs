@@ -11,7 +11,7 @@ class VideoValidationService extends ValidationService
 {
     public function validateCanUpload(User $user): bool {
         if (!$user->canUpload()) {
-            $this->addError(__('video.errors.failed_upload_permissions'));
+            $this->addError(__('video.failed.store.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
             return false;
@@ -22,7 +22,7 @@ class VideoValidationService extends ValidationService
 
     public function validateCanUpdate(Video $video, User $user): bool {
         if ($user->isInactive() || $user->getAuthIdentifier() !== $video->user_id) {
-            $this->addError(__('video.errors.failed_update_permissions'));
+            $this->addError(__('video.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
             return false;
@@ -33,7 +33,7 @@ class VideoValidationService extends ValidationService
 
     public function validateAlreadyActive(Video $video): bool {
         if ($video->state === Video::STATE_ACTIVE) {
-            $this->addError(__('video.errors.failed_already_activate'));
+            $this->addError(__('video.failed.update.already.active'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -44,7 +44,7 @@ class VideoValidationService extends ValidationService
 
     public function validateAlreadyInactive(Video $video): bool {
         if ($video->state === VIDEO::STATE_INACTIVE) {
-            $this->addError(__('video.errors.failed_already_deactivate'));
+            $this->addError(__('video.failed.update.already.inactive'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -55,7 +55,7 @@ class VideoValidationService extends ValidationService
 
     public function validateAlreadyPublic(Video $video): bool {
         if ($video->scope === VIDEO::SCOPE_PUBLIC) {
-            $this->addError(__('video.errors.failed_already_public'));
+            $this->addError(__('video.failed.update.already.public'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -66,7 +66,7 @@ class VideoValidationService extends ValidationService
 
     public function validateAlreadyPrivate(Video $video): bool {
         if ($video->scope === VIDEO::SCOPE_PRIVATE) {
-            $this->addError(__('video.errors.failed_already_private'));
+            $this->addError(__('video.failed.update.already.private'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -77,7 +77,7 @@ class VideoValidationService extends ValidationService
 
     public function validateAlreadyUnlisted(Video $video): bool {
         if ($video->scope === VIDEO::SCOPE_UNLISTED) {
-            $this->addError(__('video.errors.failed_already_unlisted'));
+            $this->addError(__('video.failed.update.already.unlisted'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;

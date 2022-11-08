@@ -1,25 +1,55 @@
 <?php
 
 return [
-    'errors' => [
-        'failed_upload' => 'Failed to upload video to server',
-        'failed_find' => 'Video not found',
-        'failed_update' => 'User failed to update',
-        'failed_upload_permissions' => 'User has insufficient permissions to upload',
-        'failed_update_permissions' => 'User has insufficient permissions to update',
-        'failed_meta_extraction' => 'Failed to decode video meta data',
-        'failed_already_activate' => 'Video is already active',
-        'failed_already_deactivate' => 'Video is already inactive',
-        'failed_already_public' => 'Video is already public',
-        'failed_already_private' => 'Video is already private',
-        'failed_already_unlisted' => 'Video is already unlisted',
+    'failed' => [
+        'find' => [
+            'fetch' => 'Requested video was not found',
+            'permissions' => 'User has insufficient to view video',
+            'unknown' => 'Something went wrong trying to find video',
+        ],
+        'update' => [
+            'already' => [
+                'active' => 'Requested video is already active',
+                'inactive' => 'Requested video is already inactive',
+                'public' => 'Requested video is already public',
+                'private' => 'Requested video is already private',
+                'unlisted' => 'Requested video is already unlisted',
+            ],
+            'permissions' => 'User has insufficient to update video',
+            'unknown' => 'Something went wrong trying to update video',
+        ],
+        'store' => [
+            'file' => 'Failed to store video on server',
+            'permissions' => 'User has insufficient to upload video',
+            'meta' => 'Failed to extract video meta data',
+            'unknown' => 'Something went wrong trying to upload video',
+        ],
+        'delete' => [
+            'permissions' => 'User has insufficient to delete video',
+            'unknown' => 'Something went wrong trying to delete video',
+        ],
     ],
-    'success_save' => 'Video saved successfully.',
-    'success_update' => 'Video updated successfully.',
-    'success_list' => 'Videos fetched successfully.',
-    'success_activate' => 'Video activated successfully.',
-    'success_deactivate' => 'Video deactivated successfully.',
-    'success_make_public' => 'Video made public successfully.',
-    'success_make_private' => 'Video made private successfully.',
-    'success_make_unlisted' => 'Video made unlisted successfully.',
+    'success' => [
+        'find' => [
+            'fetch' => 'Requested video fetched successfully',
+            'list' => 'Requested videos have been fetched successfully',
+            'search' => 'Searched videos have been fetched successfully',
+        ],
+        'update' => [
+            'single' => 'Requested video has been updated successfully',
+            'list' => 'Requested videos have been updated successfully',
+            'activate' => 'Requested video has been activated successfully',
+            'deactivate' => 'Requested video has been deactivated successfully',
+            'public' => 'Requested video has been made public successfully',
+            'private' => 'Requested video has been made private successfully',
+            'unlisted' => 'Requested video has been made unlisted successfully',
+        ],
+        'store' => [
+            'single' => 'Video has been saved successfully',
+        ],
+        'delete' => [
+            'single' => 'Requested video has been deleted successfully',
+            'list' => 'Requested videos have been deleted successfully',
+        ],
+    ],
 ];

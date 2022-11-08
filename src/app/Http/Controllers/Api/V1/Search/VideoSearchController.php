@@ -39,7 +39,7 @@ class VideoSearchController extends Controller
         );
 
         return new SuccessResponse(
-            __('video.success_list'),
+            __('video.success.find.search'),
             $videos->toArray($request),
             Response::HTTP_OK,
         );

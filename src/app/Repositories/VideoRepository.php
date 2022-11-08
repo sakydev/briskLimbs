@@ -44,6 +44,7 @@ class VideoRepository
         int $userId,
     ): Video {
         $input['user_id'] = $userId;
+        $input['category_id'] = $input['category_id'] ?? 1;
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
         $input['original_meta'] = $meta;
@@ -58,8 +59,14 @@ class VideoRepository
         return (new Video())->create($input);
     }
 
-    public function update(Video $video, array $fieldValueParis): bool {
-        return $video->update($fieldValueParis);
+    public function update(Video $video, array $fieldValueParis): Video {
+        foreach ($fieldValueParis as $field => $value) {
+            $video->$field = $value;
+        }
+
+        $video->save();
+
+        return $video;
     }
 
     public function updateById(int $videoId, array $fieldValuePairs): bool {
