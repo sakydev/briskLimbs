@@ -188,4 +188,12 @@ class VideoValidationService extends ValidationService
 
         return $this->validateRules($input, $rules);
     }
+
+    public function validateSearchRequest(array $input): ?array {
+        $rules = [
+            'query' => ['required', 'string', 'min:3', 'max:50'],
+        ];
+
+        return $this->validateRules($input, $rules);
+    }
 }
