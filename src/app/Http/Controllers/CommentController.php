@@ -48,7 +48,28 @@ class CommentController extends Controller
     }
 
     public function show(int $videoId, int $commentId): SuccessResponse|ErrorResponse {
+        $video = $this->videoRepository->get($videoId);
+        if (!$video) {
+            return new ErrorResponse(
+                [__('video.failed.find.fetch')],
+                Response::HTTP_NOT_FOUND
+            );
+        }
 
+        $comment = $this->commentRepository->get($commentId);
+        if (!$comment) {
+            return new ErrorResponse(
+                [__('comment.failed.find.fetch')],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $commentData = new CommentResource($comment);
+        return new SuccessResponse(
+            __('comment.success.find.fetch'),
+            $commentData->toArray(),
+            Response::HTTP_OK,
+        );
     }
 
     public function store(Request $request, int $videoId): SuccessResponse|ErrorResponse {

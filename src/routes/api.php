@@ -46,6 +46,8 @@ Route::prefix('V1/videos')->group(function () {
     Route::get('/search', [VideoSearchController::class, 'search'])->name('videos.search');
     Route::get('/{videoId}', [VideoController::class, 'show'])->name('videos.show');
     Route::get('/{videoId}/comments', [CommentController::class, 'index'])->name('videos.comments.list');
+    Route::get('/{videoId}/comments/{commentId}', [CommentController::class, 'show'])
+        ->name('videos.comments.show');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [VideoController::class, 'store'])->name('videos.store');
