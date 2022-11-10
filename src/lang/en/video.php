@@ -25,6 +25,7 @@ return [
             'unknown' => 'Something went wrong trying to upload video',
         ],
         'delete' => [
+            'media' => 'Failed to delete video files and thumbnails',
             'permissions' => 'User has insufficient to delete video',
             'unknown' => 'Something went wrong trying to delete video',
         ],
