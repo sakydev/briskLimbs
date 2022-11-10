@@ -73,6 +73,10 @@ class VideoRepository
         return (new Video())->where('id', $videoId)->update($fieldValuePairs);
     }
 
+    public function delete(Video $video): bool {
+        return $video->delete();
+    }
+
     public function updateStatus(Video $video, string $status): Video {
         $video->status = $status;
         $video->save();

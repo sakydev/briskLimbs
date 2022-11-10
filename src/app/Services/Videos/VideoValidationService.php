@@ -94,6 +94,14 @@ class VideoValidationService extends ValidationService
         }
     }
 
+    public function validatePreConditionsToDelete(Video $video, User $user): void {
+        $this->resetErrors();
+
+        if (!$this->validateCanUpdate($video, $user)) {
+            return;
+        }
+    }
+
     public function validatePreConditionsToActivate(Video $video, User $user): void {
         $this->resetErrors();
 

@@ -60,6 +60,9 @@ Route::prefix('V1/videos')->group(function () {
             ->name('videos.makePrivate');
         Route::put('/{videoId}/unlisted', [VideoScopeController::class, 'unlisted'])
             ->name('videos.makeUnlisted');
+
+        Route::delete('/{videoId}', [VideoController::class, 'delete'])
+            ->name('videos.delete');
     });
 });
 
