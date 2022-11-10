@@ -111,8 +111,72 @@ class CommentController extends Controller
         }
     }
 
-    public function update(int $videoId, int $commentId): SuccessResponse|ErrorResponse {
+    public function update(Request $request, int $videoId, int $commentId): SuccessResponse|ErrorResponse {
+        $input = $request->only('content');
 
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        try {
+            $video = $this->videoRepository->get($videoId);
+            if (!$video) {
+                return new ErrorResponse(
+                    [__('video.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $comment = $this->commentRepository->get($commentId);
+            if (!$comment) {
+                return new ErrorResponse(
+                    [__('comment.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $this->commentValidationService->validateCanUpdate($user, $video, $comment);
+            if ($this->commentValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->commentValidationService->getErrors(),
+                    $this->commentValidationService->getStatus(),
+                );
+            }
+
+            $updateRequestErrors = $this->commentValidationService->validateUpdateRequest($input);
+            if ($updateRequestErrors) {
+                return new ErrorResponse($updateRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $updatedComment = $this->commentRepository->update($comment, $input);
+            if (!$updatedComment) {
+                return new ErrorResponse(
+                    [__('comment.failed.update.unknown')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            $commentData = new CommentResource($updatedComment);
+            return new SuccessResponse(
+                __('comment.success.update.single'),
+                $commentData->toArray(),
+                Response::HTTP_OK,
+            );
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Log::error('Comment update: unexpected error', [
+                'commentId' => $commentId,
+                'input' => $input,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('comment.failed.delete.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
     }
 
     public function delete(int $videoId, int $commentId): SuccessResponse|ErrorResponse {
