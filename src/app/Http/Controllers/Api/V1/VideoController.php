@@ -129,7 +129,7 @@ class VideoController extends Controller
             ]);
 
             return new ErrorResponse(
-                [__('general.errors.unknown')],
+                [__('videos.failed.store.unknown')],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
             );
         }
@@ -192,7 +192,7 @@ class VideoController extends Controller
             ]);
 
             return new ErrorResponse(
-                [__('general.errors.unknown')],
+                [__('videos.failed.update.unknown')],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
             );
         }
@@ -251,7 +251,7 @@ class VideoController extends Controller
             ]);
 
             return new ErrorResponse(
-                [__('general.errors.unknown')],
+                [__('videos.failed.delete.unknown')],
                 Response::HTTP_INTERNAL_SERVER_ERROR,
             );
         }
