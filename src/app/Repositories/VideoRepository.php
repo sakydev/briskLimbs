@@ -54,6 +54,8 @@ class VideoRepository
         $input['scope'] = Video::SCOPE_PUBLIC;
         $input['directory'] = FileService::getDatedDirectoryName();
 
+        $input['allow_comments'] = $input['allow_comments'] ?? config('settings.allow_comments');
+
         $input['converted_at'] = null;
 
         return (new Video())->create($input);
