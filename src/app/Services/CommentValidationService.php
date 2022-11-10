@@ -20,8 +20,8 @@ class CommentValidationService extends ValidationService
         return true;
     }
 
-    public function validateCanUpdate(User $user, Comment $comment): bool {
-        if (!$user->isActive() || $comment->user_id != $user->getAuthIdentifier()) {
+    public function validateCanUpdate(User $user, Video $video, Comment $comment): bool {
+        if (!$this->canAccessComment($user, $video, $comment)) {
             $this->addError(__('comment.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
@@ -31,8 +31,8 @@ class CommentValidationService extends ValidationService
         return true;
     }
 
-    public function validateCanDelete(User $user, Comment $comment): bool {
-        if (!$user->isActive() || $comment->user_id != $user->getAuthIdentifier()) {
+    public function validateCanDelete(User $user, Video $video, Comment $comment): bool {
+        if (!$this->canAccessComment($user, $video, $comment)) {
             $this->addError(__('comment.failed.delete.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
@@ -40,6 +40,12 @@ class CommentValidationService extends ValidationService
         }
 
         return true;
+    }
+
+    private function canAccessComment(User $user, Video $video, Comment $comment): bool {
+        return $user->isActive()
+            && $comment->user_id === $user->getAuthIdentifier()
+            && $comment->video_id === $video->id;
     }
 
     public function validateCreateRequest(array $input): ?array {
@@ -50,7 +56,7 @@ class CommentValidationService extends ValidationService
         return $this->validateRules($input, $rules);
     }
 
-    public function validatepdateRequest(array $input): ?array {
+    public function validateUpdateRequest(array $input): ?array {
         $rules = [
             'content' => ['required', 'string', 'min:5', 'max:3000'],
         ];
