@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\PageStateController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CategoryStateController;
 use App\Http\Controllers\Api\V1\Search\VideoSearchController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::prefix('V1/videos')->group(function () {
     Route::get('/', [VideoController::class, 'index'])->name('videos.list');
     Route::get('/search', [VideoSearchController::class, 'search'])->name('videos.search');
     Route::get('/{videoId}', [VideoController::class, 'show'])->name('videos.show');
+    Route::get('/{videoId}/comments', [CommentController::class, 'index'])->name('videos.comments.list');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [VideoController::class, 'store'])->name('videos.store');
@@ -63,6 +65,9 @@ Route::prefix('V1/videos')->group(function () {
 
         Route::delete('/{videoId}', [VideoController::class, 'delete'])
             ->name('videos.delete');
+
+        Route::post('/{videoId}/comments', [CommentController::class, 'store'])->name('videos.comments.store');
+        Route::put('/{videoId}/comments/{commentId}', [CommentController::class, 'update'])->name('videos.comments.update');
     });
 });
 
