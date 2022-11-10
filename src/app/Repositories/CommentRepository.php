@@ -20,7 +20,7 @@ class CommentRepository
         return $comments->orderBy('id', 'DESC')->paginate($limit, $page, $page);
     }
 
-    public function create(array $input, int $userId, int $videoId): Comment {
+    public function create(array $input, int $userId, int $videoId): ?Comment {
         $comment = new Comment();
 
         $comment->user_id = $userId;
@@ -32,7 +32,7 @@ class CommentRepository
         return $comment;
     }
 
-    public function update(Comment $comment, $fields): Comment {
+    public function update(Comment $comment, $fields): ?Comment {
         foreach ($fields as $name => $value) {
             $comment->$name = $value;
         }
@@ -40,5 +40,9 @@ class CommentRepository
         $comment->save();
 
         return $comment;
+    }
+
+    public function delete(Comment $comment): bool {
+        return $comment->delete();
     }
 }

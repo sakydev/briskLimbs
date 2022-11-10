@@ -67,7 +67,10 @@ Route::prefix('V1/videos')->group(function () {
             ->name('videos.delete');
 
         Route::post('/{videoId}/comments', [CommentController::class, 'store'])->name('videos.comments.store');
-        Route::put('/{videoId}/comments/{commentId}', [CommentController::class, 'update'])->name('videos.comments.update');
+        Route::put('/{videoId}/comments/{commentId}', [CommentController::class, 'update'])
+            ->name('videos.comments.update');
+        Route::delete('/{videoId}/comments/{commentId}', [CommentController::class, 'destroy'])
+            ->name('videos.comments.delete');
     });
 });
 

@@ -179,7 +179,58 @@ class CommentController extends Controller
         }
     }
 
-    public function delete(int $videoId, int $commentId): SuccessResponse|ErrorResponse {
+    public function destroy(int $videoId, int $commentId): SuccessResponse|ErrorResponse {
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
 
+        try {
+            $video = $this->videoRepository->get($videoId);
+            if (!$video) {
+                return new ErrorResponse(
+                    [__('video.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $comment = $this->commentRepository->get($commentId);
+            if (!$comment) {
+                return new ErrorResponse(
+                    [__('comment.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $this->commentValidationService->validateCanDelete($user, $video, $comment);
+            if ($this->commentValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->commentValidationService->getErrors(),
+                    $this->commentValidationService->getStatus(),
+                );
+            }
+
+            $deletedComment = $this->commentRepository->delete($comment);
+            if (!$deletedComment) {
+                return new ErrorResponse(
+                    [__('comment.failed.delete.unknown')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            return new SuccessResponse(__('comment.success.delete.single'), [],Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Log::error('Page delete: unexpected error', [
+                'commentId' => $commentId,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('comment.failed.delete.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
     }
 }
