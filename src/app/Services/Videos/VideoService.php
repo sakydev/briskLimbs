@@ -2,22 +2,21 @@
 
 namespace App\Services\Videos;
 
+use App\Models\Video;
+use App\Services\FileService;
 use FFMpeg\FFMpeg;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Throwable;
+use Illuminate\Support\Facades\File;
 
 class VideoService
 {
     public function __construct() {}
 
-    public function generateFilename(): string
-    {
+    public function generateFilename(): string {
         return sprintf("%s-%s", Str::random(8), date("Ymd"));
     }
 
-    public function generateVkey(): string
-    {
+    public function generateVkey(): string {
         return Str::random(14);
     }
 
@@ -37,5 +36,31 @@ class VideoService
         ];
 
         return $meta;
+    }
+
+    public function getProcessedFilesPaths(string $filename, string $directory): ?array {
+        $basePath = FileService::getVideo($directory, $filename);
+
+        return glob("$basePath*");
+    }
+
+    public function getThumbnailsPaths(string $filename, string $directory): ?array {
+        $basePath = sprintf(
+            "%s/%s/%s",
+            FileService::getThumbnailsDirectory(),
+            $directory,
+            $filename,
+        );
+
+        return glob("$basePath*");
+    }
+
+    public function deleteMedia(Video $video): bool {
+        $files = array_merge(
+            $this->getProcessedFilesPaths($video->filename, $video->directory),
+            $this->getThumbnailsPaths($video->filename, $video->directory),
+        );
+
+        return File::delete($files);
     }
 }

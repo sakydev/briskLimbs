@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\VideoProcessing;
 use App\Models\User;
 use App\Repositories\VideoRepository;
 use App\Resources\Api\V1\ErrorResponse;
@@ -114,6 +115,8 @@ class VideoController extends Controller
                 );
             }
 
+            VideoProcessing::dispatch($createdVideo);
+
             return new SuccessResponse(
                 __('video.success.store.single'),
                 $createdVideo->toArray(),
@@ -185,6 +188,65 @@ class VideoController extends Controller
             Log::error('Video update: unexpected error', [
                 'videoId' => $videoId,
                 'input' => $input,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return new ErrorResponse(
+                [__('general.errors.unknown')],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+    public function delete(int $videoId): SuccessResponse|ErrorResponse {
+        /**
+         * @var User $user;
+         */
+        $user = Auth::user();
+
+        try {
+            $video = $this->videoRepository->get($videoId);
+            if (!$video) {
+                return new ErrorResponse(
+                    [__('video.failed.find.fetch')],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            $this->videoValidationService->validatePreConditionsToDelete($video, $user);
+            if ($this->videoValidationService->hasErrors()) {
+                return new ErrorResponse(
+                    $this->videoValidationService->getErrors(),
+                    $this->videoValidationService->getStatus(),
+                );
+            }
+
+            $deletedMedia = $this->videoService->deleteMedia($video);
+            if (!$deletedMedia) {
+                return new ErrorResponse(
+                    [__('video.failed.delete.media')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            $deletedVideo = $this->videoRepository->delete($video);
+            if (!$deletedVideo) {
+                return new ErrorResponse(
+                    [__('videos.failed.delete.unknown')],
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+
+            return new SuccessResponse(
+                __('video.success.delete.single'),
+                [],
+                Response::HTTP_OK
+            );
+        } catch (Throwable $exception) {
+            report($exception);
+
+            Log::error('Video delete: unexpected error', [
+                'videoId' => $videoId,
                 'error' => $exception->getMessage(),
             ]);
 
