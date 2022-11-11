@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Setting extends Model
+/**
+ * @property string $name
+ * @property string $value
+ */
+class Setting extends BriskLimbs
 {
-    use HasFactory;
+    protected $fillable = ['name', 'value'];
 }

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 /**
@@ -33,19 +31,11 @@ use Laravel\Scout\Searchable;
  *
  * @property string $server_url;
  * @property string[] $original_meta
- *
- * @property Carbon|string $created_at
- * @property Carbon|string $updated_at
  */
-class Video extends Model
+class Video extends BriskLimbs
 {
     use HasFactory;
     use Searchable;
-
-    protected $guarded = [];
-    protected $casts = [
-        'original_meta' => 'array',
-    ];
 
     public const PROCESSING_PENDING = 'pending';
     public const PROCESSING_PROGRESS = 'progress';
@@ -58,6 +48,11 @@ class Video extends Model
     public const SCOPE_PUBLIC = 'public';
     public const SCOPE_PRIVATE = 'private';
     public const SCOPE_UNLISTED = 'unlisted';
+
+    protected $guarded = [];
+    protected $casts = [
+        'original_meta' => 'array',
+    ];
 
     /**
      * Get the indexable data array for the model.
