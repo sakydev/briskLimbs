@@ -45,7 +45,7 @@ class UserControllerTest extends TestCase {
         parent::setUp();
     }
 
-    private function getUserByType(string $userType): User {
+    private function getUserByType(string $userType): ?User {
         switch ($userType) {
             case self::USER_TYPE_ADMIN:
                 return $this->createAdminUser(self::ADMIN_USERNAME);
@@ -54,6 +54,8 @@ class UserControllerTest extends TestCase {
             case self::USER_TYPE_INACTIVE:
                 return $this->createBasicInactiveUser(self::INACTIVE_USERNAME);
         }
+
+        return null;
     }
 
     /**
