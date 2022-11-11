@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\VideoRepository;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Services\Videos\VideoValidationService;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +31,7 @@ class VideoScopeController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
 
@@ -46,21 +45,14 @@ class VideoScopeController extends Controller
 
             $publicVideo = $this->videoRepository->makePublic($video);
 
-            return new SuccessResponse(
-                __('video.success.update.public'),
-                $publicVideo->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('video.success.update.public', $publicVideo->toArray());
         } catch (Throwable $exception) {
             Log::error('Video make public: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('general.errors.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('video.failed.update.unknown');
         }
     }
 
@@ -73,10 +65,7 @@ class VideoScopeController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
 
@@ -90,21 +79,14 @@ class VideoScopeController extends Controller
 
             $privateVideo = $this->videoRepository->makePrivate($video);
 
-            return new SuccessResponse(
-                __('video.success.update.private'),
-                $privateVideo->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('video.success.update.private', $privateVideo->toArray());
         } catch (Throwable $exception) {
             Log::error('Video make private: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('general.errors.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('video.failed.update.unknown');
         }
     }
 
@@ -117,10 +99,7 @@ class VideoScopeController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
 
@@ -134,21 +113,14 @@ class VideoScopeController extends Controller
 
             $unlistedVideo = $this->videoRepository->makeUnlisted($video);
 
-            return new SuccessResponse(
-                __('video.success.update.unlisted'),
-                $unlistedVideo->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('video.success.update.unlisted', $unlistedVideo->toArray());
         } catch (Throwable $exception) {
             Log::error('Video make unlisted: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('general.errors.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('video.failed.update.unknown');
         }
     }
 }
