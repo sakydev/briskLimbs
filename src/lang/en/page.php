@@ -8,8 +8,10 @@ return [
             'unknown' => 'Something went wrong trying to find page',
         ],
         'update' => [
-            'already_published' => 'Requested page is already published',
-            'already_unpublished' => 'Requested page is already unpublished',
+            'already' => [
+                'published' => 'Requested page is already published',
+                'unpublished' => 'Requested page is already unpublished',
+            ],
             'permissions' => 'User has insufficient to update page',
             'unknown' => 'Something went wrong trying to update page',
         ],

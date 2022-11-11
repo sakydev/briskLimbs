@@ -8,8 +8,10 @@ return [
             'unknown' => 'Something went wrong trying to find category',
         ],
         'update' => [
-            'already_published' => 'Requested category is already published',
-            'already_unpublished' => 'Requested category is already unpublished',
+            'already' => [
+                'published' => 'Requested category is already published',
+                'unpublished' => 'Requested category is already unpublished',
+            ],
             'permissions' => 'User has insufficient to update category',
             'unknown' => 'Something went wrong trying to update category',
         ],

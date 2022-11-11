@@ -48,7 +48,7 @@ class AuthenticationController extends Controller
                 );
             }
 
-            return new UserResource($createdUser, __('user.success_registration'), true);
+            return new UserResource($createdUser, __('user.success.store.single'), true);
         } catch (Throwable $exception) {
             report($exception);
 
@@ -85,7 +85,7 @@ class AuthenticationController extends Controller
             }
 
             $user = Auth::user();
-            return new UserResource($user, __('user.success_login'), true);
+            return new UserResource($user, __('user.success.login'), true);
         } catch (Throwable $exception) {
             report($exception);
 

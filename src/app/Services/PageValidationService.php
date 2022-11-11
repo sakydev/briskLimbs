@@ -43,7 +43,7 @@ class PageValidationService extends ValidationService
 
     public function validateAlreadyPublished(Page $page): bool {
         if ($page->isPublished()) {
-            $this->addError(__('page.failed.update.already_published'));
+            $this->addError(__('page.failed.update.already.published'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -54,7 +54,7 @@ class PageValidationService extends ValidationService
 
     public function validateAlreadyUnpublished(Page $page): bool {
         if (!$page->isPublished()) {
-            $this->addError(__('page.failed.update.already_unpublished'));
+            $this->addError(__('page.failed.update.already.unpublished'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;

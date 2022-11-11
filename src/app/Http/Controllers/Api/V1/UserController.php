@@ -47,7 +47,7 @@ class UserController extends Controller
         );
 
         return new SuccessResponse(
-            __('user.success_list'),
+            __('user.success.find.list'),
             $users->toArray($request),
             Response::HTTP_OK,
         );
@@ -70,14 +70,14 @@ class UserController extends Controller
         $user = $this->userRepository->get($userId);
         if (!$user) {
             return new ErrorResponse(
-                [__('user.errors.failed_find')],
+                [__('user.failed.find.fetch')],
                 Response::HTTP_NOT_FOUND
             );
         }
 
         $userData = new UserResource($user);
         return new SuccessResponse(
-            __('user.success_find'),
+            __('user.successfind.fetch'),
             $userData->toArray(),
             Response::HTTP_OK,
         );
@@ -111,12 +111,12 @@ class UserController extends Controller
             $updatedUser = $this->userRepository->updateById($userId, $input);
             if (!$updatedUser) {
                 return new ErrorResponse(
-                    [__('user.errors.failed_update')],
+                    [__('user.failed.update.unknown')],
                     Response::HTTP_BAD_REQUEST
                 );
             }
 
-            return new SuccessResponse(__('user.success_update'), [], Response::HTTP_OK);
+            return new SuccessResponse(__('user.success.update.single'), [], Response::HTTP_OK);
         } catch (Throwable $exception) {
             report($exception);
 
@@ -143,7 +143,7 @@ class UserController extends Controller
             $requestedUser = $this->userRepository->get($userId);
             if (!$requestedUser) {
                 return new ErrorResponse(
-                    [__('user.errors.failed_find')],
+                    [__('user.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -163,7 +163,7 @@ class UserController extends Controller
             $activatedUser = $this->userRepository->activate($requestedUser);
 
             return new SuccessResponse(
-                __('user.success_activate'),
+                __('user.success.update.activate'),
                 $activatedUser->toArray(),
                 Response::HTTP_OK,
             );
@@ -192,7 +192,7 @@ class UserController extends Controller
             $requestedUser = $this->userRepository->get($userId);
             if (!$requestedUser) {
                 return new ErrorResponse(
-                    [__('user.errors.failed_find')],
+                    [__('user.failed.find.fetch')],
                     Response::HTTP_NOT_FOUND
                 );
             }
@@ -211,7 +211,7 @@ class UserController extends Controller
             $deactivatedUser = $this->userRepository->deactivate($requestedUser);
 
             return new SuccessResponse(
-                __('user.success_deactivate'),
+                __('user.success.update.deactivate'),
                 $deactivatedUser->toArray(),
                 Response::HTTP_OK,
             );

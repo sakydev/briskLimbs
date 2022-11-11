@@ -1,23 +1,48 @@
 <?php
 
 return [
-    'errors' => [
-        'failed_registration_restriction' => 'Registrations are restricted at the moment',
-        'failed_insert' => 'User database insert failed',
-        'failed_update' => 'User failed to update',
-        'failed_update_settings' => 'Settings failed to update',
-        'failed_find' => 'User not found',
-        'failed_view_permissions' => 'User has insufficient permissions to view',
-        'failed_update_permissions' => 'User has insufficient permissions to update',
-        'failed_activate' => 'User is already active',
-        'failed_deactivate' => 'User is already inactive',
+    'failed' => [
+        'find' => [
+            'fetch' => 'Requested user was not found',
+            'permissions' => 'User has insufficient to view user',
+            'unknown' => 'Something went wrong trying to find user',
+        ],
+        'update' => [
+            'already' => [
+                'active' => 'Requested user is already active',
+                'inactive' => 'Requested user is already inactivess',
+            ],
+            'permissions' => 'User has insufficient to update',
+            'unknown' => 'Something went wrong trying to update user',
+        ],
+        'store' => [
+            'restricted' => 'Registrations are not allowed at the moment',
+            'permissions' => 'You are now allowed to create an account',
+            'unknown' => 'Something went wrong trying to create user',
+        ],
+        'delete' => [
+            'permissions' => 'User has insufficient to delete user',
+            'unknown' => 'Something went wrong trying to delete user',
+        ],
     ],
-    'success_registration' => 'User created successfully',
-    'success_login' => 'User logged in successfully',
-    'success_find' => 'User fetched successfully',
-    'success_update' => 'User updated successfully',
-    'success_activate' => 'User activated successfully',
-    'success_deactivate' => 'User deactivated successfully',
-    'success_list' => 'Users listed successfully',
-    'success_update_settings' => 'Settings updated successfully',
+    'success' => [
+        'find' => [
+            'fetch' => 'Requested user fetched successfully',
+            'list' => 'Users have been fetched successfully',
+        ],
+        'update' => [
+            'single' => 'Requested user has been updated successfully',
+            'list' => 'Requested users have been updated successfully',
+            'activate' => 'Requested user has been activated successfully',
+            'deactivate' => 'Requested user has been deactivated successfully',
+        ],
+        'store' => [
+            'single' => 'User has been created successfully',
+        ],
+        'delete' => [
+            'single' => 'Requested user has been deleted successfully',
+            'list' => 'Requested users have been deleted successfully',
+        ],
+        'login' => 'User logged in successfully',
+    ],
 ];

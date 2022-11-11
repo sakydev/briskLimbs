@@ -43,7 +43,7 @@ class CategoryValidationService extends ValidationService
 
     public function validateAlreadyPublished(Category $category): bool {
         if ($category->isPublished()) {
-            $this->addError(__('category.failed.update.already_published'));
+            $this->addError(__('category.failed.update.already.published'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -54,7 +54,7 @@ class CategoryValidationService extends ValidationService
 
     public function validateAlreadyUnpublished(Category $category): bool {
         if (!$category->isPublished()) {
-            $this->addError(__('category.failed.update.already_unpublished'));
+            $this->addError(__('category.failed.update.already.unpublished'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;

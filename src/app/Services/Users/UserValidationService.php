@@ -10,7 +10,7 @@ class UserValidationService extends ValidationService
 {
     public function validateCanRegister(): bool {
         if (!config('settings.allow_registrations')) {
-            $this->addError(__('user.errors.failed_registration_restriction'));
+            $this->addError(__('user.failed.store.restricted'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
         }
 
@@ -22,7 +22,7 @@ class UserValidationService extends ValidationService
             !$authUser->isAdmin()
             && $inputUserId != $authUser->getAuthIdentifier()
         ) {
-            $this->addError(__('user.errors.failed_update_permissions'));
+            $this->addError(__('user.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
             return false;
@@ -33,7 +33,7 @@ class UserValidationService extends ValidationService
 
     public function validateAlreadyActive(User $user): bool {
         if ($user->isActive()) {
-            $this->addError(__('user.errors.failed_activate'));
+            $this->addError(__('user.failed.update.already.active'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -44,7 +44,7 @@ class UserValidationService extends ValidationService
 
     public function validateAlreadyInactive(User $user): bool {
         if ($user->isInactive()) {
-            $this->addError(__('user.errors.failed_deactivate'));
+            $this->addError(__('user.failed.update.already.inactive'));
             $this->setStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
             return false;
@@ -83,7 +83,7 @@ class UserValidationService extends ValidationService
 
     public function validateCanSeeUsers(User $user): bool {
         if ($user->isInactive()) {
-            $this->addError(__('user.errors.failed_view_permissions'));
+            $this->addError(__('user.failed.find.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
             return false;
@@ -94,7 +94,7 @@ class UserValidationService extends ValidationService
 
     public function validateCanUpdateSettings(User $user): bool {
         if (!$user->isAdmin()) {
-            $this->addError(__('user.errors.failed_update_permissions'));
+            $this->addError(__('user.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
             return false;
