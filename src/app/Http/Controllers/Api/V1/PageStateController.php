@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\PageRepository;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Services\PageValidationService;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +31,7 @@ class PageStateController extends Controller
         try {
             $page = $this->pageRepository->get($pageId);
             if (!$page) {
-                return new ErrorResponse(
-                    [__('page.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('page.failed.find.fetch');
             }
 
 
@@ -46,21 +45,14 @@ class PageStateController extends Controller
 
             $publishedPage = $this->pageRepository->publish($page);
 
-            return new SuccessResponse(
-                __('page.success.update.publish'),
-                $publishedPage->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('page.success.update.publish', $publishedPage->toArray());
         } catch (Throwable $exception) {
             Log::error('Page publish: unexpected error', [
                 'pageId' => $pageId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('page.failed.update.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('page.failed.update.unknown');
         }
     }
 
@@ -73,10 +65,7 @@ class PageStateController extends Controller
         try {
             $page = $this->pageRepository->get($videoId);
             if (!$page) {
-                return new ErrorResponse(
-                    [__('page.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('page.failed.find.fetch');
             }
 
 
@@ -90,21 +79,14 @@ class PageStateController extends Controller
 
             $unpublishedPage = $this->pageRepository->unpublish($page);
 
-            return new SuccessResponse(
-                __('page.success.update.unpublish'),
-                $unpublishedPage->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('page.success.update.unpublish', $unpublishedPage->toArray());
         } catch (Throwable $exception) {
             Log::error('Page unpublish: unexpected error', [
                 'pageId' => $videoId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('page.failed.update.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('page.failed.update.unknown');
         }
     }
 }

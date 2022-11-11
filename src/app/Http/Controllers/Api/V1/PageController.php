@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\PageRepository;
 use App\Resources\Api\V1\PageResource;
+use App\Resources\Api\V1\Responses\BadRequestErrorResponse;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
+use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
 use App\Services\PageValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,28 +35,17 @@ class PageController extends Controller
             ),
         );
 
-        return new SuccessResponse(
-            __('page.success.find.list'),
-            $pages->toArray($request),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('page.success.find.list', $pages->toArray($request));
     }
 
     public function show(int $pageId): SuccessResponse|ErrorResponse {
         $page = $this->pageRepository->get($pageId);
         if (!$page) {
-            return new ErrorResponse(
-                [__('page.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('page.failed.find.fetch');
         }
 
         $pageData = new PageResource($page);
-        return new SuccessResponse(
-            __('page.success.find.fetch'),
-            $pageData->toArray(),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('page.success.find.fetch', $pageData->toArray());
     }
 
     public function store(Request $request): SuccessResponse|ErrorResponse {
@@ -73,32 +66,22 @@ class PageController extends Controller
 
             $createRequestErrors = $this->pageValidationService->validateCreateRequest($input);
             if ($createRequestErrors) {
-                return new ErrorResponse($createRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new UnprocessableRquestErrorResponse($createRequestErrors);
             }
 
             $createdPage = $this->pageRepository->create($input);
             if (!$createdPage) {
-                return new ErrorResponse(
-                    [__('page.failed.store.unknown')],
-                    Response::HTTP_BAD_REQUEST,
-                );
+                return new BadRequestErrorResponse('page.failed.store.unknown');
             }
 
-            return new SuccessResponse(
-                __('page.success.store.single'),
-                $createdPage->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('page.success.store.single', $createdPage->toArray());
         } catch (Throwable $exception) {
             Log::error('Store page: unexpected error ', [
                 'input' => $input,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('page.failed.store.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('page.failed.store.unknown');
         }
     }
 
@@ -113,10 +96,7 @@ class PageController extends Controller
         try {
             $page = $this->pageRepository->get($pageId);
             if (!$page) {
-                return new ErrorResponse(
-                    [__('page.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('page.failed.find.fetch');
             }
 
             $this->pageValidationService->validateCanUpdate($user);
@@ -129,23 +109,16 @@ class PageController extends Controller
 
             $updateRequestErrors = $this->pageValidationService->validateUpdateRequest($input);
             if ($updateRequestErrors) {
-                return new ErrorResponse($updateRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new BadRequestErrorResponse($updateRequestErrors);
             }
 
             $updatedPage = $this->pageRepository->update($page, $input);
             if (!$updatedPage) {
-                return new ErrorResponse(
-                    [__('page.failed.update.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('page.failed.update.unknown');
             }
 
             $pageData = new PageResource($updatedPage);
-            return new SuccessResponse(
-                __('page.success.update.single'),
-                $pageData->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('page.success.update.single', $pageData->toArray());
         } catch (Throwable $exception) {
             Log::error('Page update: unexpected error', [
                 'pageId' => $pageId,
@@ -153,10 +126,7 @@ class PageController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('page.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('page.failed.update.unknown');
         }
     }
 
@@ -169,10 +139,7 @@ class PageController extends Controller
         try {
             $page = $this->pageRepository->get($pageId);
             if (!$page) {
-                return new ErrorResponse(
-                    [__('page.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('page.failed.find.fetch');
             }
 
             $this->pageValidationService->validateCanDelete($user);
@@ -185,10 +152,7 @@ class PageController extends Controller
 
             $deletedPage = $this->pageRepository->delete($page);
             if (!$deletedPage) {
-                return new ErrorResponse(
-                    [__('page.failed.delete.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('page.failed.delete.unknown');
             }
 
             return new SuccessResponse(__('page.success.delete.single'), [],Response::HTTP_OK);
@@ -198,10 +162,7 @@ class PageController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('page.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('page.failed.delete.unknown');
         }
     }
 }
