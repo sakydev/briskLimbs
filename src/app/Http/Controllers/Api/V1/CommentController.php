@@ -7,8 +7,12 @@ use App\Models\User;
 use App\Repositories\CommentRepository;
 use App\Repositories\VideoRepository;
 use App\Resources\Api\V1\CommentResource;
+use App\Resources\Api\V1\Responses\BadRequestErrorResponse;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
+use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
 use App\Services\CommentValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,10 +31,7 @@ class CommentController extends Controller
     public function index(Request $request, int $videoId): SuccessResponse|ErrorResponse {
         $video = $this->videoRepository->get($videoId);
         if (!$video) {
-            return new ErrorResponse(
-                [__('video.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('video.failed.find.fetch');
         }
 
         $comments = CommentResource::collection(
@@ -41,36 +42,22 @@ class CommentController extends Controller
             ),
         );
 
-        return new SuccessResponse(
-            __('comment.success.find.list'),
-            $comments->toArray($request),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('comment.success.find.list', $comments->toArray($request));
     }
 
     public function show(int $videoId, int $commentId): SuccessResponse|ErrorResponse {
         $video = $this->videoRepository->get($videoId);
         if (!$video) {
-            return new ErrorResponse(
-                [__('video.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('video.failed.find.fetch');
         }
 
         $comment = $this->commentRepository->get($commentId);
         if (!$comment) {
-            return new ErrorResponse(
-                [__('comment.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('comment.failed.find.fetch');
         }
 
         $commentData = new CommentResource($comment);
-        return new SuccessResponse(
-            __('comment.success.find.fetch'),
-            $commentData->toArray(),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('comment.success.find.fetch', $commentData->toArray());
     }
 
     public function store(Request $request, int $videoId): SuccessResponse|ErrorResponse {
@@ -84,10 +71,7 @@ class CommentController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
             $this->commentValidationService->validateCanCreate($user, $video);
@@ -100,7 +84,7 @@ class CommentController extends Controller
 
             $createRequestErrors = $this->commentValidationService->validateCreateRequest($input);
             if ($createRequestErrors) {
-                return new ErrorResponse($createRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new UnprocessableRquestErrorResponse($createRequestErrors);
             }
 
             $createdComment = $this->commentRepository->create(
@@ -109,27 +93,17 @@ class CommentController extends Controller
                 $videoId,
             );
             if (!$createdComment) {
-                return new ErrorResponse(
-                    [__('comment.failed.store.unknown')],
-                    Response::HTTP_BAD_REQUEST,
-                );
+                return new BadRequestErrorResponse('comment.failed.store.unknown');
             }
 
-            return new SuccessResponse(
-                __('comment.success.store.single'),
-                $createdComment->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('comment.success.store.single', $createdComment->toArray());
         } catch (Throwable $exception) {
             Log::error('Store comment: unexpected error ', [
                 'input' => $input,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('comment.failed.store.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('comment.failed.delete.unknown');
         }
     }
 
@@ -144,18 +118,12 @@ class CommentController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
             $comment = $this->commentRepository->get($commentId);
             if (!$comment) {
-                return new ErrorResponse(
-                    [__('comment.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('comment.failed.find.fetch');
             }
 
             $this->commentValidationService->validateCanUpdate($user, $video, $comment);
@@ -168,23 +136,16 @@ class CommentController extends Controller
 
             $updateRequestErrors = $this->commentValidationService->validateUpdateRequest($input);
             if ($updateRequestErrors) {
-                return new ErrorResponse($updateRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new UnprocessableRquestErrorResponse($updateRequestErrors);
             }
 
             $updatedComment = $this->commentRepository->update($comment, $input);
             if (!$updatedComment) {
-                return new ErrorResponse(
-                    [__('comment.failed.update.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('comment.failed.store.unknown');
             }
 
             $commentData = new CommentResource($updatedComment);
-            return new SuccessResponse(
-                __('comment.success.update.single'),
-                $commentData->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('comment.success.update.single', $commentData->toArray());
         } catch (Throwable $exception) {
             Log::error('Comment update: unexpected error', [
                 'commentId' => $commentId,
@@ -192,10 +153,7 @@ class CommentController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('comment.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('comment.failed.delete.unknown');
         }
     }
 
@@ -208,18 +166,12 @@ class CommentController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
             $comment = $this->commentRepository->get($commentId);
             if (!$comment) {
-                return new ErrorResponse(
-                    [__('comment.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('comment.failed.find.fetch');
             }
 
             $this->commentValidationService->validateCanDelete($user, $video, $comment);
@@ -232,10 +184,7 @@ class CommentController extends Controller
 
             $deletedComment = $this->commentRepository->delete($comment);
             if (!$deletedComment) {
-                return new ErrorResponse(
-                    [__('comment.failed.delete.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('comment.failed.store.unknown');
             }
 
             return new SuccessResponse(__('comment.success.delete.single'), [],Response::HTTP_OK);
@@ -245,10 +194,7 @@ class CommentController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('comment.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('comment.failed.delete.unknown');
         }
     }
 }
