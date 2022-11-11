@@ -58,19 +58,31 @@ class UserControllerTest extends TestCase {
         return null;
     }
 
+    private function getExpectedMessage(string $messageKey, int $stauts): array|string {
+        $translated = __($messageKey);
+        if ($stauts !== Response::HTTP_OK && $stauts !== Response::HTTP_CREATED) {
+            return [$translated];
+        }
+
+        return $translated;
+    }
+
     /**
      * @dataProvider usersCanListUsersDataProvider
      */
     public function testUserCanListUsers(
         string $userType,
         int $expectedStatus,
+        string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
         $user = $this->getUserByType($userType);
         $this->be($user);
 
         $response = $this->getJson(self::BASE_URL);
-        $response->assertStatus($expectedStatus);
+
+        $expectedMessage = $this->getExpectedMessage($expectedMessageKey, $expectedStatus);
+        $response->assertStatus($expectedStatus)->assertJsonFragment(['messages' => $expectedMessage]);
 
         if ($expectedJSONStructure) {
             $response->assertJsonStructure($expectedJSONStructure);
@@ -83,18 +95,26 @@ class UserControllerTest extends TestCase {
             self::USER_TYPE_ADMIN => [
                 'userType' => self::USER_TYPE_ADMIN,
                 'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.find.list',
                 'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_BASIC => [
                 'user' => self::USER_TYPE_BASIC,
                 'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.find.list',
                 'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE => [
                 'user' => self::USER_TYPE_INACTIVE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.find.permissions',
                 'expectedJsonStructure' => null,
             ],
         ];
     }
+
+    // TODO: testUserCanActivateUser
+    // TODO: testUserCanDeactivateUser
+    // TODO: testUserCanUpdateUser
+    // TODO: testUserCanDeleteUser
 }
