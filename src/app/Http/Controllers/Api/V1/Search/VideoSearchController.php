@@ -34,7 +34,7 @@ class VideoSearchController extends Controller
             $this->videoRepository->search(
                 $query,
                 $request->get('page', 1),
-                $request->get('limit', 10),
+                $request->get('limit', config('settings.max_results_video')),
             ),
         );
 

@@ -42,7 +42,7 @@ class UserController extends Controller
             $this->userRepository->list(
                 $parameters,
                 $request->get('page', 1),
-                $request->get('limit', 10),
+                $request->get('limit', config('settings.max_results_user')),
             ),
         );
 

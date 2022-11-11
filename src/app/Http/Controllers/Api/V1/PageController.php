@@ -27,7 +27,7 @@ class PageController extends Controller
             $this->pageRepository->list(
                 [],
                 $request->get('page', 1),
-                $request->get('limit', 10),
+                $request->get('limit', config('settings.max_results_page')),
             ),
         );
 

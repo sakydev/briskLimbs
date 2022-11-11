@@ -37,7 +37,7 @@ class CommentController extends Controller
             $this->commentRepository->list(
                 [],
                 $request->get('page', 1),
-                $request->get('limit', 10),
+                $request->get('limit', config('settings.max_results_comment')),
             ),
         );
 
