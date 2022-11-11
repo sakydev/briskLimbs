@@ -31,6 +31,20 @@ class UserValidationService extends ValidationService
         return true;
     }
 
+    public function validateCanActivate(int $inputUserId, User $authUser): bool {
+        if (
+            !$authUser->isAdmin()
+            || $inputUserId === $authUser->getAuthIdentifier()
+        ) {
+            $this->addError(__('user.failed.update.permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function validateAlreadyActive(User $user): bool {
         if ($user->isActive()) {
             $this->addError(__('user.failed.update.already.active'));
@@ -51,34 +65,6 @@ class UserValidationService extends ValidationService
         }
 
         return true;
-    }
-
-    public function validateRegisterRequest(array $input): ?array {
-        $rules = [
-            'username' => ['required', 'string', 'min:3', 'max:50', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:4'],
-        ];
-
-        return $this->validateRules($input, $rules);
-    }
-
-    public function validateLoginRequest(array $input): ?array {
-        $rules = [
-            'username' => ['required', 'string', 'min:3', 'max:50'],
-            'password' => ['required', 'string', 'min:4'],
-        ];
-
-        return $this->validateRules($input, $rules);
-    }
-
-    public function validateUpdateRequest(array $input): ?array {
-        $rules = [
-            'status' => ['sometimes', 'required', 'string', 'in:active,inactive'],
-            'level' => ['sometimes', 'required', 'int', 'in:1,2,3,4,5'],
-        ];
-
-        return $this->validateRules($input, $rules);
     }
 
     public function validateCanSeeUsers(User $user): bool {
@@ -130,7 +116,7 @@ class UserValidationService extends ValidationService
             return;
         }
 
-        if (!$this->validateCanUpdate($inputUser->id, $authUser)) {
+        if (!$this->validateCanActivate($inputUser->id, $authUser)) {
             return;
         }
 
@@ -153,5 +139,33 @@ class UserValidationService extends ValidationService
         if (!$this->validateAlreadyInactive($inputUser)) {
             return;
         }
+    }
+
+    public function validateRegisterRequest(array $input): ?array {
+        $rules = [
+            'username' => ['required', 'string', 'min:3', 'max:50', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:4'],
+        ];
+
+        return $this->validateRules($input, $rules);
+    }
+
+    public function validateLoginRequest(array $input): ?array {
+        $rules = [
+            'username' => ['required', 'string', 'min:3', 'max:50'],
+            'password' => ['required', 'string', 'min:4'],
+        ];
+
+        return $this->validateRules($input, $rules);
+    }
+
+    public function validateUpdateRequest(array $input): ?array {
+        $rules = [
+            'status' => ['sometimes', 'required', 'string', 'in:active,inactive'],
+            'level' => ['sometimes', 'required', 'int', 'in:1,2,3,4,5'],
+        ];
+
+        return $this->validateRules($input, $rules);
     }
 }
