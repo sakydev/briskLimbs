@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Repositories\VideoRepository;
 use App\Resources\Api\V1\Responses\ErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
+use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
 use App\Resources\Api\V1\VideoResource;
 use App\Services\Videos\VideoValidationService;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class VideoSearchController extends Controller
 {
@@ -24,13 +24,10 @@ class VideoSearchController extends Controller
 
         $searchErrors = $this->videoValidationService->validateSearchRequest($input);
         if ($searchErrors) {
-            return new ErrorResponse(
-                $searchErrors,
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return new UnprocessableRquestErrorResponse($searchErrors);
         }
 
-        $videos = VideoResource::collection(
+        $videosList = VideoResource::collection(
             $this->videoRepository->search(
                 $query,
                 $request->get('page', 1),
@@ -38,11 +35,11 @@ class VideoSearchController extends Controller
             ),
         );
 
-        return new SuccessResponse(
-            __('video.success.find.search'),
-            $videos->toArray($request),
-            Response::HTTP_OK,
-        );
+        if ($videosList->isEmpty()) {
+            return new SuccessResponse('video.success.find.empty');
+        }
+
+        return new SuccessResponse('video.success.find.search', $videosList->toArray($request));
 
     }
 }
