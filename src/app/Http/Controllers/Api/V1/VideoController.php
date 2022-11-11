@@ -9,6 +9,7 @@ use App\Repositories\VideoRepository;
 use App\Resources\Api\V1\Responses\BadRequestErrorResponse;
 use App\Resources\Api\V1\Responses\ErrorResponse;
 use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\CreatedSuccessResponse;
 use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
@@ -33,7 +34,7 @@ class VideoController extends Controller
     public function index(Request $request): SuccessResponse|ErrorResponse {
         $parameters = $request->only(['scope', 'state', 'status']);
 
-        $videos = VideoResource::collection(
+        $videosList = VideoResource::collection(
             $this->videoRepository->list(
                 $parameters,
                 $request->get('page', 1),
@@ -41,7 +42,11 @@ class VideoController extends Controller
             ),
         );
 
-        return new SuccessResponse('video.success.find.list', $videos->toArray($request));
+        if ($videosList->isEmpty()) {
+            return new SuccessResponse('video.success.find.emptylist');
+        }
+
+        return new SuccessResponse('video.success.find.list', $videosList->toArray($request));
     }
 
     public function show(int $videoId): SuccessResponse|ErrorResponse {
@@ -100,7 +105,7 @@ class VideoController extends Controller
 
             VideoProcessing::dispatch($createdVideo);
 
-            return new SuccessResponse('video.success.store.single', $createdVideo->toArray());
+            return new CreatedSuccessResponse('video.success.store.single', $createdVideo->toArray());
         } catch (Throwable $exception) {
             Log::error('Store video: unexpected error ', [
                 'input' => $request->except('file'),
