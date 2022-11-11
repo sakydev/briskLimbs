@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Resources\Api\V1\Responses\BadRequestErrorResponse;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
+use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
 use App\Resources\Api\V1\UserResource;
 use App\Services\Users\UserValidationService;
 use Illuminate\Http\Request;
@@ -46,11 +50,7 @@ class UserController extends Controller
             ),
         );
 
-        return new SuccessResponse(
-            __('user.success.find.list'),
-            $users->toArray($request),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('user.success.find.list', $users->toArray($request));
     }
 
     public function show(int $userId): SuccessResponse|ErrorResponse {
@@ -69,18 +69,11 @@ class UserController extends Controller
 
         $user = $this->userRepository->get($userId);
         if (!$user) {
-            return new ErrorResponse(
-                [__('user.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('user.failed.find.fetch');
         }
 
         $userData = new UserResource($user);
-        return new SuccessResponse(
-            __('user.successfind.fetch'),
-            $userData->toArray(),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('user.successfind.fetch', $userData->toArray());
     }
 
     public function update(Request $request, int $userId): SuccessResponse|ErrorResponse {
@@ -102,21 +95,15 @@ class UserController extends Controller
 
             $requestValidationErrors = $this->userValidationService->validateUpdateRequest($input);
             if ($requestValidationErrors) {
-                return new ErrorResponse(
-                    $requestValidationErrors,
-                    Response::HTTP_UNPROCESSABLE_ENTITY
-                );
+                return new UnprocessableRquestErrorResponse($requestValidationErrors);
             }
 
             $updatedUser = $this->userRepository->updateById($userId, $input);
             if (!$updatedUser) {
-                return new ErrorResponse(
-                    [__('user.failed.update.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('user.failed.update.unknown');
             }
 
-            return new SuccessResponse(__('user.success.update.single'), [], Response::HTTP_OK);
+            return new SuccessResponse(__('user.success.update.single'));
         } catch (Throwable $exception) {
             Log::error('User update: unexpected error', [
                 'userId' => $userId,
@@ -124,10 +111,7 @@ class UserController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('general.errors.unknown')],
-                Response::HTTP_UNAUTHORIZED
-            );
+            return new ExceptionErrorResponse('user.failed.update.unknown');
         }
     }
 
@@ -140,10 +124,7 @@ class UserController extends Controller
         try {
             $requestedUser = $this->userRepository->get($userId);
             if (!$requestedUser) {
-                return new ErrorResponse(
-                    [__('user.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('user.failed.find.fetch');
             }
 
 
@@ -160,21 +141,14 @@ class UserController extends Controller
 
             $activatedUser = $this->userRepository->activate($requestedUser);
 
-            return new SuccessResponse(
-                __('user.success.update.activate'),
-                $activatedUser->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('user.success.update.activate', $activatedUser->toArray());
         } catch (Throwable $exception) {
             Log::error('User activate: unexpected error', [
                 'userId' => $userId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('general.errors.unknown')],
-                Response::HTTP_UNAUTHORIZED
-            );
+            return new ExceptionErrorResponse('user.failed.update.unknown');
         }
     }
 
@@ -187,10 +161,7 @@ class UserController extends Controller
         try {
             $requestedUser = $this->userRepository->get($userId);
             if (!$requestedUser) {
-                return new ErrorResponse(
-                    [__('user.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('user.failed.find.fetch');
             }
 
             $this->userValidationService->validatePreConditionsToDeactivate(
@@ -206,21 +177,14 @@ class UserController extends Controller
 
             $deactivatedUser = $this->userRepository->deactivate($requestedUser);
 
-            return new SuccessResponse(
-                __('user.success.update.deactivate'),
-                $deactivatedUser->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('user.success.update.deactivate', $deactivatedUser->toArray());
         } catch (Throwable $exception) {
             Log::error('User deactivate: unexpected error', [
                 'userId' => $userId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('general.errors.unknown')],
-                Response::HTTP_UNAUTHORIZED
-            );
+            return new ExceptionErrorResponse('user.failed.update.unknown');
         }
     }
 }
