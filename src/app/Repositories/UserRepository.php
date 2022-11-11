@@ -28,7 +28,7 @@ class UserRepository
             'username' => $input['username'],
             'email' => $input['email'],
             'status' => User::ACTIVE_STATE,
-            'level' => User::DEFAULT_LEVEL,
+            'level' => $input['level'] ?? User::DEFAULT_LEVEL,
             'password' => Hash::make($input['password']),
         ]);
     }
