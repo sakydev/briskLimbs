@@ -11,6 +11,8 @@ class UserControllerTest extends TestCase {
     use RefreshDatabase;
 
     private const BASE_URL = 'api/V1/users';
+    private const ACTIVATE_URL = 'api/V1/users/%d/activate';
+    private const DEACTIVATE_URL = 'api/V1/users/%d/deactivate';
 
     private User $adminUser;
     private User $basicUser;
@@ -19,26 +21,33 @@ class UserControllerTest extends TestCase {
     private const USER_TYPE_ADMIN = 'Admin user';
     private const USER_TYPE_BASIC = 'Basic user';
     private const USER_TYPE_INACTIVE = 'Inactive user';
+    private const USER_TYPE_INVALID = 'Non-existing user';
 
     private const ADMIN_USERNAME = 'daemon';
     private const BASIC_USERNAME = 'tully';
     private const INACTIVE_USERNAME = 'ned';
 
     private const USER_SUCCESSFUL_DATA_STRUCTURE = [
-        [
-            'id',
-            'username',
-            'email',
-            'status',
-            'created_at',
-            'updated_at',
-        ]
+        'id',
+        'username',
+        'email',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
+
+    private const USER_SUCCESSFUL_RESPONSE_STRUCTURE = [
+        'success',
+        'messages',
+        'data' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
     ];
 
     private const USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
         'success',
         'messages',
-        'data' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
+        'data' => [
+            self::USER_SUCCESSFUL_DATA_STRUCTURE
+        ],
     ];
 
     public function setUp(): void {
@@ -53,6 +62,12 @@ class UserControllerTest extends TestCase {
                 return $this->createBasicUser(self::BASIC_USERNAME);
             case self::USER_TYPE_INACTIVE:
                 return $this->createBasicInactiveUser(self::INACTIVE_USERNAME);
+            case self::USER_TYPE_INVALID:
+                $user = new User();
+                $user->id = 99;
+
+                return $user;
+
         }
 
         return null;
@@ -71,18 +86,19 @@ class UserControllerTest extends TestCase {
      * @dataProvider usersCanListUsersDataProvider
      */
     public function testUserCanListUsers(
-        string $userType,
+        string $actingUserType,
         int $expectedStatus,
         string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $user = $this->getUserByType($userType);
-        $this->be($user);
+        $actingUser = $this->getUserByType($actingUserType);
+        $this->be($actingUser);
 
         $response = $this->getJson(self::BASE_URL);
 
-        $expectedMessage = $this->getExpectedMessage($expectedMessageKey, $expectedStatus);
-        $response->assertStatus($expectedStatus)->assertJsonFragment(['messages' => $expectedMessage]);
+        $response->assertStatus($expectedStatus)->assertJsonFragment([
+            'messages' => $this->getExpectedMessage($expectedMessageKey, $expectedStatus),
+        ]);
 
         if ($expectedJSONStructure) {
             $response->assertJsonStructure($expectedJSONStructure);
@@ -93,23 +109,96 @@ class UserControllerTest extends TestCase {
     {
         return [
             self::USER_TYPE_ADMIN => [
-                'userType' => self::USER_TYPE_ADMIN,
+                'actingUserType' => self::USER_TYPE_ADMIN,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedMessageKey' => 'user.success.find.list',
                 'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_BASIC => [
-                'user' => self::USER_TYPE_BASIC,
+                'actingUserType' => self::USER_TYPE_BASIC,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedMessageKey' => 'user.success.find.list',
                 'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE => [
-                'user' => self::USER_TYPE_INACTIVE,
+                'actingUserType' => self::USER_TYPE_INACTIVE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.find.permissions',
                 'expectedJsonStructure' => null,
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider usersCanActivateUsersDataProvider
+     */
+    public function testUserCanActivateUsers(
+        string $actingUserType,
+        string $subjectUserType,
+        int $expectedStatus,
+        string $expectedMessageKey,
+        ?array $expectedJSONStructure,
+    ) {
+        $actingUser = $this->getUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+
+        $this->be($actingUser);
+
+        $response = $this->putJson(sprintf(self::ACTIVATE_URL, $subjectUser->id));
+        $response->assertStatus($expectedStatus)->assertJsonFragment([
+            'messages' => $this->getExpectedMessage($expectedMessageKey, $expectedStatus),
+        ]);
+
+        if ($expectedJSONStructure) {
+            $response->assertJsonStructure($expectedJSONStructure);
+        }
+    }
+
+    public function usersCanActivateUsersDataProvider(): array
+    {
+        return [
+            self::USER_TYPE_ADMIN . ': activate.inactive.user:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.update.activate',
+                'expectedJsonStructure' => self::USER_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ': activate.active.user:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'expectedStatus' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                'expectedMessageKey' => 'user.failed.update.already.active',
+                'expectedJsonStructure' => null,
+            ],
+            self::USER_TYPE_ADMIN . ': activate.invalid.user:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => null,
+            ],
+            self::USER_TYPE_ADMIN . ': activate.himself:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => null,
+            ],
+            /*self::USER_TYPE_BASIC => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.find.list',
+                'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_INACTIVE => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.find.permissions',
+                'expectedJsonStructure' => null,
+            ],*/
         ];
     }
 
