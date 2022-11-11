@@ -24,11 +24,7 @@ class CategoryController extends Controller
 
     public function index(Request $request): SuccessResponse|ErrorResponse {
         $categories = CategoryResource::collection(
-            $this->categoryRepository->list(
-                [],
-                $request->get('page', 1),
-                $request->get('limit', 10),
-            ),
+            $this->categoryRepository->list(),
         );
 
         return new SuccessResponse(

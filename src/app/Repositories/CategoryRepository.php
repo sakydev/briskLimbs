@@ -11,15 +11,13 @@ class CategoryRepository
         return (new Category())->where('id', $categoryId)->first();
     }
 
-    public function list(array $parameters, int $page, int $limit): Collection {
-        $skip = ($page * $limit) - $limit;
-
+    public function list(array $parameters = []): Collection {
         $categories = new Category();
         foreach ($parameters as $name => $value) {
             $categories = $categories->where($name, $value);
         }
 
-        return $categories->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
+        return $categories->orderBy('id', 'DESC')->get();
     }
 
     public function create(array $input): Category
