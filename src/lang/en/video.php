@@ -34,7 +34,7 @@ return [
         'find' => [
             'fetch' => 'Requested video fetched successfully',
             'list' => 'Requested videos have been fetched successfully',
-            'empty' => 'No videos found',
+            'empty' => 'No videos matched your request',
             'search' => 'Searched videos have been fetched successfully',
         ],
         'update' => [
