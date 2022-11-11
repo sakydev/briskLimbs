@@ -151,8 +151,6 @@ class VideoController extends Controller
             $videoData = new VideoResource($updatedVideo);
             return new SuccessResponse('video.success.update.single', $videoData->toArray());
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video update: unexpected error', [
                 'videoId' => $videoId,
                 'input' => $input,
@@ -195,8 +193,6 @@ class VideoController extends Controller
 
             return new SuccessResponse('video.success.delete.single');
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video delete: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),

@@ -52,8 +52,6 @@ class CategoryStateController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Category publish: unexpected error', [
                 'categoryId' => $categoryId,
                 'error' => $exception->getMessage(),
@@ -98,8 +96,6 @@ class CategoryStateController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Category unpublish: unexpected error', [
                 'categoryId' => $videoId,
                 'error' => $exception->getMessage(),

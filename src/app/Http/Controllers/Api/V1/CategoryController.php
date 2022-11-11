@@ -143,8 +143,6 @@ class CategoryController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Category update: unexpected error', [
                 'categoryId' => $categoryId,
                 'input' => $input,
@@ -191,8 +189,6 @@ class CategoryController extends Controller
 
             return new SuccessResponse(__('category.success.delete.single'), [],Response::HTTP_OK);
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Category delete: unexpected error', [
                 'categoryId' => $categoryId,
                 'error' => $exception->getMessage(),

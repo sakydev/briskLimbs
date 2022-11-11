@@ -186,8 +186,6 @@ class CommentController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Comment update: unexpected error', [
                 'commentId' => $commentId,
                 'input' => $input,
@@ -242,8 +240,6 @@ class CommentController extends Controller
 
             return new SuccessResponse(__('comment.success.delete.single'), [],Response::HTTP_OK);
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Page delete: unexpected error', [
                 'commentId' => $commentId,
                 'error' => $exception->getMessage(),

@@ -52,8 +52,6 @@ class VideoStateController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video activate: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),
@@ -98,8 +96,6 @@ class VideoStateController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video deactivate: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),

@@ -118,8 +118,6 @@ class UserController extends Controller
 
             return new SuccessResponse(__('user.success.update.single'), [], Response::HTTP_OK);
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('User update: unexpected error', [
                 'userId' => $userId,
                 'input' => $input,
@@ -168,8 +166,6 @@ class UserController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('User activate: unexpected error', [
                 'userId' => $userId,
                 'error' => $exception->getMessage(),
@@ -216,8 +212,6 @@ class UserController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('User deactivate: unexpected error', [
                 'userId' => $userId,
                 'error' => $exception->getMessage(),

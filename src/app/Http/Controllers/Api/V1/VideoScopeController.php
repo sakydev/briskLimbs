@@ -52,8 +52,6 @@ class VideoScopeController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video make public: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),
@@ -98,8 +96,6 @@ class VideoScopeController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video make private: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),
@@ -144,8 +140,6 @@ class VideoScopeController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Video make unlisted: unexpected error', [
                 'videoId' => $videoId,
                 'error' => $exception->getMessage(),

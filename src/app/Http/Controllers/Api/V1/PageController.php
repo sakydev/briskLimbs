@@ -147,8 +147,6 @@ class PageController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Page update: unexpected error', [
                 'pageId' => $pageId,
                 'input' => $input,
@@ -195,8 +193,6 @@ class PageController extends Controller
 
             return new SuccessResponse(__('page.success.delete.single'), [],Response::HTTP_OK);
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Page delete: unexpected error', [
                 'pageId' => $pageId,
                 'error' => $exception->getMessage(),

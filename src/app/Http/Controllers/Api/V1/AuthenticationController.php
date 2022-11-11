@@ -50,8 +50,6 @@ class AuthenticationController extends Controller
 
             return new UserResource($createdUser, __('user.success.store.single'), true);
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Register: unexpected error', [
                 'input' => $input,
                 'error' => $exception->getMessage(),
@@ -87,8 +85,6 @@ class AuthenticationController extends Controller
             $user = Auth::user();
             return new UserResource($user, __('user.success.login'), true);
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Login: unexpected error', [
                 'input' => $input,
                 'error' => $exception->getMessage(),

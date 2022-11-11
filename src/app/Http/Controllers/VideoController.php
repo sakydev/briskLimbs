@@ -91,7 +91,6 @@ class VideoController extends Controller
                 'filename' => $created['filename'],
             ]);
         } catch (Exception $exception) {
-            report($exception);
             Log::error('error: save_video => ' . $exception->getMessage());
             return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }
@@ -124,7 +123,6 @@ class VideoController extends Controller
 
             return $this->sendSuccessResponseJSON(__('video.success_update'), []);
         } catch (Exception $exception) {
-            report($exception);
             Log::error('error: update_video => ' . $exception->getMessage());
             return $this->sendErrorResponseJSON([__('general.errors.unknown')]);
         }

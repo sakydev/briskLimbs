@@ -52,8 +52,6 @@ class PageStateController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Page publish: unexpected error', [
                 'pageId' => $pageId,
                 'error' => $exception->getMessage(),
@@ -98,8 +96,6 @@ class PageStateController extends Controller
                 Response::HTTP_OK,
             );
         } catch (Throwable $exception) {
-            report($exception);
-
             Log::error('Page unpublish: unexpected error', [
                 'pageId' => $videoId,
                 'error' => $exception->getMessage(),

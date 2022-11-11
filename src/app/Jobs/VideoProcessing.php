@@ -87,7 +87,6 @@ class VideoProcessing implements ShouldQueue
             $videoRepository->updateStatus($this->video, Video::PROCESSING_SUCCESS);
             $logger->statusChange(Video::PROCESSING_SUCCESS);
         } catch (Throwable $exception) {
-            report($exception);
             Log::error('Error processing video: ' . $exception->getMessage());
         }
     }
