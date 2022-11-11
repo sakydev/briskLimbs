@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\CategoryRepository;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Services\CategoryValidationService;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +31,7 @@ class CategoryStateController extends Controller
         try {
             $category = $this->categoryRepository->get($categoryId);
             if (!$category) {
-                return new ErrorResponse(
-                    [__('category.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('category.failed.find.fetch');
             }
 
 
@@ -46,21 +45,14 @@ class CategoryStateController extends Controller
 
             $publishedCategory = $this->categoryRepository->publish($category);
 
-            return new SuccessResponse(
-                __('category.success.update.publish'),
-                $publishedCategory->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('category.success.update.publish', $publishedCategory->toArray());
         } catch (Throwable $exception) {
             Log::error('Category publish: unexpected error', [
                 'categoryId' => $categoryId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('category.failed.update.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('category.failed.update.unknown');
         }
     }
 
@@ -73,10 +65,7 @@ class CategoryStateController extends Controller
         try {
             $category = $this->categoryRepository->get($videoId);
             if (!$category) {
-                return new ErrorResponse(
-                    [__('category.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('category.failed.find.fetch');
             }
 
 
@@ -90,21 +79,14 @@ class CategoryStateController extends Controller
 
             $unpublishedCategory = $this->categoryRepository->unpublish($category);
 
-            return new SuccessResponse(
-                __('category.success.update.unpublish'),
-                $unpublishedCategory->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('category.success.update.unpublish', $unpublishedCategory->toArray());
         } catch (Throwable $exception) {
             Log::error('Category unpublish: unexpected error', [
                 'categoryId' => $videoId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('category.failed.update.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('category.failed.update.unknown');
         }
     }
 }

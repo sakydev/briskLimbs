@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\CategoryRepository;
 use App\Resources\Api\V1\CategoryResource;
+use App\Resources\Api\V1\Responses\BadRequestErrorResponse;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
 use App\Resources\Api\V1\Responses\SuccessResponse;
+use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
 use App\Services\CategoryValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,28 +31,17 @@ class CategoryController extends Controller
             $this->categoryRepository->list(),
         );
 
-        return new SuccessResponse(
-            __('category.success.find.list'),
-            $categories->toArray($request),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('category.success.find.list', $categories->toArray($request));
     }
 
     public function show(int $categoryId): SuccessResponse|ErrorResponse {
         $category = $this->categoryRepository->get($categoryId);
         if (!$category) {
-            return new ErrorResponse(
-                [__('category.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('category.failed.find.fetch');
         }
 
         $categoryData = new CategoryResource($category);
-        return new SuccessResponse(
-            __('category.success.find.fetch'),
-            $categoryData->toArray(),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('category.success.find.fetch', $categoryData->toArray());
     }
 
     public function store(Request $request): SuccessResponse|ErrorResponse {
@@ -69,32 +62,22 @@ class CategoryController extends Controller
 
             $createRequestErrors = $this->categoryValidationService->validateCreateRequest($input);
             if ($createRequestErrors) {
-                return new ErrorResponse($createRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new UnprocessableRquestErrorResponse($createRequestErrors);
             }
 
             $createdCategory = $this->categoryRepository->create($input);
             if (!$createdCategory) {
-                return new ErrorResponse(
-                    [__('category.failed.store.unknown')],
-                    Response::HTTP_BAD_REQUEST,
-                );
+                return new BadRequestErrorResponse('category.failed.store.unknown');
             }
 
-            return new SuccessResponse(
-                __('category.success.store.single'),
-                $createdCategory->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('category.success.store.single', $createdCategory->toArray());
         } catch (Throwable $exception) {
             Log::error('Category store: unexpected error ', [
                 'input' => $input,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('category.failed.store.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('category.failed.store.unknown');
         }
     }
 
@@ -109,10 +92,7 @@ class CategoryController extends Controller
         try {
             $category = $this->categoryRepository->get($categoryId);
             if (!$category) {
-                return new ErrorResponse(
-                    [__('category.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('category.failed.find.fetch');
             }
 
             $this->categoryValidationService->validateCanUpdate($user);
@@ -125,23 +105,16 @@ class CategoryController extends Controller
 
             $updateRequestErrors = $this->categoryValidationService->validateUpdateRequest($input);
             if ($updateRequestErrors) {
-                return new ErrorResponse($updateRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new BadRequestErrorResponse($updateRequestErrors);
             }
 
             $updatedCategory = $this->categoryRepository->update($category, $input);
             if (!$updatedCategory) {
-                return new ErrorResponse(
-                    [__('category.failed.update.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('category.failed.update.unknown');
             }
 
             $categoryData = new CategoryResource($updatedCategory);
-            return new SuccessResponse(
-                __('category.success.update.single'),
-                $categoryData->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('category.success.update.single', $categoryData->toArray());
         } catch (Throwable $exception) {
             Log::error('Category update: unexpected error', [
                 'categoryId' => $categoryId,
@@ -149,10 +122,7 @@ class CategoryController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('category.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('category.failed.update.unknown');
         }
     }
 
@@ -165,10 +135,7 @@ class CategoryController extends Controller
         try {
             $category = $this->categoryRepository->get($categoryId);
             if (!$category) {
-                return new ErrorResponse(
-                    [__('category.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('category.failed.find.fetch');
             }
 
             $this->categoryValidationService->validateCanDelete($user);
@@ -181,23 +148,17 @@ class CategoryController extends Controller
 
             $deletedCategory = $this->categoryRepository->delete($category);
             if (!$deletedCategory) {
-                return new ErrorResponse(
-                    [__('category.failed.delete.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('category.failed.delete.unknown');
             }
 
-            return new SuccessResponse(__('category.success.delete.single'), [],Response::HTTP_OK);
+            return new SuccessResponse('category.success.delete.single');
         } catch (Throwable $exception) {
             Log::error('Category delete: unexpected error', [
                 'categoryId' => $categoryId,
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('category.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('category.failed.delete.unknown');
         }
     }
 }
