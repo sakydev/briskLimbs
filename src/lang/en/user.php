@@ -12,7 +12,7 @@ return [
                 'active' => 'Requested user is already active',
                 'inactive' => 'Requested user is already inactivess',
             ],
-            'permissions' => 'User has insufficient to update',
+            'permissions' => 'User has insufficient permissions to update',
             'unknown' => 'Something went wrong trying to update user',
         ],
         'store' => [
