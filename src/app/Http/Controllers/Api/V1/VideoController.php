@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Jobs\VideoProcessing;
 use App\Models\User;
 use App\Repositories\VideoRepository;
-use App\Resources\Api\V1\ErrorResponse;
-use App\Resources\Api\V1\SuccessResponse;
+use App\Resources\Api\V1\Responses\BadRequestErrorResponse;
+use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\ExceptionErrorResponse;
+use App\Resources\Api\V1\Responses\NotFoundErrorResponse;
+use App\Resources\Api\V1\Responses\SuccessResponse;
+use App\Resources\Api\V1\Responses\UnprocessableRquestErrorResponse;
 use App\Resources\Api\V1\VideoResource;
 use App\Services\Videos\VideoService;
 use App\Services\Videos\VideoUploadService;
@@ -15,7 +19,6 @@ use App\Services\Videos\VideoValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class VideoController extends Controller
@@ -38,28 +41,17 @@ class VideoController extends Controller
             ),
         );
 
-        return new SuccessResponse(
-            __('video.success.find.list'),
-            $videos->toArray($request),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('video.success.find.list', $videos->toArray($request));
     }
 
     public function show(int $videoId): SuccessResponse|ErrorResponse {
         $video = $this->videoRepository->get($videoId);
         if (!$video) {
-            return new ErrorResponse(
-                [__('video.failed.find.fetch')],
-                Response::HTTP_NOT_FOUND
-            );
+            return new NotFoundErrorResponse('video.failed.find.fetch');
         }
 
         $videoData = new VideoResource($video);
-        return new SuccessResponse(
-            __('video.success.find.fetch'),
-            $videoData->toArray(),
-            Response::HTTP_OK,
-        );
+        return new SuccessResponse('video.success.find.fetch', $videoData->toArray());
     }
 
     public function store(Request $request): SuccessResponse|ErrorResponse {
@@ -80,24 +72,18 @@ class VideoController extends Controller
 
             $uploadRequestErrors = $this->videoValidationService->validateUploadRequest($input);
             if ($uploadRequestErrors) {
-                return new ErrorResponse($uploadRequestErrors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                return new UnprocessableRquestErrorResponse($uploadRequestErrors);
             }
 
             $filename = $this->videoService->generateFilename();
             $stored = $this->videoUploadService->store($request->file, $filename);
             if (!$stored) {
-                return new ErrorResponse(
-                    [__('video.failed.store.file')],
-                    Response::HTTP_BAD_REQUEST,
-                );
+                return new BadRequestErrorResponse('video.failed.store.file');
             }
 
             $originalMeta = $this->videoService->extractMeta($stored);
             if (empty($originalMeta['width'])) {
-                return new ErrorResponse(
-                    [__('video.failed.store.meta')],
-                    Response::HTTP_UNPROCESSABLE_ENTITY,
-                );
+                return new BadRequestErrorResponse('video.failed.store.meta');
             }
 
             unset($input['file']);
@@ -109,29 +95,19 @@ class VideoController extends Controller
                 $user->getAuthIdentifier(),
             );
             if (!$createdVideo) {
-                return new ErrorResponse(
-                    [__('general.errors.database.failed_insert')],
-                    Response::HTTP_BAD_REQUEST,
-                );
+                return new BadRequestErrorResponse('video.failed.store.unknown');
             }
 
             VideoProcessing::dispatch($createdVideo);
 
-            return new SuccessResponse(
-                __('video.success.store.single'),
-                $createdVideo->toArray(),
-                Response::HTTP_OK,
-            );
+            return new SuccessResponse('video.success.store.single', $createdVideo->toArray());
         } catch (Throwable $exception) {
             Log::error('Store video: unexpected error ', [
                 'input' => $request->except('file'),
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('videos.failed.store.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('videos.failed.store.unknown');
         }
     }
 
@@ -146,10 +122,7 @@ class VideoController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
             $this->videoValidationService->validatePreConditionsToUpdate($video, $user);
@@ -162,26 +135,16 @@ class VideoController extends Controller
 
             $requestValidationErrors = $this->videoValidationService->validateUpdateRequest($input);
             if ($requestValidationErrors) {
-                return new ErrorResponse(
-                    $requestValidationErrors,
-                    Response::HTTP_UNPROCESSABLE_ENTITY
-                );
+                return new UnprocessableRquestErrorResponse($requestValidationErrors);
             }
 
             $updatedVideo = $this->videoRepository->update($video, $input);
             if (!$updatedVideo) {
-                return new ErrorResponse(
-                    [__('videos.failed.update.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('videos.failed.update.unknown');
             }
 
             $videoData = new VideoResource($updatedVideo);
-            return new SuccessResponse(
-                __('video.success.update.single'),
-                $videoData->toArray(),
-                Response::HTTP_OK
-            );
+            return new SuccessResponse('video.success.update.single', $videoData->toArray());
         } catch (Throwable $exception) {
             report($exception);
 
@@ -191,10 +154,7 @@ class VideoController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('videos.failed.update.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('videos.failed.update.unknown');
         }
     }
 
@@ -207,10 +167,7 @@ class VideoController extends Controller
         try {
             $video = $this->videoRepository->get($videoId);
             if (!$video) {
-                return new ErrorResponse(
-                    [__('video.failed.find.fetch')],
-                    Response::HTTP_NOT_FOUND
-                );
+                return new NotFoundErrorResponse('video.failed.find.fetch');
             }
 
             $this->videoValidationService->validatePreConditionsToDelete($video, $user);
@@ -223,25 +180,15 @@ class VideoController extends Controller
 
             $deletedMedia = $this->videoService->deleteMedia($video);
             if (!$deletedMedia) {
-                return new ErrorResponse(
-                    [__('video.failed.delete.media')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('video.failed.delete.media');
             }
 
             $deletedVideo = $this->videoRepository->delete($video);
             if (!$deletedVideo) {
-                return new ErrorResponse(
-                    [__('videos.failed.delete.unknown')],
-                    Response::HTTP_BAD_REQUEST
-                );
+                return new BadRequestErrorResponse('videos.failed.delete.unknown');
             }
 
-            return new SuccessResponse(
-                __('video.success.delete.single'),
-                [],
-                Response::HTTP_OK
-            );
+            return new SuccessResponse('video.success.delete.single');
         } catch (Throwable $exception) {
             report($exception);
 
@@ -250,10 +197,7 @@ class VideoController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ErrorResponse(
-                [__('videos.failed.delete.unknown')],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
-            );
+            return new ExceptionErrorResponse('videos.failed.delete.unknown');
         }
     }
 }

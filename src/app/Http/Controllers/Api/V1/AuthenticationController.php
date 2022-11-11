@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
-use App\Resources\Api\V1\ErrorResponse;
+use App\Resources\Api\V1\Responses\ErrorResponse;
 use App\Resources\Api\V1\UserResource;
 use App\Services\Users\UserValidationService;
 use Illuminate\Http\Request;

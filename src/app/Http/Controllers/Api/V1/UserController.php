@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Resources\Api\V1\ErrorResponse;
-use App\Resources\Api\V1\SuccessResponse;
+use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Resources\Api\V1\UserResource;
 use App\Services\Users\UserValidationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class UserController extends Controller

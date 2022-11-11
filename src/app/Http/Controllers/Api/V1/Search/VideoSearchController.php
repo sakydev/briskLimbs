@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1\Search;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\VideoRepository;
-use App\Resources\Api\V1\ErrorResponse;
-use App\Resources\Api\V1\SuccessResponse;
+use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Resources\Api\V1\VideoResource;
 use App\Services\Videos\VideoValidationService;
 use Illuminate\Http\Request;
