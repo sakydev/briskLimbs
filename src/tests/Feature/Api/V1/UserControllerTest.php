@@ -16,6 +16,14 @@ class UserControllerTest extends TestCase {
     private User $basicUser;
     private User $inactiveUser;
 
+    private const USER_TYPE_ADMIN = 'Admin user';
+    private const USER_TYPE_BASIC = 'Basic user';
+    private const USER_TYPE_INACTIVE = 'Inactive user';
+
+    private const ADMIN_USERNAME = 'daemon';
+    private const BASIC_USERNAME = 'tully';
+    private const INACTIVE_USERNAME = 'ned';
+
     private const USER_SUCCESSFUL_DATA_STRUCTURE = [
         [
             'id',
@@ -30,28 +38,34 @@ class UserControllerTest extends TestCase {
     private const USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
         'success',
         'messages',
-        'data' => [
-            '*' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
-        ],
+        'data' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
     ];
 
     public function setUp(): void {
         parent::setUp();
+    }
 
-        $this->adminUser = $this->createAdminUser('daemon');
-        $this->basicUser = $this->createBasicUser('tully');
-        $this->inactiveUser = $this->createBasicInactiveUser('ned');
+    private function getUserByType(string $userType): User {
+        switch ($userType) {
+            case self::USER_TYPE_ADMIN:
+                return $this->createAdminUser(self::ADMIN_USERNAME);
+            case self::USER_TYPE_BASIC:
+                return $this->createBasicUser(self::BASIC_USERNAME);
+            case self::USER_TYPE_INACTIVE:
+                return $this->createBasicInactiveUser(self::INACTIVE_USERNAME);
+        }
     }
 
     /**
      * @dataProvider usersCanListUsersDataProvider
      */
     public function testUserCanListUsers(
-        string $userProperty,
+        string $userType,
         int $expectedStatus,
         ?array $expectedJSONStructure,
     ) {
-        $this->be($this->$userProperty);
+        $user = $this->getUserByType($userType);
+        $this->be($user);
 
         $response = $this->getJson(self::BASE_URL);
         $response->assertStatus($expectedStatus);
@@ -64,18 +78,18 @@ class UserControllerTest extends TestCase {
     public function usersCanListUsersDataProvider(): array
     {
         return [
-            'Admin User' => [
-                'user' => 'adminUser',
+            self::USER_TYPE_ADMIN => [
+                'userType' => self::USER_TYPE_ADMIN,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
-            'Basic user' => [
-                'user' => 'basicUser',
+            self::USER_TYPE_BASIC => [
+                'user' => self::USER_TYPE_BASIC,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
-            'Inactive user' => [
-                'user' => 'inactiveUser',
+            self::USER_TYPE_INACTIVE => [
+                'user' => self::USER_TYPE_INACTIVE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedJsonStructure' => null,
             ],
