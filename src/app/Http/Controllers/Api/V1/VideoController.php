@@ -43,7 +43,7 @@ class VideoController extends Controller
         );
 
         if ($videosList->isEmpty()) {
-            return new SuccessResponse('video.success.find.emptylist');
+            return new SuccessResponse('video.success.find.empty');
         }
 
         return new SuccessResponse('video.success.find.list', $videosList->toArray($request));
