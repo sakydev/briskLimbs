@@ -14,6 +14,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $level
  * @property string $email
  * @property string $email_verified_at;
+ * @property string $channel_name;
+ * @property string $bio;
  * @property string $password
  * @property string|null $remember_token
  *
