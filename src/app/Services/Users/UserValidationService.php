@@ -132,7 +132,8 @@ class UserValidationService extends ValidationService
             return;
         }
 
-        if (!$this->validateCanUpdate($inputUser->id, $authUser)) {
+        // check for both activate/deactivate is same so no need for separate func
+        if (!$this->validateCanActivate($inputUser->id, $authUser)) {
             return;
         }
 

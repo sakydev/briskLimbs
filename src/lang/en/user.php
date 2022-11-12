@@ -10,7 +10,7 @@ return [
         'update' => [
             'already' => [
                 'active' => 'Requested user is already active',
-                'inactive' => 'Requested user is already inactivess',
+                'inactive' => 'Requested user is already inactive',
             ],
             'permissions' => 'User has insufficient permissions to update',
             'unknown' => 'Something went wrong trying to update user',
