@@ -77,15 +77,20 @@ class UserController extends Controller
     }
 
     public function update(Request $request, int $userId): SuccessResponse|ErrorResponse {
-        $input = $request->except(['id', 'username', 'email', '_method']);
+        $input = $request->only(['bio', 'channel_name']);
 
         /**
-         * @var User $user;
+         * @var User $authenticatedUser;
          */
-        $user = Auth::user();
+        $authenticatedUser = Auth::user();
 
         try {
-            $this->userValidationService->validatePreConditionsToUpdate($userId, $user);
+            $requestedUser = $this->userRepository->get($userId);
+            if (!$requestedUser) {
+                return new NotFoundErrorResponse('user.failed.find.fetch');
+            }
+
+            $this->userValidationService->validatePreConditionsToUpdate($requestedUser, $authenticatedUser);
             if ($this->userValidationService->hasErrors()) {
                 return new ErrorResponse(
                     $this->userValidationService->getErrors(),
@@ -98,12 +103,13 @@ class UserController extends Controller
                 return new UnprocessableRquestErrorResponse($requestValidationErrors);
             }
 
-            $updatedUser = $this->userRepository->updateById($userId, $input);
+            $updatedUser = $this->userRepository->update($requestedUser, $input);
             if (!$updatedUser) {
                 return new BadRequestErrorResponse('user.failed.update.unknown');
             }
 
-            return new SuccessResponse(__('user.success.update.single'));
+            $userData = new UserResource($updatedUser);
+            return new SuccessResponse('user.success.update.single', $userData->toArray());
         } catch (Throwable $exception) {
             Log::error('User update: unexpected error', [
                 'userId' => $userId,
@@ -126,7 +132,6 @@ class UserController extends Controller
             if (!$requestedUser) {
                 return new NotFoundErrorResponse('user.failed.find.fetch');
             }
-
 
             $this->userValidationService->validatePreConditionsToActivate(
                 $requestedUser,
