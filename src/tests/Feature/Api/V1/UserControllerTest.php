@@ -11,6 +11,7 @@ class UserControllerTest extends TestCase {
     use RefreshDatabase;
 
     private const BASE_URL = 'api/V1/users';
+    private const UPDATE_URL = 'api/V1/users/%d';
     private const ACTIVATE_URL = 'api/V1/users/%d/activate';
     private const DEACTIVATE_URL = 'api/V1/users/%d/deactivate';
 
@@ -20,11 +21,13 @@ class UserControllerTest extends TestCase {
 
     private const USER_TYPE_ADMIN = 'Admin user';
     private const USER_TYPE_BASIC = 'Basic user';
+    private const USER_TYPE_BASIC_ANOTHER = 'Another basic user';
     private const USER_TYPE_INACTIVE = 'Inactive user';
     private const USER_TYPE_INVALID = 'Non-existing user';
 
     private const ADMIN_USERNAME = 'daemon';
     private const BASIC_USERNAME = 'tully';
+    private const BASIC_ANOTHER_USERNAME = 'starks';
     private const INACTIVE_USERNAME = 'ned';
 
     private const USER_SUCCESSFUL_DATA_STRUCTURE = [
@@ -36,18 +39,44 @@ class UserControllerTest extends TestCase {
         'updated_at',
     ];
 
-    private const USER_SUCCESSFUL_RESPONSE_STRUCTURE = [
+    private const SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE = [
         'success',
         'messages',
         'data' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
     ];
 
-    private const USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
+    private const LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
         'success',
         'messages',
         'data' => [
             self::USER_SUCCESSFUL_DATA_STRUCTURE
         ],
+    ];
+
+    private const SINGLE_ERROR_RESPONSE_STRUCTURE = [
+        'error',
+        'messages',
+    ];
+
+
+    private const USER_UPDATE_VALID_INPUT = [
+        'bio' => 'Hello world',
+        'channel_name' => 'TheDarkEra29',
+    ];
+
+    private const USER_UPDATE_INVALID_INPUT = [
+        'bio' => 'Hello world',
+        'channel_name' => '$$odja',
+    ];
+
+    private const USER_UPDATE_TOO_LONG_INPUT = [
+        'bio' => 'Hello world',
+        'channel_name' => 'XDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDCXDXDXDXDXDX'
+    ];
+
+    private const USER_UPDATE_TOO_SHORT_INPUT = [
+        'bio' => '',
+        'channel_name' => ''
     ];
 
     public function setUp(): void {
@@ -60,6 +89,8 @@ class UserControllerTest extends TestCase {
                 return $this->createAdminUser(self::ADMIN_USERNAME);
             case self::USER_TYPE_BASIC:
                 return $this->createBasicUser(self::BASIC_USERNAME);
+            case self::USER_TYPE_BASIC_ANOTHER:
+                return $this->createBasicUser(self::BASIC_ANOTHER_USERNAME);
             case self::USER_TYPE_INACTIVE:
                 return $this->createBasicInactiveUser(self::INACTIVE_USERNAME);
             case self::USER_TYPE_INVALID:
@@ -112,13 +143,13 @@ class UserControllerTest extends TestCase {
                 'actingUserType' => self::USER_TYPE_ADMIN,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedMessageKey' => 'user.success.find.list',
-                'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_BASIC => [
                 'actingUserType' => self::USER_TYPE_BASIC,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedMessageKey' => 'user.success.find.list',
-                'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE => [
                 'actingUserType' => self::USER_TYPE_INACTIVE,
@@ -158,28 +189,28 @@ class UserControllerTest extends TestCase {
     {
         return [
             // ADMIN user test cases
-            self::USER_TYPE_ADMIN . ': activate.inactive.user:ok' => [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: activate.inactive.user:ok' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
                 'subjectUserType' => self::USER_TYPE_INACTIVE,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedMessageKey' => 'user.success.update.activate',
-                'expectedJsonStructure' => self::USER_SUCCESSFUL_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
-            self::USER_TYPE_ADMIN . ': activate.active.user:bad' => [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: activate.active.user:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
                 'subjectUserType' => self::USER_TYPE_BASIC,
                 'expectedStatus' => Response::HTTP_UNPROCESSABLE_ENTITY,
                 'expectedMessageKey' => 'user.failed.update.already.active',
                 'expectedJsonStructure' => null,
             ],
-            self::USER_TYPE_ADMIN . ': activate.invalid.user:bad' => [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: activate.invalid.user:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
                 'subjectUserType' => self::USER_TYPE_INVALID,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
                 'expectedJsonStructure' => null,
             ],
-            self::USER_TYPE_ADMIN . ': activate.himself:bad' => [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: activate.himself:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
                 'subjectUserType' => self::USER_TYPE_ADMIN,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
@@ -267,7 +298,7 @@ class UserControllerTest extends TestCase {
                 'subjectUserType' => self::USER_TYPE_BASIC,
                 'expectedStatus' => Response::HTTP_OK,
                 'expectedMessageKey' => 'user.success.update.deactivate',
-                'expectedJsonStructure' => self::USER_SUCCESSFUL_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ': deactivate.deactive.user:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -293,7 +324,7 @@ class UserControllerTest extends TestCase {
             // BASIC active user test cases
             self::USER_TYPE_BASIC . ': deactivate.active.user:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
-                'subjectUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.update.permissions',
                 'expectedJsonStructure' => null,
@@ -337,6 +368,257 @@ class UserControllerTest extends TestCase {
         ];
     }
 
-    // TODO: testUserCanUpdateUser
+    /**
+     * @dataProvider usersCanUpdateUsersDataProvider
+     */
+    public function testUserCanUpdateUsers(
+        string $actingUserType,
+        string $subjectUserType,
+        array $input,
+        int $expectedStatus,
+        ?string $expectedMessageKey,
+        ?array $expectedJSONStructure,
+    ) {
+        $actingUser = $this->getUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+
+        $this->be($actingUser);
+
+        $response = $this->putJson(sprintf(self::UPDATE_URL, $subjectUser->id), $input);
+        $response->assertStatus($expectedStatus);
+
+        if ($expectedMessageKey) {
+            $response->assertJsonFragment([
+                'messages' => $this->getExpectedMessage($expectedMessageKey, $expectedStatus),
+            ]);
+        }
+
+        if ($expectedJSONStructure) {
+            $response->assertJsonStructure($expectedJSONStructure);
+        }
+    }
+
+    public function usersCanUpdateUsersDataProvider(): array
+    {
+        $adminOnAdminCases = [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::USER_UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.update.single',
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::USER_UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::USER_UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::USER_UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $adminOnBasicCases = [
+            self::USER_TYPE_ADMIN . ' -> BASIC: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.update.single',
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $adminOnInvalidCases = [
+            self::USER_TYPE_ADMIN . ' -> INVALID: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INVALID: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INVALID: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INVALID: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $basicOnBasicCases = [
+            self::USER_TYPE_BASIC . ' -> BASIC: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'user.success.update.single',
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::USER_UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $basicOnBasicAnotherCases = [
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::USER_UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::USER_UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::USER_UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::USER_UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $basicOnInvalidCases = [
+            self::USER_TYPE_BASIC . ' -> INVALID: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> INVALID: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> INVALID: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> INVALID: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'input' => self::USER_UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        return array_merge(
+            $adminOnAdminCases,
+            $adminOnBasicCases,
+            $adminOnInvalidCases,
+            $basicOnBasicCases,
+            $basicOnBasicAnotherCases,
+            $basicOnInvalidCases,
+        );
+    }
+
     // TODO: testUserCanDeleteUser
 }
