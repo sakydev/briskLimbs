@@ -17,10 +17,10 @@ class UserValidationService extends ValidationService
         return true;
     }
 
-    public function validateCanUpdate(int $inputUserId, User $authUser): bool {
+    public function validateCanUpdate(User $requestedUser, User $authenticatedUser): bool {
         if (
-            !$authUser->isAdmin()
-            && $inputUserId != $authUser->getAuthIdentifier()
+            !$authenticatedUser->isAdmin()
+            && $requestedUser->id != $authenticatedUser->getAuthIdentifier()
         ) {
             $this->addError(__('user.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
@@ -31,10 +31,10 @@ class UserValidationService extends ValidationService
         return true;
     }
 
-    public function validateCanActivate(int $inputUserId, User $authUser): bool {
+    public function validateCanActivate(User $requestedUser, User $authenticatedUser): bool {
         if (
-            !$authUser->isAdmin()
-            || $inputUserId === $authUser->getAuthIdentifier()
+            !$authenticatedUser->isAdmin()
+            || $requestedUser->id === $authenticatedUser->getAuthIdentifier()
         ) {
             $this->addError(__('user.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
@@ -97,47 +97,47 @@ class UserValidationService extends ValidationService
         }
     }
 
-    public function validatePreConditionsToUpdate(int $userId, User $authUser): void {
+    public function validatePreConditionsToUpdate(User $requestedUser, User $authenticatedUser): void {
         $this->resetErrors();
 
-        if (!$this->validateCanSeeUsers($authUser)) {
+        if (!$this->validateCanSeeUsers($authenticatedUser)) {
             return;
         }
 
-        if (!$this->validateCanUpdate($userId, $authUser)) {
+        if (!$this->validateCanUpdate($requestedUser, $authenticatedUser)) {
             return;
         }
     }
 
-    public function validatePreConditionsToActivate(User $inputUser, User $authUser): void {
+    public function validatePreConditionsToActivate(User $requestedUser, User $authenticatedUser): void {
         $this->resetErrors();
 
-        if (!$this->validateCanSeeUsers($authUser)) {
+        if (!$this->validateCanSeeUsers($authenticatedUser)) {
             return;
         }
 
-        if (!$this->validateCanActivate($inputUser->id, $authUser)) {
+        if (!$this->validateCanActivate($requestedUser, $authenticatedUser)) {
             return;
         }
 
-        if (!$this->validateAlreadyActive($inputUser)) {
+        if (!$this->validateAlreadyActive($requestedUser)) {
             return;
         }
     }
 
-    public function validatePreConditionsToDeactivate(User $inputUser, User $authUser): void {
+    public function validatePreConditionsToDeactivate(User $requestedUser, User $authenticatedUser): void {
         $this->resetErrors();
 
-        if (!$this->validateCanSeeUsers($authUser)) {
+        if (!$this->validateCanSeeUsers($authenticatedUser)) {
             return;
         }
 
         // check for both activate/deactivate is same so no need for separate func
-        if (!$this->validateCanActivate($inputUser->id, $authUser)) {
+        if (!$this->validateCanActivate($requestedUser, $authenticatedUser)) {
             return;
         }
 
-        if (!$this->validateAlreadyInactive($inputUser)) {
+        if (!$this->validateAlreadyInactive($requestedUser)) {
             return;
         }
     }
@@ -165,6 +165,8 @@ class UserValidationService extends ValidationService
         $rules = [
             'status' => ['sometimes', 'required', 'string', 'in:active,inactive'],
             'level' => ['sometimes', 'required', 'int', 'in:1,2,3,4,5'],
+            'bio' => ['sometimes', 'required', 'string', 'min:10', 'max:500'],
+            'channel_name' => ['sometimes', 'required', 'alpha_num', 'min:4', 'max:50'],
         ];
 
         return $this->validateRules($input, $rules);
