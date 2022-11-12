@@ -33,8 +33,14 @@ class UserRepository
         ]);
     }
 
-    public function update(User $user, array $fieldValuePairs): bool {
-        return $user->update($fieldValuePairs);
+    public function update(User $user, array $fieldValuePairs): User {
+        foreach ($fieldValuePairs as $field => $value) {
+            $user->$field = $value;
+        }
+
+        $user->save();
+
+        return $user;
     }
 
     public function updateById(int $userId, array $fieldValuePairs): bool {
