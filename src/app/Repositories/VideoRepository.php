@@ -61,8 +61,8 @@ class VideoRepository
         return (new Video())->create($input);
     }
 
-    public function update(Video $video, array $fieldValueParis): Video {
-        foreach ($fieldValueParis as $field => $value) {
+    public function update(Video $video, array $fieldValuePairs): Video {
+        foreach ($fieldValuePairs as $field => $value) {
             $video->$field = $value;
         }
 
