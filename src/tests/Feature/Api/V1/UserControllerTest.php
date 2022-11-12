@@ -157,6 +157,7 @@ class UserControllerTest extends TestCase {
     public function usersCanActivateUsersDataProvider(): array
     {
         return [
+            // ADMIN user test cases
             self::USER_TYPE_ADMIN . ': activate.inactive.user:ok' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
                 'subjectUserType' => self::USER_TYPE_INACTIVE,
@@ -185,20 +186,50 @@ class UserControllerTest extends TestCase {
                 'expectedMessageKey' => 'user.failed.update.permissions',
                 'expectedJsonStructure' => null,
             ],
-            /*self::USER_TYPE_BASIC => [
+            // BASIC active user test cases
+            self::USER_TYPE_BASIC . ': activate.inactive.user:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => null,
+            ],
+            self::USER_TYPE_BASIC . ': activate.active.user:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
                 'subjectUserType' => self::USER_TYPE_BASIC,
-                'expectedStatus' => Response::HTTP_OK,
-                'expectedMessageKey' => 'user.success.find.list',
-                'expectedJsonStructure' => self::USER_LIST_SUCCESSFUL_RESPONSE_STRUCTURE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.update.permissions',
+                'expectedJsonStructure' => null,
             ],
-            self::USER_TYPE_INACTIVE => [
-                'actingUserType' => self::USER_TYPE_ADMIN,
+            self::USER_TYPE_BASIC . ': activate.invalid.user:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
                 'subjectUserType' => self::USER_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => null,
+            ],
+            // BASIC inactive user test cases
+            self::USER_TYPE_INACTIVE . ': activate.inactive.user:bad' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.find.permissions',
                 'expectedJsonStructure' => null,
-            ],*/
+            ],
+            self::USER_TYPE_INACTIVE . ': activate.active.user:bad' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'user.failed.find.permissions',
+                'expectedJsonStructure' => null,
+            ],
+            self::USER_TYPE_INACTIVE . ': activate.invalid.user:bad' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'user.failed.find.fetch',
+                'expectedJsonStructure' => null,
+            ],
         ];
     }
 

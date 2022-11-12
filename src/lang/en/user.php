@@ -4,7 +4,7 @@ return [
     'failed' => [
         'find' => [
             'fetch' => 'Requested user was not found',
-            'permissions' => 'User has insufficient to view user',
+            'permissions' => 'User has insufficient permissions to view user',
             'unknown' => 'Something went wrong trying to find user',
         ],
         'update' => [
