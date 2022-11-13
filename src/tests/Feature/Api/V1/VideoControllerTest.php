@@ -196,7 +196,6 @@ class VideoControllerTest extends TestCase
         $this->be($actingUser);
 
         $response = $this->putJson(sprintf(self::UPDATE_URL, $video->id), $input);
-        dump($response->getContent());
         $response->assertStatus($expectedStatus);
 
         if ($expectedMessageKey) {
