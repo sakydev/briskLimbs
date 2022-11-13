@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api\V1;
 
-use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,49 +14,33 @@ class UserControllerTest extends TestCase {
     private const ACTIVATE_URL = 'api/V1/users/%d/activate';
     private const DEACTIVATE_URL = 'api/V1/users/%d/deactivate';
 
-    private User $adminUser;
-    private User $basicUser;
-    private User $inactiveUser;
+        private const USER_SUCCESSFUL_DATA_STRUCTURE = [
+            'id',
+            'username',
+            'email',
+            'status',
+            'created_at',
+            'updated_at',
+        ];
 
-    private const USER_TYPE_ADMIN = 'Admin user';
-    private const USER_TYPE_BASIC = 'Basic user';
-    private const USER_TYPE_BASIC_ANOTHER = 'Another basic user';
-    private const USER_TYPE_INACTIVE = 'Inactive user';
-    private const USER_TYPE_INVALID = 'Non-existing user';
+        private const SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE = [
+            'success',
+            'messages',
+            'data' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
+        ];
 
-    private const ADMIN_USERNAME = 'daemon';
-    private const BASIC_USERNAME = 'tully';
-    private const BASIC_ANOTHER_USERNAME = 'starks';
-    private const INACTIVE_USERNAME = 'ned';
+        private const LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
+            'success',
+            'messages',
+            'data' => [
+                self::USER_SUCCESSFUL_DATA_STRUCTURE
+            ],
+        ];
 
-    private const USER_SUCCESSFUL_DATA_STRUCTURE = [
-        'id',
-        'username',
-        'email',
-        'status',
-        'created_at',
-        'updated_at',
-    ];
-
-    private const SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE = [
-        'success',
-        'messages',
-        'data' => self::USER_SUCCESSFUL_DATA_STRUCTURE,
-    ];
-
-    private const LIST_SUCCESSFUL_RESPONSE_STRUCTURE = [
-        'success',
-        'messages',
-        'data' => [
-            self::USER_SUCCESSFUL_DATA_STRUCTURE
-        ],
-    ];
-
-    private const SINGLE_ERROR_RESPONSE_STRUCTURE = [
-        'error',
-        'messages',
-    ];
-
+        private const SINGLE_ERROR_RESPONSE_STRUCTURE = [
+            'error',
+            'messages',
+        ];
 
     private const USER_UPDATE_VALID_INPUT = [
         'bio' => 'Hello world',
@@ -83,36 +66,6 @@ class UserControllerTest extends TestCase {
         parent::setUp();
     }
 
-    private function getUserByType(string $userType): ?User {
-        switch ($userType) {
-            case self::USER_TYPE_ADMIN:
-                return $this->createAdminUser(self::ADMIN_USERNAME);
-            case self::USER_TYPE_BASIC:
-                return $this->createBasicUser(self::BASIC_USERNAME);
-            case self::USER_TYPE_BASIC_ANOTHER:
-                return $this->createBasicUser(self::BASIC_ANOTHER_USERNAME);
-            case self::USER_TYPE_INACTIVE:
-                return $this->createBasicInactiveUser(self::INACTIVE_USERNAME);
-            case self::USER_TYPE_INVALID:
-                $user = new User();
-                $user->id = 99;
-
-                return $user;
-
-        }
-
-        return null;
-    }
-
-    private function getExpectedMessage(string $messageKey, int $stauts): array|string {
-        $translated = __($messageKey);
-        if ($stauts !== Response::HTTP_OK && $stauts !== Response::HTTP_CREATED) {
-            return [$translated];
-        }
-
-        return $translated;
-    }
-
     /**
      * @dataProvider usersCanListUsersDataProvider
      */
@@ -136,8 +89,7 @@ class UserControllerTest extends TestCase {
         }
     }
 
-    public function usersCanListUsersDataProvider(): array
-    {
+    public function usersCanListUsersDataProvider(): array {
         return [
             self::USER_TYPE_ADMIN => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
