@@ -163,12 +163,6 @@ class VideoValidationService extends ValidationService
     }
 
     public function validateUploadRequest(array $input): ?array {
-        $iniMaxFilesize = convertToBytes(ini_get('upload_max_filesize'));
-        $configMaxFilesize = config('settings.max_filesize_video');
-
-        // always prefer ini if it is smaller to prevent unexpected errors
-        $maxFilesize = $iniMaxFilesize < $configMaxFilesize ? $iniMaxFilesize : $configMaxFilesize;
-
         $rules = [
             'file' => [
                 'required',
@@ -177,7 +171,7 @@ class VideoValidationService extends ValidationService
                     '',
                     config('settings.supported_formats_video')
                 ),
-                'max:' . $maxFilesize,
+                'max:' . getMaxUploadSizeInKB(),
 
             ],
             'title' => ['required', 'string', 'min:10', 'max:100'],
