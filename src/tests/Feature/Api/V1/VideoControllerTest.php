@@ -59,6 +59,29 @@ class VideoControllerTest extends TestCase
         'messages',
     ];
 
+    private const UPDATE_VALID_INPUT = [
+        'title' => 'Hello world',
+        'description' => 'The world of hellos',
+        'scope' => 'public',
+        'state' => 'active',
+    ];
+
+    private const UPDATE_INVALID_INPUT = [
+        'scope' => 'everyoneCanSee',
+        'state' => 'activated',
+    ];
+
+    private const UPDATE_TOO_LONG_INPUT = [
+        'title' => 'XDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDCXDXDXDXDXDX
+        XDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDCXDXDXDXDXDX
+        XDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDXDCXDXDXDXDXDX',
+    ];
+
+    private const UPDATE_TOO_SHORT_INPUT = [
+        'title' => 'hello',
+        'description' => 'wow',
+    ];
+
     /**
      * @dataProvider canListVideosDataProvider
      */
@@ -154,8 +177,189 @@ class VideoControllerTest extends TestCase
         ];
     }
 
-    // public function testCanUploadVideos() {}
-    // testCanViewVideos
+    /**
+     * @dataProvider canUpdateVideosDataProvider
+     */
+    public function testCanUpdateVideos(
+        string $actingUserType,
+        string $subjectUserType,
+        array $input,
+        int $expectedStatus,
+        ?string $expectedMessageKey,
+        ?array $expectedJSONStructure,
+    ) {
+        $actingUser = $this->getUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+
+        $video = $this->createActiveVideo($subjectUser->id);
+
+        $this->be($actingUser);
+
+        $response = $this->putJson(sprintf(self::UPDATE_URL, $video->id), $input);
+        dump($response->getContent());
+        $response->assertStatus($expectedStatus);
+
+        if ($expectedMessageKey) {
+            $response->assertJsonFragment([
+                'messages' => $this->getExpectedMessage($expectedMessageKey, $expectedStatus),
+            ]);
+        }
+
+        if ($expectedJSONStructure) {
+            $response->assertJsonStructure($expectedJSONStructure);
+        }
+    }
+
+    public function canUpdateVideosDataProvider() {
+        $adminOnAdminCases = [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.update.single',
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'input' => self::UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $adminOnBasicCases = [
+            self::USER_TYPE_ADMIN . ' -> BASIC: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.update.single',
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $basicOnBasicCases = [
+            self::USER_TYPE_BASIC . ' -> BASIC: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.update.single',
+                'expectedJsonStructure' => self::SINGLE_SUCCESSFUL_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'input' => self::UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_BAD_REQUEST,
+                'expectedMessageKey' => null,
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        $basicOnBasicAnotherCases = [
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: valid.input:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::UPDATE_VALID_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: invalid.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::UPDATE_INVALID_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: long.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::UPDATE_TOO_LONG_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: short.input:bad' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'input' => self::UPDATE_TOO_SHORT_INPUT,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.update.permissions',
+                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+            ],
+        ];
+
+        return array_merge(
+            $adminOnAdminCases,
+            $adminOnBasicCases,
+            $basicOnBasicCases,
+            $basicOnBasicAnotherCases,
+        );
+    }
+
+    // testCanUploadVideos
     // testCanUpdateVideos
     // testCanDeleteVideos
     // testCanSearchVideos

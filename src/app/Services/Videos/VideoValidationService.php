@@ -21,7 +21,7 @@ class VideoValidationService extends ValidationService
     }
 
     public function validateCanUpdate(Video $video, User $user): bool {
-        if ($user->isInactive() || $user->getAuthIdentifier() !== $video->user_id) {
+        if (!$user->isAdmin() && ($user->isInactive() || $user->getAuthIdentifier() !== $video->user_id)) {
             $this->addError(__('video.failed.update.permissions'));
             $this->setStatus(Response::HTTP_FORBIDDEN);
 
@@ -192,6 +192,7 @@ class VideoValidationService extends ValidationService
             'title' => ['sometimes', 'required', 'string', 'min:10', 'max:100'],
             'description' => ['sometimes', 'required', 'string', 'min:10', 'max:3000'],
             'scope' => ['sometimes', 'required', 'string', 'in:public,private,unlisted'],
+            'state' => ['sometimes', 'required', 'string', 'in:active,inactive'],
         ];
 
         return $this->validateRules($input, $rules);
