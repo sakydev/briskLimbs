@@ -86,8 +86,12 @@ class VideoController extends Controller
                 return new BadRequestErrorResponse('video.failed.store.file');
             }
 
-            $originalMeta = $this->videoService->extractMeta($stored);
-            if (empty($originalMeta['width'])) {
+            $originalMeta = $this->videoService->getMeta(
+                $stored,
+                $request->hasHeader('mockMeta'),
+            );
+
+            if (empty($originalMeta)) {
                 return new BadRequestErrorResponse('video.failed.store.meta');
             }
 
@@ -112,7 +116,7 @@ class VideoController extends Controller
                 'error' => $exception->getMessage(),
             ]);
 
-            return new ExceptionErrorResponse('videos.failed.store.unknown');
+            return new ExceptionErrorResponse('video.failed.store.unknown');
         }
     }
 

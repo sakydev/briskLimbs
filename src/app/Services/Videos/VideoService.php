@@ -20,7 +20,7 @@ class VideoService
         return Str::random(14);
     }
 
-    public function extractMeta(string $path): ?array {
+    private function extractMeta(string $path): ?array {
         $ffmpeg = FFMpeg::create();
         $video = $ffmpeg->open($path);
         $streams = $video->getStreams()?->videos()?->first();
@@ -36,6 +36,19 @@ class VideoService
         ];
 
         return $meta;
+    }
+
+    private function getMockMeta(): array {
+        return [
+            'width' => 1920,
+            'height' => 1080,
+            'duration' => 300,
+            'extension' => 'mp4',
+        ];
+    }
+
+    public function getMeta(string $path, bool $mock): ?array {
+        return $mock ? $this->getMockMeta() : $this->extractMeta($path);
     }
 
     public function getProcessedFilesPaths(string $filename, string $directory): ?array {
