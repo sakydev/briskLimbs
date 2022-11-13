@@ -51,7 +51,7 @@ abstract class TestCase extends BaseTestCase
             $input,
             $this->videoService->generateFilename(),
             $this->videoService->generateVkey(),
-            [],
+            $this->videoService->getMeta('', true),
             $userId,
         );
 
