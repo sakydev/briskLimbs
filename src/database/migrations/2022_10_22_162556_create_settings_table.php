@@ -31,10 +31,10 @@ return new class extends Migration
             'supported_formats_video' => '.mp4,.mpeg,.mov,.wmv,.flv',
             'supported_formats_avatar' => 'jpg,png,jpeg',
             'supported_formats_cover' => 'jpg,png,jpeg',
-            'max_filesize_video' => 10485760, // 10MB
-            'max_filesize_avatar' => 2097152, // 2MB
-            'max_filesize_cover' => 3145728, // 3MB
-            'max_filesize_thumbnail' => 3145728, // 3MB
+            'max_filesize_video' => 10000, // 10MB
+            'max_filesize_avatar' => 2000, // 2MB
+            'max_filesize_cover' => 3000, // 3MB
+            'max_filesize_thumbnail' => 3000, // 3MB
             'max_thumbnails_count' => 5,
             'placeholder_text' => 'Enter value',
             'placeholder_email' => 'snow@thewall.com',
@@ -53,6 +53,7 @@ return new class extends Migration
             'allow_registrations' => 1,
             'allow_comments' => 1,
             'allow_embeds' => 1,
+            'allow_downloads' => 0,
             'allow_avatars' => 1,
             'allow_covers' => 1,
             'allow_video_watermark' => 0,
