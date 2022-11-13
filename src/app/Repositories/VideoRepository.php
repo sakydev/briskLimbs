@@ -48,10 +48,19 @@ class VideoRepository
         $input['vkey'] = $vkey;
         $input['filename'] = $filename;
         $input['original_meta'] = $meta;
+        $input['duration'] = $meta['duration'];
 
-        $input['status'] = Video::PROCESSING_PENDING;
+        $input['scope'] = $input['scope'] ?? config('settings.default_video_scope');
+
+        // set the user configurable fields
+        $input['allow_comments'] = config('settings.allow_comments');
+        $input['default_thumbnail'] = config('settings.default_thumbnail');
+        $input['allow_embed'] = config('settings.allow_embeds');
+        $input['allow_download'] = config('settings.allow_downloads');
+
+        // set defaults
         $input['state'] = Video::STATE_ACTIVE;
-        $input['scope'] = Video::SCOPE_PUBLIC;
+        $input['status'] = Video::PROCESSING_PENDING;
         $input['directory'] = FileService::getDatedDirectoryName();
 
         $input['allow_comments'] = $input['allow_comments'] ?? config('settings.allow_comments');
