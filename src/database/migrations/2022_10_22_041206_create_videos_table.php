@@ -32,14 +32,14 @@ return new class extends Migration
             $table->integer('duration');
             $table->string('directory');
             $table->integer('default_thumbnail');
-            $table->string('qualities');
-            $table->string('tags');
-            $table->integer('total_views');
-            $table->integer('total_comments');
+            $table->string('qualities')->nullable();
+            // $table->string('tags')->nullable();
+            $table->integer('total_views')->default(0);
+            $table->integer('total_comments')->default(0);
             $table->integer('allow_comments'); // 1: yes, 0:no
             $table->integer('allow_embed'); // 1: yes, 0:no
             $table->integer('allow_download'); // 1: yes, 0:no
-            $table->string('server_url');
+            // $table->string('server_url')->nullable();
             $table->json('original_meta'); // size, dimensions, format etc
             $table->timestamp('converted_at')->nullable();
 

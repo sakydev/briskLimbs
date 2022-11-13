@@ -20,7 +20,6 @@ use Laravel\Scout\Searchable;
  * @property string $directory
  * @property int $default_thumbnail
  * @property string $qualities
- * @property string $tags
  *
  * @property int $total_views
  * @property int $total_comments
@@ -29,7 +28,6 @@ use Laravel\Scout\Searchable;
  * @property int $allow_embed
  * @property int $allow_download
  *
- * @property string $server_url;
  * @property string[] $original_meta
  */
 class Video extends BriskLimbs
@@ -48,6 +46,8 @@ class Video extends BriskLimbs
     public const SCOPE_PUBLIC = 'public';
     public const SCOPE_PRIVATE = 'private';
     public const SCOPE_UNLISTED = 'unlisted';
+
+    public const DEFAULT_THUMBNAIL = 1;
 
     protected $guarded = [];
     protected $casts = [
