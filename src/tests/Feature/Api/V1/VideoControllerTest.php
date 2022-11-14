@@ -15,6 +15,7 @@ class VideoControllerTest extends TestCase
     private const SEARCH_URL = 'api/V1/videos/search';
     private const VIEW_URL = 'api/V1/videos/%d';
     private const UPDATE_URL = 'api/V1/videos/%d';
+    private const DELETE_URL = 'api/V1/videos/%d';
 
     private const VALID_VIDEO_FILENAME = 'video.mp4';
     private const INVALID_VIDEO_FILENAME = 'video.pdf';
@@ -53,11 +54,6 @@ class VideoControllerTest extends TestCase
         'data' => [
             self::VIDEO_SUCCESSFUL_DATA_STRUCTURE
         ],
-    ];
-
-    private const SINGLE_ERROR_RESPONSE_STRUCTURE = [
-        'error',
-        'messages',
     ];
 
     private const INPUT_VALID_UPLOAD = [
@@ -117,7 +113,7 @@ class VideoControllerTest extends TestCase
         string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
+        $actingUser = $this->createUserByType($actingUserType);
         $this->be($actingUser);
 
         $this->createActiveVideo($actingUser->id);
@@ -165,7 +161,7 @@ class VideoControllerTest extends TestCase
         string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
+        $actingUser = $this->createUserByType($actingUserType);
         $this->be($actingUser);
 
         $video = $this->createActiveVideo($actingUser->id);
@@ -214,8 +210,8 @@ class VideoControllerTest extends TestCase
         ?string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
-        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+        $actingUser = $this->createUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->createUserByType($subjectUserType);
 
         $video = $this->createActiveVideo($subjectUser->id);
 
@@ -251,7 +247,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_INVALID_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> ADMIN: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -259,7 +255,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_LONG_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> ADMIN: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -267,7 +263,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_SHORT_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -286,7 +282,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_INVALID_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> BASIC: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -294,7 +290,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_LONG_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> BASIC: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -302,7 +298,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_SHORT_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -321,7 +317,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_INVALID_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -329,7 +325,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_LONG_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -337,7 +333,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_SHORT_UPDATE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -348,7 +344,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_VALID_UPDATE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: invalid.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -356,7 +352,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_INVALID_UPDATE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -364,7 +360,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_LONG_UPDATE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -372,7 +368,7 @@ class VideoControllerTest extends TestCase
                 'input' => self::INPUT_TOO_SHORT_UPDATE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -396,7 +392,7 @@ class VideoControllerTest extends TestCase
         ?string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
+        $actingUser = $this->createUserByType($actingUserType);
 
         $this->be($actingUser);
 
@@ -442,7 +438,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ': invalid.extension:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -451,7 +447,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ': invalid.size:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -460,7 +456,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::INVALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ': invalid.input.long:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -469,7 +465,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ': invalid.input.short:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -478,7 +474,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -499,7 +495,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ': invalid.extension:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -508,7 +504,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ': invalid.size:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -517,7 +513,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::INVALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ': invalid.input.long:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -526,7 +522,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ': invalid.input.short:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -535,7 +531,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -547,7 +543,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.store.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE . ': invalid.input:bad' => [
                 'actingUserType' => self::USER_TYPE_INACTIVE,
@@ -556,7 +552,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.store.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE . ': invalid.extension:bad' => [
                 'actingUserType' => self::USER_TYPE_INACTIVE,
@@ -565,7 +561,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.store.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE . ': invalid.size:bad' => [
                 'actingUserType' => self::USER_TYPE_INACTIVE,
@@ -574,7 +570,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::INVALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.store.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE . ': invalid.input.long:bad' => [
                 'actingUserType' => self::USER_TYPE_INACTIVE,
@@ -583,7 +579,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.store.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_INACTIVE . ': invalid.input.short:bad' => [
                 'actingUserType' => self::USER_TYPE_INACTIVE,
@@ -592,7 +588,7 @@ class VideoControllerTest extends TestCase
                 'filesize' => self::VALID_VIDEO_SIZE,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'video.failed.store.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -603,7 +599,307 @@ class VideoControllerTest extends TestCase
         );
     }
 
-    // testCanDeleteVideos
+    /**
+     * @dataProvider canDeleteVideosDataProvider
+     */
+    public function testCanDeleteVideos(
+        string $actingUserType,
+        string $subjectUserType,
+        string $videoType,
+        int $expectedStatus,
+        ?string $expectedMessageKey,
+        ?array $expectedJSONStructure,
+    ) {
+        $actingUser = $this->createUserByType($actingUserType);
+        $this->be($actingUser);
+
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->createUserByType($subjectUserType);
+
+        $video = $this->createVideoByType($videoType, $subjectUser->id);
+
+        $response = $this->delete(sprintf(self::DELETE_URL, $video->id));
+        $response->assertStatus($expectedStatus);
+
+        if ($expectedMessageKey) {
+            $response->assertJsonFragment([
+                'messages' => $this->getExpectedMessage($expectedMessageKey, $expectedStatus),
+            ]);
+        }
+
+        if ($expectedJSONStructure) {
+            $response->assertJsonStructure($expectedJSONStructure);
+        }
+    }
+
+    public function canDeleteVideosDataProvider(): array {
+        $adminOnAdminCases = [
+            self::USER_TYPE_ADMIN . ' -> ADMIN: delete.active:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'videoType' => self::VIDEO_TYPE_ACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: delete.inactive:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'videoType' => self::VIDEO_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: delete.private:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'videoType' => self::VIDEO_TYPE_PRIVATE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: delete.unlisted:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'videoType' => self::VIDEO_TYPE_UNLISTED,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> ADMIN: delete.invalid:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_ADMIN,
+                'videoType' => self::VIDEO_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'video.failed.find.fetch',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+        ];
+
+        $adminOnBasicCases = [
+            self::USER_TYPE_ADMIN . ' -> BASIC: delete.active:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_ACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: delete.inactive:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: delete.private:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_PRIVATE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: delete.unlisted:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_UNLISTED,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> BASIC: delete.invalid:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'video.failed.find.fetch',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+        ];
+
+        $adminOnInactiveCases = [
+            self::USER_TYPE_ADMIN . ' -> INACTIVE: delete.active:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_ACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INACTIVE: delete.inactive:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INACTIVE: delete.private:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_PRIVATE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INACTIVE: delete.unlisted:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_UNLISTED,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_ADMIN . ' -> INACTIVE: delete.invalid:ok' => [
+                'actingUserType' => self::USER_TYPE_ADMIN,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'video.failed.find.fetch',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+        ];
+
+        $basicOnBasicCases = [
+            self::USER_TYPE_BASIC . ' -> BASIC: delete.active:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_ACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: delete.inactive:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: delete.private:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_PRIVATE,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: delete.unlisted:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_UNLISTED,
+                'expectedStatus' => Response::HTTP_OK,
+                'expectedMessageKey' => 'video.success.delete.single',
+                'expectedJsonStructure' => self::SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC: delete.invalid:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC,
+                'videoType' => self::VIDEO_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'video.failed.find.fetch',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+        ];
+
+        $basicOnBasicAnotherCases = [
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: delete.active:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'videoType' => self::VIDEO_TYPE_ACTIVE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: delete.inactive:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'videoType' => self::VIDEO_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: delete.private:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'videoType' => self::VIDEO_TYPE_PRIVATE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: delete.unlisted:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'videoType' => self::VIDEO_TYPE_UNLISTED,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: delete.invalid:ok' => [
+                'actingUserType' => self::USER_TYPE_BASIC,
+                'subjectUserType' => self::USER_TYPE_BASIC_ANOTHER,
+                'videoType' => self::VIDEO_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'video.failed.find.fetch',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+        ];
+
+        $inactiveOnInactiveCases = [
+            self::USER_TYPE_INACTIVE . ' -> INACTIVE: delete.active:ok' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_ACTIVE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_INACTIVE . ' -> INACTIVE: delete.inactive:ok' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_INACTIVE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_INACTIVE . ' -> INACTIVE: delete.private:ok' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_PRIVATE,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_INACTIVE . ' -> INACTIVE: delete.unlisted:ok' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_UNLISTED,
+                'expectedStatus' => Response::HTTP_FORBIDDEN,
+                'expectedMessageKey' => 'video.failed.delete.permissions',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+            self::USER_TYPE_INACTIVE . ' -> INACTIVE: delete.invalid:ok' => [
+                'actingUserType' => self::USER_TYPE_INACTIVE,
+                'subjectUserType' => self::USER_TYPE_INACTIVE,
+                'videoType' => self::VIDEO_TYPE_INVALID,
+                'expectedStatus' => Response::HTTP_NOT_FOUND,
+                'expectedMessageKey' => 'video.failed.find.fetch',
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
+            ],
+        ];
+
+        return array_merge(
+            $adminOnAdminCases,
+            $adminOnBasicCases,
+            $adminOnInactiveCases,
+            $basicOnBasicCases,
+            $basicOnBasicAnotherCases,
+            $inactiveOnInactiveCases,
+        );
+    }
+
     // testCanSearchVideos
 
 }
