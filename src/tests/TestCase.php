@@ -14,11 +14,29 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    public const SUCCESS_MESSAGE_WITH_EMPTY_DATA_STRUCTURE = [
+        'success',
+        'messages',
+        'data',
+    ];
+
+    public const ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE = [
+        'error',
+        'messages',
+    ];
+
     protected const USER_TYPE_ADMIN = 'Admin user';
     protected const USER_TYPE_BASIC = 'Basic user';
     protected const USER_TYPE_BASIC_ANOTHER = 'Another basic user';
     protected const USER_TYPE_INACTIVE = 'Inactive user';
     protected const USER_TYPE_INVALID = 'Non-existing user';
+
+    protected const VIDEO_TYPE_ACTIVE = 'Active video';
+    protected const VIDEO_TYPE_INACTIVE = 'Inactive video';
+    protected const VIDEO_TYPE_PUBLIC = 'Public video';
+    protected const VIDEO_TYPE_PRIVATE = 'Private video';
+    protected const VIDEO_TYPE_UNLISTED = 'Unlisted video';
+    protected const VIDEO_TYPE_INVALID = 'Invalid video';
 
     private VideoService $videoService;
     private UserRepository $userRepository;
@@ -93,6 +111,27 @@ abstract class TestCase extends BaseTestCase
         );
     }
 
+    protected function createVideoByType(string $videoType, int $userId): ?Video {
+        switch ($videoType) {
+            case self::VIDEO_TYPE_ACTIVE:
+            case self::VIDEO_TYPE_PUBLIC:
+                return $this->createActiveVideo($userId);
+            case self::VIDEO_TYPE_INACTIVE:
+                return $this->createInactiveVideo($userId);
+            case self::VIDEO_TYPE_PRIVATE:
+                return $this->createPrivateVideo($userId);
+            case self::VIDEO_TYPE_UNLISTED:
+                return $this->createUnlistedVideo($userId);
+            case self::VIDEO_TYPE_INVALID:
+                $video = new Video();
+                $video->id = 99;
+
+                return $video;
+        }
+
+        return null;
+    }
+
     protected function createUser(string $username, int $level, string $status = 'active'): User {
         $user = $this->userRepository->create([
             'username' => $username,
@@ -117,10 +156,10 @@ abstract class TestCase extends BaseTestCase
     }
 
     protected function createBasicInactiveUser(string $username): User {
-        return $this->createUser($username, 5, USER::INACTIVE_STATE);
+        return $this->createUser($username, 5, User::INACTIVE_STATE);
     }
 
-    protected function getUserByType(string $userType): ?User {
+    protected function createUserByType(string $userType): ?User {
         switch ($userType) {
             case self::USER_TYPE_ADMIN:
                 return $this->createAdminUser('daemon');
