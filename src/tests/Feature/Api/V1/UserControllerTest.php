@@ -37,11 +37,6 @@ class UserControllerTest extends TestCase {
             ],
         ];
 
-        private const SINGLE_ERROR_RESPONSE_STRUCTURE = [
-            'error',
-            'messages',
-        ];
-
     private const UPDATE_VALID_INPUT = [
         'bio' => 'Hello world',
         'channel_name' => 'TheDarkEra29',
@@ -75,7 +70,7 @@ class UserControllerTest extends TestCase {
         string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
+        $actingUser = $this->createUserByType($actingUserType);
         $this->be($actingUser);
 
         $response = $this->getJson(self::BASE_URL);
@@ -122,8 +117,8 @@ class UserControllerTest extends TestCase {
         string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
-        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+        $actingUser = $this->createUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->createUserByType($subjectUserType);
 
         $this->be($actingUser);
 
@@ -226,8 +221,8 @@ class UserControllerTest extends TestCase {
         string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
-        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+        $actingUser = $this->createUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->createUserByType($subjectUserType);
 
         $this->be($actingUser);
 
@@ -331,8 +326,8 @@ class UserControllerTest extends TestCase {
         ?string $expectedMessageKey,
         ?array $expectedJSONStructure,
     ) {
-        $actingUser = $this->getUserByType($actingUserType);
-        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->getUserByType($subjectUserType);
+        $actingUser = $this->createUserByType($actingUserType);
+        $subjectUser = $actingUserType === $subjectUserType ? $actingUser : $this->createUserByType($subjectUserType);
 
         $this->be($actingUser);
 
@@ -367,7 +362,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_INVALID_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> ADMIN: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -375,7 +370,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_LONG_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> ADMIN: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -383,7 +378,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_SHORT_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -402,7 +397,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_INVALID_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> BASIC: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -410,7 +405,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_LONG_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> BASIC: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -418,7 +413,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_SHORT_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -429,7 +424,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_VALID_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> INVALID: invalid.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -437,7 +432,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_INVALID_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> INVALID: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -445,7 +440,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_LONG_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_ADMIN . ' -> INVALID: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_ADMIN,
@@ -453,7 +448,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_SHORT_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -472,7 +467,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_INVALID_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -480,7 +475,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_LONG_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -488,7 +483,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_SHORT_INPUT,
                 'expectedStatus' => Response::HTTP_BAD_REQUEST,
                 'expectedMessageKey' => null,
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -499,7 +494,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_VALID_INPUT,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: invalid.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -507,7 +502,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_INVALID_INPUT,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -515,7 +510,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_LONG_INPUT,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> BASIC_ANOTHER: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -523,7 +518,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_SHORT_INPUT,
                 'expectedStatus' => Response::HTTP_FORBIDDEN,
                 'expectedMessageKey' => 'user.failed.update.permissions',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
@@ -534,7 +529,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_VALID_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> INVALID: invalid.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -542,7 +537,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_INVALID_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> INVALID: long.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -550,7 +545,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_LONG_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
             self::USER_TYPE_BASIC . ' -> INVALID: short.input:bad' => [
                 'actingUserType' => self::USER_TYPE_BASIC,
@@ -558,7 +553,7 @@ class UserControllerTest extends TestCase {
                 'input' => self::UPDATE_TOO_SHORT_INPUT,
                 'expectedStatus' => Response::HTTP_NOT_FOUND,
                 'expectedMessageKey' => 'user.failed.find.fetch',
-                'expectedJsonStructure' => self::SINGLE_ERROR_RESPONSE_STRUCTURE,
+                'expectedJsonStructure' => self::ERROR_MESSAGE_WITH_EMPTY_DATA_STRUCTURE,
             ],
         ];
 
