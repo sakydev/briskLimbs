@@ -31,6 +31,17 @@ class VideoValidationService extends ValidationService
         return true;
     }
 
+    public function validateCanDelete(Video $video, User $user): bool {
+        if (!$user->isAdmin() && ($user->isInactive() || $user->getAuthIdentifier() !== $video->user_id)) {
+            $this->addError(__('video.failed.delete.permissions'));
+            $this->setStatus(Response::HTTP_FORBIDDEN);
+
+            return false;
+        }
+
+        return true;
+    }
+
     public function validateAlreadyActive(Video $video): bool {
         if ($video->state === Video::STATE_ACTIVE) {
             $this->addError(__('video.failed.update.already.active'));
@@ -97,7 +108,7 @@ class VideoValidationService extends ValidationService
     public function validatePreConditionsToDelete(Video $video, User $user): void {
         $this->resetErrors();
 
-        if (!$this->validateCanUpdate($video, $user)) {
+        if (!$this->validateCanDelete($video, $user)) {
             return;
         }
     }
