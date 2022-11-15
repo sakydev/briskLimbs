@@ -2,8 +2,10 @@
 
 namespace Tests;
 
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Video;
+use App\Repositories\CommentRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VideoRepository;
 use App\Services\Videos\VideoService;
@@ -41,12 +43,14 @@ abstract class TestCase extends BaseTestCase
     private VideoService $videoService;
     private UserRepository $userRepository;
     private VideoRepository $videoRepository;
+    private CommentRepository $commentRepository;
     public function setUp(): void {
         parent::setUp();
 
         $this->videoService = $this->app->make(VideoService::class);
         $this->userRepository = $this->app->make(UserRepository::class);
         $this->videoRepository = $this->app->make(VideoRepository::class);
+        $this->commentRepository = $this->app->make(CommentRepository::class);
     }
 
     protected function getExpectedMessage(string $messageKey, int $stauts): array|string {
@@ -177,5 +181,9 @@ abstract class TestCase extends BaseTestCase
         }
 
         return null;
+    }
+
+    protected function createVideoComment(string $content, int $userId, int $videoId): Comment {
+        return $this->commentRepository->create(['content' => $content], $userId, $videoId);
     }
 }
