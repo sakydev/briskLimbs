@@ -4,6 +4,7 @@ use App\Models\Setting;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Video;
 
 return new class extends Migration
 {
@@ -41,9 +42,10 @@ return new class extends Migration
             'placeholder_textarea' => 'Enter your input',
             'placeholder_integer' => 'Enter numerical value',
             'default_video_quality' => 360,
-            'default_video_scope' => 'public',
+            'default_video_scope' => Video::SCOPE_PUBLIC,
+            'default_video_state' => Video::STATE_ACTIVE,
             'default_video_extension' => 'mp4',
-            'default_thumbnail' => 3,
+            'default_thumbnail' => Video::DEFAULT_THUMBNAIL,
             'default_thumbnail_extension' => 'jpg',
             'path_php' => '/usr/bin/php',
             'path_ffmpeg' => '/usr/bin/ffmpeg',

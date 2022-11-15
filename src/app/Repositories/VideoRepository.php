@@ -51,6 +51,7 @@ class VideoRepository
         $input['duration'] = $meta['duration'];
 
         $input['scope'] = $input['scope'] ?? config('settings.default_video_scope');
+        $input['state'] = $input['state'] ?? config('settings.default_video_state');
 
         // set the user configurable fields
         $input['allow_comments'] = config('settings.allow_comments');
@@ -59,7 +60,6 @@ class VideoRepository
         $input['allow_download'] = config('settings.allow_downloads');
 
         // set defaults
-        $input['state'] = Video::STATE_ACTIVE;
         $input['status'] = Video::PROCESSING_PENDING;
         $input['directory'] = FileService::getDatedDirectoryName();
 
