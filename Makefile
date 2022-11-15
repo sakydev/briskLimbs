@@ -16,6 +16,11 @@ build:																			## Build containers
 start:																			## Start containers
 	$(DOCKER_COMPOSE_CMD) up -d --remove-orphans
 
+.PHONY: start-fresh
+start-fresh:																			## Start containers
+	$(DOCKER_COMPOSE_CMD) up -d --remove-orphans
+	$(DOCKER_COMPOSE_CMD) exec -T brisk.http php artisan migrate:fresh --seed
+
 .PHONY: stop
 stop:																			## Stop containers
 	$(DOCKER_COMPOSE_CMD) stop
