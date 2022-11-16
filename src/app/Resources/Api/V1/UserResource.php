@@ -7,7 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class UserResource extends JsonResource
 {
     private bool $includeToken;
-    private string $message;
 
     public function __construct($resource, bool $includeToken = false)
     {

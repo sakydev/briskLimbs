@@ -17,7 +17,7 @@ class VideoFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $states = [Video::STATE_ACTIVE, Video::STATE_INACTIVE];
         $scopes = [Video::SCOPE_PUBLIC, Video::SCOPE_PRIVATE, Video::SCOPE_UNLISTED];

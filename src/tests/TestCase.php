@@ -87,28 +87,28 @@ abstract class TestCase extends BaseTestCase
         );
     }
 
-    protected function createPrivateVideo(int $userId) {
+    protected function createPrivateVideo(int $userId): ?Video {
         return $this->createVideo(
             ['scope' => 'private'],
             $userId,
         );
     }
 
-    protected function createUnlistedVideo(int $userId) {
+    protected function createUnlistedVideo(int $userId): ?Video {
         return $this->createVideo(
             ['scope' => 'unlisted'],
             $userId,
         );
     }
 
-    protected function createActiveVideo(int $userId) {
+    protected function createActiveVideo(int $userId): ?Video {
         return $this->createVideo(
             ['state' => 'active'],
             $userId,
         );
     }
 
-    protected function createInactiveVideo(int $userId) {
+    protected function createInactiveVideo(int $userId): ?Video {
         return $this->createVideo(
             ['state' => 'inactive'],
             $userId,

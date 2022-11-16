@@ -24,7 +24,6 @@ class SettingController extends Controller
          * @var User $user;
          */
         $user = Auth::user();
-        $input = $request->all();
 
         $this->userValidationService->validateCanUpdateSettings($user);
         if ($this->userValidationService->hasErrors()) {

@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Factory $cache, Setting $settings)
+    public function boot(Factory $cache, Setting $settings): void
     {
         $settings = $cache->remember('settings', 60, function() use ($settings)
         {

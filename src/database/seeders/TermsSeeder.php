@@ -12,7 +12,7 @@ class TermsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Page::create([
             'title' => 'Terms and policy',
