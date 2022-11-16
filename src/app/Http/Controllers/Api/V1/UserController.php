@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
@@ -45,7 +45,7 @@ class UserController extends Controller
             $this->userRepository->list(
                 $parameters,
                 $request->get('page', 1),
-                $request->get('limit', config('settings.max_results_user')),
+                $request->get('limit', (int) config('settings.max_results_user')),
             ),
         );
 

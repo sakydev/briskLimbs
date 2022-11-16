@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -67,10 +67,10 @@ class Video extends BriskLimbs
     }
 
     public function getOriginalWidth(): ?int {
-        return $this->original_meta['width'] ?? null;
+        return $this->original_meta['width'] ? (int) $this->original_meta['width'] : null;
     }
 
     public function getOriginalHeight(): ?int {
-        return $this->original_meta['height'] ?? null;
+        return $this->original_meta['height'] ? (int) $this->original_meta['height'] : null;
     }
 }

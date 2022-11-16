@@ -68,7 +68,7 @@ class VideoController extends Controller
                 return $this->sendErrorResponseJSON([__('video.failed.store.file')]);
             }
 
-            $originalMeta = $this->videoService->extractMeta($stored);
+            $originalMeta = $this->videoService->getMeta($stored);
             if (empty($originalMeta['width'])) {
                 return $this->sendErrorResponseJSON([__('video.failed.store.meta')]);
             }

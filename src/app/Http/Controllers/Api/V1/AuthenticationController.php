@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Resources\Api\V1\Responses\ErrorResponse;
+use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Resources\Api\V1\UserResource;
 use App\Services\Users\UserValidationService;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class AuthenticationController extends Controller
         private UserRepository $userRepository,
     ) {}
 
-    public function register(Request $request): UserResource|ErrorResponse {
+    public function register(Request $request): SuccessResponse|ErrorResponse {
         $input = $request->all();
 
         try {
@@ -48,7 +49,8 @@ class AuthenticationController extends Controller
                 );
             }
 
-            return new UserResource($createdUser, __('user.success.store.single'), true);
+            $userData = new UserResource($createdUser);
+            return new SuccessResponse('user.success.store.single', $userData->toArray());
         } catch (Throwable $exception) {
             Log::error('Register: unexpected error', [
                 'input' => $input,
@@ -62,7 +64,7 @@ class AuthenticationController extends Controller
         }
     }
 
-    public function login(Request $request): UserResource|ErrorResponse {
+    public function login(Request $request): SuccessResponse|ErrorResponse {
         $input = $request->only(['username', 'password']);
 
         try {
@@ -82,8 +84,8 @@ class AuthenticationController extends Controller
                 );
             }
 
-            $user = Auth::user();
-            return new UserResource($user, __('user.success.login'), true);
+            $userData = new UserResource(Auth::user(), true);
+            return new SuccessResponse('user.success.login', $userData->toArray());
         } catch (Throwable $exception) {
             Log::error('Login: unexpected error', [
                 'input' => $input,

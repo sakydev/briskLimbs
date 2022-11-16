@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
@@ -38,7 +38,7 @@ class VideoController extends Controller
             $this->videoRepository->list(
                 $parameters,
                 $request->get('page', 1),
-                $request->get('limit', config('settings.max_results_video')),
+                $request->get('limit', (int) config('settings.max_results_video')),
             ),
         );
 

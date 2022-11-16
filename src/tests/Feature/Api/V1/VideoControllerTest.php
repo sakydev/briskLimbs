@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Feature\Api\V1;
 
@@ -405,7 +405,7 @@ class VideoControllerTest extends TestCase
             $input['file'] = UploadedFile::fake()->create($filename)->size($filesize);
         }
 
-        $response = $this->withHeader('mockMeta', true)
+        $response = $this->withHeader('mockMeta', 'true')
             ->postJson(self::BASE_URL, $input);
         $response->assertStatus($expectedStatus);
 

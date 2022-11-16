@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 class ValidationService
 {
     private array $errors;
-    private string $status;
+    private int $status;
 
     public function getErrors(): array {
         return $this->errors ?? [];
@@ -25,11 +25,11 @@ class ValidationService
         $this->errors = [];
     }
 
-    public function getStatus(): string {
+    public function getStatus(): int {
         return $this->status;
     }
 
-    protected function setStatus(string $status): void {
+    protected function setStatus(int $status): void {
         $this->status = $status;
     }
 
