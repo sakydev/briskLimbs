@@ -96,14 +96,14 @@ class VideoRepository
     }
 
     public function activate(Video $video): Video {
-        $video->state = VIDEO::STATE_ACTIVE;
+        $video->state = Video::STATE_ACTIVE;
         $video->save();
 
         return $video;
     }
 
     public function deactivate(Video $video): Video {
-        $video->state = VIDEO::STATE_INACTIVE;
+        $video->state = Video::STATE_INACTIVE;
         $video->save();
 
         return $video;

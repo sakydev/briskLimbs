@@ -52,7 +52,7 @@ class PageRepository
     }
 
     public function publish(Page $page): Page {
-        $page->state = PAGE::STATE_PUBLISHED;
+        $page->state = Page::STATE_PUBLISHED;
         $page->save();
 
         return $page;
