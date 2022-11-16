@@ -12,7 +12,6 @@ use App\Resources\Api\V1\Responses\SuccessResponse;
 use App\Services\PageValidationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class PageStateController extends Controller
