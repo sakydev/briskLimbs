@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use \Illuminate\Contracts\Cache\Factory;
+use Illuminate\Contracts\Cache\Factory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      *
-     * @param \Illuminate\Contracts\Cache\Factory $cache
+     * @param Factory $cache
      * @param Setting                        $settings
      *
      * @return void

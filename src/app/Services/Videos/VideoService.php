@@ -13,7 +13,7 @@ class VideoService
     public function __construct() {}
 
     public function generateFilename(): string {
-        return sprintf("%s-%s", Str::random(8), date("Ymd"));
+        return sprintf('%s-%s', Str::random(8), date('Ymd'));
     }
 
     public function generateVkey(): string {
@@ -59,7 +59,7 @@ class VideoService
 
     public function getThumbnailsPaths(string $filename, string $directory): ?array {
         $basePath = sprintf(
-            "%s/%s/%s",
+            '%s/%s/%s',
             FileService::getThumbnailsDirectory(),
             $directory,
             $filename,

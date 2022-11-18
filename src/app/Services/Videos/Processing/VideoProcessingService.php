@@ -26,7 +26,7 @@ class VideoProcessingService extends MediaProcessingService
     protected function generateOutputPath(string $prefix, string $destinationDirectory): string
     {
         return sprintf(
-            "%s/%s",
+            '%s/%s',
             $destinationDirectory,
             $prefix,
         );

@@ -30,7 +30,7 @@ class ThumbnailProcessingService extends MediaProcessingService
     protected function generateOutputPath(string $prefix, string $destinationDirectory): string
     {
         return sprintf(
-            "%s/%s.%s",
+            '%s/%s.%s',
             $destinationDirectory,
             $prefix,
             config('settings.default_thumbnail_extension'),

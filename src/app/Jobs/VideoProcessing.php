@@ -18,7 +18,10 @@ use Throwable;
 
 class VideoProcessing implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public Video $video;
     /**
@@ -53,7 +56,7 @@ class VideoProcessing implements ShouldQueue
             $videos = [];
             $thumbnails = [];
 
-            $completeFilename = sprintf("%s.%s",
+            $completeFilename = sprintf('%s.%s',
                 $this->video->filename,
                 $this->video->original_meta['extension']
             );

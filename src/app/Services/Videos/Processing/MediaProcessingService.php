@@ -30,7 +30,7 @@ abstract class MediaProcessingService
             ->synchronize();
     }
 
-    protected abstract function process(string $path, string $filename, string $destinationDirectory, array $meta): array;
+    abstract protected function process(string $path, string $filename, string $destinationDirectory, array $meta): array;
 
     protected function getStreams(): ?StreamCollection {
         return $this->video?->getStreams($this->path);

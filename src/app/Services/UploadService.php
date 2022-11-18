@@ -6,5 +6,5 @@ use Illuminate\Http\UploadedFile;
 
 abstract class UploadService
 {
-    public abstract function store(UploadedFile $file, string $filename): ?string;
+    abstract public function store(UploadedFile $file, string $filename): ?string;
 }
