@@ -76,7 +76,7 @@ class CategoryStateController extends Controller
                 );
             }
 
-            $unpublishedCategory = $this->categoryRepository->unpublish($category);
+            $unpublishedCategory = $this->categoryRepository->unPublish($category);
 
             return new SuccessResponse('category.success.update.unpublish', $unpublishedCategory->toArray());
         } catch (Throwable $exception) {

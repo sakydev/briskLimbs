@@ -7,6 +7,6 @@ use App\Models\Setting;
 class SettingRepository
 {
     public function update(string $name, string $value): bool {
-        return (new Setting())->where('name', $name)->update(['value' => $value]);
+        return (new Setting())::where('name', $name)->update(['value' => $value]);
     }
 }

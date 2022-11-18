@@ -76,7 +76,7 @@ class PageStateController extends Controller
                 );
             }
 
-            $unpublishedPage = $this->pageRepository->unpublish($page);
+            $unpublishedPage = $this->pageRepository->unPublish($page);
 
             return new SuccessResponse('page.success.update.unpublish', $unpublishedPage->toArray());
         } catch (Throwable $exception) {

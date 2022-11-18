@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Collection;
 class CategoryRepository
 {
     public function get(int $categoryId): ?Category {
-        return (new Category())->where('id', $categoryId)->first();
+        return Category::where('id', $categoryId)->first();
     }
 
     public function list(array $parameters = []): Collection {
         $categories = new Category();
         foreach ($parameters as $name => $value) {
-            $categories = $categories->where($name, $value);
+            $categories = $categories::where($name, $value);
         }
 
-        return $categories->orderBy('id', 'DESC')->get();
+        return $categories::orderBy('id', 'DESC')::get();
     }
 
     public function create(array $input): Category
@@ -50,7 +50,7 @@ class CategoryRepository
         return $page;
     }
 
-    public function unpublish(Category $page): Category {
+    public function unPublish(Category $page): Category {
         $page->state = Category::STATE_UNPUBLISHED;
         $page->save();
 

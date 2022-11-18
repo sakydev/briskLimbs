@@ -4,36 +4,29 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use App\Services\FileService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class VideoRepository
 {
     public function get(int $videoId): ?Video {
-        return (new Video())->where('id', $videoId)->first();
+        return Video::where('id', $videoId)->first();
     }
 
-    public function list(array $parameters, int $page, int $limit): Collection {
-        $skip = ($page * $limit) - $limit;
-
+    public function list(array $parameters, int $page, int $limit): LengthAwarePaginator {
         $videos = new Video();
         foreach ($parameters as $name => $value) {
-            $videos = $videos->where($name, $value);
+            $videos = $videos::where($name, $value);
         }
 
-        return $videos->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
+        return $videos->orderBy('id', 'DESC')->paginate($limit, '*', $page, $page);
     }
 
     public function search(string $query, int $page, int $limit): LengthAwarePaginator {
-        $videos = new Video();
-
-        return
-            $videos
-            ->search($query)
+        return Video::search($query)
             ->whereIn('state', [Video::STATE_ACTIVE])
             ->whereIn('status', [Video::PROCESSING_SUCCESS])
             ->whereIn('scope', [Video::SCOPE_PUBLIC])
-            ->paginate($limit, '', $page);
+            ->paginate($limit, $page, $page);
     }
 
     public function create(
@@ -67,7 +60,7 @@ class VideoRepository
 
         $input['converted_at'] = null;
 
-        return (new Video())->create($input);
+        return Video::create($input);
     }
 
     public function update(Video $video, array $fieldValuePairs): Video {
@@ -78,10 +71,6 @@ class VideoRepository
         $video->save();
 
         return $video;
-    }
-
-    public function updateById(int $videoId, array $fieldValuePairs): bool {
-        return (new Video())->where('id', $videoId)->update($fieldValuePairs);
     }
 
     public function delete(Video $video): bool {

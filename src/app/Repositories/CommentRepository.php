@@ -8,16 +8,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class CommentRepository
 {
     public function get($commentId): ?Comment {
-        return (new Comment())->where('id', $commentId)->first();
+        return (new Comment())::where('id', $commentId)->first();
     }
 
     public function list(array $parameters, int $page, int $limit): LengthAwarePaginator {
         $comments = new Comment();
         foreach ($parameters as $name => $value) {
-            $comments = $comments->where($name, $value);
+            $comments = $comments::where($name, $value);
         }
 
-        return $comments->orderBy('id', 'DESC')->paginate($limit, $page, $page);
+        return $comments::orderBy('id', 'DESC')->paginate($limit, $page, $page);
     }
 
     public function create(array $input, int $userId, int $videoId): ?Comment {

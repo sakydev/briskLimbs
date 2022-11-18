@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 class PageRepository
 {
     public function get(int $pageId): ?Page {
-        return (new Page())->where('id', $pageId)->first();
+        return (new Page())::where('id', $pageId)->first();
     }
 
     public function getBySlug(string $slug): ?Page
     {
-        return (new Page())->where('slug', $slug)->first();
+        return (new Page())::where('slug', $slug)->first();
     }
 
     public function list(array $parameters, int $page, int $limit): Collection {
@@ -21,10 +21,10 @@ class PageRepository
 
         $pages = new Page();
         foreach ($parameters as $name => $value) {
-            $pages = $pages->where($name, $value);
+            $pages = $pages::where($name, $value);
         }
 
-        return $pages->skip($skip)->take($limit)->orderBy('id', 'DESC')->get();
+        return $pages->skip($skip)->take($limit)::orderBy('id', 'DESC')::get();
     }
 
     public function create(array $input): Page
@@ -58,7 +58,7 @@ class PageRepository
         return $page;
     }
 
-    public function unpublish(Page $page): Page {
+    public function unPublish(Page $page): Page {
         $page->state = Page::STATE_UNPUBLISHED;
         $page->save();
 
