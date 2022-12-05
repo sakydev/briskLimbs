@@ -57,7 +57,7 @@ class UserControllerTest extends TestCase {
         'channel_name' => ''
     ];
 
-    public function setUp(): void {
+    protected function setUp(): void {
         parent::setUp();
     }
 

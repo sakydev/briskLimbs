@@ -63,7 +63,7 @@ composer-install:																## Run composer install
 .PHONY: npm-install
 npm-install:																	## Run npm install
 	$(DOCKER_COMPOSE_CMD) exec -T brisk.http npm install
-	$(DOCKER_COMPOSE_CMD) exec -T brisk.http npm run dev
+#	$(DOCKER_COMPOSE_CMD) exec -T brisk.http npm run dev
 
 .PHONY: migrate
 migrate:																		## Migrations

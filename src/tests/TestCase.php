@@ -44,7 +44,7 @@ abstract class TestCase extends BaseTestCase
     private UserRepository $userRepository;
     private VideoRepository $videoRepository;
     private CommentRepository $commentRepository;
-    public function setUp(): void {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->videoService = $this->app->make(VideoService::class);
