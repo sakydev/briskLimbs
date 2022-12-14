@@ -1,4 +1,0 @@
-{
-	"subject": "Request to reset password for {username} at {websitename}",
-  "message": "Hi {username},<br><br>Someone requested to reset your password at {websitename} on {date}. You may reset password using following link <br><br><strong><a href='{websitelink}/forgot/?code={reset_code}'>Activate Account</a></strong><br><br>You may also copy / paste following in your browser: {websitelink}/forgot/?code={reset_code}"
-}

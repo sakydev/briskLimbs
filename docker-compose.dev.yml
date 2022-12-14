@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  brisk.http:
+    container_name: brisk.http
+    build:
+      context: ./docker/brisk.http
+
+    restart: "unless-stopped"
+    ports:
+      - "80:80"
+
+    volumes:
+      - './src/:/home/brisk.http/'
+
+  mysql:
+    image: mysql/mysql-server:8.0.31
+    container_name: brisk.mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: brisk
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "9906:3306"
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+
+
